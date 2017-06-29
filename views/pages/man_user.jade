@@ -1,0 +1,197 @@
+extends ../layout
+
+block content
+    .page-breadcrumbs(style="display:none;")
+        ul(class="breadcrumb")
+            li
+                i(class="fa fa-home")
+                a(href="javascript:selectedBt('/man/first')") 首页
+            li
+                a(href="javascript:selectedBt('/man/user')") 用户
+    .page-header(class="position-relative")
+        .header-title(style="width:180px;")
+            h1
+                用户
+                small
+                    i(class="fa fa-angle-right")
+                    a(href="javascript:userlist()") 用户管理
+                    i(class="fa fa-angle-right policyh" style="display:none;") 策略
+                    i(class="fa fa-angle-right apph" style="display:none;") 应用
+        .header-buttons
+            a(class="sidebar-toggler" href="#")
+                i(class="fa fa-arrows-h")
+            a(class="refresh" id="refresh-toggler" href="/man/user")
+                i(class="glyphicon glyphicon-refresh")
+            a(class="fullscreen" id="fullscreen-toggler" href="#")
+                i(class="glyphicon glyphicon-fullscreen")
+    .page-body
+        .row
+            .userlist(class="col-xs-12 col-md-12")
+                .widget
+                    .widget-btn
+                        //-a(class="btn btn-primary" href="#add" data-toggle="collapse") 添加用户
+                        a(class="btn btn-primary" href="javascript:add()") 
+                            i(class="fa fa-plus")
+                            添加
+                        a(class="btn btn-primary" href="javascript:refresh()")
+                            i(class="fa fa-undo")
+                            刷新
+                        a(class="btn btn-danger" href="javascript:deletes()")
+                            i(class="fa fa-times")
+                            删除
+                    .search(class="col-lg-12 col-sm-12 col-xs-12" style="padding:0")
+                        .widget(class="collapsed" style="margin-bottom:10px;")
+                            .widget-header(style="box-shadow:none;padding-left:0;margin-bottom:10px;")
+                                span(class="widget-caption")
+                                    .input-group
+                                        span(class="input-icon")
+                                            input(type="text" class="form-control input-sm")
+                                            i(class="glyphicon glyphicon-search primary")
+                                .widget-buttons
+                                    a(href="#" data-toggle="collapse") 高级搜索
+                            .widget-body(style="box-shadow:none;padding:0;")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-4" style="padding-left:0px;")
+                                    .input-group
+                                        span(class="input-group-addon")
+                                            i(class="fa fa-user darkorange")
+                                        input(class="form-control" placeholder="用户名")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-4 has-error has-feedback")
+                                    .input-group
+                                        span(class="input-group-addon bg-blue bordered-blue")
+                                            i(class="fa fa-envelope-o")
+                                        input(type="email" class="form-control" id="inputEmail" placeholder="Email Address")
+                                    //-span(class="glyphicon glyphicon-remove form-control-feedback")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-4")
+                                    label(style="line-height:34px;margin-right:10px;") 性别
+                                    label(style="margin-right:10px;")
+                                        input(name="form-filed-radio" checked="true" type="radio")
+                                        span(class="text") 男
+                                    label
+                                        input(name="form-filed-radio" type="radio")
+                                        span(class="text") 女
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-4" style="padding-left:0px;")
+                                    .input-group
+                                        span(class="input-group-addon bg-blue bordered-blue")
+                                            i(class="fa fa-code-fork")
+                                        select(class="form-control selectpicker")
+                                            option(value="1") bumen1
+                                            option(value="0") bumen12
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-4")
+                                    .input-group
+                                        span(class="input-group-addon bg-blue bordered-blue")
+                                            i(class="fa fa-fax")
+                                        input(class="form-control" placeholder="电话")
+                                .searchinfo(class="col-lg-8 col-sm-8 col-xs-8 col-lg-offset-4 col-sm-offset-4 col-xs-offset-4" style="margin-bottom:20px;margin-top:6px;")
+                                    a(class="btn btn-primary" href="javascript:secrhinfo()") 搜索账号
+                    .usertable(class="widget-body" style="box-shadow:none;padding:0;")
+                    .page1
+        .row
+            .policylist(class="col-xs-12 col-md-12" style="display:none;")
+                .widget
+                    .policy(style="display:none;")
+                        input(name="policyid")
+                        input(name="userid")
+                    .search(class="col-lg-12 col-sm-12 col-xs-12" style="padding:0")
+                        .widget(class="collapsed" style="margin-bottom:10px;")
+                            .widget-header(style="box-shadow:none;padding-left:0;margin-bottom:10px;")
+                                span(class="widget-caption")
+                                    .input-group
+                                        span(class="input-icon")
+                                            input(type="text" class="form-control input-sm")
+                                            i(class="glyphicon glyphicon-search primary")
+                                .widget-buttons
+                                    a(href="#" data-toggle="collapse") 高级搜索
+                            .widget-body(style="box-shadow:none;padding:0;")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-4" style="padding-left:0px;")
+                                    .input-group
+                                        span(class="input-group-addon")
+                                            i(class="fa fa-lightbulb-o darkorange")
+                                        input(class="form-control" placeholder="策略名称")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-4 has-error has-feedback")
+                                    .input-group
+                                        span(class="input-group-addon bg-blue bordered-blue")
+                                            i(class="fa fa-filter")
+                                        input(class="form-control" placeholder="策略版本")
+                                .searchinfo(class="col-lg-8 col-sm-8 col-xs-8 col-lg-offset-4 col-sm-offset-4 col-xs-offset-4" style="margin-bottom:20px;margin-top:6px;")
+                                    a(class="btn btn-primary" href="javascript:secrhinfo()") 搜索策略
+                    .policytable(class="widget-body" style="box-shadow:none;padding:0;")
+                    .page2
+        .row
+            .tab(class="col-lg-12 col-sm-12 col-xs-12" style="display:none;")
+                //-.tabbable
+                    input(name="email" style="display:none;")
+                    ul(class="nav nav-tabs" id="myTab5")
+                        li(class="active")
+                            a(data-toggle="tab" href="#authapp1") 已授权
+                        li
+                            a(data-toggle="tab" href="#unauthapp1") 未授权
+                    .tab-content
+                        .tab-pane(class="in active" id="authapp1")
+                            .apptable(style="box-shadow:none;padding:0;")
+                            .page3
+                        .tab-pane(id="unauthapp1")
+                            .apptable(style="box-shadow:none;padding:0;")
+                            .page4
+                //-.widget(class="flat radius-bordered")
+                    //-.widget-header(class="bg-themeprimary")
+                        //-.widget-caption user1@qq.com授权
+                    //-.widget-body
+                .widget-main
+                    .tabbable
+                        input(name="email" style="display:none;")
+                        ul(class="nav nav-tabs tabs-flat" id="myTab11")
+                            li(class="active")
+                                a(data-toggle="tab" href="#authapp1") 已授权
+                            li
+                                a(data-toggle="tab" href="#unauthapp1") 未授权
+                        div(class="tab-content tabs-flat")
+                            div(id="authapp1" class="tab-pane in active")
+                                .apptable(style="box-shadow:none;padding:0;")
+                                .page3 
+                            div(id="unauthapp1" class="tab-pane")
+                                .apptable(style="box-shadow:none;padding:0;")
+                                .page4                                                      
+        .row(id="add" class="collapse")
+            .widget
+                .widget-body(style="box-shadow:none")
+                    .form-group(class="col-lg-4 col-sm-4 col-xs-4" style="padding-left:0px;")
+                        .input-group
+                            span(class="input-group-addon")
+                                i(class="fa fa-user darkorange")
+                            input(class="form-control" placeholder="用户名")
+                    .form-group(class="col-lg-4 col-sm-4 col-xs-4 has-error has-feedback")
+                        .input-group
+                            span(class="input-group-addon bg-blue bordered-blue")
+                                i(class="fa fa-envelope-o")
+                            input(type="email" class="form-control" id="inputEmail" placeholder="Email Address")
+                        //-span(class="glyphicon glyphicon-remove form-control-feedback")
+                    .form-group(class="col-lg-4 col-sm-4 col-xs-4")
+                        label(style="line-height:34px;margin-right:10px;") 性别
+                        label(style="margin-right:10px;")
+                            input(name="form-filed-radio" check="checked" type="radio")
+                            span(class="text") 男
+                        label
+                            input(name="form-filed-radio" type="radio")
+                            span(class="text") 女
+                    .form-group(class="col-lg-4 col-sm-4 col-xs-4" style="padding-left:0px;")
+                        .input-group
+                            span(class="input-group-addon bg-blue bordered-blue")
+                                i(class="fa fa-code-fork")
+                            select(class="form-control selectpicker")
+                                option(value="1") bumen1
+                                option(value="0") bumen12
+                    .form-group(class="col-lg-4 col-sm-4 col-xs-4")
+                        .input-group
+                            span(class="input-group-addon bg-blue bordered-blue")
+                                i(class="fa fa-fax")
+                            input(class="form-control" placeholder="电话")
+                    .searchinfo(class="col-lg-2 col-sm-2 col-xs-2 col-lg-offset-3 col-sm-offset-3 col-xs-offset-3" style="margin-bottom:20px;margin-top:6px;")
+                        a(class="btn btn-primary" href="javascript:secrhinfo()") 确认
+                    .searchinfo(class="col-lg-2 col-sm-2 col-xs-2 col-lg-offset-2 col-sm-offset-2 col-xs-offset-2" style="margin-bottom:20px;margin-top:6px;")
+                        a(class="btn btn-primary" href="javascript:secrhinfo()") 取消
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background     
+    script(src="/scripts/jquery.min.js")
+    script(src="/scripts/man_user.js")

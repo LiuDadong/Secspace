@@ -1,0 +1,53 @@
+extends ../manager
+
+block right
+    .main
+        .header
+            .lt #{ title }
+            .rt
+                .search
+                    form(onsubmit="searchbykeyword(this.s.value);return false;")
+                        input(type="submit", id="submit" value="  ")
+                        input(type="text", name="s", id="s", placeholder="输入关键字" onfocus="this.placeholder=''" onblur="this.placeholder='输入关键字'")
+        .middle(class="app_blacklist")
+            .head
+                .left
+                    ul
+                        li.btn(onclick="add()") 添加黑名单                    
+                        li.btn(onclick="push()") 推送
+                        li.btn(onclick="refresh()") 刷新
+                        li.btn(onclick="deletes()" class="del" style="background-color:#EA5959;") 删除
+                .thead
+                    table
+                        tr
+                            th(width="44px")
+                                .select(onclick="selectedAll()")
+                            th(width="19%") 黑名单名称
+                            th(width="14%") 推送数/收到数
+                            th(width="19%") 创建时间
+                            th(width="19%") 最近修改时间
+                            th(width="19%") 最近推送时间
+                            th(width="10%") 操作
+            .tb
+        .push(style="display:none;")
+            .mesgid(style="display:none;")
+                input(type="text" name="message_id")
+            .dispatch
+                .headline 选定用户角色
+                .lf
+                    .h 未分配用户
+                    .s(class="spic")
+                        input(type="text" id="freeusers" name="freeusers" oninput="sfreeusers()" placeholder="输入登录名称查询..." onfocus="this.placeholder=''" onblur="this.placeholder='输入登录名称查询...'")
+                    .sheet
+                .ct
+                .rt
+                    .h 已分配用户
+                    .s(class="spic")
+                        input(type="text" id="users" name="users" oninput="susers()" placeholder="输入登录名称查询..." onfocus="this.placeholder=''" onblur="this.placeholder='输入登录名称查询...'")
+                    .sheet
+                .clear(style="clear:both;")
+            .save
+                a(href="javascript:cancel()" style="color:#666;") 取消
+                a(href="javascript:save()" style="color:#55ACE4;margin-left:80px;") 保存
+            .clear(style="clear:both;")
+    script(src="/scripts/man_appblacklist.js")

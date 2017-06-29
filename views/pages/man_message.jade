@@ -1,0 +1,98 @@
+extends ../layout
+
+block content
+    .page-header(class="position-relative")
+        .header-title(style="width:180px;")
+            h1
+                内容
+                small
+                    i(class="fa fa-angle-right")
+                    a(href="javascript:mesglist()") 消息推送
+                    i(class="fa fa-angle-right pushadd" style="display:none;") 推送
+        .header-buttons
+            a(class="sidebar-toggler" href="#")
+                i(class="fa fa-arrows-h")
+            a(class="refresh" id="refresh-toggler" href="/man/message")
+                i(class="glyphicon glyphicon-refresh")
+            a(class="fullscreen" id="fullscreen-toggler" href="#")
+                i(class="glyphicon glyphicon-fullscreen")
+    .page-body
+        .row
+            .mesglist(class="col-xs-12 col-md-12")
+                .widget
+                    .widget-btn
+                        a(class="btn btn-primary" href="javascript:add()")
+                            i(class="fa fa-plus")
+                            添加
+                        a(class="btn btn-primary" href="javascript:pushmesg()")
+                            i(class="fa fa-cloud-upload")
+                            推送
+                        a(class="btn btn-primary" href="javascript:refresh()")
+                            i(class="fa fa-undo")
+                            刷新
+                        a(class="btn btn-danger" href="javascript:deletes()")
+                            i(class="fa fa-times")
+                            删除
+                    .search(class="col-lg-12 col-sm-12 col-xs-12" style="padding:0")
+                        .widget(class="collapsed" style="margin-bottom:10px;")
+                            .widget-header(style="box-shadow:none;padding-left:0;margin-bottom:10px;")
+                                span(class="widget-caption")
+                                    .input-group
+                                        span(class="input-icon")
+                                            input(type="text" class="form-control input-sm")
+                                            i(class="glyphicon glyphicon-search primary")
+                                .widget-buttons
+                                    a(href="#" data-toggle="collapse") 高级搜索
+                            .widget-body(style="box-shadow:none;padding:0;")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-6" style="padding-left:0px;")
+                                    .input-group
+                                        span(class="input-group-addon")
+                                            i(class="fa fa-user darkorange")
+                                        input(class="form-control" placeholder="消息标题")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-6 has-error has-feedback")
+                                    .input-group
+                                        span(class="input-group-addon bg-blue bordered-blue")
+                                            i(class="fa fa-envelope-o")
+                                        input(type="message" class="form-control" id="message" placeholder="创建人")
+                                .searchinfo(class="col-lg-8 col-sm-8 col-xs-8 col-lg-offset-4 col-sm-offset-4 col-xs-offset-4" style="margin-bottom:20px;margin-top:6px;")
+                                    a(class="btn btn-primary" href="javascript:secrhinfo()") 搜索消息
+                    .mesgtable(class="widget-body" style="box-shadow:none;padding:0;")
+                    .page1
+        .row
+            .user(class="col-lg-12 col-sm-12 col-xs-12" style="display:none;")
+                h5(class="row-title befor-magenta") 选定分配用户
+                input(name="message_id" style="display:none;")
+                .row
+                    div(class="col-lg-5 col-sm-5 col-xs-5")
+                        .widget
+                            .widget-header(class="bordered-bottom bordered-blue")
+                                span(class="widget-caption") 未分配用户
+                            .widget-body
+                                .input-group
+                                    span(class="input-icon")
+                                        input(type="text" class="form-control input-sm" id="freeusers" name="freeusers" oninput="sfreeusers()")
+                                        i(class="glyphicon glyphicon-search primary")
+                                .freeuser(style="height:200px;overflow-y:auto;")
+                    div(class="col-lg-2 col-sm-2 col-xs-2" style="height:326px;background:url(../imgs/arrow.png) center no-repeat;")
+                    div(class="col-lg-5 col-sm-5 col-xs-5")
+                        .widget
+                            .widget-header(class="bordered-bottom bordered-blue")
+                                span(class="widget-caption") 已分配用户
+                            .widget-body
+                                .input-group
+                                    span(class="input-icon")
+                                        input(type="text" class="form-control input-sm" id="users" name="users" oninput="searchusers()")
+                                        i(class="glyphicon glyphicon-search primary")
+                                .member(style="height:200px;overflow-y:auto;")
+                .row(style="text-align:right;font-size:18px;")
+                    button(type="button" class="btn btn-link btn-lg" onclick="mesglist()") 取消
+                    button(type="button" class="btn btn-link btn-lg btn-primary" onclick="save()") 保存
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .bootbox2(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background 
+    script(src="/scripts/jquery.min.js")
+    script(src="/scripts/man_mesg.js")

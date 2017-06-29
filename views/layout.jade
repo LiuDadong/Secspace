@@ -1,0 +1,196 @@
+doctype html
+html
+    head
+        meta(charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0")
+        title #{ title }
+        link(rel="shortcut icon" href="/imgs/favicon.png" type="image/x-icon")
+        link(href="/assets/css/bootstrap.min.css" rel="stylesheet")
+        link(id="bootstrap-rtl-link" href="" rel="stylesheet")
+        link(href="/assets/css/font-awesome.min.css" rel="stylesheet")
+        link(id="beyond-link" href="/assets/css/beyond.min.css" rel="stylesheet")
+        link(id="skin-link" href="" rel="stylesheet" type="text/css")
+        link(id="beyond-link" href="/assets/css/beyond.min.css" rel="stylesheet")
+        link(rel="stylesheet" href="/style/style.css")
+        script(src="/assets/js/skins.min.js")
+    body
+        .loading-container
+            .loading-progress
+                .rotator
+                    .rotator
+                        .rotator(class="colored")
+                            .rotator
+                                .rotator(class="colored")
+                                    .rotator(class="colored")
+                                    .rotator
+                                .rotator(class="colored")
+                            .rotator
+                        .rotator(class="colored")
+                    .rotator
+                .rotator    
+        .navbar
+            .navbar-inner
+                .navbar-container
+                    .navbar-header(class="pull-left")
+                        a(href="#" class="navbar-brand")
+                            small
+                                //-img(src="/assets/img/logo.png" alt="" style="width:170px;height:22px;margin-top:10px;")
+                    .navbar-header(class="pull-left")
+                        a(href="#" class="navbar-brand" style="margin-left:60px;line-height:40px;font-size:20px;font-weight:bold;") Secspace&nbsp;移动安全管理平台
+                    .sidebar-collapse(id="sidebar-collapse")
+                        i(class="collapse-icon fa fa-bars")
+                    .navbar-header(class="pull-right")
+                        .navbar-account
+                            ul(class="account-area")
+                                li
+                                    a(class="login-area dropdown-toggle" data-toggle="dropdown")
+                                        .avatar(title="View your public profile")
+                                        section
+                                            h2
+                                                span(class="profile")
+                                                    span #{ admin }
+                                    ul(class="pull-right dropdown-menu dropdown-arrow dropdown-login-area")
+                                        li(class="username")
+                                            a #{ admin }
+                                        li(class="email")
+                                            a #{ admin }
+                                        li
+                                            .avatar-area
+                                                //-span(class="caption") 修改头像
+                                        li(class="edit")
+                                            //-a(href="#" class="pull-left") 密码
+                                            a(href="/man/settings" class="pull-right") 账号信息
+                                        li(class="theme-area")
+                                            ul(class="colorpicker" id="skin-changer")
+                                                //-li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#5DB2FF;" rel="/assets/css/skins/blue.min.css")
+                                                //-li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#2dc3e8;" rel="/assets/css/skins/azure.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#03B3B2;" rel="/assets/css/skins/teal.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#53a93f;" rel="/assets/css/skins/green.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#FF8F32;" rel="/assets/css/skins/orange.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#cc324b;" rel="/assets/css/skins/pink.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#AC193D;" rel="/assets/css/skins/darkred.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#8C0095;" rel="/assets/css/skins/purple.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#0072C6;" rel="/assets/css/skins/darkblue.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#585858;" rel="/assets/css/skins/gray.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#474544;" rel="/assets/css/skins/black.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#001940;" rel="/assets/css/skins/deepblue.min.css")
+                                        li(class="dropdown-footer")
+                                            a(href="#{ logout }") 退出
+                            .setting
+                                a(id="btn-logout" title="退出" href="#{ logout }")
+                                    i(class="icon glyphicon glyphicon-log-out")
+        .main-container(class="container-fluid")
+            .page-container
+                .page-sidebar(id="sidebar")
+                    .sidebar-header-wrapper(style="display:none;")
+                        input(type="text" class="searchinput")
+                        i(class="searchicon fa fa-search")
+                        .searchhelper Search Reports, Charts, Emails or Notifications
+                    ul(class="nav sidebar-menu")
+                        li(class="firstmenu")
+                            a(href="javascript:selectedBt('/man/first')")
+                                i(class="menu-icon glyphicon glyphicon-home")
+                                span(class="menu-text") 首页
+                        li(class="usermenu")
+                            a(href="#" class="menu-dropdown")
+                                i(class="menu-icon fa fa-user")
+                                span(class="menu-text") 用户
+                                i(class="menu-expand")
+                            ul(class="submenu")
+                                li
+                                    a(href="javascript:selectedBt('/man/user')")
+                                        span(class="menu-text") 用户管理
+                                li
+                                    a(href="javascript:selectedBt('/man/depart')")
+                                        span(class="menu-text") 机构管理
+                                li
+                                    a(href="javascript:selectedBt('/man/role')")
+                                        span(class="menu-text") 角色管理
+                        li(class="devicemenu")
+                            a(href="#" class="menu-dropdown")
+                                i(class="menu-icon fa fa-desktop")
+                                span(class="menu-text")设备
+                                i(class="menu-expand")
+                            ul(class="submenu")
+                                li
+                                    a(href="javascript:selectedBt('/man/device')")
+                                        span(class="menu-text") 设备管理
+                        li(class="policymenu")
+                            a(href="#" class="menu-dropdown")
+                                i(class="menu-icon fa fa-lightbulb-o")
+                                span(class="menu-text") 策略
+                                i(class="menu-expand")
+                            ul(class="submenu")
+                                li
+                                    a(href="javascript:selectedBt('/man/policy')")
+                                        span(class="menu-text") 策略管理
+                        li(class="appmenu")
+                            a(href="#" class="menu-dropdown")
+                                i(class="menu-icon fa fa-th-large")
+                                span(class="menu-text") 应用
+                                i(class="menu-expand")
+                            ul(class="submenu")
+                                li
+                                    a(href="javascript:selectedBt('/man/apps')")
+                                        span(class="menu-text") 应用管理
+                                li
+                                    a(href="javascript:selectedBt('/man/apps')")
+                                        span(class="menu-text") 应用管理黑名单
+                                    //-a(href="javascript:selectedBt('/man/blacklist')")
+                                        span(class="menu-text") 应用管理黑名单
+                        li(class="mesgmenu")
+                            a(href="#" class="menu-dropdown")
+                                i(class="menu-icon fa fa-envelope-o")
+                                span(class="menu-text")内容
+                                i(class="menu-expand")
+                            ul(class="submenu")
+                                li
+                                    a(href="javascript:selectedBt('/man/message')")
+                                        span(class="menu-text") 消息推送
+                        li(class="logmenu")
+                            a(href="#" class="menu-dropdown")
+                                i(class="menu-icon fa fa-file-text-o")
+                                span(class="menu-text") 日志
+                                i(class="menu-expand")
+                            ul(class="submenu")
+                                li
+                                    a(href="javascript:selectedBt('/man/log')")
+                                        span(class="menu-text") 客户端日志
+                                li
+                                    a(href="javascript:selectedBt('/man/log')")
+                                        span(class="menu-text") 管理员日志
+                                li
+                                    a(href="javascript:selectedBt('/man/log')")
+                                        span(class="menu-text") 操作合规日志
+                        li(class="setmenu")
+                            a(href="#" class="menu-dropdown")
+                                i(class="menu-icon fa fa-gears")
+                                span(class="menu-text") 设置
+                                i(class="menu-expand")
+                            ul(class="submenu")
+                                li
+                                    a(href="javascript:selectedBt('/man/version')")
+                                        span(class="menu-text") 版本管理
+                                li
+                                    a(href="javascript:selectedBt('/man/settings')")
+                                        span(class="menu-text") 基本信息设置
+                .page-content
+                    block content
+        script(src="/assets/js/jquery-2.0.3.min.js")
+        script(src="/assets/js/bootstrap.min.js")
+        script(src="/assets/js/beyond.min.js")
+        script(src="/scripts/jquery.cookie.js")
+        script(src="/scripts/jquery.form.min.js")
+        script(src="/assets/js/toastr/toastr.js")
+        script(src="/scripts/layout.js")

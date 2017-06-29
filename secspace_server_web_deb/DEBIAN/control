@@ -1,0 +1,5 @@
+Package: secspace-server-web
+Version: 1.0.0
+Architecture: amd64
+Maintainer: youli
+Description: secspace api for web

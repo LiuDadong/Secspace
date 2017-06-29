@@ -1,0 +1,52 @@
+extends ../personal
+
+block right
+    .per(style="height:100%;")
+        .setting
+            .company
+                .attirbute
+                    ul(class="persettings")
+                        li.info
+                            .li
+                                label 姓名
+                            .li
+                                label(name="user_name") 
+                        li.info
+                            .li
+                                label 邮箱
+                            .li
+                                label(name="user_email") #{ admin }
+                        li.info
+                            .li
+                                label 电话
+                            .li
+                                label(name="user_tel") &nbsp;
+                                //-input(name="user_tel")
+                            .li
+                                a(href="javascript:modifyuserTel()") 修改 
+                        li.info
+                            .li
+                                label 公司
+                            .li
+                                label(name="companyname") 
+                        li.info
+                            iframe(name="ifram" style="display:none;")
+                            form(form id="addperpic" method="post" action="p/user/uploadAvatar" enctype="multipart/form-data" target="ifram")
+                                .li
+                                    label 个人头像
+                                .li
+                                    .perimg
+                                        input(name="sid" type="text" style="display:none;")
+                                        input(type="file" id="picturefile" name="avatar" class="file" size="10")
+                                        .img_area
+                                .li
+                                    button(type="submit") 修改 
+                .manager 
+                    ul
+                        li.info
+                            p
+                                a(href="javascript:resetpwd()") 重置密码
+                                a(href="#{ logout }" style="display:none;" id="logout") [&nbsp;退出登录&nbsp;]
+                                a(href="javascript:logout()") 退出登录
+    script(src="/scripts/per_settings.js")
+    script(src="/scripts/jquery.form.min.js")

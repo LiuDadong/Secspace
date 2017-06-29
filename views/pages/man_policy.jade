@@ -1,0 +1,245 @@
+extends ../layout
+
+block content
+    .page-header(class="position-relative")
+        .header-title(style="width:180px;")
+            h1
+                策略
+                small
+                    i(class="fa fa-angle-right")
+                    a(href="javascript:policylist()") 策略管理
+                    i(class="fa fa-angle-right pissued" style="display:none;") 策略下发
+                    i(class="fa fa-angle-right policyset" style="display:none;") 策略设置
+        .header-buttons
+            a(class="sidebar-toggler" href="#")
+                i(class="fa fa-arrows-h")
+            a(class="refresh" id="refresh-toggler" href="/man/policy")
+                i(class="glyphicon glyphicon-refresh")
+            a(class="fullscreen" id="fullscreen-toggler" href="#")
+                i(class="glyphicon glyphicon-fullscreen")
+    .page-body
+        .row
+            .policylist(class="col-xs-12 col-md-12")
+                .widget
+                    .widget-btn
+                        a(class="btn btn-primary" href="javascript:add()")
+                            i(class="fa fa-plus")
+                            &nbsp;添加
+                        a(class="btn btn-primary" href="javascript:refresh()")
+                            i(class="fa fa-undo")
+                            &nbsp;刷新
+                        a(class="btn btn-danger" href="javascript:deletes()")
+                            i(class="fa fa-times")
+                            &nbsp;删除
+                    .search(class="col-lg-12 col-sm-12 col-xs-12" style="padding:0")
+                        .widget(class="collapsed" style="margin-bottom:10px;")
+                            .widget-header(style="box-shadow:none;padding-left:0;margin-bottom:10px;")
+                                span(class="widget-caption")
+                                    .input-group
+                                        span(class="input-icon")
+                                            input(type="text" class="form-control input-sm")
+                                            i(class="glyphicon glyphicon-search primary")
+                                .widget-buttons
+                                    a(href="#" data-toggle="collapse") 高级搜索
+                            .widget-body(style="box-shadow:none;padding:0;")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-4" style="padding-left:0px;")
+                                    .input-group
+                                        span(class="input-group-addon")
+                                            i(class="fa fa-user darkorange")
+                                        input(class="form-control" placeholder="策略名称")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-4 has-error has-feedback")
+                                    .input-group
+                                        span(class="input-group-addon bg-blue bordered-blue")
+                                            i(class="fa fa-envelope-o")
+                                        input(class="form-control" placeholder="策略版本")
+                                .searchinfo(class="col-lg-8 col-sm-8 col-xs-8 col-lg-offset-4 col-sm-offset-4 col-xs-offset-4" style="margin-bottom:20px;margin-top:6px;")
+                                    a(class="btn btn-primary" href="javascript:secrhinfo()") 搜索策略
+                    .policytable(class="widget-body" style="box-shadow:none;padding:0;")
+                    .page1
+        .row(class="issuedlist" style="display:none;")
+            .widget
+                div(class="col-xs-12 col-md-12")
+                    .widget-btn
+                        a(class="btn btn-primary issuedpl" href="javascript:subbtn()")
+                            i(class="fa fa-check-square-o")
+                            &nbsp;保存
+            .tab(class="col-lg-12 col-sm-12 col-xs-12")
+                .widget-main
+                    .tabbable
+                        input(name="policyid" style="display:none;")
+                        ul(class="nav nav-tabs tabs-flat" id="myTab11")
+                            li(class="active")
+                                a(data-toggle="tab" href="#users") 用户列表
+                            li
+                                a(data-toggle="tab" href="#departs") 部门列表
+                        div(class="tab-content tabs-flat")
+                            div(id="users" class="tab-pane in active")
+                                .usertable(style="box-shadow:none;padding:0;")
+                                .page2 
+                            div(id="departs" class="tab-pane")
+                                .departtable(style="box-shadow:none;padding:0;")
+                                .page3
+        .row(class="detail" style="display:none;")
+            .widget
+                div(class="col-xs-12 col-md-12")
+                    .widget-btn
+                        a(class="btn btn-primary detailpl" href="javascript:subdetail()")
+                            i(class="fa fa-check-square")
+                            &nbsp;保存
+            .row(class="col-lg-12 col-sm-12 col-xs-12" style="padding-left:30px;color:#737373;height:50px;")
+                .policyname
+            .tab(class="col-lg-12 col-sm-12 col-xs-12")
+                .widget-main
+                    .tabbable
+                        input(name="policy_id" style="display:none;")
+                        input(name="version" style="display:none;")
+                        input(name="policyname" style="display:none;")
+                        ul(class="nav nav-tabs tabs-flat" id="myTab11")
+                            li(class="active")
+                                a(data-toggle="tab" href="#deviceLimit") 设备设置
+                            li
+                                a(data-toggle="tab" href="#securityPolicy") 锁屏策略
+                            li
+                                a(data-toggle="tab" href="#domainPolicy") 网络策略
+                            li
+                                a(data-toggle="tab" href="#wifiPolicy") WI-FI
+                        div(class="tab-content tabs-flat" style="padding:30px 15px;background-color:#fff;")
+                            div(id="deviceLimit" class="tab-pane in active")
+                                .row(style="height:50px;")
+                                    label(class="col-xs-2 col-md-2") 相机
+                                    label(class="col-xs-2")
+                                        input(class="checkbox-slider toggle colored-primary" id="camera" type="checkbox")
+                                        span(class="text")
+                                .row(style="height:50px;")
+                                    label(class="col-xs-2 col-md-2") 蓝牙
+                                    label(class="col-xs-2")
+                                        input(class="checkbox-slider toggle colored-primary" id="bluetooth" type="checkbox")
+                                        span(class="text")
+                                .row(style="height:50px;")
+                                    label(class="col-xs-2 col-md-2") 录音
+                                    label(class="col-xs-2")
+                                        input(class="checkbox-slider toggle colored-primary" id="recording" type="checkbox")
+                                        span(class="text")
+                                .row(style="height:50px;")
+                                    label(class="col-xs-2 col-md-2") GPS
+                                    label(class="col-xs-2")
+                                        input(class="checkbox-slider toggle colored-primary" id="gps" type="checkbox")
+                                        span(class="text")
+                                .row(style="height:50px;")
+                                    label(class="col-xs-2 col-md-2") 模拟位置
+                                    label(class="col-xs-2")
+                                        input(class="checkbox-slider toggle colored-primary" id="mockLoc" type="checkbox")
+                                        span(class="text")
+                                .row(style="height:50px;")
+                                    label(class="col-xs-2 col-md-2") 通知
+                                    label(class="col-xs-2")
+                                        input(class="checkbox-slider toggle colored-primary" id="notifications" type="checkbox")
+                                        span(class="text")
+                            div(id="securityPolicy" class="tab-pane")
+                                .row(style="height:50px;")
+                                    label(class="col-xs-3 col-md-2" style="line-height:30px;") 锁屏类型
+                                    div(class="col-xs-9 col-md-10")
+                                        select(style="width:200px;padding:0;" class="form-control input-sm" id="locktype" name="locktype")
+                                            option(value="1") 滑动
+                                            option(value="2") 图案
+                                            option(value="3") PIN码
+                                            option(value="4") 密码
+                                .row(style="height:50px;")
+                                    label(class="col-xs-3 col-md-2" style="line-height:30px;") 密码类型
+                                    div(class="col-xs-9 col-md-10")
+                                        select(style="width:200px;padding:0;" class="form-control input-sm" id="passwdtype" name="passwdtype")
+                                            option(value="1") 字母
+                                            option(value="2") 字母、数字
+                                            option(value="3") Biowetric weak
+                                            option(value="4") 字母、数字、特殊字符
+                                            option(value="5") 必须有数字
+                                            option(value="6") Numeric Complex
+                                            option(value="7") Something
+                                            option(value="0") 不设密码
+                                .row(style="height:50px;")
+                                    label(class="col-xs-3 col-md-2" style="line-height:30px;") 密码最小长度
+                                    div(class="col-xs-9 col-md-10")
+                                        input(style="width:200px;" type="text" class="form-control input-sm" id="pwdlength" name="pwdlength")
+                                .row(style="height:50px;")
+                                    label(class="col-xs-3 col-md-2" style="line-height:30px;") 密码有误次数
+                                    div(class="col-xs-9 col-md-10")
+                                        input(style="width:200px;" class="form-control input-sm" type="text" id="failtimes" name="failtimes")
+                                .row(style="height:50px;")
+                                    label(class="col-xs-3 col-md-2" style="line-height:30px;") 密码有效时间
+                                    div(class="col-xs-9 col-md-10")
+                                        input(style="width:200px;" class="form-control input-sm" type="text" id="available_time" name="available_time")
+                                        input(style="display:none;" id="pw_validity" name="pw_validity")
+                            div(id="domainPolicy" class="tab-pane")
+                                .row(style="height:50px;")
+                                    label(class="col-xs-4 col-md-3") 支持短信／彩信
+                                    label(class="col-xs-2")
+                                        input(class="checkbox-slider toggle colored-primary" id="mms" name="mms" type="checkbox")
+                                        span(class="text")
+                                .row(style="height:50px;")
+                                    label(class="col-xs-4 col-md-3") 支持远程数据备份
+                                    label(class="col-xs-2")
+                                        input(class="checkbox-slider toggle colored-primary" id="dataremote" name="dataremote" type="checkbox")
+                                        span(class="text")
+                                .row(style="height:50px;")
+                                    label(class="col-xs-4 col-md-3") 只能拨打紧急电话
+                                    label(class="col-xs-2")
+                                        input(class="checkbox-slider toggle colored-primary" id="only_emergency_phone" type="checkbox")
+                                        span(class="text")
+                                .row(style="height:50px;")
+                                    label(class="col-xs-4 col-md-3" style="line-height:30px;") 用户启用网络数据
+                                    div(class="col-xs-8 col-md-9")
+                                        select(style="width:200px;padding:0;" class="form-control input-sm" id="allow_mobile_network" name="allow_mobile_network")
+                                            option(value="1") 始终允许
+                                            option(value="2") 始终禁止
+                                            option(value="3") 用户控制
+                                .row(style="height:50px;")
+                                    label(class="col-xs-4 col-md-3" style="line-height:30px;") 用户启用WiFi网络
+                                    div(class="col-xs-8 col-md-9")
+                                        select(style="width:200px;padding:0;" class="form-control input-sm" id="allow_wifi" name="allow_wifi")
+                                            option(value="1") 始终允许
+                                            option(value="2") 始终禁止
+                                            option(value="3") 用户控制
+                                .row
+                                    label(class="col-xs-4 col-md-3" style="line-height:30px;") WiFi SSID 白名单
+                                    div(class="col-xs-8 col-md-9" style="padding-right:0;")
+                                        ul(class="list-group" id="listul")
+                                            li(id="li0" class="list-group-item")
+                                                input(type="text" class="form-control input-sm" name="wifilistname")
+                                                a(href="javascript:addli('+(-1)+')")
+                                                    img(src="../imgs/pa.png")
+                                                a(href="#")
+                                                    img(src="../imgs/pd.png")
+                                                .select
+                                                    .selli(onclick="selectli(this)")
+                                                    label 对应MAC地址
+                                                ul(class="list-group" id="uli0")
+                            div(id="wifiPolicy" class="tab-pane")
+                                ul(class="list-group" id="wifi")
+                                    li(id="wifili0" class="list-group-item")
+                                        h5 WI-FI 基础配置信息
+                                        .row(style="height:50px;")
+                                            label(class="col-xs-3 col-md-3" style="line-height:30px;") WI-FI 名词:
+                                            div(class="col-xs-9 col-md-9")       
+                                                input(style="width:200px;" type="text" class="form-control input-sm" name="wifiname")
+                                        .row(style="height:50px;")
+                                            label(class="col-xs-3 col-md-3" style="line-height:30px;") WI-FI 类型:
+                                            div(class="col-xs-9 col-md-9")
+                                                select(style="width:200px;padding:0;" class="form-control input-sm" id="wifi_type" name="wifi_type")
+                                                    option(value="") 请选择
+                                                    option(value="1") Open
+                                                    option(value="2") WEP
+                                                    option(value="3") WPA/WPA2PSK
+                                        .row(class="wi_fi")
+                                            label(class="col-xs-3 col-md-3" style="line-height:30px;") 密钥:
+                                            div(class="col-xs-9 col-md-9")
+                                                input(type="text" class="form-control input-sm" id="pwds" name="pwds")
+                                                a(href="javascript:addwifili()")
+                                                    img(src="../imgs/pa.png")
+                                                a(href="#")
+                                                    img(src="../imgs/pd.png")
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background 
+    script(src="/scripts/jquery.min.js")
+    script(src="/scripts/man_policy.js")

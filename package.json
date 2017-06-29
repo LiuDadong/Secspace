@@ -1,0 +1,32 @@
+{
+  "name": "secspace_server_web",
+  "version": "1.0.0",
+  "description": "secspace 私云版前端",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    //"url": "git+https://github.com/singuloid-team/SinguloidOS_private_wf.git"
+    "url": "http://118.190.64.42:8800/server/secspace_server_web.git"
+  },
+  "keywords": [
+    "os"
+  ],
+  "author": "yl",
+  "license": "ISC",
+  "bugs": {
+    //"url": "https://github.com/singuloid-team/SinguloidOS_private_wf/issues"
+    "url": "http://118.190.64.42:8800/server/secspace_server_web/issues"
+  },
+  "homepage": "http://118.190.64.42:8800/server/secspace_server_web#readme",
+  //"homepage": "https://github.com/singuloid-team/SinguloidOS_private_wf#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "md5": "^2.2.1"
+  }
+}

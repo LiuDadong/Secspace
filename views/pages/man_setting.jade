@@ -1,0 +1,200 @@
+extends ../layout
+
+block content
+    .page-breadcrumbs(style="display:none;")
+        ul(class="breadcrumb")
+            li
+                i(class="fa fa-home")
+                a(href="javascript:selectedBt('/man/first')") 首页
+            li
+                a(href="javascript:selectedBt('/man/user')") 用户
+    .page-header(class="position-relative")
+        .header-title(style="width:180px;")
+            h1
+                设置
+                small
+                    i(class="fa fa-angle-right")
+                    a(href="javascript:userlist()") 基本信息设置
+                    i(class="fa fa-angle-right policyh" style="display:none;") 策略
+                    i(class="fa fa-angle-right apph" style="display:none;") 应用
+        .header-buttons
+            a(class="sidebar-toggler" href="#")
+                i(class="fa fa-arrows-h")
+            a(class="refresh" id="refresh-toggler" href="/man/user")
+                i(class="glyphicon glyphicon-refresh")
+            a(class="fullscreen" id="fullscreen-toggler" href="#")
+                i(class="glyphicon glyphicon-fullscreen")
+    .page-body
+        .row
+            .setting(class="col-xs-12 col-md-12")
+                .widget(class="collapsed")
+                    .widget-header
+                        i(class="widget-icon fa fa-gear")
+                        .widget-buttons(style="position:absolute;left:25px;")
+                            a(href="#" data-toggle="collapse")
+                                系统设置
+                        //-span(class="widget-caption" data-toggle="collapse") 系统设置
+                        //-.widget-buttons
+                            a(href="#" data-toggle="collapse")
+                                i(class="fa fa-plus")
+                    .widget-body
+                        .row(class="col-xs-12 col-md-12")
+                            h5 会话时间设置
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "session_expire_time") 会话时间
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="text" name="session_expire_time" class = "form-control" id = "session_expire_time") 
+                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label") 分钟
+                        .row(class="col-xs-12 col-md-12")
+                            h5 登录安全策略
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "pw_max_try_times") 密码连续失败次数
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="text" name="pw_max_try_times" class = "form-control" id = "pw_max_try_times") 
+                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label") 次
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "frozen_time") 用户冻结时间
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="text" name="frozen_time" class = "form-control" id = "frozen_time") 
+                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label") 分钟
+                        .row(class="col-xs-12 col-md-12")
+                            h5 登录设置
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 用户记住登录帐号口令
+                                .inforow(class="col-lg-4 col-xs-6 col-sm-6")
+                                    label(class="col-xs-5 col-md-6")
+                                        input(name="allow_remember_pw" type="radio" value="1")
+                                        span(class="text") 允许
+                                    label(class="col-xs-7 col-md-6")
+                                        input(name="allow_remember_pw" type="radio" value="0")
+                                        span(class="text") 不允许
+                                label(class="col-lg-5 col-xs-4 col-sm-2 control-label")
+                        .row(class="col-xs-12 col-md-12")
+                            h5 应用下载设置
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "max_download") 应用下载并发数
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    select(class="form-control" name="max_download" id="max_download")
+                                        option(value="1") 1
+                                        option(value="2") 2
+                                        option(value="3") 3
+                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                    a(class="btn btn-primary" href="javascript:setsave()") 保存
+            .setting(class="col-xs-12 col-md-12")
+                .widget(class="collapsed")
+                    .widget-header
+                        i(class="widget-icon fa fa-gear")
+                        .widget-buttons(style="position:absolute;left:25px;")
+                            a(href="#" data-toggle="collapse")
+                                管理员设置
+                    .widget-body
+                        iframe(name="iframe" width="0" height="0" style="display:none;")
+                        form(form id="addadmpic" method="post" action="/p/org/orgUpdateSettings" enctype="multipart/form-data" target="iframe")
+                            .row(class="col-xs-12 col-md-12")
+                                h5 管理员基本信息设置
+                            .row(class="col-xs-12 col-md-12")
+                                .form-group
+                                    label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "manager_name") 管理员姓名
+                                    .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                        input(type="text" name="manager_name" class = "form-control" id = "manager_name") 
+                                    label(class="col-lg-6 col-xs-4 col-sm-4 control-label")
+                            .row(class="col-xs-12 col-md-12")
+                                .form-group
+                                    label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 管理员头像
+                                    .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                        .img(style="width:90px;height:90px;")
+                                            input(name="sid" type="text" style="display:none;")
+                                            input(type="file" id="admpicfile" name="avatar" class="file" size="10" style="width:90px;height:90px;opacity:0;")
+                                            .img_adm(style="width:100px;height:100px;margin-top:-95px;margin-left:-5px;" class="avatar-area")
+                                    .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                        button(class="btn btn-primary" type="submit" style="width:78px;margin-top:68px;") 保存
+                        .row(class="col-xs-12 col-md-12")
+                            h5 密码修改
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "currentpw") 当前密码
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="password" name="currentpw" autocomplete="off" class = "form-control" id = "currentpw") 
+                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label")
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "newpw") 新密码
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="password" name="newpw" autocomplete="off" class = "form-control" id = "newpw") 
+                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label")
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "confirpw") 确认新密码
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="password" name="confirpw" autocomplete="off" class = "form-control" id = "confirpw") 
+                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                    a(class="btn btn-primary" href="javascript:set_updatePW()") 保存
+            .setting(class="col-xs-12 col-md-12")
+                .widget
+                    .widget-header
+                        i(class="widget-icon fa fa-gear")
+                        .widget-buttons(style="position:absolute;left:25px;")
+                            a(href="#" data-toggle="collapse")
+                                产品信息
+                    .widget-body(style="display:block;")
+                        iframe(name="ifme" width="0" height="0" style="display:none;")
+                        form(form id="addimg" method="post" action="/p/org/orgUpdateSettings" enctype="multipart/form-data" target="ifme")
+                            .row(class="col-xs-12 col-md-12")
+                                .form-group
+                                    label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "picturefile") 产品LOGO
+                                    .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                        .img(style="width:177px;height:40px;")
+                                            input(name="sid" type="text" style="display:none;")
+                                            input(type="file" id="picturefile" name="icon" size="10" style="width:177px;height:40px;opacity:0;")
+                                            .img_area(style="width:187px;height:50px;margin-top:-45px;margin-left:-5px;" class="avatar-area")
+                                    label(class="col-lg-6 col-xs-4 col-sm-4 control-label")
+                            .row(class="col-xs-12 col-md-12")
+                                .form-group
+                                    label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "product_name") 产品名称
+                                    .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                        input(type="text" name="product_name" class = "form-control" id = "product_name") 
+                                    label(class="col-lg-6 col-xs-4 col-sm-4 control-label")
+                            .row(class="col-xs-12 col-md-12")
+                                .form-group
+                                    label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "company_name") 公司名称
+                                    .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                        input(type="text" name="company_name" class = "form-control" id = "company_name") 
+                                    label(class="col-lg-6 col-xs-4 col-sm-4 control-label")
+                            .row(class="col-xs-12 col-md-12")
+                                .form-group
+                                    label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "company_domain") 公司网址
+                                    .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                        input(type="text" name="company_domain" class = "form-control" id = "company_domain") 
+                                    .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                        button(class="btn btn-primary" type="submit" style="width:78px;") 保存
+            .setting(class="col-xs-12 col-md-12")
+                .widget
+                    .widget-header
+                        i(class="widget-icon fa fa-gear")
+                        .widget-buttons(style="position:absolute;left:25px;")
+                            a(href="#" data-toggle="collapse")
+                                认证方式设置
+                    .widget-body(style="display:block;")
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "identify_type") 认证方式
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    div(class="checkbox" style="margin-top:0px;")
+                                        label(style="padding-left:0;")
+                                            input(type="checkbox" checked="checked" name="identify_type")
+                                            span(class="text")
+                                                用户名口令认证 
+                                    div(class="checkbox")
+                                        label(style="padding-left:0;")
+                                            input(type="checkbox" name="identify_type")
+                                            span(class="text")
+                                                用户名口令＋指纹认证 
+                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                    a(class="btn btn-primary" href="javascript:identify_type()" style="margin-top:38px;") 保存
+    script(src="/scripts/jquery.min.js")
+    script(src="/scripts/man_setting.js")

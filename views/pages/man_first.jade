@@ -1,0 +1,96 @@
+extends ../layout
+
+block content
+    .page-header(class="position-relative")
+        .header-title
+            h1 首页
+        .header-buttons
+            a(class="sidebar-toggler" href="#")
+                i(class="fa fa-arrows-h")
+            a(class="refresh" id="refresh-toggler" href="/man/first")
+                i(class="glyphicon glyphicon-refresh")
+            a(class="fullscreen" id="fullscreen-toggler" href="#")
+                i(class="glyphicon glyphicon-fullscreen")
+    .page-body(style="background:#f5f5f5;")
+        .row(style="margin:0 0 20px 0;")
+            .firsttop(class="col-lg-12 col-sm-12 col-xs-12")
+                .t1(class="col-lg-3 col-sm-3 col-xs-3")
+                    ul(class="list-group")
+                        li(class="list-group-item")
+                            img(src="../imgs/1.png" class="img-circle")
+                        li(class="list-group-item")
+                            span(class="menu-text") 设备数量
+                        li(class="list-group-item count")
+                .t2(class="col-lg-3 col-sm-3 col-xs-3")
+                    ul(class="list-group")
+                        li(class="list-group-item")
+                            img(src="../imgs/2.png" class="img-circle")
+                        li(class="list-group-item")
+                            span(class="menu-text") 用户数量
+                        li(class="list-group-item count")
+                .t3(class="col-lg-3 col-sm-3 col-xs-3")
+                    ul(class="list-group")
+                        li(class="list-group-item")
+                            img(src="../imgs/3.png" class="img-circle")
+                        li(class="list-group-item")
+                            span(class="menu-text") 应用数量
+                        li(class="list-group-item count")
+                .t4(class="col-lg-3 col-sm-3 col-xs-3")
+                    ul(class="list-group")
+                        li(class="list-group-item")
+                            img(src="../imgs/4.png" class="img-circle")
+                        li(class="list-group-item")
+                            span(class="menu-text") 部门数量
+                        li(class="list-group-item count")
+        .row
+            .first(class="col-lg-12 col-sm-12 col-xs-12")
+                .row
+                    div(class="col-lg-6 col-sm-6 col-xs-12")
+                        .widget(style="margin:0 0 16px 0;")
+                            .widget-header
+                                span(class="widget-caption" style="font-size:15px;") 在线设备百分比
+                            .widget-body
+                                .circle(id="online")
+                                    .pie_left
+                                        .left
+                                    .pie_right
+                                        .right
+                                    .mask
+                                        span 0
+                                        label %
+                    div(class="col-lg-6 col-sm-6 col-xs-12")
+                        .widget(style="margin:0 0 16px 0;")
+                            .widget-header
+                                span(class="widget-caption" style="font-size:15px;") 帐号有所属部门百分比
+                            .widget-body
+                                .circle(id="depart")
+                                    .pie_left
+                                        .left
+                                    .pie_right
+                                        .right
+                                    .mask
+                                        span 0
+                                        label %
+                    div(class="col-lg-6 col-sm-6 col-xs-12")
+                        .widget
+                            .widget-header
+                                span(class="widget-caption" style="font-size:15px;") 已安装app百分比
+                            .widget-body
+                                .circle(id="app")
+                                    .pie_left
+                                        .left
+                                    .pie_right
+                                        .right
+                                    .mask
+                                        span 0
+                                        label %
+                    div(class="col-lg-6 col-sm-6 col-xs-12")
+                        .widget
+                            .widget-header
+                                span(class="widget-caption" style="font-size:15px;") 每天在线设备数量
+                            .widget-body
+                                #deviceNum(style="height:270px;")
+    script(src="/scripts/jquery.min.js")
+    script(src="/scripts/man_first.js")
+    script(src="http://cdn.hcharts.cn/highcharts/highcharts.js") 
+    script(src="https://cdn.hcharts.cn/highcharts/highcharts.js")

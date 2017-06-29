@@ -1,0 +1,181 @@
+extends ../layout
+
+block content
+    .page-header(class="position-relative")
+        .header-title(style="width:180px;")
+            h1
+                设备
+                small
+                    i(class="fa fa-angle-right")
+                    a(href="javascript:devicelist()") 设备管理
+                    i(class="fa fa-angle-right deviceinfo" style="display:none;") 设备详情
+        .header-buttons
+            a(class="sidebar-toggler" href="#")
+                i(class="fa fa-arrows-h")
+            a(class="refresh" id="refresh-toggler" href="/man/device")
+                i(class="glyphicon glyphicon-refresh")
+            a(class="fullscreen" id="fullscreen-toggler" href="#")
+                i(class="glyphicon glyphicon-fullscreen")
+    .page-body
+        .row
+            .devicelist(class="col-xs-12 col-md-12")
+                .widget
+                    .widget-btn
+                        //-a(class="btn btn-primary" href="javascript:send_cmds(\'reset\')") 恢复出厂
+                        //-a(class="btn btn-primary" href="javascript:send_cmds(\'bell\')") 响铃追踪
+                        //-a(class="btn btn-primary" href="javascript:send_cmds(\'lockscreen\')") 锁屏
+                        //-a(class="btn btn-primary" href="javascript:send_cmds(\'chg_screen_pw\')") 锁屏密码
+                        //-a(class="btn btn-primary" href="javascript:send_cmds(\'reset\')" style="width:104px;") 擦除企业数据
+                        a(class="btn btn-primary" href="javascript:refresh()")
+                            i(class="fa fa-undo")
+                            &nbsp;刷新
+                        a(class="btn btn-danger" href="javascript:deletes()")
+                            i(class="fa fa-times")
+                            &nbsp;删除
+                        .btn-group
+                            a(class="btn btn-primary shiny" href="#" style="margin-right:-2px;")
+                                i(class="fa fa-sitemap")
+                                设备推送
+                            a(class="btn btn-primary dropdown-toggle shiny" data-toggle="dropdown" href="#" style="margin-left:-2px;")
+                                i(class="fa fa-angle-down")
+                            ul(class="dropdown-menu dropdown-primary")
+                                li
+                                    a(href="javascript:send_cmds(\'lockscreen\')") 锁屏
+                                li
+                                    a(href="javascript:send_cmds(\'chg_screen_pw\')") 锁屏密码
+                                li
+                                    a(href="javascript:send_cmds(\'bell\')") 响铃追踪
+                                li
+                                    a(href="javascript:send_cmds(\'reset\')") 恢复出厂设置
+                                li(class="divider")
+                                li
+                                    a(href="javascript:send_cmds(\'reset\')") 擦除企业数据
+                    .search(class="col-lg-12 col-sm-12 col-xs-12" style="padding:0")
+                        .widget(class="collapsed" style="margin-bottom:10px;")
+                            .widget-header(style="box-shadow:none;padding-left:0;margin-bottom:10px;")
+                                span(class="widget-caption")
+                                    .input-group
+                                        span(class="input-icon")
+                                            input(type="text" class="form-control input-sm")
+                                            i(class="glyphicon glyphicon-search primary")
+                                .widget-buttons
+                                    a(href="#" data-toggle="collapse") 高级搜索
+                            .widget-body(style="box-shadow:none;padding:0;")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-6" style="padding-left:0px;")
+                                    .input-group
+                                        span(class="input-group-addon")
+                                            i(class="fa fa-user darkorange")
+                                        input(class="form-control" placeholder="设备名称")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-6 has-error has-feedback")
+                                    .input-group
+                                        span(class="input-group-addon bg-blue bordered-blue")
+                                            i(class="fa fa-envelope-o")
+                                        input(type="text" class="form-control" id="user" placeholder="所属用户")
+                                .searchinfo(class="col-lg-8 col-sm-8 col-xs-8 col-lg-offset-4 col-sm-offset-4 col-xs-offset-4" style="margin-bottom:20px;margin-top:6px;")
+                                    a(class="btn btn-primary" href="javascript:secrhinfo()") 搜索设备
+                    .devicetable(class="widget-body" style="box-shadow:none;padding:0;")
+                    .page1
+        .row
+            .device(class="col-lg-12 col-sm-12 col-xs-12" style="display:none;")
+                .row(style="margin-bottom:45px;")
+                    .devinfo(class="col-lg-6 col-sm-6 col-xs-12")
+                        div(class="col-lg-6 col-sm-6 col-xs-6" style="padding:0;")
+                            ul(class="list-group")
+                                li(class="list-group-item devicename" style="border:none;line-height:48px;")
+                                li(class="list-group-item lasttime" style="border:none;")
+                        div(class="col-lg-6 col-sm-6 col-xs-6" style="padding:0;")
+                            ul(class="list-group")
+                                li(class="list-group-item imei" style="border:none;line-height:48px;")
+                                li(class="list-group-item status" style="border:none;")
+                    div(class="col-lg-6 col-sm-6 col-xs-12" style="text-align:center;")
+                        div(class="col-lg-3 col-sm-3 col-xs-3")
+                            ul(class="list-group reset")
+                        div(class="col-lg-3 col-sm-3 col-xs-3")
+                            ul(class="list-group bell")
+                        div(class="col-lg-3 col-sm-3 col-xs-3")
+                            ul(class="list-group lock")
+                        div(class="col-lg-3 col-sm-3 col-xs-3")
+                            ul(class="list-group lockpwd")
+                .row
+                    div(class="col-lg-12 col-sm-12 col-xs-12")
+                        .tabbable
+                            ul(class="nav nav-tabs nav-justified" id="myTab5")
+                                li(class="active")
+                                    a(data-toggle="tab" href="#tab1") 基本信息
+                                li
+                                    a(data-toggle="tab" href="#tab2") 网络信息
+                                li
+                                    a(data-toggle="tab" href="#tab3") 位置链接
+                                li
+                                    a(data-toggle="tab" href="#tab4") 已安装应用
+                            .tab-content(style="background:#fff;")
+                                .tab-pane(class="in active" id="tab1")
+                                    .widget
+                                        .tab(class="widget-body" style="box-shadow:none;padding:0;")
+                                            div(class="col-lg-3 col-sm-3 col-xs-3")
+                                                ul(class="list-group")
+                                                    li(class="list-group-item" style="border:none;") 供应商
+                                                    li(class="list-group-item" style="border:none;") 屏幕分辨率
+                                                    li(class="list-group-item" style="border:none;") 屏幕大小
+                                                    li(class="list-group-item" style="border:none;") 系统语言
+                                                    li(class="list-group-item" style="border:none;") 电池
+                                                    li(class="list-group-item" style="border:none;") SIM卡类型
+                                                    li(class="list-group-item" style="border:none;") 无线MAC
+                                                    li(class="list-group-item" style="border:none;") 蓝牙MAC
+                                            div(class="col-lg-3 col-sm-3 col-xs-3")
+                                                ul(class="list-group ulinfo1")
+                                            div(class="col-lg-3 col-sm-3 col-xs-3")
+                                                ul(class="list-group")
+                                                    li(class="list-group-item" style="border:none;") 型号
+                                                    li(class="list-group-item" style="border:none;") cup名称
+                                                    li(class="list-group-item" style="border:none;") cup数量
+                                                    li(class="list-group-item" style="border:none;") 内存
+                                                    li(class="list-group-item" style="border:none;") 手机类型
+                                                    li(class="list-group-item" style="border:none;") 设备序列号
+                                            div(class="col-lg-3 col-sm-3 col-xs-3")
+                                                ul(class="list-group ulinfo2")
+                                .tab-pane(id="tab2")
+                                    .widget
+                                        .tab(class="widget-body" style="box-shadow:none;padding:0;background:#fff;")
+                                            h5 移动网络信息
+                                            div(class="col-lg-3 col-sm-3 col-xs-3")
+                                                ul(class="list-group")
+                                                    li(class="list-group-item" style="border:none;") 手机号码
+                                                    li(class="list-group-item" style="border:none;") 手机是否在漫游
+                                                    li(class="list-group-item" style="border:none;") SIM卡运营商
+                                                    li(class="list-group-item" style="border:none;") 是否打开网络
+                                            div(class="col-lg-3 col-sm-3 col-xs-3")
+                                                ul(class="list-group netinfo1")
+                                            div(class="col-lg-3 col-sm-3 col-xs-3")
+                                                ul(class="list-group")
+                                                    li(class="list-group-item" style="border:none;") －－
+                                                    li(class="list-group-item" style="border:none;") 用户识别码
+                                                    li(class="list-group-item" style="border:none;") 网络运营商
+                                                    li(class="list-group-item" style="border:none;") 网络类型
+                                            div(class="col-lg-3 col-sm-3 col-xs-3")
+                                                ul(class="list-group netinfo2")
+                                            h5 WI－FI网络信息
+                                            div(class="col-lg-3 col-sm-3 col-xs-3")
+                                                ul(class="list-group")
+                                                    li(class="list-group-item" style="border:none;") Wi-Fi Mac地址
+                                                    li(class="list-group-item" style="border:none;") IP地址
+                                            div(class="col-lg-3 col-sm-3 col-xs-3")
+                                                ul(class="list-group netinfo3")
+                                            div(class="col-lg-3 col-sm-3 col-xs-3")
+                                                ul(class="list-group")
+                                                    li(class="list-group-item" style="border:none;") 最后连接时间
+                                                    li(class="list-group-item" style="border:none;") 服务集标识符
+                                            div(class="col-lg-3 col-sm-3 col-xs-3")
+                                                ul(class="list-group netinfo4")
+                                .tab-pane(id="tab3")
+                                    .widget
+                                        .tab(class="col-lg-6 col-sm-6 col-xs-8 col-lg-offset-3 col-sm-offset-3 col-xs-offset-2" style="box-shadow:none;padding:0;height:350px;margin-top:20px;background:#f9f9f9;" id="addr")
+                                .tab-pane(id="tab4")
+                                    .widget
+                                        .tab(class="widget-body applist" style="box-shadow:none;padding:0;height:450px;overflow:auto;")
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background 
+    script(src="/scripts/jquery.min.js")
+    script(src="/scripts/man_device.js")
