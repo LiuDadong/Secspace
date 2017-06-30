@@ -103,8 +103,8 @@ function getDetail(i){
               + '<li class="list-group-item" onclick="sendCmd(\'lockscreen\',\''+dev_id+'\')" style="border:none;">锁屏</li>';
     $('.lock').html(lock);
     var lockpwd = '<li class="list-group-item" style="border:none;">'
-              + '<img class="img-circle" src="../imgs/lockpwd.png" onclick="updatescreenpw('+dev_id+')"/></li>'
-              + '<li class="list-group-item" onclick="updatescreenpw('+dev_id+')" style="border:none;">锁屏密码</li>';
+              + '<img class="img-circle" src="../imgs/lockpwd.png" onclick="updatescreenpw(\''+dev_id+'\')"/></li>'
+              + '<li class="list-group-item" onclick="updatescreenpw(\''+dev_id+'\')" style="border:none;">锁屏密码</li>';
     $('.lockpwd').html(lockpwd);
 
     // tab1 设备基本信息 
@@ -233,7 +233,7 @@ function updatescreenpw(dev_id){
              + '</div>'
              + '<div class="modal-footer">'
              + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-             + '<button type="button" class="btn btn-primary" onclick="sendpw('+dev_id+')">确认</button>'
+             + '<button type="button" class="btn btn-primary" onclick="sendpw(\''+dev_id+'\')">确认</button>'
              + '</div>';  
     alertOpen(cont);
     $('input[name=screen_pw],input[name=confirm]').keyup(function(){  // 输入限制，只能输入整数 
