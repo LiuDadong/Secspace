@@ -17,7 +17,7 @@ $(function() {
         console.log("-0r-34039900000000=");
     }
    // $('.navbar-inner .navbar-brand small').html('<img src="' + picurl + icon + '" style="width:170px;height:22px;margin-top:10px;"></img>');
-   $('.navbar-inner .navbar-brand small').html('<img src="../imgs/logo.png" style="width:170px;height:22px;margin-top:10px;"></img>');
+  // $('.navbar-inner .navbar-brand small').html('<img src="../imgs/logo.png" style="width:170px;height:22px;margin-top:10px;"></img>');
 }); 
 
 function selectedBt(str) {

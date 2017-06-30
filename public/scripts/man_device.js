@@ -211,7 +211,54 @@ function sendCmd(cmd, dev_id){
     xml.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
     xml.send(cmd); 
 }
+function updatescreenpw(dev_id){
+    var cont = '';  
+        cont += '<div class="modal-header">'
+             + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
+             + '<h4 class="modal-title">设置锁屏密码</h4>'
+             + '</div>'
+             + '<div class="modal-body">'
+             + '<form role = "form" class="form-horizontal">'
+             + '<div class = "form-group">' 
+             + '<label class="col-sm-3 control-label" for = "screen_pw">锁屏密码</label>' 
+             + '<div class="col-sm-7">' 
+             + '<input type="password" class = "form-control" id = "screen_pw" name="screen_pw" placeholder = "请输入新密码"/>' 
+             + '</div></div>'
+             + '<div class = "form-group">' 
+             + '<label class="col-sm-3 control-label" for = "confirm">确认锁屏密码</label>' 
+             + '<div class="col-sm-7">' 
+             + '<input type="password" class = "form-control" id = "confirm" name="confirm" placeholder = "再次输入新密码"/>' 
+             + '</div></div>'
+             + '</form>'
+             + '</div>'
+             + '<div class="modal-footer">'
+             + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
+             + '<button type="button" class="btn btn-primary" onclick="sendpw('+dev_id+')">确认</button>'
+             + '</div>';  
+    alertOpen(cont);
+    $('input[name=screen_pw],input[name=confirm]').keyup(function(){  // 输入限制，只能输入整数 
+        if (this.value.length==1) {
+            this.value=this.value.replace(/[^1-9]/g,'');
+        } else {
+            this.value=this.value.replace(/\D/g,'');
+        }
+    }); 
 
+}
+function sendpw(devid){
+    var psw = $('input[name=screen_pw]').val();
+    var confirm = $('input[name=confirm]').val();
+    if(psw == '' || psw.length<4 || psw.length>6){
+        warningOpen('请输入正确4到6位锁屏密码！','danger','fa-bolt');
+    }else if(psw != confirm){
+        warningOpen('前后锁屏密码不一致！','danger','fa-bolt');
+    }else{
+        var cmd = 'chg_screen_pw <'+ psw +'>';
+        sendCmd(cmd,devid);
+        alertOff();
+        warningOpen('操作成功！','primary','fa-check');
+    }   
+}
 //一个或者多个设备消息推送
 function send_cmds(cmd){
     var dev_id = [], i = 0, tr;

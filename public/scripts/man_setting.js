@@ -95,6 +95,7 @@ $(function() {
                    // warningOpen('正在添加请稍后！');
                 },
                 success: function(d1, d2) {
+                    console.log(d1.rt);
                     $.get('/man/setting/orgGetSettings', function(data) {
                         data = JSON.parse(data);
                         if (data.rt==0) {

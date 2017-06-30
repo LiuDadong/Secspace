@@ -10,10 +10,12 @@ function getAction(flag) {
     $('.loginbox input[name=account]').val('');
     $('.loginbox input[name=passwd]').val('');
     if (flag == 'per') {
+        $('.loginbox-title').html('个人登录');
         $('.sign a').eq(1).addClass('active');
         $('.loginbox-signup').css({'display':'block'});           
         $('.loginbox input[name=flag]').val('per');
     } else { 
+        $('.loginbox-title').html('管理员登录');
         $('.sign a').eq(0).addClass('active');
         $('.loginbox-signup').css({'display':'none'}); 
         $('.loginbox input[name=flag]').val('man');
