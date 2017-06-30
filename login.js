@@ -11,7 +11,7 @@ module.exports = function(app, _http) {
             } else {
                 res.redirect('/man/first');
             }
-        } else {        
+        } else {  
             res.render('logins');
         }
     });
