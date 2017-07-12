@@ -4,7 +4,7 @@ block content
     .page-header(class="position-relative")
         .header-title
             h1 首页
-        .header-buttons
+        //-.header-buttons
             a(class="sidebar-toggler" href="#")
                 i(class="fa fa-arrows-h")
             a(class="refresh" id="refresh-toggler" href="/man/first")
@@ -45,7 +45,7 @@ block content
         .row
             .first(class="col-lg-12 col-sm-12 col-xs-12")
                 .row
-                    div(class="col-lg-6 col-sm-6 col-xs-12")
+                    div(class="col-lg-3 col-sm-6 col-xs-12")
                         .widget(style="margin:0 0 16px 0;")
                             .widget-header
                                 span(class="widget-caption" style="font-size:15px;") 在线设备百分比
@@ -58,7 +58,7 @@ block content
                                     .mask
                                         span 0
                                         label %
-                    div(class="col-lg-6 col-sm-6 col-xs-12")
+                    div(class="col-lg-3 col-sm-6 col-xs-12")
                         .widget(style="margin:0 0 16px 0;")
                             .widget-header
                                 span(class="widget-caption" style="font-size:15px;") 帐号有所属部门百分比
@@ -71,7 +71,7 @@ block content
                                     .mask
                                         span 0
                                         label %
-                    div(class="col-lg-6 col-sm-6 col-xs-12")
+                    div(class="col-lg-3 col-sm-6 col-xs-12")
                         .widget
                             .widget-header
                                 span(class="widget-caption" style="font-size:15px;") 已安装app百分比
@@ -84,12 +84,12 @@ block content
                                     .mask
                                         span 0
                                         label %
-                    div(class="col-lg-6 col-sm-6 col-xs-12")
+                    div(class="col-lg-3 col-sm-6 col-xs-12")
                         .widget
                             .widget-header
                                 span(class="widget-caption" style="font-size:15px;") 每天在线设备数量
                             .widget-body
-                                #deviceNum(style="height:270px;")
+                                #deviceNum
     script(src="/scripts/jquery.min.js")
     script(src="/scripts/man_first.js")
     script(src="http://cdn.hcharts.cn/highcharts/highcharts.js") 

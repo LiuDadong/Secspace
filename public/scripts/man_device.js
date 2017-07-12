@@ -7,7 +7,7 @@
 $(function() { 
     $('.devicemenu').addClass('open active');
     $('.devicemenu').find('li').eq(0).addClass('active');
-   
+
     // 设备管理列表
     getDeviceList(1,10); 
 });
@@ -16,7 +16,8 @@ $(function() {
 function getDeviceList(start_page,page_length){  
     var table = $('.devicetable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-            + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+            //+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+            + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th>设备名称</th>'
             + '<th>所属用户</th>'
             + '<th>系统</th>'
@@ -29,7 +30,8 @@ function getDeviceList(start_page,page_length){
             for(var i in data.doc) {
                 online = (data.doc[i].online == 1) ? '在线':'离线';
                 str += '<tr>'
-                    + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                   // + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                    + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                     + '<td>'            
                     + '<a href="javascript:getDetail('+ i +');">' + data.doc[i].dev_name + '</a></td>'
                     + '<td>' + data.doc[i].email + '</td>'
@@ -57,12 +59,12 @@ function search(p,i) {
         console.log(i);
     }
 }
-// 返回用户列表
+// 返回设备列表
 function devicelist(){
     $('.device, .deviceinfo').css({'display':'none'});
     $('.devicelist').css({'display':'block'});
 }
-
+// 获取设备详细信息
 function getDetail(i){
     var _tr = $('.devicetable table tr').eq(i+1);
     var devObj;
@@ -183,7 +185,7 @@ function getDetail(i){
         }
     });
     // tab4 设备已安装app列表
-    strtab4 = '<table class="table table-hover"><tr>'//table-striped table-bordered  id="simpledatatable"
+    strtab4 = '<table class="table table-hover"><tr>'
             + '<th>应用名称</th>'
             + '<th>应用包名称</th>'
             + '<th>版本</th>'
@@ -211,6 +213,15 @@ function sendCmd(cmd, dev_id){
     xml.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
     xml.send(cmd); 
 }
+// 单个设备推送
+function sendCmdtest(cmd, dev_id){
+    var url = 'https://ws.yingzixia.com/pub' + '?id='+dev_id;
+    var xml = new XMLHttpRequest();
+    xml.open("POST", url, true);
+    xml.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+    xml.send('erasedata'); 
+}
+// 设置锁屏密码
 function updatescreenpw(dev_id){
     var cont = '';  
         cont += '<div class="modal-header">'
@@ -243,8 +254,8 @@ function updatescreenpw(dev_id){
             this.value=this.value.replace(/\D/g,'');
         }
     }); 
-
 }
+// 锁屏密码推送
 function sendpw(devid){
     var psw = $('input[name=screen_pw]').val();
     var confirm = $('input[name=confirm]').val();
@@ -264,8 +275,8 @@ function send_cmds(cmd){
     var dev_id = [], i = 0, tr;
     var cmd = cmd;
     var tab = $('.devicetable table');
-    tab.find('td i').each(function () {
-        if ($(this).hasClass('fa-check')) {
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             dev_id[i] = tr.find('td').eq(7).text();
             i = i+1;
@@ -315,13 +326,31 @@ function send_cmds(cmd){
         warningOpen('请先选择设备！','danger','fa-bolt');
     }       
 }
-
+function sendCmdtests(cmd){
+    var dev_id = [], i = 0, tr;
+    var cmd = cmd;
+    var tab = $('.devicetable table');
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
+            tr = $(this).parents("tr");
+            dev_id[i] = tr.find('td').eq(7).text();
+            i = i+1;
+        }     
+    }); 
+    
+    if(dev_id.length > 0){
+        for(var j=0;j<dev_id.length;j++){
+            sendCmdtest(cmd,dev_id[j]);
+        }
+        warningOpen('操作成功！','primary','fa-check');
+    }
+}
 // 多个设备锁屏密码
 function changesppw(){
     var dev_id = [], i = 0, tr;
     var tab = $('.devicetable table');
-    tab.find('td i').each(function () {
-        if ($(this).hasClass('fa-check')) {
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             dev_id[i] = tr.find('td').eq(7).text();
             i = i+1;
@@ -344,14 +373,14 @@ function changesppw(){
 }
 // 刷新
 function refresh() {
-    $('th i,td i').removeClass('fa-check');
+    $('th span,td span').removeClass('txt');
     getDeviceList(currentpage,10);
 }
 // 删除
 function deletes(){
     var i = 0;
     var tab = $('.devicetable table');
-    if(tab.find('td i').hasClass('fa-check')){
+    if(tab.find('td span').hasClass('txt')){
         i = 1;
     }     
     var cont = '';
@@ -373,14 +402,14 @@ function deletes(){
     }
 }
 
-// 企业管理员删除多个用户
+// 企业管理员删除多个设备
 function device_delete() {
     var dev_id = [],
             i = 0;
     var tr;
     var tab = $('.devicetable table');
-    tab.find('td i').each(function () {
-        if ($(this).hasClass('fa-check')) {
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             dev_id[i] = tr.find('td').eq(7).text();
             i = i+1;

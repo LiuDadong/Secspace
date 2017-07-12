@@ -9,7 +9,7 @@ block content
                     i(class="fa fa-angle-right")
                     a(href="javascript:devicelist()") 设备管理
                     i(class="fa fa-angle-right deviceinfo" style="display:none;") 设备详情
-        .header-buttons
+        //-.header-buttons
             a(class="sidebar-toggler" href="#")
                 i(class="fa fa-arrows-h")
             a(class="refresh" id="refresh-toggler" href="/man/device")
@@ -29,10 +29,7 @@ block content
                         a(class="btn btn-primary" href="javascript:refresh()")
                             i(class="fa fa-undo")
                             &nbsp;刷新
-                        a(class="btn btn-danger" href="javascript:deletes()")
-                            i(class="fa fa-times")
-                            &nbsp;删除
-                        .btn-group
+                        .btn-group(style="float:left;margin-right:20px;")
                             a(class="btn btn-primary shiny" href="#" style="margin-right:-2px;")
                                 i(class="fa fa-sitemap")
                                 设备推送
@@ -49,7 +46,10 @@ block content
                                     a(href="javascript:send_cmds(\'reset\')") 恢复出厂设置
                                 li(class="divider")
                                 li
-                                    a(href="javascript:send_cmds(\'reset\')") 擦除企业数据
+                                    a(href="javascript:send_cmds(\'erasedata\')") 擦除企业数据
+                        a(class="btn btn-danger" href="javascript:deletes()")
+                            i(class="fa fa-times")
+                            &nbsp;删除
                     .search(class="col-lg-12 col-sm-12 col-xs-12" style="padding:0")
                         .widget(class="collapsed" style="margin-bottom:10px;")
                             .widget-header(style="box-shadow:none;padding-left:0;margin-bottom:10px;")
@@ -178,4 +178,6 @@ block content
                 .modal-content
         .background 
     script(src="/scripts/jquery.min.js")
+    script(src="http://api.map.baidu.com/api?v=2.0&ak=eqqM74ODvE9SwBK58L940OHR")
+    script(src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js")
     script(src="/scripts/man_device.js")

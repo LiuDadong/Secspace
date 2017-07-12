@@ -12,12 +12,15 @@ function getAction(flag) {
     if (flag == 'per') {
         $('.loginbox-title').html('个人登录');
         $('.sign a').eq(1).addClass('active');
-        $('.loginbox-signup').css({'display':'block'});           
+        $('.loginbox-signup').css({'display':'block'});  
+        $('.forgetpwd,.findpwd,.updatepwd,.register,.registernew').css({'display':'none'}); 
+        $('.loginbox form').css({'display':'block'});        
         $('.loginbox input[name=flag]').val('per');
     } else { 
         $('.loginbox-title').html('管理员登录');
         $('.sign a').eq(0).addClass('active');
-        $('.loginbox-signup').css({'display':'none'}); 
+        $('.loginbox-signup,.forgetpwd,.findpwd,.updatepwd,.register,.registernew').css({'display':'none'}); 
+        $('.loginbox form').css({'display':'block'}); 
         $('.loginbox input[name=flag]').val('man');
         //window.location.reload(); 
     }

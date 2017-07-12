@@ -10,7 +10,7 @@ block content
                     a(href="javascript:departlist()") 机构管理
                     i(class="fa fa-angle-right policyh" style="display:none;") 策略
                     i(class="fa fa-angle-right addh" style="display:none;") 员工
-        .header-buttons
+        //-.header-buttons
             a(class="sidebar-toggler" href="#")
                 i(class="fa fa-arrows-h")
             a(class="refresh" id="refresh-toggler" href="/man/depart")
@@ -28,6 +28,9 @@ block content
                         a(class="btn btn-primary" href="javascript:refresh()")
                             i(class="fa fa-undo")
                             刷新
+                        a(class="btn btn-primary" href="javascript:addusers()" style="width:auto;")
+                            i(class="fa fa-plus-square")
+                            添加人员
                         a(class="btn btn-danger" href="javascript:deletes()")
                             i(class="fa fa-times")
                             删除

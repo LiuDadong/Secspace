@@ -17,7 +17,8 @@ function getRoleList(start,length) {
     var st = 1;
     var table = $('.rolelist .roletable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable" style="table-layout: fixed;"><tr>'
-            + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+            //+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+            + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th style="width:20%;">角色名称</th>'
             + '<th style="width:28%;text-overflow:ellipsis; white-space: nowrap;overflow: hidden;overflow:hidden;">角色描述</th>'
             + '<th style="width:28%;">创建时间</th>'
@@ -28,14 +29,15 @@ function getRoleList(start,length) {
            
             for(var i in data.role_list) {
                 str += '<tr>'
-                    + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                    //+ '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                    + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                     + '<td>' + data.role_list[i].name + '</td>'
                     + '<td title="'+data.role_list[i].description+'">' + data.role_list[i].description + '</td>'
                     + '<td>' + data.role_list[i].create_time + '</td>'
                     + '<td style="display:none;">' + data.role_list[i].id + '</td>'                                   
                     + '<td>'                
                     + '<a href="javascript:role('+ i +');">角色管理</a>&nbsp;&nbsp;&nbsp;&nbsp;'
-                    + '<a href="javascript:modrole('+ i +');">修改</a>'
+                    + '<a href="javascript:modrole('+ i +');">修改信息</a>'
                     + '</td></tr>';
             }
             str +='</table>';
@@ -57,7 +59,7 @@ function search(p,i) {
         console.log(i);
     }
 }
-// 返回用户列表
+// 返回角色列表
 function rolelist(){
     $('.role, .roleadd').css({'display':'none'});
     $('.rolelist').css({'display':'block'});
@@ -144,7 +146,7 @@ function role(i){
         }
     });
 }
-//删除用户
+//删除角色内用户
 function deleteuser(obj){
     var tr = $(obj).parent().parent();
     var rowIndex = tr.index()+1;
@@ -169,7 +171,7 @@ function deleteuser(obj){
     $(obj).parent("td").parent("tr").remove();
  
 }
-//删除应用
+//删除角色内应用
 function deleteapp(obj){
     var tr = $(obj).parent().parent();
     var rowIndex = tr.index()+1;
@@ -193,7 +195,7 @@ function deleteapp(obj){
     v.style.textAlign = 'center';
     $(obj).parent("td").parent("tr").remove();
 }
-//添加用户
+//角色添加用户
 function adduser(obj){
     var tr = $(obj).parent().parent();
     var rowIndex = tr.index()+1;
@@ -217,7 +219,7 @@ function adduser(obj){
     v.style.textAlign = 'center';
     $(obj).parent("td").parent("tr").remove();
 }
-//添加应用
+//角色添加应用
 function addapp(obj){
     var tr = $(obj).parent().parent();
     var rowIndex = tr.index()+1;
@@ -277,28 +279,28 @@ function rolesave(){
         }
     }); 
 }
-//查询不属于任何角色的用户
+//搜索不属于任何角色的用户
 function sfreeusers(){
     var s = document.getElementById("freeusers").value;
     var tab = $('.freeuser table');
     tab.find('tr').each(function () {$(this).css({'display':''});});
     searchbykeywords(s,tab);
 }
-//查询属于该角色的用户
+//搜索属于该角色的用户
 function sroleusers(){
     var s = document.getElementById("roleusers").value;
     var tab = $('.member table');
     tab.find('tr').each(function () {$(this).css({'display':''});});
     searchbykeywords(s,tab);
 }
-//查询未分配给该角色的应用
+//搜索未分配给该角色的应用
 function sfreeapps(){
     var s = document.getElementById("freeapps").value;
     var tab = $('.freeapp table');
     tab.find('tr').each(function () {$(this).css({'display':''});});
     searchbykeywords(s,tab);
 }
-//查询已经分配给该角色的应用
+//搜索该角色内应用
 function sroleapps(){
     var s = document.getElementById("roleapps").value;
     var tab = $('.apps table');
@@ -417,14 +419,14 @@ function role_add(){
 }
 // 刷新
 function refresh() {
-    $('th i,td i').removeClass('fa-check');
+    $('th span,td span').removeClass('txt');
     getRoleList(currentpage,10);
 }
 // 删除
 function deletes(){
     var i = 0;
     var tab = $('.rolelist .roletable table');
-    if(tab.find('td i').hasClass('fa-check')){
+    if(tab.find('td span').hasClass('txt')){
         i = 1;
     }     
     var cont = '';
@@ -452,8 +454,8 @@ function role_delete() {
             i = 0;
     var tr;
     var tab = $('.rolelist .roletable table');
-    tab.find('td i').each(function () {
-        if ($(this).hasClass('fa-check')) {
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             roles[i] = tr.find('td').eq(4).text()*1;
             i = i+1;

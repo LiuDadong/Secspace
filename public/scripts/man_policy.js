@@ -7,7 +7,7 @@
 $(function() {  
     $('.policymenu').addClass('open active');
     $('.policymenu').find('li').eq(0).addClass('active');
-    // 策略管理列表  
+    // 策略列表  
     getPolicylist(1,10);
 });
 // 全局变量
@@ -20,7 +20,8 @@ function getPolicylist(start_page,page_length){
     var st = 1;
     var table = $('.policytable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-            + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+           // + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+            + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th>名称</th>'
             + '<th>版本</th>'
             + '<th>创建时间</th>'
@@ -33,7 +34,8 @@ function getPolicylist(start_page,page_length){
         if (data.rt==0) {
             for(var i in data.policies) {
                     str += '<tr>'
-                        + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                       // + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                        + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                         + '<td><a href="javascript:getDetail('+ i +');">' + data.policies[i].name + '</a></td>'
                         + '<td>' + data.policies[i].version + '</td>'
                         + '<td>' + data.policies[i].create_time + '</td>'
@@ -46,7 +48,8 @@ function getPolicylist(start_page,page_length){
                         + '<td style="display:none;">' + JSON.stringify(data.policies[i].wifi) + '</td>'             
                         + '<td>'                
                         + '<a href="javascript:dispatch_policy('+ i +');">策略下发</a>&nbsp;&nbsp;&nbsp;&nbsp;'
-                        + '<a href="javascript:policy_modify('+ i +');">修改</a>'
+                        + '<a href="javascript:cancel_policy('+ i +');">策略取消</a>&nbsp;&nbsp;&nbsp;&nbsp;'
+                        + '<a href="javascript:policy_modify('+ i +');">修改信息</a>'
                         + '</td></tr>';                
             }
             str +="</table>";
@@ -70,9 +73,9 @@ function search(p,i) {
         console.log(i);
     }
 }
-// 返回列表
+// 返回策略列表
 function policylist(){
-    $('.issuedlist, .pissued, .detail, .policyset').css({'display':'none'});
+    $('.issuedlist, .pissued, .detail, .policyset, .cancellist, .pissued2').css({'display':'none'});
     $('.policylist').css({'display':'block'});
     tabreset();
 }
@@ -173,7 +176,6 @@ function subdetail(){
     var dev_limit = {};
     var security = {};
     var postData = {};
-  //  if(document.getElementById("tab2")){
         security["lock_type"] = $('select[name=lock_type]').val();
         security["passwd_type"] = $('select[name=passwdtype]').val();
         security["pw_min_len"] = $('input[name=pwdlength]').val();
@@ -188,74 +190,71 @@ function subdetail(){
         dev_limit["mockLocation"] = document.getElementById('mockLoc').checked == true ? 1 : 0;
         dev_limit["notifications"] = document.getElementById('notifications').checked == true ? 1 : 0;
 
-        var allow_mobile_network = $('select[name=allow_mobile_network]').val();
-        var allow_wifi = $('select[name=allow_wifi]').val();
-        var only_emergency_phone = document.getElementById('only_emergency_phone').checked == true ? 1 : 0;
+    var allow_mobile_network = $('select[name=allow_mobile_network]').val();
+    var allow_wifi = $('select[name=allow_wifi]').val();
+    var only_emergency_phone = document.getElementById('only_emergency_phone').checked == true ? 1 : 0;
+    var wifi_whitelist = [], w = 0;
+    var ul = $('#domainPolicy #listul');
+    ul.find("li[id^='li']").each(function () {
+        if ($(this).find('input[name=wifilistname]').val()) {
+            var wflist = [], i = 0, wifiobj = {};
+            if($(this).find('.selli').hasClass('radic')){
 
-        var wifi_whitelist = [], w = 0;
+                $(this).find("ul[id^='uli'] li").each(function () {
+                    if($(this).find('input').val()){
+                        wflist[i] = $(this).find('input').val();
+                        i = i + 1;
+                    }
 
-        var ul = $('#domainPolicy #listul');
-        ul.find("li[id^='li']").each(function () {
-            if ($(this).find('input[name=wifilistname]').val()) {
-                var wflist = [], i = 0, wifiobj = {};
-                if($(this).find('.selli').hasClass('radic')){
-
-                    $(this).find("ul[id^='uli'] li").each(function () {
-                        if($(this).find('input').val()){
-                            wflist[i] = $(this).find('input').val();
-                            i = i + 1;
-                        }
-
-                    });
-                }
-               
-                wifiobj.sid = $(this).find('input[name=wifilistname]').val(); 
-                wifiobj.mac = wflist;    
-                wifi_whitelist[w] = wifiobj;   
-                w = w + 1;
-            }     
-        });  
-        var network = {
-                only_emergency_phone: only_emergency_phone,
-                allow_mobile_network: allow_mobile_network,
-                allow_wifi: allow_wifi,
-                wifi_whitelist: wifi_whitelist
-            };
-        var wifi = [], wifiliobj = {}, k = 0;
-        var wifiul = $('#wifiPolicy #wifi');
-        wifiul.find("li[id^='wifili']").each(function () {
-            wifiliobj = {};
-            if ($(this).find('input[name=wifiname]').val() && $(this).find('select[name=wifi_type]').val() && $(this).find('input[name=pwds]').val()) {
-                wifiliobj.ssid = $(this).find('input[name=wifiname]').val();
-                wifiliobj.type = $(this).find('select[name=wifi_type]').val();
-                wifiliobj.password = $(this).find('input[name=pwds]').val();
-                wifi[k] = wifiliobj;   
-                k = k + 1; 
-            }     
-        }); 
-        postData = {
-            id: $('input[name=policy_id]').val(),
-            name: $('input[name=policyname]').val(),
-            version: $('input[name=version]').val(),
-            dev_limit: JSON.stringify(dev_limit),
-            dev_security: JSON.stringify(security),
-            network: JSON.stringify(network),
-            wifi: JSON.stringify(wifi)
-        };
-
-        $.post('/man/policy/updatePolicy', postData, function(data) {
-            if (data.rt==0) {
-                warningOpen('操作成功！','primary','fa-check');
-                getPolicylist(currentpage,10);
-            } else if (data.rt==5) {
-                toLoginPage();
-            } else {
-                warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+                });
             }
-        });
-    //}
+               
+            wifiobj.sid = $(this).find('input[name=wifilistname]').val(); 
+            wifiobj.mac = wflist;    
+            wifi_whitelist[w] = wifiobj;   
+            w = w + 1;
+        }     
+    });  
+    var network = {
+            only_emergency_phone: only_emergency_phone,
+            allow_mobile_network: allow_mobile_network,
+            allow_wifi: allow_wifi,
+            wifi_whitelist: wifi_whitelist
+        };
+    var wifi = [], wifiliobj = {}, k = 0;
+    var wifiul = $('#wifiPolicy #wifi');
+    wifiul.find("li[id^='wifili']").each(function () {
+        wifiliobj = {};
+        if ($(this).find('input[name=wifiname]').val() && $(this).find('select[name=wifi_type]').val() && $(this).find('input[name=pwds]').val()) {
+            wifiliobj.ssid = $(this).find('input[name=wifiname]').val();
+            wifiliobj.type = $(this).find('select[name=wifi_type]').val();
+            wifiliobj.password = $(this).find('input[name=pwds]').val();
+            wifi[k] = wifiliobj;   
+            k = k + 1; 
+        }     
+    }); 
+    postData = {
+        id: $('input[name=policy_id]').val(),
+        name: $('input[name=policyname]').val(),
+        version: $('input[name=version]').val(),
+        dev_limit: JSON.stringify(dev_limit),
+        dev_security: JSON.stringify(security),
+        network: JSON.stringify(network),
+        wifi: JSON.stringify(wifi)
+    };
+
+    $.post('/man/policy/updatePolicy', postData, function(data) {
+        if (data.rt==0) {
+            warningOpen('操作成功！','primary','fa-check');
+            getPolicylist(currentpage,10);
+        } else if (data.rt==5) {
+            toLoginPage();
+        } else {
+            warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+        }
+    });
 }
-// 添加Wi-Fi 白名单 l0 l1 l2
+// 添加Wi-Fi 白名单
 function addli(n){
     var s = document.getElementById('listul');
     var t=s.childNodes.length;
@@ -270,7 +269,7 @@ function addli(n){
             + '<a href="javascript:deleteli('+id+')"><img src="../imgs/pd.png"></img></a>'
             + '<div class="select"><div class="selli" onclick="selectli(this)"></div><label>对应MAC地址</label></div>'
             + '<ul class="list-group" id="uli'+ulindex+'"></ul>';
-    li.innerHTML=txt;      
+    li.innerHTML = txt;      
     s.appendChild(li);
 }
 // 添加二级白名单
@@ -359,47 +358,12 @@ function deletelis(id){
     id.remove();
 }
 function tabreset(){
-     /*var txt = '<li id="li0" class="list-group-item"><input type="text" class="form-control input-sm" name="wifilistname"/>'
-            + '<a href="javascript:addli('+(-1)+')"><img src="../imgs/pa.png"></img></a>'
-            + '<a href="javascript:#"><img src="../imgs/pd.png"></img></a>'
-            + '<div class="select"><div class="selli" onclick="selectli(this)"></div><label>对应MAC地址</label></div>'
-            + '<ul class="list-group" id="uli0"></ul></li>';
-    $("#listul").html(txt);
-   
-    var txt2 = '<li id="wifili0" class="list-group-item"><h5>WI-FI 基础配置信息</h5>'
-            + '<div class="row" style="height:50px;">'
-            + '<label  class="col-xs-3 col-md-3" style="line-height:30px;"> WI-FI 名词:</label>'
-            + '<div class="col-xs-9 col-md-9">'
-            + '<input style="width:200px;" type="text" class="form-control input-sm" name="wifiname"/>'
-            + '</div></div>'
-            + '<div class="row" style="height:50px;">'
-            + '<label  class="col-xs-3 col-md-3" style="line-height:30px;"> WI-FI 类型:</label>'
-            + '<div class="col-xs-9 col-md-9">'
-            + '<select style="width:200px;padding:0;" class="form-control input-sm" name="wifi_type">'
-            + '<option value="">请选择</option>'
-            + '<option value="1">Open</option>'
-            + '<option value="2">WEP</option>'
-            + '<option value="3">WPA/WPA2PSK</option>'
-            + '</select>'
-            + '</div></div>'
-            + '<div class="row wi_fi" style="height:50px;">'
-            + '<label  class="col-xs-3 col-md-3" style="line-height:30px;"> 密钥:</label>'
-            + '<div class="col-xs-9 col-md-9">'
-            + '<input type="text" class="form-control input-sm" name="pwds"/>'
-            + '<a href="javascript:addwifili()"><img src="../imgs/pa.png"></img></a>'
-            + '<a href="javascript:#"><img src="../imgs/pd.png"></img></a>'
-            + '</div></div></li>';
-    $("#wifi").html(txt2);*/
-   // $('#deviceLimit').find("input[type=checkbox]").checked = false;
-  //  $('#domainPolicy').find("input[type=checkbox]").checked = false;
-  //  $(".detail").find("option").attr("selected",false);
     $(".detail").find("input[type='text']").val("");
     $("#domainPolicy li[id^='li']").not("#li0").remove(); 
     $("#uli0 li").remove();
     $("#wifiPolicy li[id^='wifili']").not("#wifili0").remove(); 
-    //&('#domainPolicy').find("select option").checked = false;
 }
-//分配策略
+// 下发策略
 function dispatch_policy(i) {
     $('.policylist').css({'display':'none'});
     $('.issuedlist').css({'display':'block'});
@@ -407,16 +371,28 @@ function dispatch_policy(i) {
     var _tr = $('.policytable tr').eq(i+1),
         policy_id = _tr.find('td').eq(6).text();
     $('.tabbable').find('input[name=policyid]').val(policy_id);
-    getUserList(1,10,''); 
-    getDepartList(1,10);
+    getUserList(1,10,''); // 该策略没有下发的用户列表
+    getDepartList(1,10);// 该策略没有下发的部门列表
+}
+// 取消策略
+function cancel_policy(i) {
+    $('.policylist').css({'display':'none'});
+    $('.cancellist').css({'display':'block'});
+    $('.pissued2').css({'display':'inline-block'});
+    var _tr = $('.policytable tr').eq(i+1),
+        policy_id = _tr.find('td').eq(6).text();
+    $('.tabbable').find('input[name=policy_id]').val(policy_id);
+    getUserList(1,10,''); // 该策略已经下发的用户列表
+    getDepartList(1,10); // 该策略已经下发的部门列表
 }
 // 获取用户列表
 function getUserList(start,length,keyword){
     var strtab1 = '<table class="table table-striped table-bordered table-hover"><tr>'
-                + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+               // + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+                + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
                 + '<th>用户名</th>'
                 + '<th>用户邮箱</th>'
-                + '<th>用户id</th></tr>';
+                + '<th>策略id</th></tr>';
     var st = 2;
     var str = '';
     var userurl = '/man/user/getUserList?start='+ start + '&length='+ length;
@@ -426,12 +402,14 @@ function getUserList(start,length,keyword){
         data = JSON.parse(data);
         if (data.rt==0) {
             for(var i in data.user_list) {
-                str = data.user_list[i].policy_id == policyid ? '<td class="sel" onclick="selected(this)"><i class="fa fa-check"></i></td>' : '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>';
+                // str = data.user_list[i].policy_id == policyid ? '<td class="sel" onclick="selected(this)"><i class="fa fa-check"></i></td>' : '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>';
                 strtab1 += '<tr>'
-                        + str
+                        //+ str
+                        + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                         + '<td>' + data.user_list[i].name + '</td>'
                         + '<td>' + data.user_list[i].email + '</td>'
-                        + '<td name = "userid" value="'+data.user_list[i].id+'">' + data.user_list[i].id + '</td></tr>';               
+                        + '<td style="display:none;" name = "userid" value="'+data.user_list[i].id+'">' + data.user_list[i].id + '</td>'
+                        + '<td>' + data.user_list[i].policy_id + '</td></tr>';               
             }
             strtab1 += '</table>';
             $('.usertable').html(strtab1);
@@ -446,10 +424,11 @@ function getUserList(start,length,keyword){
 function getDepartList(start_page,page_length){
     var st = 3;
     var strtab2 = '<table class="table table-striped table-bordered table-hover"><tr>'
-                + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+                //+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+                + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
                 + '<th>部门名称</th>'
                 + '<th>部门领导</th>'
-                + '<th>创建时间</th></tr>',
+                + '<th>策略id</th></tr>',
         depurl = '/man/dep/getDepartList?start_page=' + start_page + '&page_length=' + page_length; 
     var str = '';
     var policyid = $('input[name=policyid]').val();
@@ -457,12 +436,13 @@ function getDepartList(start_page,page_length){
         data = JSON.parse(data);
         if (data.rt==0) {
             for(var i in data.depart_list) {
-                str = data.depart_list[i].policy_id == policyid ? '<td class="sel" onclick="selected(this)"><i class="fa fa-check"></i></td>' : '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>';
+                //str = data.depart_list[i].policy_id == policyid ? '<td class="sel" onclick="selected(this)"><i class="fa fa-check"></i></td>' : '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>';
                 strtab2 += '<tr>'
-                        + str
+                        //+ str
+                        + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                         + '<td>' + data.depart_list[i].name + '</td>'
                         + '<td>' + data.depart_list[i].leader + '</td>'
-                        + '<td>' + data.depart_list[i].created_time + '</td>'   
+                        + '<td>' + data.depart_list[i].policy_id + '</td>'   
                         + '<td style="display:none;">' + data.depart_list[i].id + '</td></tr>';   
             }
             strtab2 += '</table>'; 
@@ -481,8 +461,8 @@ function subbtn(){
     // 用户分配策略
     if($("#users").hasClass('active')){ 
         var tab1 = $('.usertable');
-            tab1.find('td i').each(function () { 
-                if ($(this).hasClass('fa-check')) {
+            tab1.find('td span').each(function () { 
+                if ($(this).hasClass('txt')) {
                     tr = $(this).parents("tr");
                     userId[i] = tr.find('td').eq(3).text()*1;
                     i = i+1;
@@ -493,8 +473,8 @@ function subbtn(){
     // 部门分配策略 
     if($("#departs").hasClass('active')){
         var tab2 = $('.departtable');        
-            tab2.find('td i').each(function () { 
-                if ($(this).hasClass('fa-check')) {
+            tab2.find('td span').each(function () { 
+                if ($(this).hasClass('txt')) {
                     tr = $(this).parents("tr");
                     departId[j] = tr.find('td').eq(4).text()*1;
                     j = j+1;
@@ -550,9 +530,9 @@ function policy_modify(i){
              + '<input type = "text" class = "form-control" id = "name" name="name" value="'+name+'"/>' 
              + '</div></div>'
              + '<div class = "form-group">' 
-             + '<label class="col-sm-3 control-label" for = "version">策略版本</label>' 
+             + '<label class="col-sm-3 control-label" for = "version1">策略版本</label>' 
              + '<div class="col-sm-7">' 
-             + '<input type = "number" size="16" class = "form-control" id = "version" name="version" value = "'+version+'"/>' 
+             + '<input type = "number" size="16" class = "form-control" id = "version1" name="version1" value = "'+version+'"/>' 
              + '</div></div>'
              + '</form>'
              + '</div>'
@@ -567,12 +547,13 @@ function policy_update(i) {
     var _tr = $('.policytable table tr').eq(i+1);
     var id = _tr.find('td').eq(6).text();
     var name = $('input[name=name]').val();
-    var version = $('input[name=version]').val();
+    var version = $('input[name=version1]').val();
     var postData = {
         id: id,
         name: name,
         version: version
     };
+    console.log("veruewo="+version);
     if (!postData.name) {
         warningOpen('策略名不能为空！','danger','fa-bolt');
     } else if (!postData.version) {
@@ -606,9 +587,9 @@ function add(){
              + '<input type = "text" class = "form-control" id = "name" name="name" placeholder = "请输入策略名称"/>' 
              + '</div></div>'
              + '<div class = "form-group">' 
-             + '<label class="col-sm-3 control-label" for = "number">策略版本</label>' 
+             + '<label class="col-sm-3 control-label" for = "versionnumber">策略版本</label>' 
              + '<div class="col-sm-7">' 
-             + '<input type = "number" size="16" class = "form-control" id = "number" name="number" placeholder = "请输入策略版本"/>' 
+             + '<input type = "number" size="16" class = "form-control" id = "versionnumber" name="versionnumber" placeholder = "请输入策略版本"/>' 
              + '</div></div>'
              + '</form>'
              + '</div>'
@@ -621,8 +602,7 @@ function add(){
 // 添加策略提交
 function addpolicy(){
     var name = $('input[name=name]').val();
-    var version = $('input[name=number]').val();
-    console.log("veruewo="+version);
+    var version = $('input[name=versionnumber]').val();
     var dev_security = {};
         dev_security["lock_type"] = "0";
         dev_security["passwd_type"] = "0";
@@ -679,14 +659,14 @@ function addpolicy(){
 }
 // 刷新
 function refresh() {
-    $('th i,td i').removeClass('fa-check');
+    $('th span,td span').removeClass('txt');
     getPolicylist(currentpage,10);
 }
 // 删除
 function deletes(){
     var i = 0;
     var tab = $('.policytable table');
-    if(tab.find('td i').hasClass('fa-check')){
+    if(tab.find('td span').hasClass('txt')){
         i = 1;
     }     
     var cont = '';
@@ -714,8 +694,8 @@ function policy_delete() {
             i = 0;
     var tr;
     var tab = $('.policytable table');
-    tab.find('td i').each(function () {
-        if ($(this).hasClass('fa-check')) {
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             policyId[i] = tr.find('td').eq(6).text()*1;
             i = i+1;

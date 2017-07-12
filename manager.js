@@ -87,6 +87,20 @@ module.exports = function(app, _http) {
             res.redirect('/');         
         }
     });
+    //围栏管理
+    app.get('/man/rail', function(req, res) {
+        var sid = req.cookies.sid;
+        if(sid) {
+            res.render('man_rail', {
+                sid: sid,
+                admin: req.cookies.admin,
+                title: '围栏管理',
+                logout: '/logout/man'
+            });
+        } else {
+            res.redirect('/');         
+        }
+    });
     // 部门管理
     app.get('/man/depart', function(req, res) {
         var sid = req.cookies.sid;
@@ -505,7 +519,9 @@ module.exports = function(app, _http) {
                 'name': req.body.name,
                 'version': req.body.version,
                 'dev_limit': req.body.dev_limit,
-                'dev_security': req.body.dev_security
+                'dev_security': req.body.dev_security,
+                'network': req.body.network,
+                'wifi': req.body.wifi
             },
             url = '/p/org/uploadPolicy';
         _http.POST1(postData, url, function (cont) {

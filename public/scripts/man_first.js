@@ -5,7 +5,9 @@
  */
 
 $(function() {
+   // $('body\:\:before').css({"content":""},{"background-color":"#f5f5f5"});
     $('.firstmenu').addClass('active');
+    $('body').addClass('first');
     var devNum = $('.t1 .count'),
         userNum = $('.t2 .count'),
         appNum = $('.t3 .count'),
@@ -43,10 +45,11 @@ $(function() {
  **/
 var chart = new Highcharts.Chart('deviceNum', {
     title: {
-        text: null
+        text:' 在线设备统计'
     },
-   /* subtitle: {
-        text: '每天在线设备数量统计',
+    /*
+    subtitle: {
+        text: '一周在线设备数量统计',
         x: -20
     },*/
     credits: {

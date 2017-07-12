@@ -66,4 +66,4 @@ img{vertical-align:middle;border:0;-ms-interpolation-mode:bicubic;-webkit-tap-hi
 .jedatems p{width:10%;float:left;text-align: center;height:30px; line-height:30px;}
 .jedateh p.action,.jedatems p.action{background: #03b3b2;color:#fff;}
 .jedatehmsclose{width:30px; height:30px; line-height:26px; text-align:center;position: absolute;top:50%;right:4px; margin-top:-15px;z-index:150;font-size:24px;}
-
+.jedatems{display: none !important;}

@@ -8,7 +8,7 @@ block content
                 small
                     i(class="fa fa-angle-right")
                     a(href="javascript:appslist()") 版本管理
-        .header-buttons
+        //-.header-buttons
             a(class="sidebar-toggler" href="#")
                 i(class="fa fa-arrows-h")
             a(class="refresh" id="refresh-toggler" href="/man/version")
@@ -59,4 +59,11 @@ block content
                 .modal-content
         .background 
     script(src="/scripts/jquery.min.js")
+    script(src="/assets/js/datatable/jquery.dataTables.min.js")
+    script(src="/assets/js/datatable/ZeroClipboard.js")
+    script(src="/assets/js/datatable/dataTables.tableTools.min.js")
+    script(src="/assets/js/datatable/dataTables.bootstrap.min.js")
+    script(src="/assets/js/datatable/datatables-init.js")
     script(src="/scripts/man_version.js")
+    script(type='text/javascript')
+        //-InitiateExpandableDataTable.init();

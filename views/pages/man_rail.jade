@@ -4,26 +4,28 @@ block content
     .page-header(class="position-relative")
         .header-title(style="width:180px;")
             h1
-                内容
+                策略
                 small
                     i(class="fa fa-angle-right")
-                    a(href="javascript:mesglist()") 消息推送
-                    i(class="fa fa-angle-right pushadd" style="display:none;") 推送
+                    a(href="javascript:raillist()") 围栏管理
+                    i(class="fa fa-angle-right pushrail" style="display:none;") 推送
         //-.header-buttons
             a(class="sidebar-toggler" href="#")
                 i(class="fa fa-arrows-h")
-            a(class="refresh" id="refresh-toggler" href="/man/message")
+            a(class="refresh" id="refresh-toggler" href="/man/rail")
                 i(class="glyphicon glyphicon-refresh")
             a(class="fullscreen" id="fullscreen-toggler" href="#")
                 i(class="glyphicon glyphicon-fullscreen")
     .page-body
         .row
-            .mesglist(class="col-xs-12 col-md-12")
+            .raillist(class="col-xs-12 col-md-12")
                 .widget
                     .widget-btn
-                        a(class="btn btn-primary" href="javascript:add()")
+                        a(class="btn btn-primary" href="javascript:add1()" style="width:auto;")
+                            i(class="fa fa-plus") &nbsp;Wi－Fi围栏
+                        a(class="btn btn-primary" href="javascript:add2()" style="width:auto;")
                             i(class="fa fa-plus")
-                            添加
+                            地理围栏
                         a(class="btn btn-primary" href="javascript:pushmesg()")
                             i(class="fa fa-cloud-upload")
                             推送
@@ -44,25 +46,30 @@ block content
                                 .widget-buttons
                                     a(href="#" data-toggle="collapse") 高级搜索
                             .widget-body(style="box-shadow:none;padding:0;")
-                                .form-group(class="col-lg-4 col-sm-4 col-xs-6" style="padding-left:0px;")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-4" style="padding-left:0px;")
                                     .input-group
                                         span(class="input-group-addon")
                                             i(class="fa fa-user darkorange")
-                                        input(class="form-control" placeholder="消息标题")
-                                .form-group(class="col-lg-4 col-sm-4 col-xs-6 has-error has-feedback")
+                                        input(class="form-control" placeholder="名称")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-4 has-error has-feedback")
                                     .input-group
                                         span(class="input-group-addon bg-blue bordered-blue")
                                             i(class="fa fa-envelope-o")
-                                        input(type="message" class="form-control" id="message" placeholder="创建人")
+                                        input(type="email" class="form-control" id="inputEmail" placeholder="Address")
+                                .form-group(class="col-lg-4 col-sm-4 col-xs-4")
+                                    .input-group
+                                        span(class="input-group-addon bg-blue bordered-blue")
+                                            i(class="fa fa-fax")
+                                        input(class="form-control" placeholder="信息")
                                 .searchinfo(class="col-lg-8 col-sm-8 col-xs-8 col-lg-offset-4 col-sm-offset-4 col-xs-offset-4" style="margin-bottom:20px;margin-top:6px;")
-                                    a(class="btn btn-primary" href="javascript:secrhinfo()") 搜索消息
-                    .mesgtable(class="widget-body" style="box-shadow:none;padding:0;")
+                                    a(class="btn btn-primary" href="javascript:secrhinfo()") 搜索
+                    .railtable(class="widget-body" style="box-shadow:none;padding:0;")
                     .page1
         .row
             .user(class="col-lg-12 col-sm-12 col-xs-12" style="display:none;")
                 .row(style="margin-left:0;")
                     .widget-btn
-                        a(class="btn btn-primary" href="javascript:mesglist()")
+                        a(class="btn btn-primary" href="javascript:raillist()")
                             i(class="fa fa-times")
                             取消
                         a(class="btn btn-primary" href="javascript:save()")
@@ -93,16 +100,15 @@ block content
                                         i(class="glyphicon glyphicon-search primary")
                                 .member(style="height:200px;overflow-y:auto;")
                 //-.row(style="text-align:right;font-size:18px;")
-                    //-a(href="javascript:mesglist()" style="font-size: 16px;margin-right:15px;") 取消
-                    //-a(href="javascript:save()" style="font-size: 16px;margin-right:15px;") 保存
-                    //-button(type="button" class="btn btn-link btn-lg" onclick="mesglist()") 取消
+                    a(href="javascript:raillist()" style="font-size: 16px;margin-right:15px;") 取消
+                    a(href="javascript:save()" style="font-size: 16px;margin-right:15px;") 保存
+                    //-button(type="button" class="btn btn-link btn-lg" onclick="raillist()") 取消
                     //-button(type="button" class="btn btn-link btn-lg btn-primary" onclick="save()") 保存
         .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
-            .modal-dialog(style="width:500px;")
-                .modal-content
-        .bootbox2(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
-            .modal-dialog(style="width:500px;")
+            .modal-dialog(style="width:600px;")
                 .modal-content
         .background 
     script(src="/scripts/jquery.min.js")
-    script(src="/scripts/man_mesg.js")
+    script(src="/scripts/man_rail.js")
+    script(src="http://api.map.baidu.com/api?v=2.0&ak=eqqM74ODvE9SwBK58L940OHR")
+    //-script(src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js")

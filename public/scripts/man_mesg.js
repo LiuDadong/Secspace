@@ -1,10 +1,8 @@
 $(function() {
     $('.mesgmenu').addClass('open active');
     $('.mesgmenu').find('li').eq(0).addClass('active');
-    // 用户列表
+    // 消息列表
     getMessageList(1,10);
-    //$('.list_link').eq(4).css({'display':'block'});   
-   // $('.list_link').eq(4).find('a').eq(0).css({'color':'#55ACE4'});    
 });
 // 消息列表
 function getMessageList(start,length) {
@@ -12,7 +10,8 @@ function getMessageList(start,length) {
     var st = 1;
     var table = $('.mesgtable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-            + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+            //+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+            + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th>消息标题</th>'
             + '<th>创建人</th>'
             + '<th>创建时间</th>'
@@ -24,7 +23,8 @@ function getMessageList(start,length) {
         if (data.rt==0) {           
             for(var i in data.messages) {
                 str += '<tr>'
-                    + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                    //+ '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                    + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                     + '<td>' + data.messages[i].title + '</td>'
                     + '<td>' + data.messages[i].creator + '</td>'
                     + '<td>' + data.messages[i].create_time + '</td>'
@@ -34,11 +34,12 @@ function getMessageList(start,length) {
                     if(data.messages[i].is_sent == 0){
                         str +='<td class="other" width="16%">'                
                             + '<a href="javascript:views('+ i +');">预览</a>&nbsp;&nbsp;&nbsp;'
-                            + '<a href="javascript:modify('+ i +');">修改</a>'
+                            + '<a href="javascript:modify('+ i +');">修改信息</a>'
                             + '</td></tr>';
                     } else {
                         str +='<td class="other" width="16%">'                
                             + '<a href="javascript:views('+ i +');">预览</a>&nbsp;&nbsp;&nbsp;'
+                            + '<a style="color:#999; cursor:not-allowed">修改信息</a>'
                             + '</td></tr>';
                     }
             }
@@ -59,12 +60,11 @@ function search(p,i) {
         console.log(i);
     }
 }
-// 返回用户列表
+// 返回消息列表
 function mesglist(){
     $('.user, .pushadd').css({'display':'none'});
     $('.mesglist').css({'display':'block'});
 }
-
 // 添加消息时预览
 function views(i){
     var tr = $('.mesgtable table tr').eq(i+1);
@@ -119,9 +119,9 @@ function modify(i){
              + '<textarea class="form-control" rows="5" name="content" id="content">'+content+'</textarea>'
              + '</span>'
              + '</div></div>'
-             + '<div class = "form-group">' 
-             + '<a class="col-sm-10" style="text-align:right;" href="javascript:view()">预览</a>'
-             + '</div>'
+            // + '<div class = "form-group">' 
+           //  + '<a class="col-sm-10" style="text-align:right;" href="javascript:view()">预览</a>'
+           //  + '</div>'
              + '</form>'
              + '</div>'
              + '<div class="modal-footer">'
@@ -163,8 +163,8 @@ function pushmesg(){
     var message_id = '';
     var tab = $('.mesgtable table');
 
-    tab.find('td i').each(function () {
-        if ($(this).hasClass('fa-check')) {
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             message_id = tr.find('td').eq(6).text()*1;
             i = i+1;
@@ -221,7 +221,7 @@ function pushmesg(){
         warningOpen('请选择一条消息进行推送！','danger','fa-bolt');
     }
 }
-//删除用户
+//删除推送用户
 function deleteuser(obj){
     var tr = $(obj).parent().parent();
     var rowIndex = tr.index()+1;
@@ -245,7 +245,7 @@ function deleteuser(obj){
     v.style.textAlign = 'center';
     $(obj).parent("td").parent("tr").remove();
 }
-//添加用户
+//添加推送用户
 function adduser(obj){
     var tr = $(obj).parent().parent();
     var rowIndex = tr.index()+1;
@@ -444,14 +444,14 @@ function href_add(){
 
 // 刷新
 function refresh() {
-    $('th i,td i').removeClass('fa-check');
+    $('th span,td span').removeClass('txt');
     getMessageList(currentpage,10);
 }
 // 删除
 function deletes(){
     var i = 0;
     var tab = $('.mesgtable table');
-    if(tab.find('td i').hasClass('fa-check')){
+    if(tab.find('td span').hasClass('txt')){
         i = 1;
     }     
     var cont = '';
@@ -478,8 +478,8 @@ function mesg_delete() {
         i = 0;
     var tr;
     var tab = $('.mesgtable table');
-    tab.find('td i').each(function () {
-        if ($(this).hasClass('fa-check')) {
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             message_ids[i] = tr.find('td').eq(6).text()*1;
             i = i+1;

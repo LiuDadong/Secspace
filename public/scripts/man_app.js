@@ -18,7 +18,8 @@ function getAppList(start,length,keyword){
     var platform = '';
     var table = $('.appstable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-            + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+            //+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+            + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th>图标</th>'
             + '<th>app名称</th>'
             + '<th>版本</th>'
@@ -39,7 +40,8 @@ function getAppList(start,length,keyword){
                 platform = data.doc[i].platform==0 ? 'Ios' : 'Android';     
 
                 str += '<tr>'
-                    + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                    //+ '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                    + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                     + '<td style="padding:2px;"><img width="31px" height="31px" src="'+picurl+ data.doc[i].icon + '"/></td>'
                     + '<td>' + data.doc[i].app_name + '</td>'
                     + '<td>' + data.doc[i].version + '</td>'
@@ -58,7 +60,8 @@ function getAppList(start,length,keyword){
                     + '<td style="display:none;">' + data.doc[i].check_security + '</td>'      
                     + '<td>'  
                     + '<a href="javascript:app_auth('+ i +');">授权</a>&nbsp;&nbsp;'  
-                    + '<a href="javascript:app_modify('+ i +');">修改</a>'        
+                    + '<a href="javascript:app_cancel('+ i +');">取消授权</a>&nbsp;&nbsp;'  
+                    + '<a href="javascript:app_modify('+ i +');">修改信息</a>'        
                     + '</td></tr>';
             }
             str +='</table>';
@@ -82,10 +85,21 @@ function search(p,i) {
         console.log(i);
     }
 }
-// 返回列表
+// 返回app列表
 function appslist(){
-    $('.issuedlist, .appissued').css({'display':'none'});
+    $('.issuedlist, .appissued, .cancellist, .appissued1').css({'display':'none'});
     $('.appslist').css({'display':'block'});
+}
+// app取消授权
+function app_cancel(i) {
+    $('.appslist').css({'display':'none'});
+    $('.cancellist').css({'display':'block'});
+    $('.appissued1').css({'display':'inline-block'});
+    var _tr = $('.appstable tr').eq(i+1),
+        package_name = _tr.find('td').eq(10).text();
+    $('.tabbable').find('input[name=packagename]').val(package_name);
+    getUserList(1,10,''); // app已经授权的用户列表
+    getDepartList(1,10);// app已经授权的部门列表
 }
 // app授权
 function app_auth(i) {
@@ -95,13 +109,14 @@ function app_auth(i) {
     var _tr = $('.appstable tr').eq(i+1),
         package_name = _tr.find('td').eq(10).text();
     $('.tabbable').find('input[name=package_name]').val(package_name);
-    getUserList(1,10,''); 
-    getDepartList(1,10);
+    getUserList(1,10,''); // app未授权
+    getDepartList(1,10);// app未授权
 }
 // 获取用户列表
 function getUserList(start,length,keyword){
     var strtab1 = '<table class="table table-striped table-bordered table-hover"><tr>'
-                + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+              //  + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+                + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
                 + '<th>用户名</th>'
                 + '<th>用户邮箱</th>'
                 + '<th>用户id</th></tr>';
@@ -114,9 +129,10 @@ function getUserList(start,length,keyword){
         data = JSON.parse(data);
         if (data.rt==0) {
             for(var i in data.user_list) {
-                str = data.user_list[i].policy_id == policyid ? '<td class="sel" onclick="selected(this)"><i class="fa fa-check"></i></td>' : '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>';
+               // str = data.user_list[i].policy_id == policyid ? '<td class="sel" onclick="selected(this)"><i class="fa fa-check"></i></td>' : '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>';
                 strtab1 += '<tr>'
-                        + str
+                       // + str
+                        + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                         + '<td>' + data.user_list[i].name + '</td>'
                         + '<td>' + data.user_list[i].email + '</td>'
                         + '<td name = "userid" value="'+data.user_list[i].id+'">' + data.user_list[i].id + '</td></tr>';               
@@ -134,7 +150,8 @@ function getUserList(start,length,keyword){
 function getDepartList(start_page,page_length){
     var st = 3;
     var strtab2 = '<table class="table table-striped table-bordered table-hover"><tr>'
-                + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+                //-+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+                + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
                 + '<th>部门名称</th>'
                 + '<th>部门领导</th>'
                 + '<th>创建时间</th></tr>',
@@ -145,9 +162,10 @@ function getDepartList(start_page,page_length){
         data = JSON.parse(data);
         if (data.rt==0) {
             for(var i in data.depart_list) {
-                str = data.depart_list[i].policy_id == policyid ? '<td class="sel" onclick="selected(this)"><i class="fa fa-check"></i></td>' : '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>';
+                //str = data.depart_list[i].policy_id == policyid ? '<td class="sel" onclick="selected(this)"><i class="fa fa-check"></i></td>' : '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>';
                 strtab2 += '<tr>'
-                        + str
+                        //+ str
+                        + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                         + '<td>' + data.depart_list[i].name + '</td>'
                         + '<td>' + data.depart_list[i].leader + '</td>'
                         + '<td>' + data.depart_list[i].created_time + '</td>'   
@@ -176,11 +194,11 @@ function subbtn(state){
     var user_list = [], package_name = [], depart_list = [], i = 0, j = 0, tr;
     package_name[0] = $('input[name=package_name]').val();
 
-     // 用户分配策略
+     // 用户app授权
     if($("#users").hasClass('active')){ 
         var tab1 = $('.usertable');
-            tab1.find('td i').each(function () { 
-                if ($(this).hasClass('fa-check')) {
+            tab1.find('td span').each(function () { 
+                if ($(this).hasClass('txt')) {
                     tr = $(this).parents("tr");
                     user_list[i] = tr.find('td').eq(2).text();
                     i = i+1;
@@ -188,11 +206,11 @@ function subbtn(state){
             });
     }
 
-    // 部门分配策略 
+    // 部门app授权 
     if($("#departs").hasClass('active')){
         var tab2 = $('.departtable');        
-            tab2.find('td i').each(function () { 
-                if ($(this).hasClass('fa-check')) {
+            tab2.find('td span').each(function () { 
+                if ($(this).hasClass('txt')) {
                     tr = $(this).parents("tr");
                     depart_list[j] = tr.find('td').eq(4).text()*1;
                     j = j+1;
@@ -345,15 +363,14 @@ function app_modify(i) {
         $('select[id="vt_tp"]').change(function(){
             $('input[name="visit_type"]').val($('select[id="vt_tp"]').val());
         });
-       
     });
 }
-
+//  修改提交
 function app_update(i){
     var _tr = $('.appstable table tr').eq(i+1);
     var package_name = _tr.find('td').eq(10).text();
     var app_name = $('input[name=app_name]').val();
-    var platform = $('input[name=platform]').val();
+    var platform = $('select[name=platform]').val();
     var from = $('input[name=from]').val();
     var check_security = $('input[name=check_security]:checked').val();
     var app_type = $('input[name=app_type]:checked').val();
@@ -512,14 +529,14 @@ function add(){
 }
 // 刷新
 function refresh() {
-    $('th i,td i').removeClass('fa-check');
+    $('th span,td span').removeClass('txt');
     getAppList(currentpage,10);
 }
 // 删除
 function deletes(){
     var i = 0;
     var tab = $('.appstable table');
-    if(tab.find('td i').hasClass('fa-check')){
+    if(tab.find('td span').hasClass('txt')){
         i = 1;
     }     
     var cont = '';
@@ -547,8 +564,8 @@ function app_delete() {
             i = 0;
     var tr;
     var tab = $('.appstable table');
-    tab.find('td i').each(function () {
-        if ($(this).hasClass('fa-check')) {
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             downloads[i] = tr.find('td').eq(11).text();
             i = i+1;
@@ -571,6 +588,6 @@ function app_delete() {
             }
         }); 
     } else {
-        warningOpen('请选择应用！','danger','fa-bolt');
+        warningOpen('请选择要删除的应用！','danger','fa-bolt');
     }        
 }

@@ -9,7 +9,7 @@ block content
                     i(class="fa fa-angle-right")
                     a(href="javascript:rolelist()") 角色管理
                     i(class="fa fa-angle-right roleadd" style="display:none;") 角色分配
-        .header-buttons
+        //-.header-buttons
             a(class="sidebar-toggler" href="#")
                 i(class="fa fa-arrows-h")
             a(class="refresh" id="refresh-toggler" href="/man/role")
@@ -57,6 +57,14 @@ block content
                     .page1
         .row
             .role(class="col-lg-12 col-sm-12 col-xs-12" style="display:none;")
+                .row(style="margin-left:0;")
+                    .widget-btn
+                        a(class="btn btn-primary" href="javascript:rolelist()")
+                            i(class="fa fa-times")
+                            取消
+                        a(class="btn btn-primary" href="javascript:rolesave()")
+                            i(class="fa fa-plus")
+                            保存
                 h5(class="row-title befor-magenta") 选定用户角色
                 .row
                     div(class="col-lg-5 col-sm-5 col-xs-5")
@@ -103,9 +111,11 @@ block content
                                         input(type="text" class="form-control input-sm" id="roleapps" name="roleapps" oninput="sroleapps()")
                                         i(class="glyphicon glyphicon-search primary")
                                 .apps(style="height:200px;overflow-y:auto;")
-                .row(style="text-align:right;font-size:18px;")
-                    button(type="button" class="btn btn-link btn-lg" onclick="rolelist()") 取消
-                    button(type="button" class="btn btn-link btn-lg btn-primary" onclick="rolesave()") 保存
+                //-.row(style="text-align:right;")
+                    a(href="javascript:rolelist()" style="font-size: 16px;margin-right:15px;") 取消
+                    a(href="javascript:rolesave()" style="font-size: 16px;margin-right:15px;") 保存
+                    //-button(type="button" class="btn btn-link btn-lg" onclick="rolelist()") 取消
+                    //-button(type="button" class="btn btn-link btn-lg btn-primary" onclick="rolesave()") 保存
         .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
             .modal-dialog(style="width:500px;")
                 .modal-content

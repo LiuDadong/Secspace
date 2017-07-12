@@ -1,7 +1,9 @@
 var picurl = "http://tpos.yingzixia.com/";
-var hosturl = "http://tpos.yingzixia.com/";
+//var picurl = "https://dev-server.yingzixia.com/"; // 开发环境图片地址
+var hosturl = "http://tpos.yingzixia.com/"; // 正式环境
 //var sendurl = 'http://115.28.135.202/pub';
-var sendurl = 'http://118.190.70.55/pub';
+var sendurl = 'http://118.190.70.55/pub'; // 正式环境
+//  var sendurl = 'https://ws.yingzixia.com/pub'; // 开发环境推送地址
 regBox = {
     regEmail : /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
     regName : /^[a-z0-9_-]{3,16}$/,//用户名
@@ -14,7 +16,6 @@ $(function() {
     if(avatar){
         $('.navbar .account-area a .avatar').html('<img src="' + picurl + avatar + '" alt=""></img>');
         $('.navbar .account-area ul .avatar-area').html('<img class="avatar" src="' + picurl + avatar + '" alt=""></img>');//<span class="caption">修改头像</span>
-        console.log("-0r-34039900000000=");
     }
    // $('.navbar-inner .navbar-brand small').html('<img src="' + picurl + icon + '" style="width:170px;height:22px;margin-top:10px;"></img>');
   // $('.navbar-inner .navbar-brand small').html('<img src="../imgs/logo.png" style="width:170px;height:22px;margin-top:10px;"></img>');
@@ -22,10 +23,23 @@ $(function() {
 
 function selectedBt(str) {
     location.href = str;
-    
 }
 // 选择按钮
 function selected(e) {
+    if ($(e).attr("checked")) {
+        $('th input[type=checkbox]').attr("checked",false);
+        $('th .checkbox span').removeClass('txt');
+        $(e).parent().find('span').removeClass('txt');
+        $(e).attr("checked",false);
+    } else {
+       // $('th input[type=checkbox]').attr("checked",true);
+        //$('th .checkbox .text').addClass('txt');
+        $(e).parent().find('span').addClass('txt');
+        $(e).attr("checked",true);
+    }
+}
+// 选择按钮
+function selected1(e) {
     if ($(e).find('i').hasClass('fa-check')) {
         $('th i').removeClass('fa-check');
         $(e).find('i').removeClass('fa-check');
@@ -35,6 +49,25 @@ function selected(e) {
 }
 // 全选按钮
 function selectedAll(e) {
+    var table = $(e).parents('table');
+    var all = $(table).find('.checkbox input[type=checkbox]'),
+        tag = 0;
+    for (var i=1; i<all.length; i++) {
+        if ($(all[i]).attr("checked")) {
+            tag = tag + 1;
+            break;
+        }
+    }
+    if (tag == 0) {
+        $(table).find('.checkbox input[type=checkbox]').attr("checked",true);
+        $(table).find('.checkbox span').addClass("txt");
+    } else {
+        $(table).find('.checkbox input[type=checkbox]').attr("checked",false);
+        $(table).find('.checkbox span').removeClass("txt");
+    }
+}    
+// 全选按钮
+function selectedAll1(e) {
     var table = $(e).parents('table');
     var all = $(table).find('.sel i'),
         tag = 0;
@@ -49,7 +82,7 @@ function selectedAll(e) {
     } else {
         $(table).find('.sel i').removeClass('fa-check');
     }
-}    
+}   
 // 创建footer
 function createFooter(page,length,total,status){
     var j = 0;
@@ -218,7 +251,7 @@ function alertOff1() {
 function warningOpen(str,status,fa){
  //   Notify('操作以成功！', 'top-right', '5000', 'success', 'fa-check', true);
  //   Notify('Something Went Wrong!', 'top-right', '5000', 'danger', 'fa-bolt', true);
-    Notify(str, 'top-right', '5000', status, fa, true);
+    Notify(str, 'top-right', '3000', status, fa, true);
     return false;
 }
 // 获取cookie里的值

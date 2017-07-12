@@ -1,6 +1,10 @@
 body::before,.page-body{
 	background-color: #fff;
 }
+.first::before{
+	background-color: #f5f5f5;
+}
+.toast-top-right{top:50px;}
 a, a:hover {
     text-decoration: none;
 }
@@ -19,11 +23,13 @@ a, a:hover {
 	width: 100%;
 }
 .sel{
-	width: 35px;
-	text-align: center;
+	/*width: 35px;
+color: #2a6496;
+	*/
+	width: 70px !important;
+	text-align: left;
 	padding: 0;
 	line-height: 35px;
-	color: #2a6496;
 	cursor: pointer;
 }
 .DTTTFooter{
@@ -48,6 +54,15 @@ td,.devinfo li{
 	-ms-text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;/* Opera */
 	-moz-binding: url("ellipsis.xml#ellipsis");/*FireFox*/
+}
+.checkbox input[type="checkbox"] + .txt::before{
+    display: inline-block;
+    content: '';
+    background-color: #f5f8fc;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05),inset 0 -15px 10px -12px rgba(0,0,0,.05),inset 15px 10px -12px rgba(255,255,255,.1);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05),inset 0 -15px 10px -12px rgba(0,0,0,.05),inset 15px 10px -12px rgba(255,255,255,.1);
+    box-shadow: 0 1px 2px rgba(0,0,0,.05),inset 0 -15px 10px -12px rgba(0,0,0,.05),inset 15px 10px -12px rgba(255,255,255,.1);
+    border-color: #333;
 }
 /* first page */
 .firsttop{
@@ -74,12 +89,29 @@ td,.devinfo li{
 .widget-header .widget-caption{
 	line-height: 40px;
 }
-.circle {width: 200px;height: 200px;position: relative;border-radius: 50%;background: #81c784;color: #81c784;margin: 30px auto 40px auto;}
+.circle {width: 200px;height: 200px;position: relative;border-radius: 50%;background: #81c784;color: #81c784;margin: 50px auto 70px auto;}
 .pie_left, .pie_right {width: 200px;height: 200px;position: absolute;top: 0;left: 0;}
 .left, .right {display: block;width:200px; height:200px;background:#F5F5F5;border-radius: 50%;position: absolute;top: 0;left: 0;}
 .pie_right , .right{clip:rect(0,auto,auto,100px);}
 .pie_left, .left {clip:rect(0,100px,auto,0);}
 .mask {width: 170px;height: 170px;border-radius: 50%;left: 15px;top: 15px;background: #FFF;position: absolute;text-align: center;line-height: 170px;font-size: 30px;}
+.first #deviceNum{height:320px;}
+@media screen and (min-height: 768px){
+	.circle{
+		margin: 100px auto 100px auto;
+	}
+	.first #deviceNum{
+		height:400px;
+	}
+}
+@media screen and (min-height: 1080px){
+	.circle{
+		margin: 150px auto 130px auto;
+	}
+	.first #deviceNum{
+		height:480px;
+	}
+}
 #depart{
 	background:  #9575cd;
 	color:  #9575cd;
@@ -112,6 +144,12 @@ td,.devinfo li{
     outline: thin dotted \9;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(253, 123, 112, 0.6); 
 }
+/* depart */
+.memberlist li{
+	height: 26px;
+	padding: 10px 15px;
+}
+
 /* man_device*/
 .device li{
 	padding-left: 0;
@@ -252,4 +290,40 @@ td,.devinfo li{
 	margin-left: 5px;
 	border-radius: 3px;
 	margin-top:5px;
+}
+/* rail */
+.tangram-suggestion-main{
+	z-index: 1050;
+}
+/* table checkbox */
+[class$="able"] .checkbox{
+	margin: 0;
+	padding: 0;
+}
+[class$="able"] .checkbox label{
+	padding-left: 0;
+}
+/* table checkbox */
+.usertable .checkbox,
+.departtable .checkbox,
+.roletable .checkbox,
+.devicetable .checkbox,
+.policytable .checkbox,
+.railtable .checkbox,
+.appstable .checkbox,
+.mesgtable .checkbox,
+.versiontable .checkbox{
+	margin: 0;
+	padding: 0;
+}
+.usertable .checkbox label, 
+.departtable .checkbox label, 
+.roletable .checkbox label,
+.devicetable .checkbox label,
+.policytable .checkbox label,
+.railtable .checkbox label,
+.appstable .checkbox label,
+.mesgtable .checkbox label,
+.versiontable .checkbox label{
+	padding-left: 0;
 }

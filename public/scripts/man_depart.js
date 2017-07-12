@@ -12,15 +12,15 @@ $(function() {
 });
 // 查询部门列表
 function getDepartList(start_page,page_length){  
-    var table = $('.departlist .departtable'), str = '', st = 1;   
+    var table = $('.departtable'), str = '', st = 1;   
     var url = '/man/dep/getDepartList?start_page='+start_page
             + '&page_length='+ page_length;    
-           
     $.get(url, function(data) {
         data = JSON.parse(data);
         if (data.rt == 0) {
             str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-                + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+                + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
+                //+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
                 + '<th>部门名称</th>'
                 + '<th>部门领导</th>'
                 + '<th>领导联系方式</th>'
@@ -28,7 +28,8 @@ function getDepartList(start_page,page_length){
                 + '<th>其它</th></tr>';
             for(var i in data.depart_list) {
                 str += '<tr>'
-                    + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                    + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
+                   // + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
                     + '<td width="20%">' + data.depart_list[i].name + '</td>'
                     + '<td width="20%">' + data.depart_list[i].leader + '</td>'
                     + '<td width="20%">' + data.depart_list[i].leader_mail + '</td>'    
@@ -38,8 +39,8 @@ function getDepartList(start_page,page_length){
                     + '<td style="display:none;">' + data.depart_list[i].leader_id + '</td>'    
                     + '<td style="display:none;">' + data.depart_list[i].current_num + '</td>'         
                     + '<td>'            
-                    + '<a href="javascript:depart_policy('+ i +');">策略</a>&nbsp;&nbsp;&nbsp;&nbsp;' 
-                    + '<a href="javascript:depart_modify('+ i +');">修改</a>'
+                    //+ '<a href="javascript:depart_policy('+ i +');">策略</a>&nbsp;&nbsp;&nbsp;&nbsp;' 
+                    + '<a href="javascript:depart_modify('+ i +');">修改信息</a>'
                     + '</td></tr>';
             }
             str +='</table>';
@@ -65,7 +66,7 @@ function search(p,i) {
         console.log(i);
     }
 }
-// 返回用户列表
+// 返回部门列表
 function departlist(){
     $('.policylist, .userlist, .addh, .policyh').css({'display':'none'});
     $('.departlist').css({'display':'block'});
@@ -75,7 +76,7 @@ function departlist(){
 
 // 修改部门信息
 function depart_modify(i) { 
-    var _tr = $('.departlist .departtable table tr').eq(i+1),
+    var _tr = $('.departtable table tr').eq(i+1),
         departname = _tr.find('td').eq(1).text(),
         depart_id = _tr.find('td').eq(5).text(),
         leader_id = _tr.find('td').eq(7).text(),
@@ -96,7 +97,7 @@ function depart_modify(i) {
              + '<input type="text" id="leader" style="cursor:pointer;" class="form-control" value="' + departleader + '" readonly="readonly"/>'
              + '<input type="text" name="leader_id" value="'+leader_id+'" style="display:none;"/>'
              + '<div class="overflowlist" style="display:none;overflow-x:hidden;height:100px;border:1px solid #ddd;">'
-             + '<ul name="memberlist" class="list-group"></ul></div>'
+             + '<ul name="memberlist" class="list-group memberlist"></ul></div>'
              + '</div></div>'
              + '<div class = "form-group">' 
              + '<label class="col-sm-3 control-label" for = "leaderemail">联系方式</label>' 
@@ -109,10 +110,10 @@ function depart_modify(i) {
              + '<div class="col-sm-7">' 
              + '<input type="text" class="form-control" id = "departname" name="departname" value="'+departname+'"/>'
              + '</div></div>'
-             + '<div class = "form-group">' 
-             + '<div class="col-sm-7 col-sm-offset-3" style="text-align:right;">' 
-             + '<a href="javascript:depart_useradd()">为部门添加/删除人员</a>'
-             + '</div></div>'
+             //+ '<div class = "form-group">' 
+            // + '<div class="col-sm-7 col-sm-offset-3" style="text-align:right;">' 
+             //+ '<a href="javascript:depart_useradd()">为部门添加/删除人员</a>'
+            // + '</div></div>'
             
              + '</form>'
              + '</div>'
@@ -158,8 +159,6 @@ function depart_modify(i) {
             }
         });
     });
-
-   // $('.rt .mesg').find('input[name=mesginfo]').val(depart_id);
 }
 
 // 提交修改的部门信息
@@ -185,12 +184,31 @@ function depart_mod(id) {
         });
     }
 }
-
-
-// 用户策略管理
+function addusers(){
+    var i = 0;
+    var tr;
+    var tab = $('.departlist .departtable table');
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
+            tr = $(this).parents("tr");
+            departid = tr.find('td').eq(5).text()*1;
+            i = i+1;
+        }     
+    });  
+    if(i == 1){
+        getListUser(1,10);   
+        $('.addh').css({'display':'inline-block'});
+        $('.departlist').css({'display':'none'});
+        $('.userlist').css({'display':'block'});
+        getdepmember(1,10);
+    } else {
+        warningOpen('请选择一个部门！','danger','fa-bolt');
+    }        
+}
+// 部门策略管理
 function depart_policy(k){
     var tr = $('.departtable table tr').eq(k+1);
-    var policy_id = tr.find('td').eq(6).text(); // 用户的策略ID 
+    var policy_id = tr.find('td').eq(6).text(); // 部门的策略ID 
     var depart_id = tr.find('td').eq(5).text(); 
     $('.departlist').css({'display':'none'});
     $('.policylist').css({'display':'block'});
@@ -235,7 +253,7 @@ function getPolicyList(start_page,page_length){
         }
     });
 }
-// 用户添加取消策略方法
+// 部门添加取消策略方法
 function switchpolicyNo(radioObj){    
     var cont = ''; 
     var boundState;
@@ -372,7 +390,8 @@ function depart_useradd(){
 function getListUser(start,length){
     var st = 3;
     var str = '<table class="table table-striped table-bordered table-hover"><tr>'
-            + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+           // + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+            + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th>Email</th>'
             + '<th>用户名</th>'
             + '<th>用户id</th></tr>';
@@ -384,7 +403,8 @@ function getListUser(start,length){
         if (data.rt==0) {
             for(var i in data.free_users) {
                 str += '<tr>'
-                    + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                   // + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                    + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                     + '<td>' + data.free_users[i].email + '</td>'
                     + '<td>' + data.free_users[i].name + '</td>'
                     + '<td>' + data.free_users[i].id + '</td></tr>';           
@@ -403,7 +423,8 @@ function getListUser(start,length){
 function getdepmember(start_page, page_length){
     var st = 4;
     var str = '<table class="table table-striped table-bordered table-hover"><tr>'
-            + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+            + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
+           // + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
             + '<th>Email</th>'
             + '<th>用户名</th>'
             + '<th>用户id</th></tr>';
@@ -415,7 +436,8 @@ function getdepmember(start_page, page_length){
         if (data.rt==0) {
             for(var i in data.depart_users) {
                 str += '<tr>'
-                    + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                    + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
+                   // + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
                     + '<td>' + data.depart_users[i].email + '</td>'
                     + '<td>' + data.depart_users[i].name + '</td>'
                     + '<td>' + data.depart_users[i].id + '</td></tr>';           
@@ -432,8 +454,8 @@ function getdepmember(start_page, page_length){
 function deluser() {    
     var userids = [], i = 0, tr; 
     var users = $('.membertable table');   
-    users.find('td i').each(function () { 
-        if ($(this).hasClass('fa-check')) {
+    users.find('td span').each(function () { 
+        if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             userids[i] = tr.find('td').eq(3).text()*1;
             i = i+1;
@@ -466,8 +488,8 @@ function getuserlists(){
     var arr = [], uid, uname, i = 0, tr, arrs = {}; 
     var users = $('.freetable table');
 
-    users.find('td i').each(function () { 
-        if ($(this).hasClass('fa-check')) {
+    users.find('td span').each(function () { 
+        if ($(this).hasClass('txt')) {
             tr = $(this).parents('tr');
             arrs = {uid: tr.find('td').eq(3).text()*1, uname: tr.find('td').eq(2).text()};
             arr.push(arrs);
@@ -480,8 +502,8 @@ function getUsers(){
     var arr = [], i = 0, tr; 
     var users = $('.freetable table');   
 
-    users.find('td i').each(function () { 
-        if ($(this).hasClass('fa-check')) {
+    users.find('td span').each(function () { 
+        if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             arr[i] = tr.find('td').eq(3).text()*1;
             i = i+1;
@@ -509,7 +531,7 @@ function adduser() {
                      + '<input type="text" id="leader" style="cursor:pointer;" class="form-control" value="请选择...." readonly="readonly"/>'
                      + '<input type="text" name="leader_id" style="display:none;"/>'
                      + '<div class="overflowlist" style="display:none;overflow-x:hidden;height:100px;border:1px solid #ddd;">'
-                     + '<ul name="memberlist" class="list-group"></ul></div>'
+                     + '<ul name="memberlist" class="list-group memberlist"></ul></div>'
                      + '</div></div>'   
 
                      + '</form>'
@@ -601,14 +623,14 @@ function depart_add(){
 }
 
 function refresh() {
-    $('th i,td i').removeClass('fa-check');
+    $('th span,td span').removeClass('txt');
     getDepartList(currentpage,10);
 }
 // 删除
 function deletes(){
     var i = 0;
     var tab = $('.departlist .departtable table');
-    if(tab.find('td i').hasClass('fa-check')){
+    if(tab.find('td span').hasClass('txt')){
         i = 1;
     }     
     var cont = '';
@@ -636,8 +658,8 @@ function depart_delete() {
             i = 0;
     var tr;
     var tab = $('.departlist .departtable table');
-    tab.find('td i').each(function () {
-        if ($(this).hasClass('fa-check')) {
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             depId[i] = tr.find('td').eq(5).text()*1;
             i = i+1;

@@ -14,20 +14,18 @@ block content
                 设置
                 small
                     i(class="fa fa-angle-right")
-                    a(href="javascript:userlist()") 基本信息设置
-                    i(class="fa fa-angle-right policyh" style="display:none;") 策略
-                    i(class="fa fa-angle-right apph" style="display:none;") 应用
-        .header-buttons
+                    a 基本信息设置
+        //-.header-buttons
             a(class="sidebar-toggler" href="#")
                 i(class="fa fa-arrows-h")
-            a(class="refresh" id="refresh-toggler" href="/man/user")
+            a(class="refresh" id="refresh-toggler" href="/man/setting")
                 i(class="glyphicon glyphicon-refresh")
             a(class="fullscreen" id="fullscreen-toggler" href="#")
                 i(class="glyphicon glyphicon-fullscreen")
     .page-body
         .row
             .setting(class="col-xs-12 col-md-12")
-                .widget(class="collapsed")
+                .widget
                     .widget-header
                         i(class="widget-icon fa fa-gear")
                         .widget-buttons(style="position:absolute;left:25px;")
@@ -135,13 +133,37 @@ block content
                                 .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
                                     a(class="btn btn-primary" href="javascript:set_updatePW()") 保存
             .setting(class="col-xs-12 col-md-12")
-                .widget
+                .widget(class="collapsed")
+                    .widget-header
+                        i(class="widget-icon fa fa-gear")
+                        .widget-buttons(style="position:absolute;left:25px;")
+                            a(href="#" data-toggle="collapse")
+                                认证方式设置
+                    .widget-body
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "identify_type") 认证方式
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    div(class="checkbox" style="margin-top:0px;")
+                                        label(style="padding-left:0;")
+                                            input(type="checkbox" checked="checked" name="identify_type")
+                                            span(class="text")
+                                                用户名口令认证 
+                                    div(class="checkbox")
+                                        label(style="padding-left:0;")
+                                            input(type="checkbox" name="identify_type")
+                                            span(class="text")
+                                                用户名口令＋指纹认证 
+                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                    a(class="btn btn-primary" href="javascript:identify_type()" style="margin-top:38px;") 保存
+            .setting(class="col-xs-12 col-md-12")
+                .widget(class="collapsed")
                     .widget-header
                         i(class="widget-icon fa fa-gear")
                         .widget-buttons(style="position:absolute;left:25px;")
                             a(href="#" data-toggle="collapse")
                                 产品信息
-                    .widget-body(style="display:block;")
+                    .widget-body
                         iframe(name="ifme" width="0" height="0" style="display:none;")
                         form(form id="addimg" method="post" action="/p/org/orgUpdateSettings" enctype="multipart/form-data" target="ifme")
                             .row(class="col-xs-12 col-md-12")
@@ -172,29 +194,5 @@ block content
                                         input(type="text" name="company_domain" class = "form-control" id = "company_domain") 
                                     .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
                                         button(class="btn btn-primary" type="submit" style="width:78px;") 保存
-            .setting(class="col-xs-12 col-md-12")
-                .widget
-                    .widget-header
-                        i(class="widget-icon fa fa-gear")
-                        .widget-buttons(style="position:absolute;left:25px;")
-                            a(href="#" data-toggle="collapse")
-                                认证方式设置
-                    .widget-body(style="display:block;")
-                        .row(class="col-xs-12 col-md-12")
-                            .form-group
-                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "identify_type") 认证方式
-                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
-                                    div(class="checkbox" style="margin-top:0px;")
-                                        label(style="padding-left:0;")
-                                            input(type="checkbox" checked="checked" name="identify_type")
-                                            span(class="text")
-                                                用户名口令认证 
-                                    div(class="checkbox")
-                                        label(style="padding-left:0;")
-                                            input(type="checkbox" name="identify_type")
-                                            span(class="text")
-                                                用户名口令＋指纹认证 
-                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
-                                    a(class="btn btn-primary" href="javascript:identify_type()" style="margin-top:38px;") 保存
     script(src="/scripts/jquery.min.js")
     script(src="/scripts/man_setting.js")

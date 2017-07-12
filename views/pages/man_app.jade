@@ -8,8 +8,9 @@ block content
                 small
                     i(class="fa fa-angle-right")
                     a(href="javascript:appslist()") 应用管理
-                    i(class="fa fa-angle-right appissued" style="display:none;") 应用下发
-        .header-buttons
+                    i(class="fa fa-angle-right appissued" style="display:none;") 应用授权
+                    i(class="fa fa-angle-right appissued1" style="display:none;") 取消授权
+        //-.header-buttons
             a(class="sidebar-toggler" href="#")
                 i(class="fa fa-arrows-h")
             a(class="refresh" id="refresh-toggler" href="/man/app")
@@ -62,9 +63,6 @@ block content
                         a(class="btn btn-primary issuedpl" href="javascript:authbtn()")
                             i(class="fa fa-check")
                             授权
-                        a(class="btn btn-primary issuedpl" href="javascript:unauthbtn()")
-                            i(class="fa fa-times")
-                            取消
             .tab(class="col-lg-12 col-sm-12 col-xs-12")
                 .widget-main
                     .tabbable
@@ -79,6 +77,29 @@ block content
                                 .usertable(style="box-shadow:none;padding:0;")
                                 .page2 
                             div(id="departs" class="tab-pane")
+                                .departtable(style="box-shadow:none;padding:0;")
+                                .page3
+        .row(class="cancellist" style="display:none;")
+            .widget
+                div(class="col-xs-12 col-md-12")
+                    .widget-btn
+                        a(class="btn btn-primary issuedpl" href="javascript:unauthbtn()" style="width:auto;")
+                            i(class="fa fa-times")
+                            取消授权
+            .tab(class="col-lg-12 col-sm-12 col-xs-12")
+                .widget-main
+                    .tabbable
+                        input(name="packagename" style="display:none;")
+                        ul(class="nav nav-tabs tabs-flat" id="myTab11")
+                            li(class="active")
+                                a(data-toggle="tab" href="#user1") 用户列表
+                            li
+                                a(data-toggle="tab" href="#depart1") 部门列表
+                        div(class="tab-content tabs-flat")
+                            div(id="user1" class="tab-pane in active")
+                                .usertable(style="box-shadow:none;padding:0;")
+                                .page2 
+                            div(id="depart1" class="tab-pane")
                                 .departtable(style="box-shadow:none;padding:0;")
                                 .page3
         .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")

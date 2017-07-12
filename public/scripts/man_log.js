@@ -15,7 +15,7 @@ $(function() {
         isTime:true, 
         //isClear:false,
         minDate:"2000-01-01 00:00:00",
-        //maxDate:nowDate(0),       
+        //maxDate:(nowDate(0)-24*60*60*1000),       
         okfun:function(val){$('.dt').find('input[name=start_time]').val(val);}
     });
     jeDate({
@@ -30,7 +30,7 @@ $(function() {
     });
     //$('#datestart,#dateend').val('');
 });
-
+// 搜索日志列表
 function searchlist(){
     getloglist(1,10); 
 }

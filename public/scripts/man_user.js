@@ -17,7 +17,8 @@ function getUserList(start,length,keyword) {
         url += keyword?'&keyword=' + keyword : '';
     var table = $('.userlist .usertable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-            + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
+            //+ '<th class="sel"><input type="checkbox" name="users"></input></th>'
+            + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th>Email</th>'
             + '<th>姓名</th>'
             + '<th>电话</th>'
@@ -30,7 +31,10 @@ function getUserList(start,length,keyword) {
         if (data.rt==0) {
             for(var i in data.user_list) {
                 str += '<tr>'
-                    + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                   //  + '<td class="sel" onclick="selected(this)"><a class="btn btn-primary" href="javascript:add()">全选</a></td>'
+                 //  + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
+                 // + '<td class="sel"><div class="checkbox"><label><input type="checkbox" name="user" class="checkall"></input><span class="text"></span></label></div></td>'
+                    + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                     + '<td>' + data.user_list[i].email + '</td>'
                     + '<td>' + data.user_list[i].name + '</td>'
                     + '<td>' + data.user_list[i].phone + '</td>'
@@ -41,10 +45,10 @@ function getUserList(start,length,keyword) {
                     + '<td style="display:none;">' + data.user_list[i].depart_id + '</td>'
                     + '<td style="display:none;">' + data.user_list[i].sex + '</td>'                                   
                     + '<td class="other">'           
-                    + '<a href="javascript:user_policy('+ i +');">策略</a>&nbsp;&nbsp;&nbsp;&nbsp;'
-                    + '<a href="javascript:user_apps('+ i +');">应用</a>&nbsp;&nbsp;&nbsp;&nbsp;'
+                   // + '<a href="javascript:user_policy('+ i +');">策略</a>&nbsp;&nbsp;&nbsp;&nbsp;'
+                    + '<a href="javascript:user_apps('+ i +');">授权应用</a>&nbsp;&nbsp;&nbsp;&nbsp;'
                     + '<a href="javascript:user_resetpwd('+ i +');">修改密码</a>&nbsp;&nbsp;&nbsp;&nbsp;' 
-                    + '<a href="javascript:user_modify('+ i +');">修改</a>'
+                    + '<a href="javascript:user_modify('+ i +');">修改信息</a>'
                     + '</td></tr>';
             }
             str +='</table>';
@@ -106,7 +110,7 @@ function user_resetpwd(i) {
 }
 // 管理员修改用户密码提交操作
 function user_updatePW(i) {
-    var _tr = $('.userlist .usertable table tr').eq(i+1);
+    var _tr = $('.usertable table tr').eq(i+1);
     var email = _tr.find('td').eq(1).text();
     var newpw = $('input[name=newpwd]').val();
     var confirpw = $('input[name=confirpw]').val();
@@ -134,7 +138,7 @@ function user_updatePW(i) {
 
 // 管理员修改用户信息
 function user_modify(i) {
-    var _tr = $('.userlist .usertable table tr').eq(i+1);
+    var _tr = $('.usertable table tr').eq(i+1);
     var cont = '';
         cont += '<div class="modal-header">'
              + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
@@ -196,7 +200,6 @@ function user_modify(i) {
 
 // 修改用户信息提交
 function user_update(i) { 
-   // var p = document.getElementById("pageactive").innerHTML * 1; 
     var _tr = $('.userlist .usertable table tr').eq(i+1);
     var id = _tr.find('td').eq(6).text();
     var name = $('input[name=name]').val();
@@ -214,7 +217,7 @@ function user_update(i) {
         policy_id: policy_id,
         sex: sex   
     };
-    var pflag = regBox.regMobile.test(postData.phone);
+    var pflag = regBox.test(postData.phone);
     if (!postData.name) {
         warningOpen('请输入用户名！','danger','fa-bolt');
     } else if (!pflag) {
@@ -253,7 +256,7 @@ function user_policy(k){
 // 获取策略列表
 function getPolicyList(start_page,page_length){
     var str = '<table class="table table-striped table-bordered table-hover">'
-            + '<tr><th class="sel"></th>'
+            + '<tr><th>单选</th>'
             + '<th>策略名称</th>'
             + '<th>版本</th>'
             + '<th>注册时间</th>'
@@ -267,10 +270,10 @@ function getPolicyList(start_page,page_length){
             for(var i in data.policies) {
                 if(policy_id == data.policies[i].id){
                     str += '<tr>'
-                        + '<td class="sel" onclick="switchpolicyNo(this)"><i class="fa fa-check"></i></td>';
+                        + '<td class="sel" onclick="switchpolicyNo(this)" style="width:35px;"><i class="fa fa-check"></i></td>';
                 } else {
                     str += '<tr>'
-                        + '<td class="sel" onclick="switchpolicyNo(this)"><i class="fa"></i></td>';
+                        + '<td class="sel" onclick="switchpolicyNo(this)" style="width:35px;"><i class="fa"></i></td>';
                 }                      
                 str +='<td>' + data.policies[i].name + '</td>'
                     + '<td>' + data.policies[i].version + '</td>'
@@ -426,12 +429,9 @@ function getauthappList(email,state,start_page,page_length){
             strtab1 +='</table>';
             if(state == 1){
                 $('#authapp1 .apptable').html(strtab1);
-                //$('#home11').html(strtab1);
                 createFooter(start_page,page_length,data.total_count,3);
-
             } else {
                 $('#unauthapp1 .apptable').html(strtab1);
-                //$('#profile11').html(strtab1);
                 createFooter(start_page,page_length,data.total_count,4);
             }
         } else if (data.rt == 5) {
@@ -446,7 +446,6 @@ function add(){
              + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
              + '<h4 class="modal-title">添加用户</h4>'
              + '</div>'
-
              + '<div class="modal-body">'
              + '<form role = "form" class="form-horizontal">'
              + '<div class = "form-group">' 
@@ -482,7 +481,6 @@ function add(){
              + '</div></div>'
              + '</form>'
              + '</div>'
-
              + '<div class="modal-footer">'
              + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
              + '<button type="button" class="btn btn-primary" onclick="user_add()">确认</button>'
@@ -516,20 +514,19 @@ function user_add(){
             passwd: passwd
         };
     // 邮箱验证
-    console.log($('input[name=email]').val());
-    var reg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+    var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/;
     var regtel = /^0?1[3|4|5|8][0-9]\d{8}$/;
     if (postData.username == "") {
         warningOpen('请填写用户名！','danger','fa-bolt');
-    } else if (!postData.email && !reg.test(postData.email)) {
+    } else if (!reg.test(postData.email)) {
         warningOpen('请填写正确的邮箱！','danger','fa-bolt');
     } else if(!regtel.test(postData.phone)){
         warningOpen('请填写正确的电话号！','danger','fa-bolt');
     } else {
         $.post('/man/user/addUser', postData, function(data) {
-            if (data.rt == 0) { 
+            if (data.rt == 0) {
+                alertOff(); 
                 getUserList(currentpage,10,''); 
-                alertOff();
                 warningOpen('操作成功！','primary','fa-check');
             } else if (data.rt == 25) {
                 warningOpen('该用户已存在！','danger','fa-bolt');
@@ -545,14 +542,14 @@ function user_add(){
 }
 // 刷新
 function refresh() {
-    $('th i,td i').removeClass('fa-check');
+    $('th span,td span').removeClass('txt');
     getUserList(currentpage,10,'');
 }
 // 删除
 function deletes(){
     var i = 0;
-    var tab = $('.userlist .usertable table');
-    if(tab.find('td i').hasClass('fa-check')){
+    var tab = $('.usertable table');
+    if(tab.find('span').hasClass('txt')){
         i = 1;
     }     
     var cont = '';
@@ -579,9 +576,9 @@ function user_delete() {
     var userId = [],
             i = 0;
     var tr;
-    var tab = $('.userlist .usertable table');
-    tab.find('td i').each(function () {
-        if ($(this).hasClass('fa-check')) {
+    var tab = $('.usertable table');
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             userId[i] = tr.find('td').eq(6).text()*1;
             i = i+1;

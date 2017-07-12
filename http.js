@@ -8,14 +8,18 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 /*
  * GET
  * url 访问路径
- *      '/a/company/list?sid=sid'
+ * 
  * fun 回调方法
  *      function(cont),cont返回的数据
  */
 exports.GET = function(url, fun) {
     var cont = '',
     //url = hostname + url;
-        url = 'http://tpos.yingzixia.com' + url;
+       url = 'http://tpos.yingzixia.com' + url;  // 正式环境
+       // url = 'https://dev.yingzixia.com' + url;  // 开发环境
+        // url = '123.59.135.124' + url;  // 开发环境
+        //url = 'http://test.yingzixia.com' + url;  // 测试环境
+
         //url = '115.28.135.202' + url;
         //url = 'http://192.168.2.235:8000' + url;
         //url = 'http://127.0.0.1:7770'+url;
@@ -51,6 +55,8 @@ exports.POST1 = function(postData, url, fun) {
     var cont = '',
         options = {
             hostname: 'tpos.yingzixia.com',
+            //hostname: 'dev.yingzixia.com',
+            //hostname: '123.59.135.124',
             //hostname: '115.28.135.202',
             //hostname: '192.168.2.235',
             //hostname: '127.0.0.1',
