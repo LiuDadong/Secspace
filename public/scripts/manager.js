@@ -90,8 +90,6 @@ function radioselect(e) {
     } else {
         $('.select').removeClass('radic');
         $(e).addClass('radic');
-       // $(e).html('&nbsp;&radic;&nbsp;');
-      //  $(e).css({'color':'#55ACE4'});
     }
 }
 // 切换tab页面

@@ -31,7 +31,6 @@ function getUserList(start,length,keyword) {
         if (data.rt==0) {
             for(var i in data.user_list) {
                 str += '<tr>'
-                   //  + '<td class="sel" onclick="selected(this)"><a class="btn btn-primary" href="javascript:add()">全选</a></td>'
                  //  + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
                  // + '<td class="sel"><div class="checkbox"><label><input type="checkbox" name="user" class="checkall"></input><span class="text"></span></label></div></td>'
                     + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
@@ -240,7 +239,7 @@ function user_update(i) {
         });
     }
 }
-
+/*
 // 用户策略管理
 function user_policy(k){
     var tr = $('.usertable table tr').eq(k+1);
@@ -288,8 +287,9 @@ function getPolicyList(start_page,page_length){
           toLoginPage();           
         }
     });
-}
+}*/
 // 用户添加取消策略方法
+/*
 function switchpolicyNo(radioObj){    
     var cont = ''; 
     var boundState;
@@ -377,6 +377,7 @@ function switchpolicyNo(radioObj){
         });                   
     }
 }
+*/
 // 用户应用管理
 function user_apps(i){  
     var tr = $('.usertable table tr').eq(i+1),

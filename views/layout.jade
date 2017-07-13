@@ -13,7 +13,7 @@ html
         link(rel="stylesheet" href="/style/style.css")
         script(src="/assets/js/skins.min.js")
     body
-        .loading-container
+        //-.loading-container
             .loading-progress
                 .rotator
                     .rotator
@@ -27,6 +27,10 @@ html
                         .rotator(class="colored")
                     .rotator
                 .rotator    
+        .loading-container
+            .loading-progress
+                .loading-block(class="show")
+                    img(src='/imgs/www.gif')  
         .navbar
             .navbar-inner
                 .navbar-container

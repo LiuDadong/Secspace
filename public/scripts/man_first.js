@@ -5,7 +5,6 @@
  */
 
 $(function() {
-   // $('body\:\:before').css({"content":""},{"background-color":"#f5f5f5"});
     $('.firstmenu').addClass('active');
     $('body').addClass('first');
     var devNum = $('.t1 .count'),

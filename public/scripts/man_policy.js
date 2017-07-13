@@ -132,8 +132,8 @@ function getDetail(i) {
         $('#securityPolicy').find('input[name=pw_validity]').val(devSecurityObj.pw_validity);
         // domainPolicy tab
         document.getElementById('only_emergency_phone').checked = networkObj.only_emergency_phone == 1 ? true : false;
-        //document.getElementById('mms').checked = networkObj.mms == 1 ? 'true' : 'false';
-        //document.getElementById('dataremote').checked = networkObj.dataremote == 1 ? 'true' : 'false';
+        document.getElementById('mms').checked = networkObj.mms == 1 ? true : false;
+        document.getElementById('data_backup').checked = networkObj.data_backup == 1 ? true : false;
         $("#allow_mobile_network").find("option").eq(networkObj.allow_mobile_network-1).attr("selected",true);
         $("#allow_wifi").find("option").eq(networkObj.allow_wifi-1).attr("selected",true);
         var ul = $('#domainPolicy #listul');
@@ -193,6 +193,8 @@ function subdetail(){
     var allow_mobile_network = $('select[name=allow_mobile_network]').val();
     var allow_wifi = $('select[name=allow_wifi]').val();
     var only_emergency_phone = document.getElementById('only_emergency_phone').checked == true ? 1 : 0;
+    var mms = document.getElementById('mms').checked == true ? 1 : 0;
+    var data_backup = document.getElementById('data_backup').checked == true ? 1 : 0;
     var wifi_whitelist = [], w = 0;
     var ul = $('#domainPolicy #listul');
     ul.find("li[id^='li']").each(function () {
@@ -216,6 +218,8 @@ function subdetail(){
         }     
     });  
     var network = {
+            mms: mms,
+            data_backup: data_backup,
             only_emergency_phone: only_emergency_phone,
             allow_mobile_network: allow_mobile_network,
             allow_wifi: allow_wifi,
