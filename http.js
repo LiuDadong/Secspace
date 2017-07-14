@@ -50,7 +50,7 @@ exports.GET = function(url, fun) {
 exports.POST1 = function(postData, url, fun) {
     var querystring = require('querystring');
     postData = querystring.stringify(postData);
-    //console.log('url:tpos.yingzixia.com' + url+'?'+postData);
+    console.log('url:tpos.yingzixia.com' + url+'?'+postData);
     //console.log('postData: ' + postData+url);
     var cont = '',
         options = {

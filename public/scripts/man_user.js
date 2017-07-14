@@ -216,7 +216,8 @@ function user_update(i) {
         policy_id: policy_id,
         sex: sex   
     };
-    var pflag = regBox.test(postData.phone);
+    var ts = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+    var pflag = ts.test(postData.phone);
     if (!postData.name) {
         warningOpen('请输入用户名！','danger','fa-bolt');
     } else if (!pflag) {

@@ -414,6 +414,7 @@ function add(){
              + '<h4 class="modal-title">添加应用</h4>'
              + '</div>'
              + '<div class="modal-body" style="padding-bottom:0px;">'
+             + '<p class="appupload" style="display:none;">正在上传。。。</p>'
              + '<iframe name="ifm" style="display:none;"></iframe>'
              + '<form id="addAppForm" method="post" action="'+url+'" enctype="multipart/form-data" target="ifm" autocomplete="off" role = "form" class="form-horizontal">'
              + '<div class = "form-group">' 

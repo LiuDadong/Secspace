@@ -14,6 +14,7 @@ $(function() {
         isinitVal:true,
         isTime:true, 
         //isClear:false,
+       // initAddVal:{DD:"-1"},
         minDate:"2000-01-01 00:00:00",
         //maxDate:(nowDate(0)-24*60*60*1000),       
         okfun:function(val){$('.dt').find('input[name=start_time]').val(val);}

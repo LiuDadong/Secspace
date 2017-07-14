@@ -12,25 +12,29 @@ html
         link(id="beyond-link" href="/assets/css/beyond.min.css" rel="stylesheet")
         link(rel="stylesheet" href="/style/style.css")
         script(src="/assets/js/skins.min.js")
-    body
+    body   
         //-.loading-container
             .loading-progress
-                .rotator
-                    .rotator
-                        .rotator(class="colored")
-                            .rotator
-                                .rotator(class="colored")
-                                    .rotator(class="colored")
-                                    .rotator
-                                .rotator(class="colored")
-                            .rotator
-                        .rotator(class="colored")
-                    .rotator
-                .rotator    
+                .loading-block(class="show")
+                    img(src='/imgs/www.gif')
         .loading-container
             .loading-progress
-                .loading-block(class="show")
-                    img(src='/imgs/www.gif')  
+                .spinner
+                    .spinner-container(class="container1")
+                        .circle1
+                        .circle2
+                        .circle3
+                        .circle4
+                    .spinner-container(class="container2")
+                        .circle1
+                        .circle2
+                        .circle3
+                        .circle4
+                    .spinner-container(class="container3")
+                        .circle1
+                        .circle2
+                        .circle3
+                        .circle4
         .navbar
             .navbar-inner
                 .navbar-container
