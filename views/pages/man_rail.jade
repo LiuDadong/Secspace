@@ -9,13 +9,6 @@ block content
                     i(class="fa fa-angle-right")
                     a(href="javascript:raillist()") 围栏管理
                     i(class="fa fa-angle-right pushrail" style="display:none;") 推送
-        //-.header-buttons
-            a(class="sidebar-toggler" href="#")
-                i(class="fa fa-arrows-h")
-            a(class="refresh" id="refresh-toggler" href="/man/rail")
-                i(class="glyphicon glyphicon-refresh")
-            a(class="fullscreen" id="fullscreen-toggler" href="#")
-                i(class="glyphicon glyphicon-fullscreen")
     .page-body
         .row
             .raillist(class="col-xs-12 col-md-12")
@@ -109,6 +102,6 @@ block content
                 .modal-content
         .background 
     script(src="/scripts/jquery.min.js")
-    script(src="/scripts/man_rail.js")
+    script(async="true" src="/scripts/man_rail.js")
     script(src="http://api.map.baidu.com/api?v=2.0&ak=eqqM74ODvE9SwBK58L940OHR")
     //-script(src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js")

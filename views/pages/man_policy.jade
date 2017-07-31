@@ -3,21 +3,13 @@ extends ../layout
 block content
     .page-header(class="position-relative")
         .header-title(style="width:180px;")
-            h1
-                策略
+            h1 策略
                 small
                     i(class="fa fa-angle-right")
                     a(href="javascript:policylist()") 策略管理
                     i(class="fa fa-angle-right pissued" style="display:none;") 策略下发
                     i(class="fa fa-angle-right pissued2" style="display:none;") 策略取消
                     i(class="fa fa-angle-right policyset" style="display:none;") 策略设置
-        //-.header-buttons
-            a(class="sidebar-toggler" href="#")
-                i(class="fa fa-arrows-h")
-            a(class="refresh" id="refresh-toggler" href="/man/policy")
-                i(class="glyphicon glyphicon-refresh")
-            a(class="fullscreen" id="fullscreen-toggler" href="#")
-                i(class="glyphicon glyphicon-fullscreen")
     .page-body
         .row
             .policylist(class="col-xs-12 col-md-12")
@@ -145,6 +137,11 @@ block content
                                         input(class="checkbox-slider toggle colored-primary" id="recording" type="checkbox")
                                         span(class="text")
                                 .row(style="height:50px;")
+                                    label(class="col-xs-2 col-md-2") 红外
+                                    label(class="col-xs-2")
+                                        input(class="checkbox-slider toggle colored-primary" id="infrared" type="checkbox")
+                                        span(class="text")
+                                .row(style="height:50px;")
                                     label(class="col-xs-2 col-md-2") GPS
                                     label(class="col-xs-2")
                                         input(class="checkbox-slider toggle colored-primary" id="gps" type="checkbox")
@@ -266,4 +263,4 @@ block content
                 .modal-content
         .background 
     script(src="/scripts/jquery.min.js")
-    script(src="/scripts/man_policy.js")
+    script(async="true" src="/scripts/man_policy.js")

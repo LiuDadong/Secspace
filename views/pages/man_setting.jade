@@ -1,13 +1,6 @@
 extends ../layout
 
 block content
-    .page-breadcrumbs(style="display:none;")
-        ul(class="breadcrumb")
-            li
-                i(class="fa fa-home")
-                a(href="javascript:selectedBt('/man/first')") 首页
-            li
-                a(href="javascript:selectedBt('/man/user')") 用户
     .page-header(class="position-relative")
         .header-title(style="width:180px;")
             h1
@@ -15,13 +8,6 @@ block content
                 small
                     i(class="fa fa-angle-right")
                     a 基本信息设置
-        //-.header-buttons
-            a(class="sidebar-toggler" href="#")
-                i(class="fa fa-arrows-h")
-            a(class="refresh" id="refresh-toggler" href="/man/setting")
-                i(class="glyphicon glyphicon-refresh")
-            a(class="fullscreen" id="fullscreen-toggler" href="#")
-                i(class="glyphicon glyphicon-fullscreen")
     .page-body
         .row
             .setting(class="col-xs-12 col-md-12")
@@ -31,10 +17,6 @@ block content
                         .widget-buttons(style="position:absolute;left:25px;")
                             a(href="#" data-toggle="collapse")
                                 系统设置
-                        //-span(class="widget-caption" data-toggle="collapse") 系统设置
-                        //-.widget-buttons
-                            a(href="#" data-toggle="collapse")
-                                i(class="fa fa-plus")
                     .widget-body
                         .row(class="col-xs-12 col-md-12")
                             h5 会话时间设置
@@ -142,20 +124,20 @@ block content
                     .widget-body
                         .row(class="col-xs-12 col-md-12")
                             .form-group
-                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "identify_type") 认证方式
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "identify_method") 认证方式
                                 .inforow(class="col-lg-3 col-xs-4 col-sm-4")
                                     div(class="checkbox" style="margin-top:0px;")
                                         label(style="padding-left:0;")
-                                            input(type="checkbox" checked="checked" name="identify_type")
-                                            span(class="text")
+                                            input(type="checkbox" onclick="selectcheckbox(this)" name="identify_method1")
+                                            span(class="text" id="identify_method1")
                                                 用户名口令认证 
                                     div(class="checkbox")
                                         label(style="padding-left:0;")
-                                            input(type="checkbox" name="identify_type")
-                                            span(class="text")
+                                            input(type="checkbox" onclick="selectcheckbox(this)" name="identify_method2")
+                                            span(class="text" id="identify_method2")
                                                 用户名口令＋指纹认证 
                                 .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
-                                    a(class="btn btn-primary" href="javascript:identify_type()" style="margin-top:38px;") 保存
+                                    a(class="btn btn-primary" href="javascript:identify_method()" style="margin-top:38px;") 保存
             .setting(class="col-xs-12 col-md-12")
                 .widget(class="collapsed")
                     .widget-header
@@ -195,4 +177,4 @@ block content
                                     .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
                                         button(class="btn btn-primary" type="submit" style="width:78px;") 保存
     script(src="/scripts/jquery.min.js")
-    script(src="/scripts/man_setting.js")
+    script(async="true" src="/scripts/man_setting.js")

@@ -17,7 +17,6 @@ function getUserList(start,length,keyword) {
         url += keyword?'&keyword=' + keyword : '';
     var table = $('.userlist .usertable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-            //+ '<th class="sel"><input type="checkbox" name="users"></input></th>'
             + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th>Email</th>'
             + '<th>姓名</th>'
@@ -31,8 +30,6 @@ function getUserList(start,length,keyword) {
         if (data.rt==0) {
             for(var i in data.user_list) {
                 str += '<tr>'
-                 //  + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
-                 // + '<td class="sel"><div class="checkbox"><label><input type="checkbox" name="user" class="checkall"></input><span class="text"></span></label></div></td>'
                     + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                     + '<td>' + data.user_list[i].email + '</td>'
                     + '<td>' + data.user_list[i].name + '</td>'
@@ -44,7 +41,6 @@ function getUserList(start,length,keyword) {
                     + '<td style="display:none;">' + data.user_list[i].depart_id + '</td>'
                     + '<td style="display:none;">' + data.user_list[i].sex + '</td>'                                   
                     + '<td class="other">'           
-                   // + '<a href="javascript:user_policy('+ i +');">策略</a>&nbsp;&nbsp;&nbsp;&nbsp;'
                     + '<a href="javascript:user_apps('+ i +');">授权应用</a>&nbsp;&nbsp;&nbsp;&nbsp;'
                     + '<a href="javascript:user_resetpwd('+ i +');">修改密码</a>&nbsp;&nbsp;&nbsp;&nbsp;' 
                     + '<a href="javascript:user_modify('+ i +');">修改信息</a>'
@@ -66,18 +62,16 @@ function search(p,i) {
     if(i == 1){
         getUserList(p,10,'');
     } else if(i == 2){
-        getPolicyList(p,10);
-    } else if(i == 3){
         getauthappList(email,1,p,10);
-    } else if(i == 4){
-        getauthappList(email,0,p,10);
+    } else if(i == 3){
+        getauthappList(email,0,p,10);;
     } else{
         console.log(i);
     }
 }
 // 返回用户列表
 function userlist(){
-    $('.policylist, .tab, .apph, .policyh').css({'display':'none'});
+    $('.tab, .apph').css({'display':'none'});
     $('.userlist').css({'display':'block'});
 }
 //修改用户密码
@@ -240,145 +234,6 @@ function user_update(i) {
         });
     }
 }
-/*
-// 用户策略管理
-function user_policy(k){
-    var tr = $('.usertable table tr').eq(k+1);
-    var policy_id = tr.find('td').eq(7).text(); // 用户的策略ID 
-    var user_id = tr.find('td').eq(6).text(); 
-    $('.userlist').css({'display':'none'});
-    $('.policylist').css({'display':'block'});
-    $('.policyh').css({'display':'inline-block'});
-    $('.policy').find('input[name=policyid]').val(policy_id);
-    $('.policy').find('input[name=userid]').val(user_id);
-    getPolicyList(1,10);
-}
-// 获取策略列表
-function getPolicyList(start_page,page_length){
-    var str = '<table class="table table-striped table-bordered table-hover">'
-            + '<tr><th>单选</th>'
-            + '<th>策略名称</th>'
-            + '<th>版本</th>'
-            + '<th>注册时间</th>'
-            + '<th>更新时间</th></tr>';
-    var st = 2;
-    var table = $('.policylist .policytable');
-    var policy_id = $('.policy').find('input[name=policyid]').val();
-    $.get('/man/policy/getPolicyList?start_page='+start_page + '&page_length='+ page_length, function(data) {
-        data = JSON.parse(data);
-        if (data.rt==0) {
-            for(var i in data.policies) {
-                if(policy_id == data.policies[i].id){
-                    str += '<tr>'
-                        + '<td class="sel" onclick="switchpolicyNo(this)" style="width:35px;"><i class="fa fa-check"></i></td>';
-                } else {
-                    str += '<tr>'
-                        + '<td class="sel" onclick="switchpolicyNo(this)" style="width:35px;"><i class="fa"></i></td>';
-                }                      
-                str +='<td>' + data.policies[i].name + '</td>'
-                    + '<td>' + data.policies[i].version + '</td>'
-                    + '<td>' + data.policies[i].create_time + '</td>'
-                    + '<td>' + data.policies[i].update_time + '</td>'
-                    + '<td style="display:none;">' + data.policies[i].id + '</td></tr>';
-            }
-            str += '</table>';
-            table.html(str);
-            createFooter(start_page,page_length,data.total_count,st); 
-        } else if (data.rt==5) {
-          toLoginPage();           
-        }
-    });
-}*/
-// 用户添加取消策略方法
-/*
-function switchpolicyNo(radioObj){    
-    var cont = ''; 
-    var boundState;
-    var user_id = $('.policy').find('input[name=userid]').val()*1;
-    var tr = $(radioObj).parent();
-    var tab=tr.parent();
-    var policyId = tr.find('td').eq(5).text();
-    var userId = [];
-    var radio_list = $(radioObj).parent();
-    userId[0] = user_id;
-    if($(radioObj).find('i').hasClass('fa-check')){
-        cont = '<div class="modal-header">'
-             + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-             + '<h4 class="modal-title">提示</h4>'
-             + '</div>'
-             + '<div class="modal-body">'
-             + '<p>是否取消该策略？</p>'
-             + '</div>'
-             + '<div class="modal-footer">'
-             + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-             + '<button type="button" class="btn btn-primary" id="cancelpolicy">确认</button>'
-             + '</div>';  
-        alertOpen(cont);      
-        $(document).ready(function(){
-            $("#cancelpolicy").click(function(){                  
-                $(radioObj).find('i').removeClass('fa-check');
-                boundState = 0;
-                var postData = {
-                    policyId: policyId,
-                    boundState: boundState,
-                    userId: JSON.stringify(userId)
-                };
-                $.post('/man/org/boundPolicy', postData, function(data) {
-                    if (data.rt == 0) {
-                        alertOff(); 
-                        warningOpen('操作成功！','primary','fa-check');
-                        $('.policy').find('input[name=policyid]').val('');
-                        getUserList(currentpage,10,'');
-                    } else if (data.rt == 5) {
-                        toLoginPage();
-                    } else {
-                        warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
-                    }
-                });
-                
-            });
-        }); 
-                 
-    } else {
-        cont += '<div class="modal-header">'
-             +  ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-             +  '<h4 class="modal-title">提示</h4>'
-             +  '</div>'
-             +  '<div class="modal-body">'
-             +  '<p>是否为用户添加该策略？</p>'
-             +  '</div>'
-             +  '<div class="modal-footer">'
-             +  '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-             +  '<button type="button" id="addpolicy" class="btn btn-primary">确认</button>'
-             +  '</div>'; 
-        alertOpen(cont);  
-        $(document).ready(function(){
-            $("#addpolicy").click(function(){
-                tab.find(".sel i").removeClass('fa-check');         
-                $(radioObj).find('i').addClass('fa-check');
-                boundState = 1;
-                var postData = {
-                    policyId: policyId,
-                    boundState: boundState,
-                    userId: JSON.stringify(userId)
-                };
-                $.post('/man/org/boundPolicy', postData, function(data) {
-                    if (data.rt == 0) {
-                        alertOff(); 
-                        warningOpen('操作成功！','primary','fa-check');
-                        $('.policy').find('input[name=policyid]').val(policyId);
-                        getUserList(currentpage,10,'');
-                    } else if (data.rt == 5) {
-                        toLoginPage();
-                    } else {
-                        warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
-                    }
-                });
-            });
-        });                   
-    }
-}
-*/
 // 用户应用管理
 function user_apps(i){  
     var tr = $('.usertable table tr').eq(i+1),
@@ -431,10 +286,10 @@ function getauthappList(email,state,start_page,page_length){
             strtab1 +='</table>';
             if(state == 1){
                 $('#authapp1 .apptable').html(strtab1);
-                createFooter(start_page,page_length,data.total_count,3);
+                createFooter(start_page,page_length,data.total_count,2);
             } else {
                 $('#unauthapp1 .apptable').html(strtab1);
-                createFooter(start_page,page_length,data.total_count,4);
+                createFooter(start_page,page_length,data.total_count,3);
             }
         } else if (data.rt == 5) {
             toLoginPage();           
@@ -458,7 +313,7 @@ function add(){
              + '<div class = "form-group">' 
              + '<label class="col-sm-3 control-label" for = "email">登录名</label>' 
              + '<div class="col-sm-7">' 
-             + '<input type = "text" class = "form-control" id = "email" name="mail" placeholder = "请输入邮箱"/>' 
+             + '<input type ="email" class = "form-control" id = "email" name="mail" placeholder = "请输入邮箱"/>' 
              + '</div></div>'
              + '<div class = "form-group">' 
              + '<label class="col-sm-3 control-label" for = "tel">电话号码</label>' 
@@ -590,7 +445,8 @@ function user_delete() {
         var postData = {
             users: JSON.stringify(userId)
         };
-        
+        console.log(userId);
+       /* 
         $.post('/man/user/delUser', postData, function(data) {
             if (data.rt == 0) {               
                 getUserList(1,10,'');  
@@ -601,7 +457,7 @@ function user_delete() {
             } else {
                 warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
             }
-        }); 
+        }); */
     }else{
         warningOpen('请选择用户！','danger','fa-bolt');
     }        

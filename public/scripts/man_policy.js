@@ -20,7 +20,6 @@ function getPolicylist(start_page,page_length){
     var st = 1;
     var table = $('.policytable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-           // + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
             + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th>名称</th>'
             + '<th>版本</th>'
@@ -34,7 +33,6 @@ function getPolicylist(start_page,page_length){
         if (data.rt==0) {
             for(var i in data.policies) {
                     str += '<tr>'
-                       // + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
                         + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                         + '<td><a href="javascript:getDetail('+ i +');">' + data.policies[i].name + '</a></td>'
                         + '<td>' + data.policies[i].version + '</td>'
@@ -50,7 +48,10 @@ function getPolicylist(start_page,page_length){
                         + '<a href="javascript:dispatch_policy('+ i +');">策略下发</a>&nbsp;&nbsp;&nbsp;&nbsp;'
                         + '<a href="javascript:cancel_policy('+ i +');">策略取消</a>&nbsp;&nbsp;&nbsp;&nbsp;'
                         + '<a href="javascript:policy_modify('+ i +');">修改信息</a>'
-                        + '</td></tr>';                
+                        + '</td></tr>';
+                        if(i === 2){
+                            console.log(SON.stringify(data.policies[i].dev_security));
+                        }                
             }
             str +="</table>";
             table.html(str);    
@@ -105,71 +106,66 @@ function getDetail(i) {
     $('input[name=version]').val(version);
     $('input[name=policyname]').val(policyname);
     $('.policyname').html('<h5>策略名称：'+policyname+'</h5>');
-    var isChecked = document.getElementById('camera').checked;
-    console.log(isChecked);
-    //$(document).ready(function(){
-        // deviceLimit tab
-        document.getElementById('camera').checked = devLimitObj.camera == 1 ? true : false;
-        document.getElementById('bluetooth').checked = devLimitObj.bluetooth == 1 ? true : false;
-        document.getElementById('recording').checked = devLimitObj.recording == 1 ? true : false;
-        document.getElementById('gps').checked = devLimitObj.gps == 1 ? true : false;
-        document.getElementById('mockLoc').checked = devLimitObj.mockLocation == 1 ? true : false;
-        document.getElementById('notifications').checked = devLimitObj.notifications == 1 ? true : false;
-        // securityPolicy tab
-        if(devSecurityObj.lock_type == 0){
-            $("#locktype").find("option").attr("selected",false);
-        }  else {
-            $("#locktype").find("option").eq(devSecurityObj.lock_type-1).attr("selected",true);
-        }
-        if(devSecurityObj.passwd_type == 0){
-            $("#passwdtype").find("option").eq(7).attr("selected",true);
-        } else {
-            $("#passwdtype").find("option").eq(devSecurityObj.passwd_type-1).attr("selected",true);
-        }
-        $('#securityPolicy').find('input[name=pwdlength]').val(devSecurityObj.pw_min_len);
-        $('#securityPolicy').find('input[name=failtimes]').val(devSecurityObj.pw_fail_count);
-        $('#securityPolicy').find('input[name=available_time]').val(devSecurityObj.available_time);
-        $('#securityPolicy').find('input[name=pw_validity]').val(devSecurityObj.pw_validity);
-        // domainPolicy tab
-        document.getElementById('only_emergency_phone').checked = networkObj.only_emergency_phone == 1 ? true : false;
-        document.getElementById('mms').checked = networkObj.mms == 1 ? true : false;
-        document.getElementById('data_backup').checked = networkObj.data_backup == 1 ? true : false;
-        $("#allow_mobile_network").find("option").eq(networkObj.allow_mobile_network-1).attr("selected",true);
-        $("#allow_wifi").find("option").eq(networkObj.allow_wifi-1).attr("selected",true);
-        var ul = $('#domainPolicy #listul');
-        var wifiObj = networkObj.wifi_whitelist;
-        for(var i in wifiObj){
-          
-            ul.find('#li'+ ulindex +' input[name=wifilistname]').val(wifiObj[i].sid);  
-            for(var d in wifiObj[i].mac){  
-                if(d == 0){
-                    $('#li'+ ulindex +' .selli').addClass('radic');
-                }
-                var s = document.getElementById('uli'+ulindex);
-                var li = document.createElement("li");
-                li.id = 'l' + li_index;
-                li.className = 'list-group-item';
-                var lid = 'l' + li_index;
-                
-                var txt = '<input type="text" class="form-control input-sm" name="wifimac" value="'+wifiObj[i].mac[d]+'"/>'
-                        + '<a href="javascript:adduli('+lid+')"><img src="../imgs/pa.png"></img></a>'
-                        + '<a href="javascript:deletelis('+lid+')"><img src="../imgs/pd.png"></img></a>';
-                li.innerHTML = txt; 
-                s.appendChild(li);
-                li_index = li_index + 1;
+    // deviceLimit tab
+    document.getElementById('camera').checked = devLimitObj.camera == 1 ? true : false;
+    document.getElementById('bluetooth').checked = devLimitObj.bluetooth == 1 ? true : false;
+    document.getElementById('recording').checked = devLimitObj.recording == 1 ? true : false;
+    document.getElementById('infrared').checked = devLimitObj.infrared == 1 ? true : false;
+    document.getElementById('gps').checked = devLimitObj.gps == 1 ? true : false;
+    document.getElementById('mockLoc').checked = devLimitObj.mockLocation == 1 ? true : false;
+    document.getElementById('notifications').checked = devLimitObj.notifications == 1 ? true : false;
+    // securityPolicy tab
+    if(devSecurityObj.lock_type == 0){
+        $("#locktype").find("option").attr("selected",false);
+    }  else {
+        $("#locktype").find("option").eq(devSecurityObj.lock_type-1).attr("selected",true);
+    }
+    if(devSecurityObj.passwd_type == 0){
+        $("#passwdtype").find("option").eq(7).attr("selected",true);
+    } else {
+        $("#passwdtype").find("option").eq(devSecurityObj.passwd_type-1).attr("selected",true);
+    }
+    $('#securityPolicy').find('input[name=pwdlength]').val(devSecurityObj.pw_min_len);
+    $('#securityPolicy').find('input[name=failtimes]').val(devSecurityObj.pw_fail_count);
+    $('#securityPolicy').find('input[name=available_time]').val(devSecurityObj.available_time);
+    $('#securityPolicy').find('input[name=pw_validity]').val(devSecurityObj.pw_validity);
+    // domainPolicy tab
+    document.getElementById('only_emergency_phone').checked = networkObj.only_emergency_phone == 1 ? true : false;
+    document.getElementById('mms').checked = networkObj.mms == 1 ? true : false;
+    document.getElementById('data_backup').checked = networkObj.data_backup == 1 ? true : false;
+    $("#allow_mobile_network").find("option").eq(networkObj.allow_mobile_network-1).attr("selected",true);
+    $("#allow_wifi").find("option").eq(networkObj.allow_wifi-1).attr("selected",true);
+    var ul = $('#domainPolicy #listul');
+    var wifiObj = networkObj.wifi_whitelist;
+    for(var i in wifiObj){
+        ul.find('#li'+ ulindex +' input[name=wifilistname]').val(wifiObj[i].sid);  
+        for(var d in wifiObj[i].mac){  
+            if(d == 0){
+                $('#li'+ ulindex +' .selli').addClass('radic');
             }
-            addli(-1);
+            var s = document.getElementById('uli'+ulindex);
+            var li = document.createElement("li");
+            li.id = 'l' + li_index;
+            li.className = 'list-group-item';
+            var lid = 'l' + li_index;
+            
+            var txt = '<input type="text" class="form-control input-sm" name="wifimac" value="'+wifiObj[i].mac[d]+'"/>'
+                    + '<a href="javascript:adduli('+lid+')"><img src="../imgs/pa.png"></img></a>'
+                    + '<a href="javascript:deletelis('+lid+')"><img src="../imgs/pd.png"></img></a>';
+            li.innerHTML = txt; 
+            s.appendChild(li);
+            li_index = li_index + 1;
         }
-
-        var wifilist = $('#wifiPolicy #wifi');    
-        for(var j in wifilistObj) {
-            wifilist.find('#wifili'+ wifiindex +' input[name=wifiname]').val(wifilistObj[j].ssid);  
-            wifilist.find('#wifili'+ wifiindex +' select[name="wifi_type"]').find("option").eq(wifilistObj[j].type).attr("selected",true);
-            wifilist.find('#wifili'+ wifiindex +' input[name=pwds]').val(wifilistObj[j].password); 
-            addwifili();        
-        }
-        
-   // });
+        addli(-1);
+    }
+    // wifiPolicy tab
+    var wifilist = $('#wifiPolicy #wifi');    
+    for(var j in wifilistObj) {
+        wifilist.find('#wifili'+ wifiindex +' input[name=wifiname]').val(wifilistObj[j].ssid);  
+        wifilist.find('#wifili'+ wifiindex +' select[name="wifi_type"]').find("option").eq(wifilistObj[j].type).attr("selected",true);
+        wifilist.find('#wifili'+ wifiindex +' input[name=pwds]').val(wifilistObj[j].password); 
+        addwifili();        
+    }
 }
 // 提交策略修改
 function subdetail(){ 
@@ -186,6 +182,7 @@ function subdetail(){
         dev_limit["camera"] = document.getElementById('camera').checked == true ? 1 : 0;
         dev_limit["bluetooth"] = document.getElementById('bluetooth').checked == true ? 1 : 0;
         dev_limit["recording"] = document.getElementById('recording').checked == true ? 1 : 0;
+        dev_limit["infrared"] = document.getElementById('infrared').checked == true ? 1 : 0;
         dev_limit["gps"] = document.getElementById('gps').checked == true ? 1 : 0;
         dev_limit["mockLocation"] = document.getElementById('mockLoc').checked == true ? 1 : 0;
         dev_limit["notifications"] = document.getElementById('notifications').checked == true ? 1 : 0;
@@ -392,7 +389,6 @@ function cancel_policy(i) {
 // 获取用户列表
 function getUserList(start,length,keyword){
     var strtab1 = '<table class="table table-striped table-bordered table-hover"><tr>'
-               // + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
                 + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
                 + '<th>用户名</th>'
                 + '<th>用户邮箱</th>'
@@ -406,9 +402,7 @@ function getUserList(start,length,keyword){
         data = JSON.parse(data);
         if (data.rt==0) {
             for(var i in data.user_list) {
-                // str = data.user_list[i].policy_id == policyid ? '<td class="sel" onclick="selected(this)"><i class="fa fa-check"></i></td>' : '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>';
                 strtab1 += '<tr>'
-                        //+ str
                         + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                         + '<td>' + data.user_list[i].name + '</td>'
                         + '<td>' + data.user_list[i].email + '</td>'
@@ -428,7 +422,6 @@ function getUserList(start,length,keyword){
 function getDepartList(start_page,page_length){
     var st = 3;
     var strtab2 = '<table class="table table-striped table-bordered table-hover"><tr>'
-                //+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
                 + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
                 + '<th>部门名称</th>'
                 + '<th>部门领导</th>'
@@ -440,9 +433,7 @@ function getDepartList(start_page,page_length){
         data = JSON.parse(data);
         if (data.rt==0) {
             for(var i in data.depart_list) {
-                //str = data.depart_list[i].policy_id == policyid ? '<td class="sel" onclick="selected(this)"><i class="fa fa-check"></i></td>' : '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>';
                 strtab2 += '<tr>'
-                        //+ str
                         + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                         + '<td>' + data.depart_list[i].name + '</td>'
                         + '<td>' + data.depart_list[i].leader + '</td>'
@@ -457,6 +448,7 @@ function getDepartList(start_page,page_length){
         }
     });  
 }
+
 //给部门或者用户分配策略进行提交
 function subbtn(){
     var userId = [], departId = [], i = 0, j = 0, tr;
@@ -617,6 +609,7 @@ function addpolicy(){
         dev_limit["camera"] = 0; 
         dev_limit["bluetooth"] = 0;
         dev_limit["recording"] = 0; 
+        dev_limit["infrared"] = 0; 
         dev_limit["gps"] = 0; 
         dev_limit["mockLocation"] = 0;
         dev_limit["notifications"] = 0;

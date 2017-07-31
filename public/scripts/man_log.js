@@ -60,7 +60,7 @@ function getloglist(start_page,page_length){
               + '<th>操作时间</th></tr>';
              
     //var url = '/man/Log/getLogList?start_time='+ start_time + '&end_time='+ end_time + '&email='+ email + '&operation='+ operation+ '&start_page='+ start_page + '&page_length='+ page_length;
-    var url = 'http://tpos.yingzixia.com/p/org/uploadLog?sid='+sid
+    var url = hosturl+'p/org/uploadLog?sid='+sid
         +'&start_time='+ start_time + '&end_time='+ end_time 
         + '&email='+ email + '&operation='+ operation
         + '&start_page='+ start_page + '&page_length='+ page_length;
@@ -125,7 +125,8 @@ function impexcel(){
     var email = $('.uname').find('input[name=email]').val() == '' ? 'all': $('.uname').find('input[name=email]').val();
     var operation = $('.tp').find('select[name=operation]').val();
     var sid = getCookie("sid");
-    var url = hosturl+'p/org/exportExcel?sid='+sid+'&start_time='+ start_time + '&end_time='+ end_time + '&email='+ email + '&operation='+ operation;
+    var url = hosturl + 'p/org/exportExcel?sid='+sid+'&start_time='+ start_time + '&end_time='+ end_time + '&email='+ email + '&operation='+ operation;
+    console.log(url);
     downloadFile(url);
 }
 // page查询

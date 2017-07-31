@@ -8,15 +8,7 @@ block content
                 small
                     i(class="fa fa-angle-right")
                     a(href="javascript:departlist()") 机构管理
-                    i(class="fa fa-angle-right policyh" style="display:none;") 策略
                     i(class="fa fa-angle-right addh" style="display:none;") 员工
-        //-.header-buttons
-            a(class="sidebar-toggler" href="#")
-                i(class="fa fa-arrows-h")
-            a(class="refresh" id="refresh-toggler" href="/man/depart")
-                i(class="glyphicon glyphicon-refresh")
-            a(class="fullscreen" id="fullscreen-toggler" href="#")
-                i(class="glyphicon glyphicon-fullscreen")
     .page-body
         .row
             .departlist(class="col-xs-12 col-md-12")
@@ -34,6 +26,9 @@ block content
                         a(class="btn btn-danger" href="javascript:deletes()")
                             i(class="fa fa-times")
                             删除
+                        //-a(class="btn btn-primary" href="javascript:window.history.back()")
+                            i(class="fa fa-times")
+                            返回
                     .search(class="col-lg-12 col-sm-12 col-xs-12" style="padding:0")
                         .widget(class="collapsed" style="margin-bottom:10px;")
                             .widget-header(style="box-shadow:none;padding-left:0;margin-bottom:10px;")
@@ -64,37 +59,6 @@ block content
                                     a(class="btn btn-primary" href="javascript:secrhinfo()") 搜索部门
                     .departtable(class="widget-body" style="box-shadow:none;padding:0;")
                     .page1
-        .row
-            .policylist(class="col-xs-12 col-md-12" style="display:none;")
-                .widget
-                    .policy(style="display:none;")
-                        input(name="policyid")
-                        input(name="departid")
-                    .search(class="col-lg-12 col-sm-12 col-xs-12" style="padding:0")
-                        .widget(class="collapsed" style="margin-bottom:10px;")
-                            .widget-header(style="box-shadow:none;padding-left:0;margin-bottom:10px;")
-                                span(class="widget-caption")
-                                    .input-group
-                                        span(class="input-icon")
-                                            input(type="text" class="form-control input-sm")
-                                            i(class="glyphicon glyphicon-search primary")
-                                .widget-buttons
-                                    a(href="#" data-toggle="collapse") 高级搜索
-                            .widget-body(style="box-shadow:none;padding:0;")
-                                .form-group(class="col-lg-4 col-sm-4 col-xs-4" style="padding-left:0px;")
-                                    .input-group
-                                        span(class="input-group-addon")
-                                            i(class="fa fa-lightbulb-o darkorange")
-                                        input(class="form-control" placeholder="策略名称")
-                                .form-group(class="col-lg-4 col-sm-4 col-xs-4 has-error has-feedback")
-                                    .input-group
-                                        span(class="input-group-addon bg-blue bordered-blue")
-                                            i(class="fa fa-filter")
-                                        input(class="form-control" placeholder="策略版本")
-                                .searchinfo(class="col-lg-8 col-sm-8 col-xs-8 col-lg-offset-4 col-sm-offset-4 col-xs-offset-4" style="margin-bottom:20px;margin-top:6px;")
-                                    a(class="btn btn-primary" href="javascript:secrhinfo()") 搜索策略
-                    .policytable(class="widget-body" style="box-shadow:none;padding:0;")
-                    .page2
         .row(class="userlist" style="display:none;")
             .widget
                 div(class="col-xs-12 col-md-12")
@@ -111,19 +75,19 @@ block content
                         input(name="email" style="display:none;")
                         ul(class="nav nav-tabs tabs-flat" id="myTab11")
                             li(class="active")
-                                a(data-toggle="tab" href="#freeuser") 添加用户
+                                a(data-toggle="tab" href="#freeuser") 待添加用户
                             li
-                                a(data-toggle="tab" href="#members") 删除用户
+                                a(data-toggle="tab" href="#members") 部门内部用户
                         div(class="tab-content tabs-flat")
                             div(id="freeuser" class="tab-pane in active")
                                 .freetable(style="box-shadow:none;padding:0;")
-                                .page3 
+                                .page2 
                             div(id="members" class="tab-pane")
                                 .membertable(style="box-shadow:none;padding:0;")
-                                .page4                                         
+                                .page3                                         
         .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
             .modal-dialog(style="width:500px;")
                 .modal-content
         .background 
     script(src="/scripts/jquery.min.js")
-    script(src="/scripts/man_depart.js")
+    script(async="true" src="/scripts/man_depart.js")

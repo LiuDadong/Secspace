@@ -16,12 +16,11 @@ $(function() {
 function getDeviceList(start_page,page_length){  
     var table = $('.devicetable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-            //+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
             + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th>设备名称</th>'
             + '<th>所属用户</th>'
             + '<th>系统</th>'
-            + '<th>上一次更新时间</th>'
+            + '<th>上一次在线时间</th>'
             + '<th>目前状态</th></tr>';
     $.get('/man/dev/getDevList?start_page='+start_page+'&page_length='+page_length, function(data) {
         var online='';
@@ -30,7 +29,6 @@ function getDeviceList(start_page,page_length){
             for(var i in data.doc) {
                 online = (data.doc[i].online == 1) ? '在线':'离线';
                 str += '<tr>'
-                   // + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
                     + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                     + '<td>'            
                     + '<a href="javascript:getDetail('+ i +');">' + data.doc[i].dev_name + '</a></td>'
@@ -178,7 +176,7 @@ function getDetail(i){
                 map.setCurrentCity("北京"); // 设置地图显示的城市 此项是必须设置的
                 map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
             }else{
-                warningOpen('设备未登陆，没有定位信息！','danger','fa-bolt');
+                warningOpen('设备未登陆或者定位，没有定位信息！','danger','fa-bolt');
             }    
         } else if (data.rt==5) {
            toLoginPage();
@@ -212,14 +210,6 @@ function sendCmd(cmd, dev_id){
     xml.open("POST", url, true);
     xml.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
     xml.send(cmd); 
-}
-// 单个设备推送
-function sendCmdtest(cmd, dev_id){
-    var url = 'https://ws.yingzixia.com/pub' + '?id='+dev_id;
-    var xml = new XMLHttpRequest();
-    xml.open("POST", url, true);
-    xml.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
-    xml.send('erasedata'); 
 }
 // 设置锁屏密码
 function updatescreenpw(dev_id){
@@ -259,8 +249,8 @@ function updatescreenpw(dev_id){
 function sendpw(devid){
     var psw = $('input[name=screen_pw]').val();
     var confirm = $('input[name=confirm]').val();
-    if(psw == '' || psw.length<4 || psw.length>6){
-        warningOpen('请输入正确4到6位锁屏密码！','danger','fa-bolt');
+    if(psw == ''){
+        warningOpen('请输入锁屏密码！','danger','fa-bolt');
     }else if(psw != confirm){
         warningOpen('前后锁屏密码不一致！','danger','fa-bolt');
     }else{
@@ -326,25 +316,6 @@ function send_cmds(cmd){
         warningOpen('请先选择设备！','danger','fa-bolt');
     }       
 }
-function sendCmdtests(cmd){
-    var dev_id = [], i = 0, tr;
-    var cmd = cmd;
-    var tab = $('.devicetable table');
-    tab.find('td span').each(function () {
-        if ($(this).hasClass('txt')) {
-            tr = $(this).parents("tr");
-            dev_id[i] = tr.find('td').eq(7).text();
-            i = i+1;
-        }     
-    }); 
-    
-    if(dev_id.length > 0){
-        for(var j=0;j<dev_id.length;j++){
-            sendCmdtest(cmd,dev_id[j]);
-        }
-        warningOpen('操作成功！','primary','fa-check');
-    }
-}
 // 多个设备锁屏密码
 function changesppw(){
     var dev_id = [], i = 0, tr;
@@ -358,8 +329,8 @@ function changesppw(){
     });  
     var psw = $('input[name=screen_pw]').val();
     var confirm = $('input[name=confirm]').val();
-    if(psw == '' || psw.length<4 || psw.length>6){
-        warningOpen('请输入正确4到6位锁屏密码！','danger','fa-bolt');
+    if(psw == ''){
+        warningOpen('请输入锁屏密码！','danger','fa-bolt');
     }else if(psw != confirm){
         warningOpen('前后锁屏密码不一致！','danger','fa-bolt');
     }else{

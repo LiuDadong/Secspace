@@ -58,8 +58,39 @@ $(function() {
         }      
         
     });
+     // 获取公司详细信息
+    $.get('/man/setting/orgGetSettings', function(data) {
+        data = JSON.parse(data);
+        if (data.rt==0) {
+            $('input[name=session_expire_time]').val(data.doc.session_expire_time);
+            $('input[name=pw_max_try_times]').val(data.doc.pw_max_try_times);
+            $('input[name=frozen_time]').val(data.doc.frozen_time);
+            $("#max_download").find("option").eq(data.doc.max_download-1).attr("selected",true);
+            $('input[name=manager_name]').val(data.doc.manager_name);
+            $('input[name=product_name]').val(data.doc.product_name);
+            $('input[name=company_name]').val(data.doc.company_name);
+            $('input[name=company_domain]').val(data.doc.company_domain);
+            img_area.html('<img width="194.7px;" height="44px;" src="'+ picurl + data.doc.icon + '" alt="" class="avatar imge-thumbnail"></img>');
+            img_adm.html('<img width="99px;" height="99px;" src="'+ picurl + data.doc.avatar + '" alt="" class="avatar imge-thumbnail"></img>');
+            if(data.doc.allow_remember_pw == '1'){
+                $("input:radio[name='allow_remember_pw']").eq(0).attr("checked",'checked');
+            }else{
+                $("input:radio[name='allow_remember_pw']").eq(1).attr("checked",'checked');
+            }
+            $("span[id='identify_method"+data.doc.identify_method+"']").addClass('txt');
+            $("input:checkbox[name='identify_method1"+data.doc.identify_method+"']").attr("checked",true);
+            if(data.doc.identify_method == 3){
+                $("span[id='identify_method1']").addClass('txt');
+                $("input:checkbox[name='identify_method1']").attr("checked",true);
+                $("span[id='identify_method2']").addClass('txt');
+                $("input:checkbox[name='identify_method2']").attr("checked",true);
+            }
+        } else if (data.rt==5) {
+            toLoginPage();           
+        }
+    });
 
-    // 获取公司详细信息
+  /*  // 获取公司详细信息
     $.get('/man/setting/orgGetSettings', function(data) {
         data = JSON.parse(data);
         if (data.rt==0) {
@@ -81,7 +112,7 @@ $(function() {
         } else if (data.rt==5) {
             toLoginPage();           
         }
-    });
+    });*/
 
     // 提交修改公司图标
     $('#addimg').submit(function() {  
@@ -195,6 +226,32 @@ function setsave(){
             warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
         }
     });  
+}
+
+// 修改系统设置
+function identify_method(){
+    var identify_method1 = $('#identify_method1').hasClass('txt');
+    var identify_method2 = $('#identify_method2').hasClass('txt');
+    if(identify_method1 || identify_method2){
+        var identify_method = (identify_method1&&identify_method2) == true ? 3 : (identify_method1 == true ? 1 : 2 );
+        var postData = {
+            identify_method: identify_method
+        };
+        console.log("identify_method2 = "+ identify_method1+ "identify_method2 = "+identify_method2+ "identify_method = "+identify_method);
+        
+        $.post('/man/setting/orgUpdateSettings', postData, function(data) {
+            if (data.rt==0) {
+                warningOpen('操作成功！','primary','fa-check');
+            } else if (data.rt==5) {
+                toLoginPage();
+            } else {
+                warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+            }
+        }); 
+    }else{
+        warningOpen('请至少选择一项！','danger','fa-bolt');
+    }
+    
 }
 
 // 修改公司私云域名

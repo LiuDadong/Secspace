@@ -4,13 +4,6 @@ block content
     .page-header(class="position-relative")
         .header-title
             h1 首页
-        //-.header-buttons
-            a(class="sidebar-toggler" href="#")
-                i(class="fa fa-arrows-h")
-            a(class="refresh" id="refresh-toggler" href="/man/first")
-                i(class="glyphicon glyphicon-refresh")
-            a(class="fullscreen" id="fullscreen-toggler" href="#")
-                i(class="glyphicon glyphicon-fullscreen")
     .page-body(style="background:#f5f5f5;")
         .row(style="margin:0 0 20px 0;")
             .firsttop(class="col-lg-12 col-sm-12 col-xs-12")
@@ -91,6 +84,6 @@ block content
                             .widget-body
                                 #deviceNum
     script(src="/scripts/jquery.min.js")
-    script(src="/scripts/man_first.js")
-    script(src="http://cdn.hcharts.cn/highcharts/highcharts.js") 
-    script(src="https://cdn.hcharts.cn/highcharts/highcharts.js")
+    script(async="true" src="/scripts/man_first.js")
+    script(async="true" src="http://cdn.hcharts.cn/highcharts/highcharts.js") 
+    script(async="true" src="https://cdn.hcharts.cn/highcharts/highcharts.js")

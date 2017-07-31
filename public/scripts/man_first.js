@@ -39,96 +39,55 @@ $(function() {
             depnum.html(((users_depart/users).toFixed(2)*100).toFixed(0));
             appNum.html(apps);
             appnum.html(((installed_count/apps).toFixed(2)*100).toFixed(0));
-            /**
-  * Highcharts 在 4.2.0 开始已经不依赖 jQuery 了，直接用其构造函数既可创建图表
- **/
-var chart = new Highcharts.Chart('deviceNum', {
-    title: {
-        text:' 在线设备统计'
-    },
-    /*
-    subtitle: {
-        text: '一周在线设备数量统计',
-        x: -20
-    },*/
-    credits: {
-        enabled:false
-    },
-    
-    xAxis: {
-        categories: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-    },
-    yAxis: {
-        title: {
-            text: '数量(个)'
-        },
-        plotLines: [{
-            value: 0,
-            width: 1,
-            color: '#808080'
-        }]
-    },
-    tooltip: {
-        valueSuffix: '台'
-    },
-    legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle',
-        borderWidth: 0
-    },
-    series: [{
-        name: '设备',
-        data: weeks
-    }/*, {
-        name: '纽约',
-        data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-    }, {
-        name: '柏林',
-        data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-    }, {
-        name: '伦敦',
-        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-    }*/]
-});
-
-            
-            /*$('#deviceNum').highcharts({
-                chart: {
-                    type: 'line'
-                },
+            var chart = new Highcharts.Chart('deviceNum', {
                 title: {
-                    text: ' '
+                    text:' 在线设备统计'
                 },
+                /*
                 subtitle: {
-                    text: ' '
+                    text: '一周在线设备数量统计',
+                    x: -20
+                },*/
+                credits: {
+                    enabled:false
                 },
+                
                 xAxis: {
-                    categories: categories
+                    categories: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
                 },
                 yAxis: {
                     title: {
-                        text: ' '
-                    }
+                        text: '数量(个)'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
                 },
                 tooltip: {
-                    enabled: true,
-                    formatter: function() {
-                        return this.x +'在线设备数: '+ this.y +'个';
-                    }
+                    valueSuffix: '台'
                 },
-                plotOptions: {
-                    line: {
-                        dataLabels: {
-                            enabled: false
-                        },
-                        enableMouseTracking: true
-                    }
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
                 },
                 series: [{
+                    name: '设备',
                     data: weeks
-                }]
-            });*/
+                }/*, {
+                    name: '纽约',
+                    data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+                }, {
+                    name: '柏林',
+                    data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+                }, {
+                    name: '伦敦',
+                    data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+                }*/]
+            });
             circle();
         } else if (data.rt==5) {
            toLoginPage();

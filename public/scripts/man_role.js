@@ -17,7 +17,6 @@ function getRoleList(start,length) {
     var st = 1;
     var table = $('.rolelist .roletable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable" style="table-layout: fixed;"><tr>'
-            //+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
             + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th style="width:20%;">角色名称</th>'
             + '<th style="width:28%;text-overflow:ellipsis; white-space: nowrap;overflow: hidden;overflow:hidden;">角色描述</th>'
@@ -26,10 +25,8 @@ function getRoleList(start,length) {
     $.get(url, function(data) {
         data = JSON.parse(data);
         if (data.rt==0) {
-           
             for(var i in data.role_list) {
                 str += '<tr>'
-                    //+ '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
                     + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                     + '<td>' + data.role_list[i].name + '</td>'
                     + '<td title="'+data.role_list[i].description+'">' + data.role_list[i].description + '</td>'
@@ -53,11 +50,7 @@ function getRoleList(start,length) {
 }
 // page页查询
 function search(p,i) {
-    if(i == 1){
-        getRoleList(p,10);
-    } else{
-        console.log(i);
-    }
+    getRoleList(p,10);
 }
 // 返回角色列表
 function rolelist(){

@@ -20,7 +20,6 @@ function getDepartList(start_page,page_length){
         if (data.rt == 0) {
             str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
                 + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
-                //+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
                 + '<th>部门名称</th>'
                 + '<th>部门领导</th>'
                 + '<th>领导联系方式</th>'
@@ -29,7 +28,6 @@ function getDepartList(start_page,page_length){
             for(var i in data.depart_list) {
                 str += '<tr>'
                     + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
-                   // + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
                     + '<td width="20%">' + data.depart_list[i].name + '</td>'
                     + '<td width="20%">' + data.depart_list[i].leader + '</td>'
                     + '<td width="20%">' + data.depart_list[i].leader_mail + '</td>'    
@@ -39,7 +37,6 @@ function getDepartList(start_page,page_length){
                     + '<td style="display:none;">' + data.depart_list[i].leader_id + '</td>'    
                     + '<td style="display:none;">' + data.depart_list[i].current_num + '</td>'         
                     + '<td>'            
-                    //+ '<a href="javascript:depart_policy('+ i +');">策略</a>&nbsp;&nbsp;&nbsp;&nbsp;' 
                     + '<a href="javascript:depart_modify('+ i +');">修改信息</a>'
                     + '</td></tr>';
             }
@@ -57,10 +54,8 @@ function search(p,i) {
     if(i == 1){
         getDepartList(p,10);
     } else if(i == 2){
-        getPolicyList(p,10);
-    } else if(i == 3){
         getListUser(p,10);
-    } else if(i == 4){
+    } else if(i == 3){
         getdepmember(p,10);
     } else{
         console.log(i);
@@ -68,12 +63,10 @@ function search(p,i) {
 }
 // 返回部门列表
 function departlist(){
-    $('.policylist, .userlist, .addh, .policyh').css({'display':'none'});
+    $('.userlist, .addh').css({'display':'none'});
     $('.departlist').css({'display':'block'});
-    $('#members .membertable,.page4').html('');
-    $('th i,td i').removeClass('fa-check');
+    $('#members .membertable,.page3').html('');
 }
-
 // 修改部门信息
 function depart_modify(i) { 
     var _tr = $('.departtable table tr').eq(i+1),
@@ -104,20 +97,13 @@ function depart_modify(i) {
              + '<div class="col-sm-7">' 
              + '<input type="text" class="form-control" id = "leaderemail" name="leaderemail" value="'+leaderemail+'" readonly="readonly"/>'
              + '</div></div>'
-
              + '<div class = "form-group">' 
              + '<label class="col-sm-3 control-label" for = "departname">部门名称</label>' 
              + '<div class="col-sm-7">' 
              + '<input type="text" class="form-control" id = "departname" name="departname" value="'+departname+'"/>'
              + '</div></div>'
-             //+ '<div class = "form-group">' 
-            // + '<div class="col-sm-7 col-sm-offset-3" style="text-align:right;">' 
-             //+ '<a href="javascript:depart_useradd()">为部门添加/删除人员</a>'
-            // + '</div></div>'
-            
              + '</form>'
              + '</div>'
-
              + '<div class="modal-footer">'
              + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
              + '<button type="button" class="btn btn-primary" onclick="depart_mod('+depart_id+')">确认</button>'
@@ -205,142 +191,6 @@ function addusers(){
         warningOpen('请选择一个部门！','danger','fa-bolt');
     }        
 }
-// 部门策略管理
-function depart_policy(k){
-    var tr = $('.departtable table tr').eq(k+1);
-    var policy_id = tr.find('td').eq(6).text(); // 部门的策略ID 
-    var depart_id = tr.find('td').eq(5).text(); 
-    $('.departlist').css({'display':'none'});
-    $('.policylist').css({'display':'block'});
-    $('.policyh').css({'display':'inline-block'});
-    $('.policy').find('input[name=policyid]').val(policy_id);
-    $('.policy').find('input[name=departid]').val(depart_id);
-    getPolicyList(1,10);
-}
-// 获取策略列表
-function getPolicyList(start_page,page_length){
-    var str = '<table class="table table-striped table-bordered table-hover">'
-            + '<tr><th class="sel"></th>'
-            + '<th>策略名称</th>'
-            + '<th>版本</th>'
-            + '<th>注册时间</th>'
-            + '<th>更新时间</th></tr>';
-    var st = 2;
-    var table = $('.policylist .policytable');
-    var policy_id = $('.policy').find('input[name=policyid]').val();
-    $.get('/man/policy/getPolicyList?start_page='+start_page + '&page_length='+ page_length, function(data) {
-        data = JSON.parse(data);
-        if (data.rt==0) {
-            for(var i in data.policies) {
-                if(policy_id == data.policies[i].id){
-                    str += '<tr>'
-                        + '<td class="sel" onclick="switchpolicyNo(this)"><i class="fa fa-check"></i></td>';
-                } else {
-                    str += '<tr>'
-                        + '<td class="sel" onclick="switchpolicyNo(this)"><i class="fa"></i></td>';
-                }                      
-                str +='<td>' + data.policies[i].name + '</td>'
-                    + '<td>' + data.policies[i].version + '</td>'
-                    + '<td>' + data.policies[i].create_time + '</td>'
-                    + '<td>' + data.policies[i].update_time + '</td>'
-                    + '<td style="display:none;">' + data.policies[i].id + '</td></tr>';
-            }
-            str += '</table>';
-            table.html(str);
-            createFooter(start_page,page_length,data.total_count,st); 
-        } else if (data.rt==5) {
-          toLoginPage();           
-        }
-    });
-}
-// 部门添加取消策略方法
-function switchpolicyNo(radioObj){    
-    var cont = ''; 
-    var boundState;
-    var departid = $('.policy').find('input[name=departid]').val()*1;
-    var tr = $(radioObj).parent();
-    var tab=tr.parent();
-    var policyId = tr.find('td').eq(5).text();
-    var departId = [];
-    var radio_list = $(radioObj).parent();
-    departId[0] = departid;
-    if($(radioObj).find('i').hasClass('fa-check')){
-        cont = '<div class="modal-header">'
-             + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-             + '<h4 class="modal-title">提示</h4>'
-             + '</div>'
-             + '<div class="modal-body">'
-             + '<p>是否取消该策略？</p>'
-             + '</div>'
-             + '<div class="modal-footer">'
-             + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-             + '<button type="button" class="btn btn-primary" id="cancelpolicy">确认</button>'
-             + '</div>';  
-        alertOpen(cont);      
-        $(document).ready(function(){
-            $("#cancelpolicy").click(function(){                  
-                $(radioObj).find('i').removeClass('fa-check');
-                boundState = 0;
-                var postData = {
-                    policyId: policyId,
-                    boundState: boundState,
-                    departId: JSON.stringify(departId)
-                };
-                $.post('/man/org/boundPolicy', postData, function(data) {
-                    if (data.rt == 0) {
-                        alertOff(); 
-                        warningOpen('操作成功！','primary','fa-check');
-                        $('.policy').find('input[name=policyid]').val('');
-                        getDepartList(currentpage,10);
-                    } else if (data.rt == 5) {
-                        toLoginPage();
-                    } else {
-                        warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
-                    }
-                });
-                
-            });
-        }); 
-                 
-    } else {
-        cont += '<div class="modal-header">'
-             +  ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-             +  '<h4 class="modal-title">提示</h4>'
-             +  '</div>'
-             +  '<div class="modal-body">'
-             +  '<p>是否添加该策略？</p>'
-             +  '</div>'
-             +  '<div class="modal-footer">'
-             +  '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-             +  '<button type="button" id="addpolicy" class="btn btn-primary">确认</button>'
-             +  '</div>'; 
-        alertOpen(cont);  
-        $(document).ready(function(){
-            $("#addpolicy").click(function(){
-                tab.find(".sel i").removeClass('fa-check');         
-                $(radioObj).find('i').addClass('fa-check');
-                boundState = 1;
-                var postData = {
-                    policyId: policyId,
-                    boundState: boundState,
-                    departId: JSON.stringify(departId)
-                };
-                $.post('/man/org/boundPolicy', postData, function(data) {
-                    if (data.rt == 0) {
-                        alertOff(); 
-                        warningOpen('操作成功！','primary','fa-check');
-                        $('.policy').find('input[name=policyid]').val(policyId);
-                        getDepartList(currentpage,10);
-                    } else if (data.rt == 5) {
-                        toLoginPage();
-                    } else {
-                        warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
-                    }
-                });
-            });
-        });                   
-    }
-}
 // 添加部门
 function add(){
     var cont = '';
@@ -348,7 +198,6 @@ function add(){
              + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
              + '<h4 class="modal-title">添加部门</h4>'
              + '</div>'
-
              + '<div class="modal-body">'
              + '<form role = "form" class="form-horizontal">'
              + '<div class = "form-group">' 
@@ -390,7 +239,6 @@ function depart_useradd(){
 function getListUser(start,length){
     var st = 3;
     var str = '<table class="table table-striped table-bordered table-hover"><tr>'
-           // + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
             + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th>Email</th>'
             + '<th>用户名</th>'
@@ -403,7 +251,6 @@ function getListUser(start,length){
         if (data.rt==0) {
             for(var i in data.free_users) {
                 str += '<tr>'
-                   // + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
                     + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                     + '<td>' + data.free_users[i].email + '</td>'
                     + '<td>' + data.free_users[i].name + '</td>'
@@ -424,7 +271,6 @@ function getdepmember(start_page, page_length){
     var st = 4;
     var str = '<table class="table table-striped table-bordered table-hover"><tr>'
             + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
-           // + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
             + '<th>Email</th>'
             + '<th>用户名</th>'
             + '<th>用户id</th></tr>';
@@ -437,7 +283,6 @@ function getdepmember(start_page, page_length){
             for(var i in data.depart_users) {
                 str += '<tr>'
                     + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
-                   // + '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
                     + '<td>' + data.depart_users[i].email + '</td>'
                     + '<td>' + data.depart_users[i].name + '</td>'
                     + '<td>' + data.depart_users[i].id + '</td></tr>';           
@@ -497,7 +342,7 @@ function getuserlists(){
     });
     return arr;
 }
-// 添加新部门/添加帐号时获取选择的用户id
+// 添加新部门 添加帐号时获取选择的用户id
 function getUsers(){
     var arr = [], i = 0, tr; 
     var users = $('.freetable table');   
@@ -524,7 +369,6 @@ function adduser() {
                      + '</div>'
                      + '<div class="modal-body">'
                      + '<form role = "form" class="form-horizontal">'
-
                      + '<div class = "form-group">' 
                      + '<label class="col-sm-3 control-label" for = "leader">部门负责人</label>' 
                      + '<div class="col-sm-7">' 
@@ -533,16 +377,13 @@ function adduser() {
                      + '<div class="overflowlist" style="display:none;overflow-x:hidden;height:100px;border:1px solid #ddd;">'
                      + '<ul name="memberlist" class="list-group memberlist"></ul></div>'
                      + '</div></div>'   
-
                      + '</form>'
                      + '</div>'
-
                      + '<div class="modal-footer">'
                      + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
                      + '<button type="button" class="btn btn-primary" onclick="depart_add()">确认</button>'
                      + '</div>';  
             alertOpen(cont);
-
             var ul = $('ul[name=memberlist]');
             for (var i=0; i<users.length; i++){
                 str += '<li class="list-group-item" style="border:none;" value="'+ users[i].uid +'"><a>' + users[i].uname + '</a></li>';

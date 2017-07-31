@@ -60,7 +60,7 @@ $(function() {
             }
         },
         success: function(data) {
-            console.log("datart  == "+data.rt);
+            //console.log("datart  == "+data.rt);
             if(data.rt==0) {
                 if ($('.login input[name=flag]').val()=='per') {
                     localStorage.setItem("data1",JSON.stringify(data));
@@ -72,14 +72,13 @@ $(function() {
                     location.href = "/man/first";
                 }
             } else if(data.rt==3 || data.rt==4) {
-                $('.login .center .err').html('用户名或密码错误！');
-                setTimeout("warningOff()",2000);
+                warningOpen('用户名或密码错误！');
             } else if(data.rt==5) {
                 location.href = "/";
-            }else if(data.rt==22) {
+            } else if(data.rt==22) {
                 warningOpen('三次登陆密码有误，账户已冻结！');
             }  else {
-                warningOpen('登录失败！');
+                warningOpen('登录失败！ '+data.rt);
             }
         },
         error:function(err){
@@ -261,5 +260,5 @@ function warningBlock(_cont) {
 }
 // 隐藏
 function warningOff() {
-    $('.login .center .err').html('&nbsp;');
+    $('.err').html('');
 }

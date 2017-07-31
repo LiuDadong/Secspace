@@ -13,10 +13,6 @@ html
         link(rel="stylesheet" href="/style/style.css")
         script(src="/assets/js/skins.min.js")
     body   
-        //-.loading-container
-            .loading-progress
-                .loading-block(class="show")
-                    img(src='/imgs/www.gif')
         .loading-container
             .loading-progress
                 .spinner
@@ -49,8 +45,8 @@ html
                     .navbar-header(class="pull-right")
                         .navbar-account
                             ul(class="account-area")
-                                li
-                                    a(class="login-area dropdown-toggle" data-toggle="dropdown")
+                                li(style="min-width:150px;")
+                                    a(class="login-area dropdown-toggle" data-toggle="dropdown" style="min-width:150px;")
                                         .avatar(title="View your public profile")
                                         section
                                             h2
@@ -128,7 +124,7 @@ html
                         li(class="devicemenu")
                             a(href="#" class="menu-dropdown")
                                 i(class="menu-icon fa fa-desktop")
-                                span(class="menu-text")设备
+                                span(class="menu-text") 设备
                                 i(class="menu-expand")
                             ul(class="submenu")
                                 li
@@ -163,7 +159,7 @@ html
                         li(class="mesgmenu")
                             a(href="#" class="menu-dropdown")
                                 i(class="menu-icon fa fa-envelope-o")
-                                span(class="menu-text")内容
+                                span(class="menu-text") 内容
                                 i(class="menu-expand")
                             ul(class="submenu")
                                 li

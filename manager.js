@@ -882,8 +882,58 @@ module.exports = function(app, _http) {
             res.send(cont);
         });
     });
+    /*
+     * =============================================================
+     *                       应用管理 man_version
+     * =============================================================
+     */
+    //获取版本列表
+    app.get('/man/file/listApp', function (req, res) {
+        var url = '/p/file/listApp?sid=' + req.cookies.sid;
+            url += '&start_page='+req.query.start_page; 
+            url += '&page_length='+req.query.page_length;  
+        _http.GET(url, function(cont) {
+            res.send(cont);
+        });
+    });
+    //企业管理员
+    app.post('/man/version/authSecspace', function(req, res) {
+        var postData = {
+                'sid': req.cookies.sid,
+                '_id': req.body._id,
+                'status': req.body.status
+            },
+            url = '/p/org/authSecspace';
+        _http.POST1(postData, url, function(cont) {
+            res.send(cont);
+        });
+    });
+    //企业管理员
+    app.post('/man/version/modifyVersion', function(req, res) {
+        var postData = {
+                'sid': req.cookies.sid,
+                '_id': req.body._id,
+                'name': req.body.name,
+                'versioncode': req.body.versioncode,
+                'describe': req.body.describe
+            },
+            url = '/p/org/modifyVersion';
+        _http.POST1(postData, url, function(cont) {
+            res.send(cont);
+        });
+    });
+    //企业管理员
+    app.post('/man/version/deleteApp', function(req, res) {
+        var postData = {
+                'sid': req.cookies.sid,
+                'versions': req.body.versions
+            },
+            url = '/p/org/deleteApp';
+        _http.POST1(postData, url, function(cont) {
+            res.send(cont);
+        });
+    });
     
-
     /*
      * =============================================================
      *                       设置 man_setting
@@ -934,6 +984,11 @@ module.exports = function(app, _http) {
             postData = {
                 'sid': req.cookies.sid,
                 'manager_name': req.body.manager_name
+            };
+        }else if(req.body.identify_method){
+            postData = {
+                'sid': req.cookies.sid,
+                'identify_method': req.body.identify_method
             };
         } else{
             console.log("settings");

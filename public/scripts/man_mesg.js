@@ -10,7 +10,6 @@ function getMessageList(start,length) {
     var st = 1;
     var table = $('.mesgtable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-            //+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
             + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th>消息标题</th>'
             + '<th>创建人</th>'
@@ -23,7 +22,6 @@ function getMessageList(start,length) {
         if (data.rt==0) {           
             for(var i in data.messages) {
                 str += '<tr>'
-                    //+ '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
                     + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                     + '<td>' + data.messages[i].title + '</td>'
                     + '<td>' + data.messages[i].creator + '</td>'
@@ -80,7 +78,7 @@ function views(i){
              + title
              + '</h4>'
              + '<div class = "row" style="min-height:50px;max-height:300px;overflow:auto;">' 
-             + '<div class="col-sm-10 col-xs-offset-1" style="word-wrap:word-break;">' 
+             + '<div class="col-sm-10 col-xs-offset-1" style="word-wrap:word-break;text-indent:2em;">' 
              + content
              + '</div></div>'
              + '</div>' 
@@ -119,9 +117,6 @@ function modify(i){
              + '<textarea class="form-control" rows="5" name="content" id="content">'+content+'</textarea>'
              + '</span>'
              + '</div></div>'
-            // + '<div class = "form-group">' 
-           //  + '<a class="col-sm-10" style="text-align:right;" href="javascript:view()">预览</a>'
-           //  + '</div>'
              + '</form>'
              + '</div>'
              + '<div class="modal-footer">'
@@ -390,7 +385,7 @@ function view(){
              + title
              + '</h4>'
              + '<div class = "row" style="min-height:50px;max-height:300px;overflow:auto;">' 
-             + '<div class="col-sm-10 col-xs-offset-1" style="word-wrap:word-break;">' 
+             + '<div class="col-sm-10 col-xs-offset-1" style="word-wrap:word-break;text-indent:2em;">' 
              + content
              + '</div></div>'
              + '</div>' 

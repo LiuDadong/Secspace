@@ -18,7 +18,6 @@ function getAppList(start,length,keyword){
     var platform = '';
     var table = $('.appstable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-            //+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
             + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
             + '<th>图标</th>'
             + '<th>app名称</th>'
@@ -38,9 +37,7 @@ function getAppList(start,length,keyword){
             for(var i in data.doc) {
                 check_security = data.doc[i].check_security==1 ? '检测' : '不检测';
                 platform = data.doc[i].platform==0 ? 'Ios' : 'Android';     
-
                 str += '<tr>'
-                    //+ '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>'
                     + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                     + '<td style="padding:2px;"><img width="31px" height="31px" src="'+picurl+ data.doc[i].icon + '"/></td>'
                     + '<td>' + data.doc[i].app_name + '</td>'
@@ -115,7 +112,6 @@ function app_auth(i) {
 // 获取用户列表
 function getUserList(start,length,keyword){
     var strtab1 = '<table class="table table-striped table-bordered table-hover"><tr>'
-              //  + '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
                 + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
                 + '<th>用户名</th>'
                 + '<th>用户邮箱</th>'
@@ -129,9 +125,7 @@ function getUserList(start,length,keyword){
         data = JSON.parse(data);
         if (data.rt==0) {
             for(var i in data.user_list) {
-               // str = data.user_list[i].policy_id == policyid ? '<td class="sel" onclick="selected(this)"><i class="fa fa-check"></i></td>' : '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>';
                 strtab1 += '<tr>'
-                       // + str
                         + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                         + '<td>' + data.user_list[i].name + '</td>'
                         + '<td>' + data.user_list[i].email + '</td>'
@@ -150,7 +144,6 @@ function getUserList(start,length,keyword){
 function getDepartList(start_page,page_length){
     var st = 3;
     var strtab2 = '<table class="table table-striped table-bordered table-hover"><tr>'
-                //-+ '<th class="sel" onclick="selectedAll(this)"><i class="fa"></i></th>'
                 + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label><input type="checkbox" onclick="selectedAll(this)"></input><span class="text">全选</span></label></div></th>'
                 + '<th>部门名称</th>'
                 + '<th>部门领导</th>'
@@ -162,9 +155,7 @@ function getDepartList(start_page,page_length){
         data = JSON.parse(data);
         if (data.rt==0) {
             for(var i in data.depart_list) {
-                //str = data.depart_list[i].policy_id == policyid ? '<td class="sel" onclick="selected(this)"><i class="fa fa-check"></i></td>' : '<td class="sel" onclick="selected(this)"><i class="fa"></i></td>';
                 strtab2 += '<tr>'
-                        //+ str
                         + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                         + '<td>' + data.depart_list[i].name + '</td>'
                         + '<td>' + data.depart_list[i].leader + '</td>'
@@ -193,7 +184,6 @@ function unauthbtn(){
 function subbtn(state){
     var user_list = [], package_name = [], depart_list = [], i = 0, j = 0, tr;
     package_name[0] = $('input[name=package_name]').val();
-
      // 用户app授权
     if($("#users").hasClass('active')){ 
         var tab1 = $('.usertable');
@@ -205,7 +195,6 @@ function subbtn(state){
                 }    
             });
     }
-
     // 部门app授权 
     if($("#departs").hasClass('active')){
         var tab2 = $('.departtable');        
@@ -414,7 +403,7 @@ function add(){
              + '<h4 class="modal-title">添加应用</h4>'
              + '</div>'
              + '<div class="modal-body" style="padding-bottom:0px;">'
-             + '<p class="appupload" style="display:none;">正在上传。。。</p>'
+             + '<p class="appupload" style="display:none;color:red;text-align:center;">正在上传......</p>'
              + '<iframe name="ifm" style="display:none;"></iframe>'
              + '<form id="addAppForm" method="post" action="'+url+'" enctype="multipart/form-data" target="ifm" autocomplete="off" role = "form" class="form-horizontal">'
              + '<div class = "form-group">' 
@@ -518,6 +507,7 @@ function add(){
         $(this).ajaxSubmit({
             resetForm: true,
             beforeSubmit: function() {
+                $('.appupload').css({'display':'block'}); 
             },
             success: function(data) {
                 warningOpen('操作成功！','primary','fa-check');

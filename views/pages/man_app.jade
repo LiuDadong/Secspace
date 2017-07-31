@@ -10,13 +10,6 @@ block content
                     a(href="javascript:appslist()") 应用管理
                     i(class="fa fa-angle-right appissued" style="display:none;") 应用授权
                     i(class="fa fa-angle-right appissued1" style="display:none;") 取消授权
-        //-.header-buttons
-            a(class="sidebar-toggler" href="#")
-                i(class="fa fa-arrows-h")
-            a(class="refresh" id="refresh-toggler" href="/man/app")
-                i(class="glyphicon glyphicon-refresh")
-            a(class="fullscreen" id="fullscreen-toggler" href="#")
-                i(class="glyphicon glyphicon-fullscreen")
     .page-body
         .row
             .appslist(class="col-xs-12 col-md-12")
@@ -89,7 +82,7 @@ block content
             .tab(class="col-lg-12 col-sm-12 col-xs-12")
                 .widget-main
                     .tabbable
-                        input(name="packagename" style="display:none;")
+                        input(name="package_name" style="display:none;")
                         ul(class="nav nav-tabs tabs-flat" id="myTab11")
                             li(class="active")
                                 a(data-toggle="tab" href="#user1") 用户列表
@@ -107,4 +100,4 @@ block content
                 .modal-content
         .background 
     script(src="/scripts/jquery.min.js")
-    script(src="/scripts/man_app.js")
+    script(async="true" src="/scripts/man_app.js")

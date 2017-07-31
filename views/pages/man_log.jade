@@ -8,13 +8,6 @@ block content
                 small
                     i(class="fa fa-angle-right")
                     a(href="#") 管理员日志
-        //-.header-buttons
-            a(class="sidebar-toggler" href="#")
-                i(class="fa fa-arrows-h")
-            a(class="refresh" id="refresh-toggler" href="/man/log")
-                i(class="glyphicon glyphicon-refresh")
-            a(class="fullscreen" id="fullscreen-toggler" href="#")
-                i(class="glyphicon glyphicon-fullscreen")
     .page-body
         .row
             .loglist(class="col-xs-12 col-md-12")
@@ -54,4 +47,4 @@ block content
                     .page1
     script(src="/scripts/jquery.min.js")
     script(src="/scripts/jedate/jedate.js")
-    script(src="/scripts/man_log.js")
+    script(async="true" src="/scripts/man_log.js")

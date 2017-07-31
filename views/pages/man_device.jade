@@ -9,23 +9,11 @@ block content
                     i(class="fa fa-angle-right")
                     a(href="javascript:devicelist()") 设备管理
                     i(class="fa fa-angle-right deviceinfo" style="display:none;") 设备详情
-        //-.header-buttons
-            a(class="sidebar-toggler" href="#")
-                i(class="fa fa-arrows-h")
-            a(class="refresh" id="refresh-toggler" href="/man/device")
-                i(class="glyphicon glyphicon-refresh")
-            a(class="fullscreen" id="fullscreen-toggler" href="#")
-                i(class="glyphicon glyphicon-fullscreen")
     .page-body
         .row
             .devicelist(class="col-xs-12 col-md-12")
                 .widget
                     .widget-btn
-                        //-a(class="btn btn-primary" href="javascript:send_cmds(\'reset\')") 恢复出厂
-                        //-a(class="btn btn-primary" href="javascript:send_cmds(\'bell\')") 响铃追踪
-                        //-a(class="btn btn-primary" href="javascript:send_cmds(\'lockscreen\')") 锁屏
-                        //-a(class="btn btn-primary" href="javascript:send_cmds(\'chg_screen_pw\')") 锁屏密码
-                        //-a(class="btn btn-primary" href="javascript:send_cmds(\'reset\')" style="width:104px;") 擦除企业数据
                         a(class="btn btn-primary" href="javascript:refresh()")
                             i(class="fa fa-undo")
                             &nbsp;刷新
@@ -180,4 +168,4 @@ block content
     script(src="/scripts/jquery.min.js")
     script(src="http://api.map.baidu.com/api?v=2.0&ak=eqqM74ODvE9SwBK58L940OHR")
     script(src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js")
-    script(src="/scripts/man_device.js")
+    script(async="true" src="/scripts/man_device.js")
