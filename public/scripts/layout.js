@@ -1,13 +1,11 @@
-//var picurl = "http://tpos.yingzixia.com/";
-var picurl = '/';
+var picurl = "http://tpos.yingzixia.com/";
 //var picurl = "http://dev-server.yingzixia.com/"; // 开发环境图片地址
-//var hosturl = "http://tpos.yingzixia.com/"; // 正式环境
-var hosturl = '/'
+var hosturl = "http://tpos.yingzixia.com/"; // 正式环境
 //var hosturl = "http://dev-server.yingzixia.com/"; // 开发环境
 var sendurl = 'http://118.190.70.55/pub'; // 正式环境
 //var sendurl = 'http://ws.yingzixia.com/pub'; // 开发环境
 //var downurl = 'http://dev-server.yingzixia.com';
-var downurl = '';
+var downurl = 'http://tpos.yingzixia.com';
 regBox = {
     regEmail : /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
     regName : /^[a-z0-9_-]{3,16}$/,//用户名
