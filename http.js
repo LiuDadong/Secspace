@@ -48,7 +48,7 @@ exports.POST1 = function(postData, url, fun) {
             //hostname: 'tpos.yingzixia.com',
             hostname: '127.0.0.1',
             path: url,
-           // port: 80,  //正式 开发
+            //port: 80,  //正式 开发
             port: 7771,//线上
             method: 'POST',
             headers: {

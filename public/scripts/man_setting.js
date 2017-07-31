@@ -77,13 +77,22 @@ $(function() {
             }else{
                 $("input:radio[name='allow_remember_pw']").eq(1).attr("checked",'checked');
             }
-            $("span[id='identify_method"+data.doc.identify_method+"']").addClass('txt');
-            $("input:checkbox[name='identify_method1"+data.doc.identify_method+"']").attr("checked",true);
             if(data.doc.identify_method == 3){
                 $("span[id='identify_method1']").addClass('txt');
                 $("input:checkbox[name='identify_method1']").attr("checked",true);
                 $("span[id='identify_method2']").addClass('txt');
                 $("input:checkbox[name='identify_method2']").attr("checked",true);
+            }else if(data.doc.identify_method == 5){
+                $("span[id='identify_method1']").addClass('txt');
+                $("input:checkbox[name='identify_method1']").attr("checked",true);
+                $("span[id='identify_method3']").addClass('txt');
+                $("input:checkbox[name='identify_method3']").attr("checked",true);
+            }else if(data.doc.identify_method == 4){
+                $("span[id='identify_method4']").addClass('txt');
+                $("input:checkbox[name='identify_method4']").attr("checked",true);
+            }else{
+                $("span[id='identify_method"+data.doc.identify_method+"']").addClass('txt');
+                $("input:checkbox[name='identify_method"+data.doc.identify_method+"']").attr("checked",true);
             }
         } else if (data.rt==5) {
             toLoginPage();           
@@ -230,15 +239,20 @@ function setsave(){
 
 // 修改系统设置
 function identify_method(){
-    var identify_method1 = $('#identify_method1').hasClass('txt');
-    var identify_method2 = $('#identify_method2').hasClass('txt');
-    if(identify_method1 || identify_method2){
-        var identify_method = (identify_method1&&identify_method2) == true ? 3 : (identify_method1 == true ? 1 : 2 );
+    var _method1 = $('#identify_method1').hasClass('txt') == true ? 1 : 0;
+    var _method2 = $('#identify_method2').hasClass('txt') == true ? 2 : 0;
+    var _method3 = $('#identify_method3').hasClass('txt') == true ? 4 : 0;
+    var identify_method = 1;
+    if(_method1 || _method2 || _method3){
+        if(_method2 && _method3){
+            warningOpen('用户名口令＋指纹认证和用户名口令＋本地指纹认证不能同时选择！','danger','fa-bolt');
+        }else{
+            identify_method = (_method1|_method2|_method3);
+        }
+        
         var postData = {
             identify_method: identify_method
         };
-        console.log("identify_method2 = "+ identify_method1+ "identify_method2 = "+identify_method2+ "identify_method = "+identify_method);
-        
         $.post('/man/setting/orgUpdateSettings', postData, function(data) {
             if (data.rt==0) {
                 warningOpen('操作成功！','primary','fa-check');
@@ -247,7 +261,7 @@ function identify_method(){
             } else {
                 warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
             }
-        }); 
+        });
     }else{
         warningOpen('请至少选择一项！','danger','fa-bolt');
     }

@@ -6,7 +6,7 @@
 
 $(function() {
     $('.logmenu').addClass('open active');
-    $('.logmenu').find('li').eq(1).addClass('active');
+    $('.logmenu').find('li').eq(0).addClass('active');
     jeDate({
         dateCell:"#datestart",
         //skinCell:"jedatered",
