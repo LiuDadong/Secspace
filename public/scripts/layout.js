@@ -15,13 +15,57 @@ regBox = {
 $(function() {
     var avatar = localStorage.getItem("avatar");
     var icon = localStorage.getItem("icon");
+    var productName = localStorage.getItem("productName");
+    if(icon){
+        $('.navbar-inner .imglogo').html('<small><img src="' + picurl + icon + '" alt=""></img></small>');
+    }else{
+        $('.navbar-inner .imglogo').html('<small><img src="/imgs/logo.png" alt=""></img></small>');
+    }
     if(avatar){
         $('.navbar .account-area a .avatar').html('<img src="' + picurl + avatar + '" alt=""></img>');
         $('.navbar .account-area ul .avatar-area').html('<img class="avatar" src="' + picurl + avatar + '" alt=""></img>');//<span class="caption">修改头像</span>
     }
-   // $('.navbar-inner .navbar-brand small').html('<img src="' + picurl + icon + '" style="width:170px;height:22px;margin-top:10px;"></img>');
-  // $('.navbar-inner .navbar-brand small').html('<img src="../imgs/logo.png" style="width:170px;height:22px;margin-top:10px;"></img>');
+    if(productName != 'undefined' && productName !=''){
+        $('.navbar .product_name').html('<a href="#" class="navbar-brand">' + productName + '</a>');
+    }else{
+        $('.navbar .product_name').html('<a href="#" class="navbar-brand">移动安全管理平台</a>');
+    }
+    //$('.navbar-inner .navbar-brand small').html('<img src="../imgs/logo.png" style="width:170px;height:22px;margin-top:10px;"></img>');
 }); 
+
+// 管理员修改密码
+function updatepwd() {
+    var cont = '';
+        cont += '<div class="modal-header">'
+             + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
+             + '<h4 class="modal-title">修改管理员密码</h4>'
+             + '</div>'
+
+             + '<div class="modal-body">'
+             + '<form role = "form" class="form-horizontal">'
+             + '<div class = "form-group">' 
+             + '<label class="col-sm-3 control-label" for = "name">当前密码</label>' 
+             + '<div class="col-sm-7">' 
+             + '<input type = "text" class = "form-control" id = "name" name="name"/>' 
+             + '</div></div>'
+             + '<div class = "form-group">' 
+             + '<label class="col-sm-3 control-label" for = "name">新密码</label>' 
+             + '<div class="col-sm-7">' 
+             + '<input type = "text" class = "form-control" id = "name" name="name"/>' 
+             + '</div></div>'
+             + '<div class = "form-group">' 
+             + '<label class="col-sm-3 control-label" for = "tel">确认新密码</label>' 
+             + '<div class="col-sm-7">' 
+             + '<input type="text" class="form-control" id = "tel" name="phone"/>'
+             + '</div></div>'
+             + '</form>'
+             + '</div>'
+             + '<div class="modal-footer">'
+             + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
+             + '<button type="button" class="btn btn-primary" onclick="admin_update()">确认</button>'
+             + '</div>';  
+    alertOpen(cont);
+}
 
 function selectedBt(str) {
     location.href = str;

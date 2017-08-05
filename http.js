@@ -44,7 +44,7 @@ exports.POST1 = function(postData, url, fun) {
     console.log('post url:'+ hostname + url+'?'+postData);
     var cont = '',
         options = {
-            //hostname: 'dev-server.yingzixia.com',
+           // hostname: 'dev-server.yingzixia.com',
             //hostname: 'tpos.yingzixia.com',
             hostname: '127.0.0.1',
             path: url,

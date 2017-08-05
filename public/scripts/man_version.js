@@ -51,7 +51,7 @@ function getVersionList(start,length) {
                         + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                         + '<td class="detail" style="cursor:pointer;"><a>' + data.appList[i].name + '</a></td>'
                         + '<td>' + data.appList[i].versioncode + '</td>'
-                        + '<td>待生效</td>'
+                        + '<td style="color:#5db2ff">待生效</td>'
                         + '<td>' + data.appList[i].create_time + '</td>' 
                         + '<td style="display:none;">' + data.appList[i]._id + '</td>'
                         + '<td style="display:none;">' + data.appList[i].describe + '</td>'
@@ -70,7 +70,7 @@ function getVersionList(start,length) {
                         + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input><span class="text"></span></label></div></td>'
                         + '<td class="detail" style="cursor:pointer;"><a>' + data.appList[i].name + '</a></td>'
                         + '<td>' + data.appList[i].versioncode + '</td>'
-                        + '<td>已失效</td>'
+                        + '<td style="color:#d73d32">已失效</td>'
                         + '<td>' + data.appList[i].create_time + '</td>' 
                         + '<td style="display:none;">' + data.appList[i]._id + '</td>'
                         + '<td style="display:none;">' + data.appList[i].describe + '</td>'
@@ -126,6 +126,7 @@ function version_cancel(i) {
     $.post('/man/version/authSecspace', postData, function(data) {
         if (data.rt==0) {
             warningOpen('操作成功！','primary','fa-check');
+            getVersionList(currentpage,10); 
         } else if (data.rt==5) {
             toLoginPage();
         } else {
@@ -144,6 +145,7 @@ function version(i) {
     $.post('/man/version/authSecspace', postData, function(data) {
         if (data.rt==0) {
             warningOpen('操作成功！','primary','fa-check');
+            getVersionList(currentpage,10); 
         } else if (data.rt==5) {
             toLoginPage();
         } else {
@@ -231,6 +233,7 @@ function version_update(i) {
             if (data.rt==0) {
                 alertOff();
                 warningOpen('操作成功！','primary','fa-check');
+                getVersionList(currentpage,10); 
             } else if (data.rt==5) {
                 toLoginPage();
             } else {
@@ -303,7 +306,7 @@ function add(){
             success: function(data) {
                 warningOpen('操作成功！','primary','fa-check');
                 alertOff();
-               // getAppList(currentpage,10);
+                getVersionList(currentpage,10);  
             }
         });
         return false;

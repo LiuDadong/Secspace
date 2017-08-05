@@ -41,7 +41,7 @@ block content
                     div(class="col-lg-3 col-sm-6 col-xs-12")
                         .widget(style="margin:0 0 16px 0;")
                             .widget-header
-                                span(class="widget-caption" style="font-size:15px;") 在线设备百分比
+                                span(class="widget-caption" style="font-size:16px;") 在线设备百分比
                             .widget-body
                                 .circle(id="online")
                                     .pie_left
@@ -54,7 +54,7 @@ block content
                     div(class="col-lg-3 col-sm-6 col-xs-12")
                         .widget(style="margin:0 0 16px 0;")
                             .widget-header
-                                span(class="widget-caption" style="font-size:15px;") 帐号有所属部门百分比
+                                span(class="widget-caption" style="font-size:16px;") 帐号有所属部门百分比
                             .widget-body
                                 .circle(id="depart")
                                     .pie_left
@@ -67,7 +67,7 @@ block content
                     div(class="col-lg-3 col-sm-6 col-xs-12")
                         .widget
                             .widget-header
-                                span(class="widget-caption" style="font-size:15px;") 已安装app百分比
+                                span(class="widget-caption" style="font-size:16px;") 已安装app百分比
                             .widget-body
                                 .circle(id="app")
                                     .pie_left
@@ -80,9 +80,13 @@ block content
                     div(class="col-lg-3 col-sm-6 col-xs-12")
                         .widget
                             .widget-header
-                                span(class="widget-caption" style="font-size:15px;") 每天在线设备数量
+                                span(class="widget-caption" style="font-size:16px;") 每天在线设备数量
                             .widget-body
                                 #deviceNum
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background  
     script(src="/scripts/jquery.min.js")
     script(async="true" src="/scripts/man_first.js")
     script(async="true" src="http://cdn.hcharts.cn/highcharts/highcharts.js") 

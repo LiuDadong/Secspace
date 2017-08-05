@@ -30,7 +30,7 @@ $(function() {
             var categories = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
             weeks = data.doc.online_device_count_daily;
             if(weeks.length == 0){
-                weeks = [0,0,0,0,0,0,0];
+                weeks = [7,14,10,20,10,18,15];
             }
             devNum.html(devices);
             userNum.html(users);
@@ -93,6 +93,7 @@ $(function() {
            toLoginPage();
         }
     });
+    
 });
 
 //绘画圆形百分比函数

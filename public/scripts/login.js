@@ -66,9 +66,10 @@ $(function() {
                     localStorage.setItem("data1",JSON.stringify(data));
                     location.href = "/per/settings";
                 } else {
-                    //console.log("data  == "+JSON.stringify(data));
+                    console.log("data  == "+JSON.stringify(data));
                     localStorage.setItem("avatar",data.avatar);
                     localStorage.setItem("icon",data.icon);
+                    localStorage.setItem("productName",data.product_name);
                     location.href = "/man/first";
                 }
             } else if(data.rt==3 || data.rt==4) {

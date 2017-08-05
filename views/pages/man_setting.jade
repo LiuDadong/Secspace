@@ -60,11 +60,20 @@ block content
                                 label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "max_download") 应用下载并发数
                                 .inforow(class="col-lg-3 col-xs-4 col-sm-4")
                                     select(class="form-control" name="max_download" id="max_download")
+                                        option(disabled value='') 请选择
                                         option(value="1") 1
                                         option(value="2") 2
                                         option(value="3") 3
+                                label(class="col-lg-5 col-xs-4 col-sm-2 control-label") 个
+                        .row(class="col-xs-12 col-md-12")
+                            h5 消息服务地址设置 
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "send_url") 消息服务地址
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="text" name="send_url" class = "form-control" id = "send_url") 
                                 .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
-                                    a(class="btn btn-primary" href="javascript:setsave()") 保存
+                                    a(class="btn btn-primary" href="javascript:setsave()") 保存 
             .setting(class="col-xs-12 col-md-12")
                 .widget(class="collapsed")
                     .widget-header
@@ -133,12 +142,12 @@ block content
                                                 用户名口令认证 
                                     div(class="checkbox")
                                         label(style="padding-left:0;")
-                                            input(type="checkbox" onclick="selectcheckbox(this)" name="identify_method2")
+                                            input(type="checkbox" onclick="select2(this)" name="identify_method2")
                                             span(class="text" id="identify_method2")
                                                 用户名口令＋指纹认证
                                     div(class="checkbox")
                                         label(style="padding-left:0;")
-                                            input(type="checkbox" onclick="selectcheckbox(this)" name="identify_method3")
+                                            input(type="checkbox" onclick="select3(this)" name="identify_method3")
                                             span(class="text" id="identify_method3")
                                                 用户名口令＋本地指纹认证  
                                 .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
@@ -181,5 +190,33 @@ block content
                                         input(type="text" name="company_domain" class = "form-control" id = "company_domain") 
                                     .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
                                         button(class="btn btn-primary" type="submit" style="width:78px;") 保存
+            //-.setting(class="col-xs-12 col-md-12")
+                .widget(class="collapsed")
+                    .widget-header
+                        i(class="widget-icon fa fa-gear")
+                        .widget-buttons(style="position:absolute;left:25px;")
+                            a(href="#" data-toggle="collapse")
+                                服务器地址设置
+                    .widget-body
+                        .row(class="col-xs-12 col-md-12")
+                            h5 服务器域名设置 
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "domain_name") 服务器域名
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="text" name="domain_name" class = "form-control" id = "domain_name")
+                        .row(class="col-xs-12 col-md-12")
+                            h5 消息服务地址设置 
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "send_url") 消息服务地址
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="text" name="send_url" class = "form-control" id = "send_url")
+                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                    a(class="btn btn-primary" href="javascript:save_url()") 保存 
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background  
     script(src="/scripts/jquery.min.js")
     script(async="true" src="/scripts/man_setting.js")

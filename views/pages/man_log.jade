@@ -7,7 +7,7 @@ block content
                 日志
                 small
                     i(class="fa fa-angle-right")
-                    a(href="#") 管理员日志
+                    a(href="#") 用户日志
     .page-body
         .row
             .loglist(class="col-xs-12 col-md-12")
@@ -45,6 +45,10 @@ block content
                                         导出
                     .logtable(class="widget-body" style="box-shadow:none;padding:0;")
                     .page1
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background  
     script(src="/scripts/jquery.min.js")
     script(src="/scripts/jedate/jedate.js")
     script(async="true" src="/scripts/man_log.js")

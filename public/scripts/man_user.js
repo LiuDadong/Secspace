@@ -55,6 +55,7 @@ function getUserList(start,length,keyword) {
         }
     });
     currentpage = start;
+    console.log('sendurl = '+sendurl);
 }
 // page页查询
 function search(p,i) {
@@ -309,16 +310,25 @@ function add(){
              + '<label class="col-sm-3 control-label" for = "name">姓名</label>' 
              + '<div class="col-sm-7">' 
              + '<input type = "text" class = "form-control" id = "name" name="name" placeholder = "请输入姓名"/>' 
+             + '</div>' 
+             + '<div class="col-sm-2" style="padding-left:0;">' 
+             + '<img src = "../imgs/star.png"></img>' 
              + '</div></div>'
              + '<div class = "form-group">' 
              + '<label class="col-sm-3 control-label" for = "email">登录名</label>' 
              + '<div class="col-sm-7">' 
-             + '<input type ="email" class = "form-control" id = "email" name="mail" placeholder = "请输入邮箱"/>' 
+             + '<input type ="email" class = "form-control" id = "email" name="mail" placeholder = "请输入邮箱"/>'
+             + '</div>' 
+             + '<div class="col-sm-2" style="padding-left:0;">' 
+             + '<img src = "../imgs/star.png"></img>' 
              + '</div></div>'
              + '<div class = "form-group">' 
              + '<label class="col-sm-3 control-label" for = "tel">电话号码</label>' 
              + '<div class="col-sm-7">' 
              + '<input type="text" class="form-control" id = "tel" name="phone" placeholder = "请输入联系电话"/>'
+             + '</div>' 
+             + '<div class="col-sm-2" style="padding-left:0;">' 
+             + '<img src = "../imgs/star.png"></img>' 
              + '</div></div>'
              + '<div class = "form-group">' 
              + '<label class="col-sm-3 control-label" for = "profession">选择部门</label>' 

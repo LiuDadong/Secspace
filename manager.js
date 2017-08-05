@@ -971,7 +971,14 @@ module.exports = function(app, _http) {
                 'pw_max_try_times': req.body.pw_max_try_times,
                 'frozen_time': req.body.frozen_time,
                 'allow_remember_pw': req.body.allow_remember_pw,
-                'max_download': req.body.max_download
+                'max_download': req.body.max_download,
+                'send_url': req.body.send_url                
+            };
+        } else if(req.body.domain_name){
+            postData = {
+                'sid': req.cookies.sid,
+                'domain_name': req.body.domain_name,
+                'send_url': req.body.send_url
             };
         } else if(req.body.company_domain){
             postData = {
