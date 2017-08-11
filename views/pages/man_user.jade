@@ -17,22 +17,51 @@ block content
                         a(class="btn btn-primary" href="javascript:add()") 
                             i(class="fa fa-plus")
                             添加
+                        //-a(class="btn btn-primary" href="javascript:invent()") 
+                            i(class="fa fa-magic")
+                            激活
                         a(class="btn btn-primary" href="javascript:refresh()")
                             i(class="fa fa-undo")
                             刷新
                         a(class="btn btn-danger" href="javascript:deletes()")
                             i(class="fa fa-times")
                             删除
+                        //-a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-th" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 下发应用
+                        //-a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-lightbulb-o" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 下发策略
+                        //-a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-file-text-o" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 下发内容
+                        //-a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-key" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 重置密码
+                        //-a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-arrows" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 移动至组
+                        //-a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-plus-square" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 添加标签
+                        //-a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-list-ul" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 更多
+                        //-.input-group(class="input-group-sm")
+                            input(class="form-control" type="text" style="float:right;max-width:200px;")
+                            span(class="input-group-btn")
+                                button(class="btn btn-default btn-primary" type="button")
+                                    i(class="glyphicon glyphicon-search")
                         //-a(class="btn btn-primary" href="javascript:window.history.back()")
                             i(class="fa fa-times")
                             返回
-                    .search(class="col-lg-12 col-sm-12 col-xs-12" style="padding:0")
+                    .search(class="col-lg-12 col-sm-12 col-xs-12" style="padding:0;")
                         .widget(class="collapsed" style="margin-bottom:10px;")
                             .widget-header(style="box-shadow:none;padding-left:0;margin-bottom:10px;")
-                                span(class="widget-caption")
-                                    .input-group
+                                span(class="widget-caption" style="line-height:30px;")
+                                    .input-group(class="input-group-sm")
                                         span(class="input-icon")
-                                            input(type="text" class="form-control input-sm")
+                                            input(type="text" class="form-control")
                                             i(class="glyphicon glyphicon-search primary")
                                 .widget-buttons
                                     a(href="#" data-toggle="collapse") 高级搜索

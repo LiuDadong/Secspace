@@ -87,6 +87,20 @@ module.exports = function(app, _http) {
             res.redirect('/');         
         }
     });
+    // 合规性策略
+    app.get('/man/compliance', function(req, res) {
+        var sid = req.cookies.sid;
+        if(sid) {
+            res.render('man_compliance', {
+                sid: sid,
+                admin: req.cookies.admin,
+                title: '合规管理',
+                logout: '/logout/man'
+            });
+        } else {
+            res.redirect('/');         
+        }
+    });
     //围栏管理
     app.get('/man/rail', function(req, res) {
         var sid = req.cookies.sid;

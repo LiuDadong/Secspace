@@ -184,29 +184,53 @@ function unauthbtn(){
 function subbtn(state){
     var user_list = [], package_name = [], depart_list = [], i = 0, j = 0, tr;
     package_name[0] = $('input[name=package_name]').val();
-     // 用户app授权
-    if($("#users").hasClass('active')){ 
-        var tab1 = $('.usertable');
-            tab1.find('td span').each(function () { 
-                if ($(this).hasClass('txt')) {
-                    tr = $(this).parents("tr");
-                    user_list[i] = tr.find('td').eq(2).text();
-                    i = i+1;
-                }    
-            });
+    if(state == 1){
+         // 用户app授权
+        if($("#users").hasClass('active')){ 
+            var tab1 = $('.usertable');
+                tab1.find('td span').each(function () { 
+                    if ($(this).hasClass('txt')) {
+                        tr = $(this).parents("tr");
+                        user_list[i] = tr.find('td').eq(2).text();
+                        i = i+1;
+                    }    
+                });
+        }
+        // 部门app授权 
+        if($("#departs").hasClass('active')){
+            var tab2 = $('.departtable');        
+                tab2.find('td span').each(function () { 
+                    if ($(this).hasClass('txt')) {
+                        tr = $(this).parents("tr");
+                        depart_list[j] = tr.find('td').eq(4).text()*1;
+                        j = j+1;
+                    }
+                });
+        }
+    } else {
+        if($("#user1").hasClass('active')){ 
+            var tab1 = $('.usertable');
+                tab1.find('td span').each(function () { 
+                    if ($(this).hasClass('txt')) {
+                        tr = $(this).parents("tr");
+                        user_list[i] = tr.find('td').eq(2).text();
+                        i = i+1;
+                    }    
+                });
+        }
+        // 部门app授权 
+        if($("#depart1").hasClass('active')){
+            var tab2 = $('.departtable');        
+                tab2.find('td span').each(function () { 
+                    if ($(this).hasClass('txt')) {
+                        tr = $(this).parents("tr");
+                        depart_list[j] = tr.find('td').eq(4).text()*1;
+                        j = j+1;
+                    }
+                });
+        }
     }
-    // 部门app授权 
-    if($("#departs").hasClass('active')){
-        var tab2 = $('.departtable');        
-            tab2.find('td span').each(function () { 
-                if ($(this).hasClass('txt')) {
-                    tr = $(this).parents("tr");
-                    depart_list[j] = tr.find('td').eq(4).text()*1;
-                    j = j+1;
-                }
-            });
-    }
-
+    
     if(user_list.length > 0 || depart_list.length > 0){
         if(user_list.length > 0){
             postData = {

@@ -46,7 +46,7 @@ function getPolicylist(start_page,page_length){
                         + '<td style="display:none;">' + JSON.stringify(data.policies[i].wifi) + '</td>'             
                         + '<td>'                
                         + '<a href="javascript:dispatch_policy('+ i +');">策略下发</a>&nbsp;&nbsp;&nbsp;&nbsp;'
-                        + '<a href="javascript:cancel_policy('+ i +');">策略取消</a>&nbsp;&nbsp;&nbsp;&nbsp;'
+                        //+ '<a href="javascript:cancel_policy('+ i +');">策略取消</a>&nbsp;&nbsp;&nbsp;&nbsp;'
                         + '<a href="javascript:policy_modify('+ i +');">修改信息</a>'
                         + '</td></tr>';
                         if(i === 2){
@@ -377,6 +377,8 @@ function dispatch_policy(i) {
 }
 // 取消策略
 function cancel_policy(i) {
+    warningOpen('ce！','danger','fa-bolt');
+    /*
     $('.policylist').css({'display':'none'});
     $('.cancellist').css({'display':'block'});
     $('.pissued2').css({'display':'inline-block'});
@@ -384,7 +386,7 @@ function cancel_policy(i) {
         policy_id = _tr.find('td').eq(6).text();
     $('.tabbable').find('input[name=policy_id]').val(policy_id);
     getUserList(1,10,''); // 该策略已经下发的用户列表
-    getDepartList(1,10); // 该策略已经下发的部门列表
+    getDepartList(1,10); // 该策略已经下发的部门列表*/
 }
 // 获取用户列表
 function getUserList(start,length,keyword){

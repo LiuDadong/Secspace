@@ -44,7 +44,7 @@ function getVersionList(start,length) {
                         + '</td></tr>'
                         + '<tr class="box" style="display:none;">'
                         + '<td style="border:none;"></td>'
-                        + '<td colspan="5" style="border:none;"><p style="margin-top:10px;">版本信息：' + data.appList[i].describe + '</p></td>'
+                        + '<td colspan="5" style="border:none;"><p style="margin-top:10px;">更新内容：' + data.appList[i].describe + '</p></td>'
                         + '</tr>';
                 }else if(data.appList[i].status == 0){
                     str += '<tr>'
@@ -63,7 +63,7 @@ function getVersionList(start,length) {
                         + '</td></tr>' 
                         + '<tr class="box" style="display:none;">'
                         + '<td style="border:none;"></td>'
-                        + '<td colspan="5" style="border:none;"><p style="margin-top:10px;">版本信息：' + data.appList[i].describe + '</p></td>'
+                        + '<td colspan="5" style="border:none;"><p style="margin-top:10px;">更新内容：' + data.appList[i].describe + '</p></td>'
                         + '</tr>';
                 }else{
                     str += '<tr>'
@@ -82,7 +82,7 @@ function getVersionList(start,length) {
                         + '</td></tr>' 
                         + '<tr class="box" style="display:none;">'
                         + '<td style="border:none;"></td>'
-                        + '<td colspan="5" style="border:none;"><p style="margin-top:10px;">版本信息：' + data.appList[i].describe + '</p></td>'
+                        + '<td colspan="5" style="border:none;"><p style="margin-top:10px;">更新内容：' + data.appList[i].describe + '</p></td>'
                         + '</tr>';
                 }
             
@@ -222,10 +222,11 @@ function version_update(i) {
         describe: describe,
         _id: id
     };
+    var version = /^[0-9]+\.+[0-9]+\.+[0-9]$/;
     if (postData.name =='') {
         warningOpen('请输入版本名称！','danger','fa-bolt');
-    } else if (postData.versioncode =='') {
-        warningOpen('请输入版本编号！','danger','fa-bolt');
+    } else if (postData.versioncode == '' || !version.test(postData.versioncode)) {
+        warningOpen('请输入正确的版本编号！','danger','fa-bolt');
     }  else if (postData.describe =='') {
         warningOpen('请输入版本描述信息！','danger','fa-bolt');
     } else {  
@@ -246,6 +247,7 @@ function version_update(i) {
 
 // 添加版本
 function add(){
+    var vcode = /^[0-9]+\.+[0-9]+\.+[0-9]$/;
     var sid = getCookie("sid"); 
     var url = hosturl + 'p/file/uploadApp';
     var cont = '';
@@ -266,7 +268,7 @@ function add(){
              + '<div class = "form-group">' 
              + '<label class="col-sm-3 control-label" for = "versioncode">版本编号</label>' 
              + '<div class="col-sm-7">' 
-             + '<input type = "text" class = "form-control" id = "versioncode" name="versioncode" placeholder = "请输入版本编号" autocomplete="off"/>' 
+             + '<input type = "text" class = "form-control" id = "versioncode" name="versioncode" placeholder = "1.0.0" autocomplete="off"/>' 
              + '</div></div>'
              + '<div class = "form-group">' 
              + '<label class="col-sm-3 control-label">是否立即生效</label>' 
@@ -284,7 +286,7 @@ function add(){
              + '<input type = "file" name="file_data" id="file_data"/>' 
              + '</div></div>'
              + '<div class = "form-group">' 
-             + '<label class="col-sm-3 control-label" for = "describe">版本详情</label>' 
+             + '<label class="col-sm-3 control-label" for = "describe">更新内容</label>' 
              + '<div class="col-sm-7">' 
              + '<span class="input-icon icon-right">'
              + '<textarea class="form-control" rows="3" name="describe" id="describe"></textarea>'
@@ -301,6 +303,11 @@ function add(){
         $(this).ajaxSubmit({
             resetForm: true,
             beforeSubmit: function() {
+                var versioncode = $('input[name=versioncode]').val();
+                if(versioncode == '' || !vcode.test(versioncode)){
+                    warningOpen('请输入正确的版本编号！','danger','fa-bolt');
+                    return false;
+                }
                 $('.appupload').css({'display':'block'}); 
             },
             success: function(data) {

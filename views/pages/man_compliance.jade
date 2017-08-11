@@ -1,0 +1,126 @@
+extends ../layout
+
+block content
+    .page-header(class="position-relative")
+        .header-title(style="width:180px;")
+            h1
+                策略
+                small
+                    i(class="fa fa-angle-right")
+                    a 系统合规
+    .page-body
+        .row
+            .setting(class="col-xs-12 col-md-12")
+                .widget
+                    .widget-header
+                        i(class="widget-icon fa fa-gear")
+                        .widget-buttons(style="position:absolute;left:25px;")
+                            a(href="#" data-toggle="collapse")
+                                系统合规
+                    .widget-body
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "max_download") 违反策略
+                                .inforow(class="col-lg-4 col-xs-4 col-sm-5")
+                                    select(class="form-control" name="max_download" id="max_download")
+                                        option(disabled value='') 请选择
+                                        option(value="1") 系统版本过低
+                                        option(value="2") SIM卡变更
+                                        option(value="3") Rooted/越狱
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 设备平台
+                                .inforow(class="col-lg-4 col-xs-4 col-sm-5")
+                                    label(class="col-xs-6 col-md-6" style="padding-left:0px;")
+                                        input(name="allow_remember_pw" type="radio" value="1" checked="checked")
+                                        span(class="text") Android
+                                    .inforow(class="col-lg-6 col-xs-6 col-sm-6" style="padding-right:0px;")
+                                        select(class="form-control" name="max_download" id="max_download")
+                                            option(value='4.4') 4.4
+                                            option(value="4.4.1") 4.4.1
+                                            option(value="4.4.2") 4.4.2
+                                            option(value="4.4.3") 4.4.3
+                                            option(value='4.4.4') 4.4.4
+                                            option(value='5.0') 5.0
+                                            option(value="5.0.1") 5.0.1
+                                            option(value="5.0.2") 5.0.2
+                                            option(value="5.1") 5.1
+                                            option(value="5.1.1") 5.1.1
+                                            option(value="6.0") 6.0
+                                            option(value="6.0.1") 6.0.1
+                                            option(value="7.0") 7.0
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "max_download") 违规处理
+                                .inforow(class="col-lg-4 col-xs-4 col-sm-5")
+                                    select(class="form-control" name="max_download" id="max_download")
+                                        option(value='') 请选择
+                                        option(value="1") 禁止使用secspace
+                        //-.row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "send_url") 设备平台
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="text" name="send_url" class = "form-control" id = "send_url") 
+                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                    a(class="btn btn-primary" href="javascript:setsave()") 保存
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                .widget-btn(class="col-lg-1 col-xs-1 col-sm-1 col-lg-offset-3 col-sm-offset-4 col-xs-4")
+                                    a(class="btn btn-primary" href="javascript:setsave()") 保存
+                                .widget-btn(class="col-lg-1 col-xs-1 col-sm-1 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                    a(class="btn btn-primary" href="javascript:setsave()") 取消    
+            //-.setting(class="col-xs-12 col-md-12") 禁止使用secspace
+                .widget(class="collapsed")
+                    .widget-header
+                        i(class="widget-icon fa fa-gear")
+                        .widget-buttons(style="position:absolute;left:25px;")
+                            a(href="#" data-toggle="collapse")
+                                管理员设置
+                    .widget-body
+                        iframe(name="iframe" width="0" height="0" style="display:none;")
+                        form(form id="addadmpic" method="post" action="/p/org/orgUpdateSettings" enctype="multipart/form-data" target="iframe")
+                            .row(class="col-xs-12 col-md-12")
+                                h5 管理员基本信息设置
+                            .row(class="col-xs-12 col-md-12")
+                                .form-group
+                                    label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "manager_name") 管理员姓名
+                                    .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                        input(type="text" name="manager_name" class = "form-control" id = "manager_name") 
+                                    label(class="col-lg-6 col-xs-4 col-sm-4 control-label")
+                            .row(class="col-xs-12 col-md-12")
+                                .form-group
+                                    label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 管理员头像
+                                    .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                        .img(style="width:90px;height:90px;")
+                                            input(name="sid" type="text" style="display:none;")
+                                            input(type="file" id="admpicfile" name="avatar" class="file" size="10" style="width:90px;height:90px;opacity:0;")
+                                            .img_adm(style="width:100px;height:100px;margin-top:-95px;margin-left:-5px;" class="avatar-area")
+                                    .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                        button(class="btn btn-primary" type="submit" style="width:78px;margin-top:68px;") 保存
+                        .row(class="col-xs-12 col-md-12")
+                            h5 密码修改
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "currentpw") 当前密码
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="password" name="currentpw" autocomplete="off" class = "form-control" id = "currentpw") 
+                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label")
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "newpw") 新密码
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="password" name="newpw" autocomplete="off" class = "form-control" id = "newpw") 
+                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label")
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "confirpw") 确认新密码
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="password" name="confirpw" autocomplete="off" class = "form-control" id = "confirpw") 
+                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                    a(class="btn btn-primary" href="javascript:set_updatePW()") 保存
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background  
+    script(src="/scripts/jquery.min.js")
+    script(async="true" src="/scripts/man_compliance.js")

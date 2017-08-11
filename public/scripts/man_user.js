@@ -9,6 +9,7 @@ $(function() {
     $('.usermenu').find('li').eq(0).addClass('active');
     // 用户列表
     getUserList(1,10,'');  
+   
 });
 // 用户列表
 function getUserList(start,length,keyword) {
@@ -25,7 +26,7 @@ function getUserList(start,length,keyword) {
             + '<th>注册时间</th>'
             + '<th>其他操作</th></tr>';
     $.get(url, function(data) {
-        console.log("data = "+data);
+        //console.log("data = "+data);
         data = JSON.parse(data);
         if (data.rt==0) {
             for(var i in data.user_list) {
@@ -49,13 +50,11 @@ function getUserList(start,length,keyword) {
             str +='</table>';
             table.html(str);
             createFooter(start,length,data.total_count,st);  
-
         } else if (data.rt==5) {
             toLoginPage();           
         }
     });
     currentpage = start;
-    console.log('sendurl = '+sendurl);
 }
 // page页查询
 function search(p,i) {
@@ -69,6 +68,9 @@ function search(p,i) {
     } else{
         console.log(i);
     }
+}
+function keys(){
+    warningOpen('功能未实现！','danger','fa-bolt');
 }
 // 返回用户列表
 function userlist(){
@@ -454,9 +456,7 @@ function user_delete() {
     if(userId.length > 0){
         var postData = {
             users: JSON.stringify(userId)
-        };
-        console.log(userId);
-       /* 
+        };       
         $.post('/man/user/delUser', postData, function(data) {
             if (data.rt == 0) {               
                 getUserList(1,10,'');  
@@ -467,7 +467,7 @@ function user_delete() {
             } else {
                 warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
             }
-        }); */
+        }); 
     }else{
         warningOpen('请选择用户！','danger','fa-bolt');
     }        

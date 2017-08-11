@@ -4,6 +4,7 @@ var util = require('util');
 //var hostname = 'http://tpos.yingzixia.com';//正式
 //var hostname = 'http://dev-server.yingzixia.com';//开发
 var hostname = 'http://127.0.0.1:7770'; // 线上
+//var hostname = 'http://47.93.184.176:8002'; // 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 /*
  * GET
@@ -41,15 +42,17 @@ exports.GET = function(url, fun) {
 exports.POST1 = function(postData, url, fun) {
     var querystring = require('querystring');
     postData = querystring.stringify(postData);
-    console.log('post url:'+ hostname + url+'?'+postData);
+   // console.log('post url:48.93.184.176'+ url+'?'+postData);
     var cont = '',
         options = {
-           // hostname: 'dev-server.yingzixia.com',
+            //hostname: 'dev-server.yingzixia.com',
             //hostname: 'tpos.yingzixia.com',
             hostname: '127.0.0.1',
+           // hostname: '47.93.184.176',
             path: url,
-            //port: 80,  //正式 开发
+           // port: 80,  //正式 开发
             port: 7771,//线上
+           // port: 8002,  //正式 开发
             method: 'POST',
             headers: {
                 'Content-Length': postData.length,
@@ -67,6 +70,7 @@ exports.POST1 = function(postData, url, fun) {
                 }
             });
         });
+        console.log(querystring.stringify(options));
     req.on('error', function(e) {
         console.log('Error: ' + e.messsage);
     });

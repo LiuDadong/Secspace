@@ -43,7 +43,7 @@ $(function() {
             reader.readAsDataURL(file);
             reader.onload = function(e){              
                 $('input[name=sid]').val(sid);
-                img_area.html('<img class="avatar imge-thumbnail" width="194.7px;" height="44px;" src="'+this.result+'" alt=""></img>');
+                img_area.html('<img class="avatar imge-thumbnail" width="194.7px;" height="44px;" src="'+this.result+'" alt="" style="background:#ccc;"></img>');
                 company_icon = this.result;
             }
         }

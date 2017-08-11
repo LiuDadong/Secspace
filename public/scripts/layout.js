@@ -1,10 +1,14 @@
 var picurl = "http://tpos.yingzixia.com/";
 //var picurl = "http://dev-server.yingzixia.com/"; // 开发环境图片地址
+//var picurl = "http://47.93.184.176:8002/"; // 开发环境图片地址
 var hosturl = "http://tpos.yingzixia.com/"; // 正式环境
 //var hosturl = "http://dev-server.yingzixia.com/"; // 开发环境
+//var hosturl = "http://47.93.184.176:8002/"; // 开发环境
 var sendurl = 'http://118.190.70.55/pub'; // 正式环境
 //var sendurl = 'http://ws.yingzixia.com/pub'; // 开发环境
+//var sendurl = 'http://47.93.184.176:8002/pub'; // 开发环境
 //var downurl = 'http://dev-server.yingzixia.com';
+//var downurl = 'http://47.93.184.176:8002';
 var downurl = 'http://tpos.yingzixia.com';
 regBox = {
     regEmail : /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
@@ -12,6 +16,7 @@ regBox = {
     regMobile : /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/,//手机
     regTel : /^0[\d]{2,3}-[\d]{7,8}$/
 };
+
 $(function() {
     var avatar = localStorage.getItem("avatar");
     var icon = localStorage.getItem("icon");
@@ -31,7 +36,10 @@ $(function() {
         $('.navbar .product_name').html('<a href="#" class="navbar-brand">移动安全管理平台</a>');
     }
     //$('.navbar-inner .navbar-brand small').html('<img src="../imgs/logo.png" style="width:170px;height:22px;margin-top:10px;"></img>');
-}); 
+    $(".searchicon").click(function(){
+        $(".searchcontent").toggle(200);
+    });
+});
 
 // 管理员修改密码
 function updatepwd() {
@@ -72,6 +80,7 @@ function selectedBt(str) {
 }
 // 选择按钮
 function selected(e) {
+    var i = 0;
     if ($(e).attr("checked")) {
         $('th input[type=checkbox]').attr("checked",false);
         $('th .checkbox span').removeClass('txt');
@@ -82,7 +91,13 @@ function selected(e) {
         //$('th .checkbox .text').addClass('txt');
         $(e).parent().find('span').addClass('txt');
         $(e).attr("checked",true);
+        //$('.hrefactive').addClass("hrefallowed");
     }
+    if($(e).parents('table').find('span').hasClass('txt')){
+        i = 1;
+    }
+    i === 0 ? $('.hrefactive').removeClass("hrefallowed") : $('.hrefactive').addClass("hrefallowed");
+
 }
 // 选择按钮
 function selectcheckbox(e) {
@@ -117,9 +132,11 @@ function selectedAll(e) {
     if (tag == 0) {
         $(table).find('.checkbox input[type=checkbox]').attr("checked",true);
         $(table).find('.checkbox span').addClass("txt");
+        $('.hrefactive').addClass("hrefallowed");
     } else {
         $(table).find('.checkbox input[type=checkbox]').attr("checked",false);
         $(table).find('.checkbox span').removeClass("txt");
+        $('.hrefactive').removeClass("hrefallowed");
     }
 }    
 // 全选按钮

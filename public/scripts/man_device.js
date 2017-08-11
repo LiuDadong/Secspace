@@ -13,7 +13,9 @@ $(function() {
     $.get('/man/setting/orgGetSettings', function(data) {
         data = JSON.parse(data);
         if (data.rt==0) {
-            sendurl = 'http://' + data.doc.send_url + '/pub';
+            if(data.doc.send_url){
+                sendurl = 'http://' + data.doc.send_url + '/pub';
+            }
             console.log('sendurl = '+sendurl);
         }
     });
@@ -80,9 +82,7 @@ function getDetail(i){
     var last_online = _tr.find('td').eq(4).text();   
     if(dev_info.length > 0 && dev_info != "undefined"){
         devObj = JSON.parse(dev_info);
-        appObj1 = JSON.parse(app_list);
-        appObj = appObj1.app_info_list;  
-        console.log(appObj);
+        
         //appObj = appObj1.mAppinfolist; 
         $('.devicelist').css({'display':'none'});
         $('.device').css({'display':'block'});
@@ -102,7 +102,7 @@ function getDetail(i){
         $('.status').text('目前状态 : '+status);
         var reset = '<li class="list-group-item" style="border:none;">'
                   + '<img class="img-circle" src="../imgs/reset.png" onclick="sendCmd(\'reset\',\''+dev_id+'\')"/></li>'
-                  + '<li class="list-group-item" onclick="sendCmd(\'reset\',\''+dev_id+'\')" style="border:none;">恢复出厂设置</li>';
+                  + '<li class="list-group-item" onclick="sendCmd(\'reset\',\''+dev_id+'\')" style="border:none;">擦除全部数据</li>';
         $('.reset').html(reset);
         var bell = '<li class="list-group-item" style="border:none;">'
                   + '<img class="img-circle" src="../imgs/bell.png" onclick="sendCmd(\'bell\',\''+dev_id+'\')"/></li>'
@@ -231,6 +231,9 @@ function getDetail(i){
             }
         });
         // tab4 设备已安装app列表
+        appObj1 = JSON.parse(app_list);
+        appObj = appObj1.app_info_list;  
+        console.log(appObj);
         strtab4 = '<table class="table table-hover"><tr>'
                 + '<th>应用名称</th>'
                 + '<th>应用包名称</th>'

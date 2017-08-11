@@ -61,8 +61,8 @@ html
                                             .avatar-area
                                                 //-span(class="caption") 修改头像
                                         li(class="edit")
-                                            a(href="javascript:updatepic()" class="pull-left") 账号
-                                            a(href="javascript:updatepwd()" class="pull-right") 密码
+                                            //-a(href="javascript:updatepic()" class="pull-left") 账号
+                                            //-a(href="javascript:updatepwd()" class="pull-right") 密码
                                         li(class="theme-area")
                                             ul(class="colorpicker" id="skin-changer")
                                                 li
@@ -140,6 +140,9 @@ html
                                     a(href="javascript:selectedBt('/man/policy')")
                                         span(class="menu-text") 策略管理
                                 li
+                                    a(href="javascript:selectedBt('/man/compliance')")
+                                        span(class="menu-text") 合规性检查
+                                //-li
                                     a(href="javascript:selectedBt('/man/rail')")
                                         span(class="menu-text") 围栏管理
                         li(class="appmenu")
@@ -194,15 +197,50 @@ html
                                         span(class="menu-text") 基本信息设置
                 .page-content
                     block content
-        .searchmesg
-            span(class="searchicon")
+        //-.searchmesg
+            span(class="searchicon" id="searchicon")
                 i(class="fa fa-filter")
-            //-.searchcontent
-            
+            //-.searchcontent(id="searchcontent")
+                .div(class="col-xs-12 col-md-12")
+                    .tree(id="MyTree2" class="tree-plus-minus")
+                        .tree-folder(style="display: none;")
+                            .tree-folder-header
+                                i(class="fa fa-folder")
+                                .tree-folder-name
+                            .tree-folder-content
+                            .tree-loader(style="display: none;")
+                        .tree-item(style="display: none;")
+                            i(class="tree-dot")
+                            .tree-item-name
+            .searchcontent(id="searchcontent")
+                .div(class="col-xs-12 col-md-12")
+                    .tree(id="MyTree2" class="tree-plus-minus")
+                        .tree-folder
+                            .tree-folder-header
+                                i(class="fa fa-folder-open")
+                                .tree-folder-name treename
+                            .tree-folder-content
+                                .tree-item
+                                    i(class="tree-dot")
+                                    .tree-item-name
+                                        i(class="fa-bar-chart-o darkorange tree-dot")
+                                        tasks
+                                .tree-item
+                                    i(class="tree-dot")
+                                    .tree-item-name
+                                        i(class="fa-bar-chart-o darkorange tree-dot") tasks
+                                .tree-item
+                                    i(class="tree-dot")
+                                    .tree-item-name
+                                        i(class="fa-bar-chart-o darkorange tree-dot") tasks
+                            .tree-loader(style="display: none;")
+                        
         script(src="/assets/js/jquery-2.0.3.min.js")
         script(src="/assets/js/bootstrap.min.js")
         script(src="/assets/js/beyond.min.js")
         script(src="/scripts/jquery.cookie.js")
         script(src="/scripts/jquery.form.min.js")
         script(src="/assets/js/toastr/toastr.js")
+        //-script(src="/assets/js/tree-custom.min.js")
+        //-script(src="/assets/js/treeview-init.js")
         script(src="/scripts/layout.js")

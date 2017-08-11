@@ -9,12 +9,18 @@ a, a:hover {
     text-decoration: none;
 }
 .widget-btn{
-	height: 44px;
+	height: 54px;
 }
 .widget-btn a{
 	margin-right: 20px;
 	float: left;
 	width: 78px;
+}
+@media screen and (max-width: 1024px){
+	.widget-btn a{
+		margin-right: 10px;
+	}
+	
 }
 .widget-btn .btn-group a{
 	width: auto;
@@ -113,6 +119,7 @@ td,.devinfo li{
 	.first #deviceNum{
 		height:400px;
 	}
+
 }
 @media screen and (min-height: 1080px){
 	.circle{
@@ -338,27 +345,44 @@ td,.devinfo li{
 	padding-left: 0;
 }
 .searchmesg{
-	display: none;
 	position: fixed;
 	z-index: 999999;
-	top: 260px;
+	top: 160px;
 	right: 0px;
 }
 .searchicon{
 	padding: 20px 2px;
 	background: #008080;
 	font-size: 20px;
-	opacity: 0.7;
+	opacity: 0.6;
 	color: #fff;
-	border-radius: 3px 0 0 3px;
+	border-radius: 5px 0 0 5px;
 	cursor: pointer;
 	text-align: center;
+	float: left;
 }
 .searchicon:hover,.searchicon:active{
-	padding: 20px 10px;
+	/*padding: 20px 10px;*/
+	opacity: 1;
 }
 .searchcontent{
-	width: 300px;
+	display: none;
+	min-width: 300px;
 	height: 400px;
-	background-color: #eee;
+	margin-left: 20px;
+	background-color: #fcfcfc;
+	-webkit-box-shadow: 0 0 4px rgba(0,0,0,.3);
+	-moz-box-shadow: 0 0 4px rgba(0,0,0,.3);
+	box-shadow: 0 0 4px rgba(0,0,0,.3);
+}
+.widget .hrefactive{
+	text-align: center;
+	color: #666;
+	opacity: .5;
+	cursor: not-allowed;
+	width: 60px;
+}
+.widget .hrefallowed{
+	opacity: 1;
+	cursor: pointer;
 }
