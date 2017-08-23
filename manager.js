@@ -45,6 +45,36 @@ module.exports = function(app, _http) {
             res.redirect('/');                    
         }
     });
+    // 用户组管理
+    app.get('/man/users', function(req, res) {
+        var sid = req.cookies.sid;
+        if(sid) {
+            res.render('man_users', {
+                sid: sid,
+                admin: req.cookies.admin,
+                passwd: req.cookies.passwd,
+                title: '用户管理',
+                logout: '/logout/man'
+            });
+        } else {
+            res.redirect('/');                    
+        }
+    });
+    // 标签管理
+    app.get('/man/tag', function(req, res) {
+        var sid = req.cookies.sid;
+        if(sid) {
+            res.render('man_tag', {
+                sid: sid,
+                admin: req.cookies.admin,
+                passwd: req.cookies.passwd,
+                title: '用户管理',
+                logout: '/logout/man'
+            });
+        } else {
+            res.redirect('/');                    
+        }
+    });
     // 角色管理
     app.get('/man/role', function(req, res) {
         var sid = req.cookies.sid;
@@ -481,6 +511,26 @@ module.exports = function(app, _http) {
             res.send(cont);
         });
     });
+    //根据email查询用户策略
+    app.get('/man/device/orgGetPolicy', function(req, res) {
+        var url = '/p/org/GetPolicyByEmail?sid=' + req.cookies.sid
+                + '&email=' + req.query.email;
+        _http.GET(url, function(cont) {
+            res.send(cont);
+        });
+    });
+    //企业管理员推送指令到设备
+    app.post('/man/device/sendCmd', function(req, res) {
+        var postData = {
+                'sid': req.cookies.sid,
+                'opt_type': req.body.opt_type,
+                'dev_id': req.body.dev_id
+            },
+            url = '/p/push/PushDev';
+        _http.POST1(postData, url, function(cont) {
+            res.send(cont);
+        });
+    });
 
     // 企业管理员查询设备基本信息 
    /* app.get('/man/dev/devBasicInfo', function(req, res) {
@@ -617,6 +667,35 @@ module.exports = function(app, _http) {
         }
             url = '/p/org/boundPolicy';
         _http.POST1(postData, url, function(cont) {
+            res.send(cont);
+        });
+    });
+    /*
+     * =============================================================
+     *                       系统合规策略 man_compliance
+     * =============================================================
+     */
+
+    // 企业管理员获取合规策略
+    app.get('/man/policy/compliance', function(req, res) {
+        var url = '/p/org/orgCheckNorm?sid=' + req.cookies.sid;
+        _http.GET(url, function(cont) {
+            res.send(cont);
+        });
+    });
+
+    //企业管理员修改系统合规策略
+    app.post('/man/policy/updatecompliance', function (req, res) {
+        var postData = {
+                'sid': req.cookies.sid,
+                'is_root': req.body.is_root,
+                'is_android': req.body.is_android,
+                'os_version': req.body.os_version,
+                'is_sim': req.body.is_sim,
+                'action': req.body.action
+            },
+            url = '/p/org/orgUpdateNorm';
+        _http.POST1(postData, url, function (cont) {
             res.send(cont);
         });
     });

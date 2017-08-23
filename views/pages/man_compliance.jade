@@ -11,113 +11,62 @@ block content
     .page-body
         .row
             .setting(class="col-xs-12 col-md-12")
-                .widget
-                    .widget-header
-                        i(class="widget-icon fa fa-gear")
-                        .widget-buttons(style="position:absolute;left:25px;")
-                            a(href="#" data-toggle="collapse")
-                                系统合规
+                .widget(style="height: 400px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;")
+                    .widget-header(style="height:50px;")
+                        p(style="line-height: 50px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 系统合规
                     .widget-body
-                        .row(class="col-xs-12 col-md-12")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
                             .form-group
-                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "max_download") 违反策略
+                                label(class="col-lg-4 col-xs-6 col-sm-5 control-label" for = "is_sim") 是否有sim卡(4.0以下版本只检测主卡)
                                 .inforow(class="col-lg-4 col-xs-4 col-sm-5")
-                                    select(class="form-control" name="max_download" id="max_download")
-                                        option(disabled value='') 请选择
-                                        option(value="1") 系统版本过低
-                                        option(value="2") SIM卡变更
-                                        option(value="3") Rooted/越狱
-                        .row(class="col-xs-12 col-md-12")
+                                    div(class="checkbox" style="margin-top:0px;margin-bottom:0px;")
+                                        label(style="padding-left:0;")
+                                            input(type="checkbox" onclick="selectcheckbox(this)" name="is_sim")
+                                            span(class="text" id="is_sim")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
                             .form-group
-                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 设备平台
+                                label(class="col-lg-4 col-xs-6 col-sm-5 control-label" for = "is_root") 是否root 
                                 .inforow(class="col-lg-4 col-xs-4 col-sm-5")
-                                    label(class="col-xs-6 col-md-6" style="padding-left:0px;")
-                                        input(name="allow_remember_pw" type="radio" value="1" checked="checked")
-                                        span(class="text") Android
-                                    .inforow(class="col-lg-6 col-xs-6 col-sm-6" style="padding-right:0px;")
-                                        select(class="form-control" name="max_download" id="max_download")
-                                            option(value='4.4') 4.4
-                                            option(value="4.4.1") 4.4.1
-                                            option(value="4.4.2") 4.4.2
-                                            option(value="4.4.3") 4.4.3
-                                            option(value='4.4.4') 4.4.4
-                                            option(value='5.0') 5.0
-                                            option(value="5.0.1") 5.0.1
-                                            option(value="5.0.2") 5.0.2
-                                            option(value="5.1") 5.1
-                                            option(value="5.1.1") 5.1.1
-                                            option(value="6.0") 6.0
-                                            option(value="6.0.1") 6.0.1
-                                            option(value="7.0") 7.0
-                        .row(class="col-xs-12 col-md-12")
+                                    div(class="checkbox" style="margin-top:0px;margin-bottom:0px;")
+                                        label(style="padding-left:0;")
+                                            input(type="checkbox" onclick="selectcheckbox(this)" name="is_root")
+                                            span(class="text" id="is_root") 
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
                             .form-group
-                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "max_download") 违规处理
+                                label(class="col-lg-4 col-xs-6 col-sm-5 control-label" for = "is_android") 设备系统最低版本限制 
                                 .inforow(class="col-lg-4 col-xs-4 col-sm-5")
-                                    select(class="form-control" name="max_download" id="max_download")
-                                        option(value='') 请选择
-                                        option(value="1") 禁止使用secspace
-                        //-.row(class="col-xs-12 col-md-12")
+                                    div(class="checkbox" style="margin-top:0px;margin-bottom:0px;")
+                                        label(style="padding-left:0;")
+                                            input(type="checkbox" onclick="selectsys(this)" name="is_android")
+                                            span(class="text" id="is_android") &nbsp;&nbsp; 
+                        .row(class="col-xs-12 col-md-12" class="devicesys")
                             .form-group
-                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "send_url") 设备平台
-                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
-                                    input(type="text" name="send_url" class = "form-control" id = "send_url") 
-                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
-                                    a(class="btn btn-primary" href="javascript:setsave()") 保存
+                                label(class="col-lg-4 col-xs-6 col-sm-5 control-label")
+                                .inforow(class="col-lg-4 col-xs-4 col-sm-5")
+                                    select(class="form-control" name="os_version" id="os_version")
+                                        option(class="option" value="25") Android 7.1.1 (API 25)
+                                        option(class="option" value="24") Android 7.0 (API 24)
+                                        option(class="option" value="23") Android 6.0 (API 23)
+                                        option(class="option" value="22") Android 5.1 (API 22)
+                                        option(class="option" value="21") Android 5.0 (API 21)
+                                        option(class="option" value="19") Android 4.4 (API 19)
+                                        //-option(class="option" value="18") Android 4.3 (18)
+                                        //-option(class="option" value="17") Android 4.2 (17)
+                                        //-option(class="option" value="16") Android 4.1 (16)
+                                        //-option(class="option" value="15") Android 4.0.3 (15)
                         .row(class="col-xs-12 col-md-12")
                             .form-group
-                                .widget-btn(class="col-lg-1 col-xs-1 col-sm-1 col-lg-offset-3 col-sm-offset-4 col-xs-4")
-                                    a(class="btn btn-primary" href="javascript:setsave()") 保存
+                                label(class="col-lg-4 col-xs-6 col-sm-5 control-label" for = "violation_handing") 违规处理
+                                .inforow(class="col-lg-4 col-xs-4 col-sm-5")
+                                    select(class="form-control" name="violation_handing" id="violation_handing")
+                                        option(value="0") 请选择
+                                        option(value="1") 禁止使用移动安全办公
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                .widget-btn(class="col-lg-1 col-xs-1 col-sm-1 col-lg-offset-4 col-sm-offset-5 col-xs-offset-6")
+                                    a(class="btn btn-primary" href="javascript:compliancesave()") 保存
                                 .widget-btn(class="col-lg-1 col-xs-1 col-sm-1 col-lg-offset-1 col-sm-offset-1 col-xs-1")
-                                    a(class="btn btn-primary" href="javascript:setsave()") 取消    
-            //-.setting(class="col-xs-12 col-md-12") 禁止使用secspace
-                .widget(class="collapsed")
-                    .widget-header
-                        i(class="widget-icon fa fa-gear")
-                        .widget-buttons(style="position:absolute;left:25px;")
-                            a(href="#" data-toggle="collapse")
-                                管理员设置
-                    .widget-body
-                        iframe(name="iframe" width="0" height="0" style="display:none;")
-                        form(form id="addadmpic" method="post" action="/p/org/orgUpdateSettings" enctype="multipart/form-data" target="iframe")
-                            .row(class="col-xs-12 col-md-12")
-                                h5 管理员基本信息设置
-                            .row(class="col-xs-12 col-md-12")
-                                .form-group
-                                    label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "manager_name") 管理员姓名
-                                    .inforow(class="col-lg-3 col-xs-4 col-sm-4")
-                                        input(type="text" name="manager_name" class = "form-control" id = "manager_name") 
-                                    label(class="col-lg-6 col-xs-4 col-sm-4 control-label")
-                            .row(class="col-xs-12 col-md-12")
-                                .form-group
-                                    label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 管理员头像
-                                    .inforow(class="col-lg-3 col-xs-4 col-sm-4")
-                                        .img(style="width:90px;height:90px;")
-                                            input(name="sid" type="text" style="display:none;")
-                                            input(type="file" id="admpicfile" name="avatar" class="file" size="10" style="width:90px;height:90px;opacity:0;")
-                                            .img_adm(style="width:100px;height:100px;margin-top:-95px;margin-left:-5px;" class="avatar-area")
-                                    .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
-                                        button(class="btn btn-primary" type="submit" style="width:78px;margin-top:68px;") 保存
-                        .row(class="col-xs-12 col-md-12")
-                            h5 密码修改
-                        .row(class="col-xs-12 col-md-12")
-                            .form-group
-                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "currentpw") 当前密码
-                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
-                                    input(type="password" name="currentpw" autocomplete="off" class = "form-control" id = "currentpw") 
-                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label")
-                        .row(class="col-xs-12 col-md-12")
-                            .form-group
-                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "newpw") 新密码
-                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
-                                    input(type="password" name="newpw" autocomplete="off" class = "form-control" id = "newpw") 
-                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label")
-                        .row(class="col-xs-12 col-md-12")
-                            .form-group
-                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "confirpw") 确认新密码
-                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
-                                    input(type="password" name="confirpw" autocomplete="off" class = "form-control" id = "confirpw") 
-                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
-                                    a(class="btn btn-primary" href="javascript:set_updatePW()") 保存
+                                    a(class="btn btn-warning" href="javascript:cancel()") 取消    
         .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
             .modal-dialog(style="width:500px;")
                 .modal-content

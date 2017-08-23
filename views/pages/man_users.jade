@@ -1,0 +1,52 @@
+extends ../layout
+
+block content
+    .page-header(class="position-relative")
+        .header-title(style="width:180px;")
+            h1
+                用户
+                small
+                    i(class="fa fa-angle-right")
+                    a(href="javascript:userlist()") 用户组管理
+                    i(class="fa fa-angle-right apph" style="display:none;") 授权应用
+    .page-body
+        .row
+            .userslist(class="col-xs-12 col-md-12")
+                .widget
+                    .widget-btn
+                        a(class="btn btn-primary" href="javascript:add()") 
+                            i(class="fa fa-plus")
+                            添加
+                        a(class="btn btn-primary" href="javascript:refresh()")
+                            i(class="fa fa-undo")
+                            刷新
+                        a(class="btn btn-danger" href="javascript:deletes()")
+                            i(class="fa fa-times")
+                            删除
+                        a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-th" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 下发应用
+                        a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-lightbulb-o" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 下发策略
+                        a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-file-text-o" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 下发内容
+                        a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-list-ul" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 更多
+                        .input-group(class="input-group-sm")
+                            input(class="form-control" type="text" style="float:right;max-width:200px;")
+                            span(class="input-group-btn")
+                                button(class="btn btn-default btn-primary" type="button")
+                                    i(class="glyphicon glyphicon-search")
+                        //-a(class="btn btn-primary" href="javascript:window.history.back()")
+                            i(class="fa fa-times")
+                            返回
+                    .userstable(class="widget-body" style="box-shadow:none;padding:0;")                                    
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background     
+    script(async="true" src="/scripts/jquery.min.js")
+    script(async="true" src="/scripts/man_users.js")

@@ -47,7 +47,7 @@ function getloglist(start_page,page_length){
     var table = $('.logtable'),
           str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
               + '<th>序号</th>'
-              + '<th>登陆名</th>'
+              + '<th>登录名</th>'
               + '<th>操作标识</th>'
               + '<th>应用名称</th>'
               + '<th>应用版本</th>'

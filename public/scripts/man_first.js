@@ -91,6 +91,8 @@ $(function() {
             circle();
         } else if (data.rt==5) {
            toLoginPage();
+        }else{
+            
         }
     });
     

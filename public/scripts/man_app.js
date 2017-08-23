@@ -183,9 +183,9 @@ function unauthbtn(){
 // 授权或取消授权提交
 function subbtn(state){
     var user_list = [], package_name = [], depart_list = [], i = 0, j = 0, tr;
-    package_name[0] = $('input[name=package_name]').val();
     if(state == 1){
          // 用户app授权
+        package_name[0] = $('input[name=package_name]').val();
         if($("#users").hasClass('active')){ 
             var tab1 = $('.usertable');
                 tab1.find('td span').each(function () { 
@@ -208,8 +208,9 @@ function subbtn(state){
                 });
         }
     } else {
+        package_name[0] = $('input[name=packagename]').val();
         if($("#user1").hasClass('active')){ 
-            var tab1 = $('.usertable');
+            var tab1 = $('#user1 .usertable');
                 tab1.find('td span').each(function () { 
                     if ($(this).hasClass('txt')) {
                         tr = $(this).parents("tr");
@@ -220,7 +221,7 @@ function subbtn(state){
         }
         // 部门app授权 
         if($("#depart1").hasClass('active')){
-            var tab2 = $('.departtable');        
+            var tab2 = $('#depart1 .departtable');        
                 tab2.find('td span').each(function () { 
                     if ($(this).hasClass('txt')) {
                         tr = $(this).parents("tr");

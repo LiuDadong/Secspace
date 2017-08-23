@@ -4,7 +4,7 @@ var picurl = "http://tpos.yingzixia.com/";
 var hosturl = "http://tpos.yingzixia.com/"; // 正式环境
 //var hosturl = "http://dev-server.yingzixia.com/"; // 开发环境
 //var hosturl = "http://47.93.184.176:8002/"; // 开发环境
-var sendurl = 'http://118.190.70.55/pub'; // 正式环境
+//var sendurl = 'http://118.190.70.55/pub'; // 正式环境
 //var sendurl = 'http://ws.yingzixia.com/pub'; // 开发环境
 //var sendurl = 'http://47.93.184.176:8002/pub'; // 开发环境
 //var downurl = 'http://dev-server.yingzixia.com';
@@ -39,7 +39,46 @@ $(function() {
     $(".searchicon").click(function(){
         $(".searchcontent").toggle(200);
     });
+    var menuArry = [
+      { id: 1, name: "办公管理", pid: 0 },
+      { id: 2, name: "请假申请", pid: 1 },
+      { id: 3, name: "出差申请", pid: 1 },
+      { id: 4, name: "请假记录", pid: 2 },
+      { id: 5, name: "系统设置", pid: 0 },
+      { id: 6, name: "权限管理", pid: 5 },
+      { id: 7, name: "用户角色", pid: 6 },
+      { id: 8, name: "菜单设置", pid: 6 },
+      ];
+      //GetData(0, menuArry)
+     // $("#treetest").html(menus);
+
 });
+var menus = '';
+function GetData(id, arry) {
+      var childArry = GetParentArry(id, arry);
+      if (childArry.length > 0) {
+        menus += '<ul class="tree-folder-content">';
+        for (var i in childArry) {
+          menus += '<li class="tree-item">' + childArry[i].name;
+          GetData(childArry[i].id, arry);
+          menus += '</li>';
+        }
+        menus += '</ul>';
+      }
+    }
+ 
+//根据菜单主键id获取下级菜单
+//id：菜单主键id
+//arry：菜单数组信息
+function GetParentArry(id, arry) {
+  var newArry = new Array();
+  for (var i in arry) {
+    if (arry[i].pid == id)
+      newArry.push(arry[i]);
+  }
+  return newArry;
+}
+
 
 // 管理员修改密码
 function updatepwd() {
@@ -77,6 +116,17 @@ function updatepwd() {
 
 function selectedBt(str) {
     location.href = str;
+}
+// 选择按钮
+function selectitem(e) {
+    var i = 0;
+    if ($(e).hasClass("tree-selected")) {
+        $(e).removeClass('tree-selected');
+        $(e).find('.treechild').hide();
+    } else {
+        $(e).addClass('tree-selected');
+        $(e).find('.treechild').show();
+    }
 }
 // 选择按钮
 function selected(e) {

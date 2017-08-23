@@ -91,6 +91,7 @@ function getDetail(i){
         var devicename = _tr.find('td').eq(1).text(),
             lasttime = _tr.find('td').eq(4).text(),
             status = _tr.find('td').eq(5).text(),
+            email = _tr.find('td').eq(2).text(),
             dev_id = _tr.find('td').eq(7).text();
         var strtab1 = '';
         var strtab4 = '';
@@ -112,7 +113,7 @@ function getDetail(i){
                   + '<img class="img-circle" src="../imgs/lock.png" onclick="sendCmd(\'lockscreen\',\''+dev_id+'\')"/></li>'
                   + '<li class="list-group-item" onclick="sendCmd(\'lockscreen\',\''+dev_id+'\')" style="border:none;">锁屏</li>';
         $('.lock').html(lock);
-        var lockpwd = '<li class="list-group-item" style="border:none;">'
+        var lockpwd = '<li class="list-group-item" style="border:none;"><input name="email" value="'+email+'" style="display:none;"/>'
                   + '<img class="img-circle" src="../imgs/lockpwd.png" onclick="updatescreenpw(\''+dev_id+'\')"/></li>'
                   + '<li class="list-group-item" onclick="updatescreenpw(\''+dev_id+'\')" style="border:none;">锁屏密码</li>';
         $('.lockpwd').html(lockpwd);
@@ -151,23 +152,6 @@ function getDetail(i){
         var netinfo4 = '<li class="list-group-item" style="border:none;">'+lasttime+'</li>'
             + '<li class="list-group-item" style="border:none;">－－</li>';
         $('.netinfo4').html(netinfo4);
-         /*var netinfo1 = '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.mPhoneNumber+'</li>'
-                    + '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.mIsRouting+'</li>'
-                    + '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.mSIMProvider+'</li>'
-                    + '<li class="list-group-item" style="border:none;">－－</li>';
-        $('.netinfo1').html(netinfo1);
-         var netinfo2 = '<li class="list-group-item" style="border:none;">－－</li>'
-                    + '<li class="list-group-item" style="border:none;">－－</li>'
-                    + '<li class="list-group-item" style="border:none;">－－</li>'
-                    + '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.mNetworkType+'</li>';
-        $('.netinfo2').html(netinfo2);
-        var netinfo3 = '<li class="list-group-item" style="border:none;">'+devObj.wifi_mac+'</li>'
-                   // + '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.mDeviceWifiInfo.mIpAddress+'</li>';
-                    + '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.d+'</li>';
-        $('.netinfo3').html(netinfo3);
-         var netinfo4 = '<li class="list-group-item" style="border:none;">'+lasttime+'</li>'
-                    + '<li class="list-group-item" style="border:none;">－－</li>';
-        $('.netinfo4').html(netinfo4);*/
         // tab3 设备定位信息
 
         var sid = getCookie("sid");
@@ -256,45 +240,119 @@ function getDetail(i){
 }
 // 单个设备推送
 function sendCmd(cmd, dev_id){
-    var url = sendurl + "?id="+dev_id;
-    var xml = new XMLHttpRequest();
-    xml.open("POST", url, true);
-    xml.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
-    xml.send(cmd); 
+    var dev_id = [dev_id];
+    var postData = {
+            dev_id: JSON.stringify(dev_id),
+            opt_type: cmd
+        };
+        $.post('/man/device/sendCmd', postData, function(data) {
+            if (data.rt == 0) {               
+                warningOpen('操作成功！','primary','fa-check'); 
+            } else if (data.rt==5) {
+                toLoginPage();
+            } else {
+                warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+            }
+        }); 
+    //var url = sendurl + "?id="+dev_id;
+    //var xml = new XMLHttpRequest();
+   // xml.open("POST", url, true);
+   // xml.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+   // xml.send(cmd); 
 }
 // 设置锁屏密码
 function updatescreenpw(dev_id){
-    var cont = '';  
-        cont += '<div class="modal-header">'
-             + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-             + '<h4 class="modal-title">设置锁屏密码</h4>'
-             + '</div>'
-             + '<div class="modal-body">'
-             + '<form role = "form" class="form-horizontal">'
-             + '<div class = "form-group">' 
-             + '<label class="col-sm-3 control-label" for = "screen_pw">锁屏密码</label>' 
-             + '<div class="col-sm-7">' 
-             + '<input type="password" class = "form-control" id = "screen_pw" name="screen_pw" placeholder = "请输入新密码"/>' 
-             + '</div></div>'
-             + '<div class = "form-group">' 
-             + '<label class="col-sm-3 control-label" for = "confirm">确认锁屏密码</label>' 
-             + '<div class="col-sm-7">' 
-             + '<input type="password" class = "form-control" id = "confirm" name="confirm" placeholder = "再次输入新密码"/>' 
-             + '</div></div>'
-             + '</form>'
-             + '</div>'
-             + '<div class="modal-footer">'
-             + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-             + '<button type="button" class="btn btn-primary" onclick="sendpw(\''+dev_id+'\')">确认</button>'
-             + '</div>';  
-    alertOpen(cont);
-    $('input[name=screen_pw],input[name=confirm]').keyup(function(){  // 输入限制，只能输入整数 
-        if (this.value.length==1) {
-            this.value=this.value.replace(/[^1-9]/g,'');
-        } else {
-            this.value=this.value.replace(/\D/g,'');
+    var email = $('input[name=email]').val();
+    var security, min_len, checkpwd, warningtext = '';
+     $.get('/man/device/orgGetPolicy?email='+ email, function(data) {
+        data = JSON.parse(data);
+        if (data.rt==0) {
+            security = data.data.dev_security;
+            min_len = security.pw_min_len;
+            if(security.passwd_type == 1){
+                checkpwd = /^[a-zA-Z]+$/; //字母
+                warningtext = '请输入至少'+security.pw_min_len+ '位字母'; //提示
+            } else if(security.passwd_type == 2){
+                checkpwd = /^\d$/; //数字
+                warningtext = '请输入至少'+security.pw_min_len+ '位数字'; //提示
+            } else if(security.passwd_type == 3){
+                console.log('min_len = dd = '+min_len);
+                checkpwd = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{2,}$/; //字母和数字
+                warningtext = '请输入至少'+security.pw_min_len+ '位字母和数字组合'; //提示
+            } else{
+                checkpwd = ''; //字母和数字
+            }
         }
-    }); 
+    });
+    setTimeout(function(){
+        var cont = '';  
+            cont += '<div class="modal-header">'
+                 + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
+                 + '<h4 class="modal-title">设置锁屏密码</h4>'
+                 + '</div>'
+                 + '<div class="modal-body">'
+                 + '<p class="lockpwdwarning" style="color:red;text-align:center;">'+warningtext+'</p>'
+                 + '<form role = "form" class="form-horizontal">'
+                 + '<div class = "form-group">' 
+                 + '<label class="col-sm-3 control-label" for = "screen_pw">锁屏密码</label>' 
+                 + '<div class="col-sm-7">' 
+                 + '<input type="password" class = "form-control" id = "screen_pw" name="screen_pw" placeholder = "请输入新密码"/>' 
+                 + '</div></div>'
+                 + '<div class = "form-group">' 
+                 + '<label class="col-sm-3 control-label" for = "confirm">确认锁屏密码</label>' 
+                 + '<div class="col-sm-7">' 
+                 + '<input type="password" class = "form-control" id = "confirm" name="confirm" placeholder = "再次输入新密码"/>' 
+                 + '</div></div>'
+                 + '</form>'
+                 + '</div>'
+                 + '<div class="modal-footer">'
+                 + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
+                 + '<button type="button" class="btn btn-primary updscrpw" onclick="sendpw(\''+dev_id+'\')">确认</button>'
+                 + '</div>';  
+        alertOpen(cont);
+        $('input[name=screen_pw],input[name=confirm]').keyup(function(){  // 输入限制，只能输入整数 
+            if(security.passwd_type == 2){
+                if (this.value.length==1) {
+                    this.value=this.value.replace(/[^0-9]/g,'');
+                } else {
+                    this.value=this.value.replace(/\D/g,'');
+                }
+            } else if(security.passwd_type == 1){
+                this.value=this.value.replace(/[^a-zA-Z]/g,'');
+            } else if(security.passwd_type == 3){
+                this.value=this.value.replace(/[\W]/g,'');
+            }
+            
+        }); 
+        $("input[name=screen_pw]").blur(function(){
+            if(security.passwd_type == 1 || security.passwd_type == 2){
+                if (this.value.length < min_len*1){
+                    warningOpen('请输入正确格式锁屏密码！','danger','fa-bolt');
+                    $(".updscrpw").attr("disabled",true);
+                }else{$(".updscrpw").attr("disabled",false);}    
+            }else if(security.passwd_type == 3){
+                if (!checkpwd.test(this.value) || this.value.length < min_len*1){
+                    warningOpen('确认锁屏密码格式错误！','danger','fa-bolt');
+                    $(".updscrpw").attr("disabled",true);
+                }else{$(".updscrpw").attr("disabled",false);}   
+
+            }
+        }); 
+        $("input[name=confirm]").blur(function(){
+            if(security.passwd_type == 1 || security.passwd_type == 2){
+                if (this.value.length < min_len*1){
+                    warningOpen('请输入正确格式锁屏密码！','danger','fa-bolt');
+                    $(".updscrpw").attr("disabled",true);
+                }else{$(".updscrpw").attr("disabled",false);}    
+            }else if(security.passwd_type == 3){
+                if (!checkpwd.test(this.value) || this.value.length < min_len*1){
+                    warningOpen('确认锁屏密码格式错误！','danger','fa-bolt');
+                    $(".updscrpw").attr("disabled",true);
+                }else{$(".updscrpw").attr("disabled",false);}   
+
+            }
+        }); 
+    }, 500);
 }
 // 锁屏密码推送
 function sendpw(devid){
@@ -306,62 +364,152 @@ function sendpw(devid){
         warningOpen('前后锁屏密码不一致！','danger','fa-bolt');
     }else{
         var cmd = 'chg_screen_pw <'+ psw +'>';
-        sendCmd(cmd,devid);
-        alertOff();
-        warningOpen('操作成功！','primary','fa-check');
+        var dev_id = [devid];
+        var postData = {
+                dev_id: JSON.stringify(dev_id),
+                opt_type: cmd
+            };
+            $.post('/man/device/sendCmd', postData, function(data) {
+                if (data.rt == 0) {               
+                    warningOpen('操作成功！','primary','fa-check'); 
+                } else if (data.rt==5) {
+                    toLoginPage();
+                } else {
+                    warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+                }
+            }); 
+       // sendCmd(cmd,devid);
+       // alertOff();
+       // warningOpen('操作成功！','primary','fa-check');
     }   
 }
 //一个或者多个设备消息推送
 function send_cmds(cmd){
-    var dev_id = [], i = 0, tr;
+    var dev_id = [], i = 0, tr, email, security, checkpwd, warningtext = '', min_len;
     var cmd = cmd;
     var tab = $('.devicetable table');
     tab.find('td span').each(function () {
         if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             dev_id[i] = tr.find('td').eq(7).text();
+            email = tr.find('td').eq(2).text();
             i = i+1;
         }     
     }); 
     
     if(dev_id.length > 0){
         if(cmd == 'chg_screen_pw') {
-            var cont = '';  
-                cont += '<div class="modal-header">'
-                     + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-                     + '<h4 class="modal-title">设置锁屏密码</h4>'
-                     + '</div>'
-                     + '<div class="modal-body">'
-                     + '<form role = "form" class="form-horizontal">'
-                     + '<div class = "form-group">' 
-                     + '<label class="col-sm-3 control-label" for = "screen_pw">锁屏密码</label>' 
-                     + '<div class="col-sm-7">' 
-                     + '<input type="password" class = "form-control" id = "screen_pw" name="screen_pw" placeholder = "请输入新密码"/>' 
-                     + '</div></div>'
-                     + '<div class = "form-group">' 
-                     + '<label class="col-sm-3 control-label" for = "confirm">确认锁屏密码</label>' 
-                     + '<div class="col-sm-7">' 
-                     + '<input type="password" class = "form-control" id = "confirm" name="confirm" placeholder = "再次输入新密码"/>' 
-                     + '</div></div>'
-                     + '</form>'
-                     + '</div>'
-                     + '<div class="modal-footer">'
-                     + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-                     + '<button type="button" class="btn btn-primary" onclick="changesppw()">确认</button>'
-                     + '</div>';  
-            alertOpen(cont);  
-            $('input[name=screen_pw],input[name=confirm]').keyup(function(){  // 输入限制，只能输入整数 
-                if (this.value.length==1) {
-                    this.value=this.value.replace(/[^1-9]/g,'');
+            if(dev_id.length === 1){
+                $.get('/man/device/orgGetPolicy?email='+ email, function(data) {
+                    data = JSON.parse(data);
+                    if (data.rt==0) {
+                        security = data.data.dev_security;
+                        min_len = security.pw_min_len;
+                        if(security.passwd_type == 1){
+                            checkpwd = /^[a-zA-Z]+$/; //字母
+                            warningtext = '请输入至少'+security.pw_min_len+ '位字母'; //提示
+                        } else if(security.passwd_type == 2){
+                            checkpwd = /^\d$/; //数字
+                            warningtext = '请输入至少'+security.pw_min_len+ '位数字'; //提示
+                        } else if(security.passwd_type == 3){
+                            checkpwd = /^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{2,}$/; //字母和数字
+                            warningtext = '请输入至少'+security.pw_min_len+ '位字母和数字组合'; //提示
+                        } else{
+                            checkpwd = ''; //字母和数字
+                        }
+                    }
+                });
+                setTimeout(function(){
+                    var cont = '';  
+                        cont += '<div class="modal-header">'
+                             + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
+                             + '<h4 class="modal-title">设置锁屏密码</h4>'
+                             + '</div>'
+                             + '<div class="modal-body">'
+                             + '<p class="lockpwdwarning" style="color:red;text-align:center;">'+warningtext+'</p>'
+                             + '<form role = "form" class="form-horizontal">'
+                             + '<div class = "form-group">' 
+                             + '<label class="col-sm-3 control-label" for = "screen_pw">锁屏密码</label>' 
+                             + '<div class="col-sm-7">' 
+                             + '<input type="password" class = "form-control" id = "screen_pw" name="screen_pw" placeholder = "请输入新密码"/>' 
+                             + '</div></div>'
+                             + '<div class = "form-group">' 
+                             + '<label class="col-sm-3 control-label" for = "confirm">确认锁屏密码</label>' 
+                             + '<div class="col-sm-7">' 
+                             + '<input type="password" class = "form-control" id = "confirm" name="confirm" placeholder = "再次输入新密码"/>' 
+                             + '</div></div>'
+                             + '</form>'
+                             + '</div>'
+                             + '<div class="modal-footer">'
+                             + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
+                             + '<button type="button" class="btn btn-primary updscrpw" onclick="changesppw()">确认</button>'
+                             + '</div>';  
+                    alertOpen(cont);
+                    $('input[name=screen_pw],input[name=confirm]').keyup(function(){  // 输入限制，只能输入整数 
+                        if(security.passwd_type == 2){
+                            if (this.value.length==1) {
+                                this.value=this.value.replace(/[^0-9]/g,'');
+                            } else {
+                                this.value=this.value.replace(/\D/g,'');
+                            }
+                        } else if(security.passwd_type == 1){
+                            this.value=this.value.replace(/[^a-zA-Z]/g,'');
+                        } else if(security.passwd_type == 3){
+                            this.value=this.value.replace(/[\W]/g,'');
+                        }
+                        
+                    }); 
+                    $("input[name=screen_pw]").blur(function(){
+                        if(security.passwd_type == 1 || security.passwd_type == 2){
+                            if (this.value.length < min_len*1){
+                                warningOpen('请输入正确格式锁屏密码！','danger','fa-bolt');
+                                $(".updscrpw").attr("disabled",true);
+                            }else{$(".updscrpw").attr("disabled",false);}    
+                        }else if(security.passwd_type == 3){
+                            if (!checkpwd.test(this.value) || this.value.length < min_len*1){
+                                warningOpen('确认锁屏密码格式错误！','danger','fa-bolt');
+                                $(".updscrpw").attr("disabled",true);
+                            }else{$(".updscrpw").attr("disabled",false);}   
+
+                        }
+                    }); 
+                    $("input[name=confirm]").blur(function(){
+                        if(security.passwd_type == 1 || security.passwd_type == 2){
+                            if (this.value.length < min_len*1){
+                                warningOpen('请输入正确格式锁屏密码！','danger','fa-bolt');
+                                $(".updscrpw").attr("disabled",true);
+                            }else{$(".updscrpw").attr("disabled",false);}    
+                        }else if(security.passwd_type == 3){
+                            if (!checkpwd.test(this.value) || this.value.length < min_len*1){
+                                warningOpen('确认锁屏密码格式错误！','danger','fa-bolt');
+                                $(".updscrpw").attr("disabled",true);
+                            }else{$(".updscrpw").attr("disabled",false);}   
+
+                        }
+                    }); 
+                }, 500);
+            } else {
+                warningOpen('请选择一个设备设置锁屏密码！','danger','fa-bolt');
+            }
+            
+        } else {
+            //for(var j=0;j<dev_id.length;j++){
+            //    sendCmd(cmd,dev_id[j]);
+            //}
+            var postData = {
+                dev_id: JSON.stringify(dev_id),
+                opt_type: cmd
+            };
+            $.post('/man/device/sendCmd', postData, function(data) {
+                if (data.rt == 0) {               
+                    warningOpen('操作成功！','primary','fa-check'); 
+                } else if (data.rt==5) {
+                    toLoginPage();
                 } else {
-                    this.value=this.value.replace(/\D/g,'');
+                    warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
                 }
             }); 
-        } else {
-            for(var j=0;j<dev_id.length;j++){
-                sendCmd(cmd,dev_id[j]);
-            }
-            warningOpen('操作成功！','primary','fa-check');
+            //warningOpen('操作成功！','primary','fa-check');
         }        
     } else {
         warningOpen('请先选择设备！','danger','fa-bolt');
@@ -386,11 +534,25 @@ function changesppw(){
         warningOpen('前后锁屏密码不一致！','danger','fa-bolt');
     }else{
         var cmd = 'chg_screen_pw <'+ psw +'>';
-        for(var j=0;j<dev_id.length;j++){
-            sendCmd(cmd,dev_id[j]);
-        }
-        alertOff();
-        warningOpen('操作成功！','primary','fa-check');
+        var postData = {
+                dev_id: JSON.stringify(dev_id),
+                opt_type: cmd
+            };
+            $.post('/man/device/sendCmd', postData, function(data) {
+                if (data.rt == 0) {   
+                    alertOff();            
+                    warningOpen('操作成功！','primary','fa-check'); 
+                } else if (data.rt==5) {
+                    toLoginPage();
+                } else {
+                    warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+                }
+            }); 
+        //for(var j=0;j<dev_id.length;j++){
+         //   sendCmd(cmd,dev_id[j]);
+       // }
+        //alertOff();
+       // warningOpen('操作成功！','primary','fa-check');
     }     
 }
 // 刷新

@@ -42,9 +42,11 @@ function getUserList(start,length,keyword) {
                     + '<td style="display:none;">' + data.user_list[i].depart_id + '</td>'
                     + '<td style="display:none;">' + data.user_list[i].sex + '</td>'                                   
                     + '<td class="other">'           
-                    + '<a href="javascript:user_apps('+ i +');">授权应用</a>&nbsp;&nbsp;&nbsp;&nbsp;'
-                    + '<a href="javascript:user_resetpwd('+ i +');">修改密码</a>&nbsp;&nbsp;&nbsp;&nbsp;' 
-                    + '<a href="javascript:user_modify('+ i +');">修改信息</a>'
+                   // + '<a href="javascript:user_apps('+ i +');">授权应用</a>&nbsp;&nbsp;&nbsp;&nbsp;'
+                    //+ '<a href="javascript:user_resetpwd('+ i +');">修改密码</a>&nbsp;&nbsp;&nbsp;&nbsp;' 
+                    //+ '<a href="javascript:user_modify('+ i +');"></a>'
+                    + '<a href="javascript:user_modify1('+ i +');">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;' 
+                    + '<a href="javascript:user_modify1('+ i +');">详情</a>'
                     + '</td></tr>';
             }
             str +='</table>';
@@ -70,11 +72,21 @@ function search(p,i) {
     }
 }
 function keys(){
-    warningOpen('功能未实现！','danger','fa-bolt');
+    var i = 0;
+    var tr;
+    var tab = $('.usertable table');
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
+            i = i+1;
+        }     
+    });  
+    if(i > 0){
+        warningOpen('功能未实现！','danger','fa-bolt');
+    }
 }
 // 返回用户列表
 function userlist(){
-    $('.tab, .apph').css({'display':'none'});
+    $('.tab, .apph,.user_add').css({'display':'none'});
     $('.userlist').css({'display':'block'});
 }
 //修改用户密码
@@ -299,8 +311,61 @@ function getauthappList(email,state,start_page,page_length){
         }
     });
 }
-// 添加用户
 function add(){
+    var cont = '';
+        cont += '<div class="modal-header">'
+             + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
+             + '<h4 class="modal-title">添加用户</h4>'
+             + '</div>'
+             + '<div class="modal-body">'
+             + '<form role = "form" class="form-horizontal">'
+             + '<div class = "form-group" style="text-align:center;font-size:24px;margin-bottom:0;margin-top:15px;">' 
+             + '<div class="col-sm-4 col-sm-offset-2">'
+             + '<a href="javascript:adduser()">'
+             + '<i class="icon glyphicon glyphicon-log-in"></i>'
+             + '</a>'
+             + '</div>' 
+             + '<div class="col-sm-4">' 
+             + '<a href="javascript:importusers()">'
+             + '<i class="icon glyphicon glyphicon-cloud-upload"></i>'
+             + '</a>'
+             + '</div>'
+             + '</div>'
+             + '<div class = "form-group" style="text-align:center;">' 
+             + '<div class="col-sm-4 col-sm-offset-2">'
+             + '<a href="javascript:adduser()">'
+             + '手工录入'
+             + '</a>'
+             + '</div>' 
+             + '<div class="col-sm-4">' 
+             + '<a href="javascript:importusers()">'
+             + '批量导入'
+             + '</a>'
+             + '</div>'
+             + '</div>'
+             + '</form>'
+             + '</div>'
+             + '<div class="modal-footer">'
+             + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
+             + '</div>';  
+    alertOpen(cont);
+}
+// 手工录入
+function adduser(){
+    alertOff();
+    $('.userlist').css({'display':'none'});
+    $('.user_add').css({'display':'block'});
+    $('.addusertitle').css({'display':'inline-block'});
+}
+function activationpwd(){
+    var pwd = Math.round(900000*Math.random()+100000);
+    $('input[name=activation_pwd]').val(pwd);
+    //document.getElementById("activation_pwd").innerText=pwd; 
+    //document.getElementById("activation_pwd").innerHTML=pwd; 
+    //document.getElementById("activation_pwd").val(pwd); 
+}
+// 添加用户
+function add1(){
     var cont = '';
         cont += '<div class="modal-header">'
              + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'

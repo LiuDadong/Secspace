@@ -9,6 +9,9 @@ block content
                     i(class="fa fa-angle-right")
                     a(href="javascript:userlist()") 用户管理
                     i(class="fa fa-angle-right apph" style="display:none;") 授权应用
+                    i(class="fa fa-angle-right addusertitle" style="display:none;") 添加用户
+                    i(class="fa fa-angle-right modifytitle" style="display:none;") 修改用户
+                    i(class="fa fa-angle-right viewtitle" style="display:none;") 用户信息
     .page-body
         .row
             .userlist(class="col-xs-12 col-md-12")
@@ -17,37 +20,37 @@ block content
                         a(class="btn btn-primary" href="javascript:add()") 
                             i(class="fa fa-plus")
                             添加
-                        //-a(class="btn btn-primary" href="javascript:invent()") 
+                        a(class="btn btn-primary" href="javascript:invent()") 
                             i(class="fa fa-magic")
                             激活
-                        a(class="btn btn-primary" href="javascript:refresh()")
+                        //-a(class="btn btn-primary" href="javascript:refresh()")
                             i(class="fa fa-undo")
                             刷新
-                        a(class="btn btn-danger" href="javascript:deletes()")
+                        //-a(class="btn btn-danger" href="javascript:deletes()")
                             i(class="fa fa-times")
                             删除
-                        //-a(class="hrefactive" href="javascript:keys()")
+                        a(class="hrefactive" href="javascript:refresh()")
                             i(class="fa fa-th" style="font-size:20px;")
-                            p(style="font-size:10px;margin:0;") 下发应用
-                        //-a(class="hrefactive" href="javascript:keys()")
+                            p(style="font-size:10px;margin:0;") 刷新
+                        a(class="hrefactive" href="javascript:keys()")
                             i(class="fa fa-lightbulb-o" style="font-size:20px;")
                             p(style="font-size:10px;margin:0;") 下发策略
-                        //-a(class="hrefactive" href="javascript:keys()")
+                        a(class="hrefactive" href="javascript:keys()")
                             i(class="fa fa-file-text-o" style="font-size:20px;")
                             p(style="font-size:10px;margin:0;") 下发内容
-                        //-a(class="hrefactive" href="javascript:keys()")
+                        a(class="hrefactive" href="javascript:keys()")
                             i(class="fa fa-key" style="font-size:20px;")
                             p(style="font-size:10px;margin:0;") 重置密码
-                        //-a(class="hrefactive" href="javascript:keys()")
+                        a(class="hrefactive" href="javascript:keys()")
                             i(class="fa fa-arrows" style="font-size:20px;")
                             p(style="font-size:10px;margin:0;") 移动至组
-                        //-a(class="hrefactive" href="javascript:keys()")
+                        a(class="hrefactive" href="javascript:keys()")
                             i(class="fa fa-plus-square" style="font-size:20px;")
                             p(style="font-size:10px;margin:0;") 添加标签
-                        //-a(class="hrefactive" href="javascript:keys()")
+                        a(class="hrefactive" href="javascript:keys()")
                             i(class="fa fa-list-ul" style="font-size:20px;")
-                            p(style="font-size:10px;margin:0;") 更多
-                        //-.input-group(class="input-group-sm")
+                            p(style="font-size:10px;margin:0;") 删除
+                        .input-group(class="input-group-sm")
                             input(class="form-control" type="text" style="float:right;max-width:200px;")
                             span(class="input-group-btn")
                                 button(class="btn btn-default btn-primary" type="button")
@@ -55,10 +58,10 @@ block content
                         //-a(class="btn btn-primary" href="javascript:window.history.back()")
                             i(class="fa fa-times")
                             返回
-                    .search(class="col-lg-12 col-sm-12 col-xs-12" style="padding:0;")
+                    .search(class="col-lg-12 col-sm-12 col-xs-12" style="padding:0;display:none;")
                         .widget(class="collapsed" style="margin-bottom:10px;")
                             .widget-header(style="box-shadow:none;padding-left:0;margin-bottom:10px;")
-                                span(class="widget-caption" style="line-height:30px;")
+                                span(class="widget-caption")
                                     .input-group(class="input-group-sm")
                                         span(class="input-icon")
                                             input(type="text" class="form-control")
@@ -116,7 +119,98 @@ block content
                                 .page2 
                             div(id="unauthapp1" class="tab-pane")
                                 .apptable(style="box-shadow:none;padding:0;")
-                                .page3                                                      
+                                .page3
+        .row
+            .user_add(class="col-xs-12 col-md-12 setting" style="display:none;")
+                .widget(style="height: 680px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;")
+                    .widget-header(style="height:40px;")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 基本信息
+                    .widget-body(style="height:240px;")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "username" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 姓名
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        input(type="text" class="form-control" id = "username" name="username")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "email" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 邮箱
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        input(type="text" class="form-control" id = "email" name="email")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "phone" style="width:110px; padding-left:22px;") 手机号码
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        input(type="text" class="form-control" id = "phone" name="phone")
+                        .row(class="col-xs-12 col-md-12" class="devicesys")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "usergroup" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 所属组
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        select(class="form-control" name="usergroup" id="usergroup")
+                                            option(value="0") 请选择
+                                            option(value="1") 禁止使用移动安全办公
+                                            option(value="0") 请选择
+                                            option(value="1") 禁止使用移动安全办公
+                    .widget-header(style="height:40px;border-top:1px solid #ccc;")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 基本信息
+                    .widget-body(style="height:170px;")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "account" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 账号
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        input(type="text" class="form-control" id = "account" name="account")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "activation_pwd" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 激活密码
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        input(type="text" class="form-control" id = "activation_pwd" name="activation_pwd")
+                                div(class="col-lg-2 col-xs-3 col-sm-3")
+                                    a(class="btn btn-primary" href="javascript:activationpwd()") 随机生成
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "valid_time" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 有效期
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        input(type="text" class="form-control" id = "valid_time" name="valid_time")
+                                label(class="col-lg-2 col-xs-3 col-sm-3") 请输入1-30的整数
+                    .widget-header(style="height:40px;border-top:1px solid #ccc;")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 基本信息
+                    .widget-body(style="height:130px;")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "tag" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 标签
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        select(class="form-control" name="tag" id="tag")
+                                            option(value="0") 请选择
+                                            option(value="1") 禁止使用移动安全办公
+                                            option(value="0") 请选择
+                                            option(value="1") 禁止使用移动安全办公
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                div(class="col-lg-9 col-xs-10 col-sm-10 col-lg-offset-3 col-xs-offset-2 col-sm-offset-2")
+                                    .widget-btn(class="col-lg-12 col-xs-12 col-sm-12" style="padding-top:10px;")
+                                        a(class="btn" href="javascript:cancel()") 取消
+                                        a(class="btn btn-primary" href="javascript:compliancesave()") 保存
+                                        a(class="btn btn-primary" href="javascript:compliancesave()" style="width:auto;") 保存并发送激活邮件
+                                        a(class="btn btn-primary" href="javascript:compliancesave()" style="width:auto;") 保存并发送激活短信                                          
         .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
             .modal-dialog(style="width:500px;")
                 .modal-content

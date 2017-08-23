@@ -116,9 +116,15 @@ html
                                     a(href="javascript:selectedBt('/man/user')")
                                         span(class="menu-text") 用户管理
                                 li
+                                    a(href="javascript:selectedBt('/man/users')")
+                                        span(class="menu-text") 用户组
+                                li
+                                    a(href="javascript:selectedBt('/man/tag')")
+                                        span(class="menu-text") 标签
+                                //-li
                                     a(href="javascript:selectedBt('/man/depart')")
                                         span(class="menu-text") 机构管理
-                                li
+                                //-li
                                     a(href="javascript:selectedBt('/man/role')")
                                         span(class="menu-text") 角色管理
                         li(class="devicemenu")
@@ -199,7 +205,8 @@ html
                     block content
         //-.searchmesg
             span(class="searchicon" id="searchicon")
-                i(class="fa fa-filter")
+                //-i(class="fa fa-filter")
+                i(class="glyphicon glyphicon-dashboard")
             //-.searchcontent(id="searchcontent")
                 .div(class="col-xs-12 col-md-12")
                     .tree(id="MyTree2" class="tree-plus-minus")
@@ -213,26 +220,58 @@ html
                             i(class="tree-dot")
                             .tree-item-name
             .searchcontent(id="searchcontent")
-                .div(class="col-xs-12 col-md-12")
-                    .tree(id="MyTree2" class="tree-plus-minus")
+                .div
+                    .treehead(style="height:34px;background-color:#008080;border-bottom: 1.5px solid #888;")
+                        p(style="line-height: 34px;padding-left: 10px;width: 50px;color: #fff;") 用户组
+                        i(class="fa fa-users" style="color:#fff;")
+                        i(class="fa fa-filter" style="float: right;margin-top: -34px;margin-right: 10px;font-size: 16px;color: #fff;")
+                    //-.tree(id="MyTree2" class="tree-plus-minus")
                         .tree-folder
                             .tree-folder-header
                                 i(class="fa fa-folder-open")
-                                .tree-folder-name treename
+                                .tree-folder-name 用户组
                             .tree-folder-content
                                 .tree-item
                                     i(class="tree-dot")
                                     .tree-item-name
-                                        i(class="fa-bar-chart-o darkorange tree-dot")
-                                        tasks
+                                        i(class="fa-user tree-dot")
+                                        财务管理部
                                 .tree-item
                                     i(class="tree-dot")
                                     .tree-item-name
-                                        i(class="fa-bar-chart-o darkorange tree-dot") tasks
+                                        i(class="fa-user tree-dot")
+                                        研发部门
                                 .tree-item
                                     i(class="tree-dot")
                                     .tree-item-name
-                                        i(class="fa-bar-chart-o darkorange tree-dot") tasks
+                                        i(class="fa-user tree-dot")
+                                        行政部
+                            .tree-loader(style="display: none;")
+                    .tree(id="treetest" class="tree-plus-minus")
+                    .treehead(style="height:34px;background-color:#008080;border-bottom: 1.5px solid #888;")
+                        p(style="line-height: 34px;padding-left: 10px;width: 50px;color: #fff;") 标签
+                        i(class="glyphicon glyphicon-tags" style="color:#fff;")
+                    .tree(id="MyTree3" class="tree-plus-minus")
+                        .tree-folder
+                            .tree-folder-header
+                                i(class="fa fa-folder-open")
+                                .tree-folder-name 爱普安有限公司
+                            .tree-folder-content
+                                .tree-item
+                                    i(class="tree-dot")
+                                    .tree-item-name
+                                        i(class="fa-file-text-o tree-dot")
+                                        部门主任
+                                .tree-item
+                                    i(class="tree-dot")
+                                    .tree-item-name
+                                        i(class="fa-file-text-o tree-dot")
+                                        部门经理
+                                .tree-item(class="tree-selected" onclick="selectitem(this)")
+                                    i(class="fa fa-check-square-o treechild" )
+                                    .tree-item-name
+                                        i(class="fa-file-text-o tree-dot")
+                                        研发总监
                             .tree-loader(style="display: none;")
                         
         script(src="/assets/js/jquery-2.0.3.min.js")
