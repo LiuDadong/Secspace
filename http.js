@@ -62,7 +62,7 @@ exports.POST1 = function(postData, url, fun) {
            // port:1326,
             //port: 8090,  //正式 开发
             port: 7771,//线上
-           // port: 8002,  //惠讯
+            //port: 8002,  //惠讯
             method: 'POST',
             headers: {
                 'Content-Length': postData.length,

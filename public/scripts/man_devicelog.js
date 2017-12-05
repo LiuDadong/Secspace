@@ -5,7 +5,7 @@
  */
 $(function() {
     $('.logmenu').addClass('open active');
-    $('.logmenu').find('li').eq(0).addClass('active');
+    $('.logmenu').find('li').eq(1).addClass('active');
     //getloglist(1,10);
     $("#datestart, #dateend, select[name=operation]").change(function(){
         getloglist(1,10);
@@ -37,7 +37,7 @@ function getloglist(start_page,page_length){
               + '<th>IP地址</th>'
               + '<th>设备名称</th>'
               + '<th>具体操作</th></tr>';
-
+ table.html(str);  
     var url = '/man/Log/getLogList?start_time='+start_time
             + '&end_time='+ end_time 
             + '&account='+ email 
