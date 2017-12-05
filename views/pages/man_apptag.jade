@@ -1,0 +1,153 @@
+extends ../layout
+
+block content
+    .page-header(class="position-relative")
+        .header-title(style="width:180px;")
+            h1
+                应用
+                small
+                    i(class="fa fa-angle-right")
+                    a(href="javascript:apptaglist()") 应用标签
+                    i(class="fa fa-angle-right addapptag" style="display:none;") 添加标签
+                    i(class="fa fa-angle-right modtag" style="display:none;") 编辑
+                    i(class="fa fa-angle-right viewtag" style="display:none;") 详情
+                    i(class="fa fa-angle-right addapp" style="display:none;") 添加应用
+    .page-body
+        .row
+            .apptaglist(class="col-xs-12 col-md-12")
+                .widget
+                    .widget-btn
+                        a(class="btn btn-primary" href="javascript:add()") 
+                            i(class="fa fa-plus")
+                            添加
+                        a(class="hrefactive" href="javascript:refresh()" style="cursor:pointer;opacity:1;")
+                            i(class="fa fa-refresh" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 刷新
+                        a(class="hrefactive" href="javascript:deletes()")
+                            i(class="fa fa-minus-square" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 删除
+                        .input-group(class="input-group-sm")
+                            input(class="form-control" type="text" name="searchval" style="float:right;max-width:200px;" placeholder="名称" onfocus="this.placeholder=''")
+                            span(class="input-group-btn")
+                                button(class="btn btn-default btn-primary" type="button" onclick="searchlist()")
+                                    i(class="glyphicon glyphicon-search")
+                    .apptagtable(class="widget-body" style="box-shadow:none;padding:0;")
+                    .page1
+        .row
+            .apptag_add(class="col-xs-12 col-md-12 setting" style="display:none;")
+                .widget(style="border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;")
+                    .widget-header(style="height:40px;")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 应用标签
+                    .widget-body(style="overflow:hidden;")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "name" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 名称
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        input(type="text" class="form-control" id = "name" name="name")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "email" style="width:110px;padding-left:22px;") 描述
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        span(class="input-icon icon-right")
+                                            textarea(id="describe" class="form-control" rows="8" name="describe")
+                                        //-input(type="text" class="form-control" id = "email" name="email")
+                        .row(class="col-xs-12 col-md-12" style="margin-top:150px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;text-align:right;")
+                                        a(class="btn" href="javascript:apptaglist()" style="width:78px;") 取消
+                                    .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;text-align:center;")
+                                        a(class="btn btn-primary" href="javascript:tag_add()" style="width:78px;") 保存
+        .row
+            .apptag_mod(class="col-xs-12 col-md-12 setting" style="display:none;")
+                .widget(style="border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;")
+                    .widget-header(style="height:40px;")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 应用标签
+                    .widget-body(style="overflow:hidden;")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "name" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 名称
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        input(type="text" class="form-control" name="apptag_id" style="display:none;")
+                                        input(type="text" class="form-control" id = "name" name="name")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "email" style="width:110px;padding-left:22px;") 描述
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        span(class="input-icon icon-right")
+                                            textarea(id="describe" class="form-control" rows="8" name="describe")
+                                        //-input(type="text" class="form-control" id = "email" name="email")
+                        .row(class="col-xs-12 col-md-12" style="margin-top:150px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;text-align:right;")
+                                        a(class="btn" href="javascript:apptaglist()" style="width:78px;") 取消
+                                    .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;text-align:center;")
+                                        a(class="btn btn-primary" href="javascript:tag_mod()" style="width:78px;") 保存
+        .row
+            .apptag_view(class="col-xs-12 col-md-12 setting" style="display:none;")
+                .widget(style="height:320px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;")
+                    .widget-header(style="height:40px;")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 应用标签
+                    .widget-body
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "name" style="width:110px;") 名称
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        input(type="text" class="form-control" id = "name" name="name" disabled="disabled")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" for = "email" style="width:110px;") 描述
+                                    div(style="position: absolute;top: 0px;left: 110px;right: 0px;")
+                                        span(class="input-icon icon-right")
+                                            textarea(id="describe" class="form-control" rows="8" name="describe" disabled="disabled")
+        .row
+            .app(class="col-lg-12 col-sm-12 col-xs-12" style="display:none;")
+                .row(style="margin-left:0;")
+                    .widget-btn
+                        a(class="btn btn-primary" href="javascript:apptaglist()")
+                            i(class="fa fa-times")
+                            取消
+                        a(class="btn btn-primary" href="javascript:save()")
+                            i(class="fa fa-plus")
+                            保存
+                h5(class="row-title befor-magenta") 选定添加应用
+                input(name="tag_id" style="display:none;")
+                .row
+                    div(class="col-lg-5 col-sm-5 col-xs-5")
+                        .widget
+                            .widget-header(class="bordered-bottom bordered-blue")
+                                span(class="widget-caption" style="line-height:30px;") 标签外应用
+                            .widget-body
+                                .input-group
+                                    span(class="input-icon")
+                                        input(type="text" class="form-control input-sm" id="freeapps" name="freeapps" oninput="sfreeapps()")
+                                        i(class="glyphicon glyphicon-search primary")
+                                .freeapp(style="height:200px;overflow-y:auto;")
+                    div(class="col-lg-2 col-sm-2 col-xs-2" style="height:326px;background:url(../imgs/arrow.png) center no-repeat;")
+                    div(class="col-lg-5 col-sm-5 col-xs-5")
+                        .widget
+                            .widget-header(class="bordered-bottom bordered-blue")
+                                span(class="widget-caption" style="line-height:30px;") 标签内应用
+                            .widget-body
+                                .input-group
+                                    span(class="input-icon")
+                                        input(type="text" class="form-control input-sm" id="apps" name="apps" oninput="searchapps()")
+                                        i(class="glyphicon glyphicon-search primary")
+                                .member(style="height:200px;overflow-y:auto;")
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background     
+    script(async="true" src="/scripts/jquery.min.js")
+    script(async="true" src="/scripts/man_apptag.js")

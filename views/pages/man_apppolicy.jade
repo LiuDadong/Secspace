@@ -1,0 +1,383 @@
+extends ../layout
+
+block content
+    .page-header(class="position-relative")
+        .header-title(style="width:180px;")
+            h1 策略
+                small
+                    i(class="fa fa-angle-right")
+                    a(href="javascript:policylist()") #{ title }
+                    i(class="fa fa-angle-right addpolicy" style="display:none;") 添加
+                    i(class="fa fa-angle-right modpolicy" style="display:none;") 编辑
+                    i(class="fa fa-angle-right viewpolicy" style="display:none;") 详情
+                    i(class="fa fa-angle-right issuedpolicy" style="display:none;") 下发
+    .page-body
+        .row
+            .policylist(class="col-xs-12 col-md-12")
+                .widget
+                    .widget-btn
+                        a(class="btn btn-primary" href="javascript:add()") 
+                            i(class="fa fa-plus")
+                            添加
+                        a(class="btn btn-primary" href="javascript:auth()") 
+                            i(class="fa fa-magic")
+                            下发
+                        a(class="hrefactive" href="javascript:refresh()" style="cursor:pointer;opacity:1;")
+                            i(class="fa fa-refresh" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 刷新
+                        a(class="hrefactive" href="javascript:viewauth()")
+                            i(class="fa fa-eye" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 查看授权
+                        a(class="hrefactive" href="javascript:activate(1)")
+                            i(class="fa fa-check-circle" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 启用
+                        a(class="hrefactive" href="javascript:activate(0)")
+                            i(class="fa fa-times-circle" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 禁用
+                        a(class="hrefactive" href="javascript:deletes()")
+                            i(class="fa fa-minus-square" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 删除
+                        .input-group(class="input-group-sm")
+                            input(class="form-control" type="text" style="float:right;max-width:200px;" placeholder="名称" onfocus="this.placeholder=''")
+                            span(class="input-group-btn")
+                                button(class="btn btn-default btn-primary" type="button")
+                                    i(class="glyphicon glyphicon-search")
+                    .policytable(class="widget-body" style="box-shadow:none;padding:0;")
+                    .page1
+        .row
+            .policy_add(class="col-xs-12 col-md-12 setting" style="display:none;")
+                .widget(style="border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;")
+                    .widget-header(style="height:40px;")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 基本信息
+                    .widget-body(style="overflow:hidden;")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "name" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 名称
+                                    .adddiv(style="left: 140px;")
+                                        input(type="text" class="form-control" id = "name" name="name")
+                                        input(type="text" name="policyid" style="display:none;")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 类型
+                                    .adddiv(style="left: 140px;")
+                                        label(class="col-xs-6 col-md-6")
+                                            input(name="policy_type" type="radio" value="0" onclick="check_1()" id="policy_black")
+                                            span(class="text") 黑名单策略
+                                        label(class="col-xs-6 col-md-6")
+                                            input(name="policy_type" type="radio" value="1" onclick="check_2()")
+                                            span(class="text") 白名单策略
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;" class="white-item")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 限制
+                                    .adddiv(style="left: 140px;")
+                                        label(class="col-xs-6 col-md-6")
+                                            input(type="checkbox" onclick="check1(this)" id = "timepolicy" name="timepolicy")
+                                            span(class="text") 时间限制
+                                        label(class="col-xs-6 col-md-6")
+                                            input(type="checkbox" onclick="check2(this)" id = "addrpolicy" name="addrpolicy")
+                                            span(class="text") 地理限制
+                    .widget-header(style="height:40px;" class="black-item")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 黑名单
+                    .widget-body(style="overflow: hidden;" class="black-item")
+                        .black_item
+                            .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                                .form-group
+                                    div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                        label(class="control-label" style="width:110px;")
+                                            i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                            label 选择黑名单
+                                        .adddiv(style="left:140px;")
+                                            select(class="form-control" name="blacklistname" id="item_0")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "delay" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 延迟
+                                    .adddiv(style="left: 140px;")
+                                        input(type="number" class="form-control" id = "delay" name="delay" min="1" max="72")
+                                div(class="col-lg-3 col-xs-3 col-sm-2")
+                                    label 请输入1-72作为小时数
+                        .row(class="additem")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" style="width:110px; padding-left:22px;")
+                                    .adddiv(style="left:140px;text-align:center;")
+                                        a(class="btn btn-primary" href="javascript:blacklist_item_add()" style="opacity:0.8;") 继续添加黑名单                            
+                    .widget-header(style="height:40px;" class="black-item")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 违规限制
+                    .widget-body(style="overflow: hidden;" class="black-item")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" style="width:150px;padding-left:22px;") 违规告警
+                                    .adddiv(style="left:180px;width:80px;float:left;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "mesg" name="mesg")
+                                            span(class="text")
+                                                通知
+                                    .adddiv(style="left:260px;width:80px;float:left;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "email" name="email")
+                                            span(class="text")
+                                                邮件
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "camera" style="width:150px;padding-left:22px;") 禁止使用相机
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "camera" name="camera")
+                                            span(class="text")
+                                                禁止
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "access_secspace" style="width:150px;padding-left:22px;") 禁止访问安全空间
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "access_secspace" name="access_secspace")
+                                            span(class="text")
+                                                禁止
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "enterprise_data" style="width:150px;padding-left:22px;") 擦除企业数据
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "enterprise_data" name="enterprise_data")
+                                            span(class="text")
+                                                开启
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "all_data" style="width:150px;padding-left:22px;") 擦除全部数据
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "all_data" name="all_data")
+                                            span(class="text")
+                                                开启
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "sd" style="width:150px;padding-left:22px;") 禁用SD卡
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "sd" name="sd")
+                                            span(class="text")
+                                                禁止
+                                    label(style="position:absolute;left:260px;width:100%;") 需获得系统权限签名
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "message" style="width:150px;padding-left:22px;") 禁止使用短信
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "message" name="message")
+                                            span(class="text")
+                                                禁止
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "phone" style="width:150px;padding-left:22px;") 禁止收听电话
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "phone" name="phone")
+                                            span(class="text")
+                                                禁止
+                        .row
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2" style="height:60px;")
+                                    label(class="control-label" style="width:150px; padding-left:22px;")
+                                    .adddiv(style="left:180px;text-align:center;margin-top:14px;")
+                                        .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;text-align:right;")
+                                            a(class="btn" href="javascript:policylist()" style="width:78px;") 取消
+                                        .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px; text-align:left;" class="addbtn")
+                                            a(class="btn btn-primary" href="javascript:add_policy()" style="width:78px;") 保存
+                                        .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;display:none;text-align:left;" class="modbtn")
+                                            a(class="btn btn-primary" href="javascript:mod_policy()" style="width:78px;") 保存
+                                        .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;display:none;text-align:left;" class="viewbtn")
+                                            a(class="btn btn-primary" href="javascript:policylist()" style="width:78px;") 确认
+                    .widget-header(style="height:40px;" class="addr-item")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 地理限制
+                    .widget-body(style="overflow: hidden;" class="addr-item")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-10 col-sm-10 col-lg-offset-3 col-xs-offset-1 col-sm-offset-1")
+                                    label(class="control-label" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 地点范围
+                                    .adddiv(style="left: 140px;") 
+                                        div(class="col-lg-8 col-xs-8 col-sm-8" style="padding-left:0;padding-right:0;")
+                                            label(style="width:40px;") 坐标
+                                            label (
+                                            label(class="pointer" style="font-weight:normal;")
+                                            label )
+                                        div(class="col-lg-4 col-xs-4 col-sm-4" style="padding-left:0;padding-right:0;")
+                                            label(style="width:40px;") 范围
+                                            label(class="radius" style="font-weight:normal;")
+                                            label(style="width:20px;text-align:right;") 米
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;padding-right:0px;")
+                            .address(id="address" class="col-lg-7 col-xs-10 col-sm-10 col-lg-offset-3 col-xs-offset-1 col-sm-offset-1")
+                            input(type="text" id = "searchaddress" name="searchaddress" placeholder="🔍搜索地址")
+                            a(href="javascript:bridgemap()" class="addressicon")
+                                i(class="icon glyphicon glyphicon-fullscreen")
+                            a(href="javascript:minmap()" class="addressicon2")
+                                i(class="icon glyphicon glyphicon-resize-small")
+                    .widget-header(style="height:40px;" class="time-item")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 时间限制
+                    .widget-body(style="overflow: hidden;" class="time-item")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 重复类型
+                                    .adddiv(style="left:140px;")
+                                        select(class="form-control" name="repeat_type" id="repeat_type")
+                                            option(class="option" value="1") 每周
+                                            option(class="option" value="2") 每日
+                                            option(class="option" value="3") 工作日
+                                            option(class="option" value="4") 特定日期
+                                .everyweek(class="col-lg-2 col-xs-2 col-sm-2")
+                                    select(class="form-control" name="weekday" id="weekday")
+                                        option(class="option" value="1") 星期一
+                                        option(class="option" value="2") 星期二
+                                        option(class="option" value="3") 星期三
+                                        option(class="option" value="4") 星期四
+                                        option(class="option" value="5") 星期五
+                                        option(class="option" value="6") 星期六
+                                        option(class="option" value="7") 星期日
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 起止日期
+                                    .adddiv(style="left:140px;")
+                                        div(class="col-lg-5 col-xs-5 col-sm-5" style="padding-left:0;padding-right:0;")
+                                            input(id="start_date" class="start_date" type="text" name="start_date" class="form-control cursor")
+                                        div(class="col-lg-2 col-xs-2 col-sm-2" style="text-align:center;")
+                                            label 至
+                                        div(class="col-lg-5 col-xs-5 col-sm-5" style="padding-left:0;padding-right:0;")
+                                            input(id="stop_date" class="stop_date" type="text" name="stop_date" class="form-control cursor")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 起止时间
+                                    .adddiv(style="left:140px;")
+                                        div(class="col-lg-5 col-xs-5 col-sm-5" style="padding-left:0;padding-right:0;")
+                                            input(id="start_time" class="start_time" type="text" name="start_time" class="form-control cursor")
+                                        div(class="col-lg-2 col-xs-2 col-sm-2" style="text-align:center;")
+                                            label 至
+                                        div(class="col-lg-5 col-xs-5 col-sm-5" style="padding-left:0;padding-right:0;")
+                                            input(id="stop_time" class="stop_time" type="text" name="stop_time" class="form-control cursor")
+                    .widget-header(style="height:40px;" class="white-item")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 添加应用
+                    .widget-body(style="overflow: hidden;" class="white-item")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 选择应用
+                                    .adddiv(style="left:140px;position:relative;margin-top:-44px;")
+                                        ul(class="" name="app_list" id="app_list")
+                        .row(class="addappitem")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" style="width:110px; padding-left:22px;")
+                                    .adddiv(style="left:140px;text-align:center;")
+                                        a(class="btn btn-primary" href="javascript:add_applist()" style="opacity:0.8;") 添加应用  
+                        .row
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2" style="height:60px;")
+                                    label(class="control-label" style="width:150px; padding-left:22px;")
+                                    .adddiv(style="left:180px;text-align:center;margin-top:14px;")
+                                        .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;text-align:right;")
+                                            a(class="btn" href="javascript:policylist()" style="width:78px;") 取消
+                                        .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px; text-align:left;" class="addbtn")
+                                            a(class="btn btn-primary" href="javascript:add_policy()" style="width:78px;") 保存
+                                        .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;display:none;text-align:left;" class="modbtn")
+                                            a(class="btn btn-primary" href="javascript:mod_policy()" style="width:78px;") 保存
+                                        //-.div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;display:none;text-align:left;" class="viewbtn")
+                                            a(class="btn btn-primary" href="javascript:policylist()" style="width:78px;") 确认
+        .row(class="issuedlist" style="display:none;")
+            .widget
+                div(class="col-xs-12 col-md-12")
+                    .widget-btn
+                        a(class="btn btn-primary issuedpl" href="javascript:authbtn()")
+                            i(class="fa fa-check")
+                            下发
+                        .input-group(class="input-group-sm" style="padding-right:27px;")
+                            input(class="form-control" type="text" name="keyvalue" placeholder="按账号搜索" onfocus="this.placeholder=''" style="float:right;max-width:200px;")
+                            span(class="input-group-btn")
+                                button(class="btn btn-default btn-primary" type="button" onclick="searchauthlist()")
+                                    i(class="glyphicon glyphicon-search")
+            .tab(class="col-lg-12 col-sm-12 col-xs-12")
+                .widget-main
+                    .tabbable
+                        input(name="policy_id" style="display:none;")
+                        input(name="ptype" style="display:none;")
+                        ul(class="nav nav-tabs tabs-flat" id="myTab11")
+                            li(class="active")
+                                a(data-toggle="tab" href="#departs") 用户组
+                            li
+                                a(data-toggle="tab" href="#usertag") 标签列表
+                        div(class="tab-content tabs-flat")
+                            div(id="departs" class="tab-pane in active")
+                                div(class="col-lg-4 col-sm-4 col-xs-4")
+                                    #treegroup
+                                div(class="col-lg-8 col-sm-8 col-xs-8")
+                                    .usertable(style="box-shadow:none;padding:0;")
+                                    .page2
+                            div(id="usertag" class="tab-pane")
+                                div(class="col-lg-4 col-sm-4 col-xs-4")
+                                    ul(id="usertaglist" style="padding-left:0px;")
+                                div(class="col-lg-8 col-sm-8 col-xs-8")
+                                    .tagusertable(style="box-shadow:none;padding:0;")
+                                    .page3
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background 
+    script(async="true" src="/scripts/jquery.min.js")
+    script(src="/scripts/jedate/jquery-1.7.2.js")
+    script(src="/scripts/jedate/jquery.jedate.js")
+    script(type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=44ffc5b6029cb5a30b0a83e36577079d")
+    script(type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js")
+    script(async="true" src="/scripts/man_apppolicy.js")
+    script(type='text/javascript').
+        $(".stop_date").jeDate({
+            format: "YYYY-MM-DD",
+            minDate: new Date()
+        });
+        $(".start_date").jeDate({
+            format: "YYYY-MM-DD",
+            minDate: new Date()
+        });
+        $(".start_time").jeDate({
+            format: "hh:mm:ss"
+        });
+        $(".stop_time").jeDate({
+            format: "hh:mm:ss"
+        });
+        $("select#repeat_type").change(function(){
+            if($(this).val() == 1){
+                $(".everyweek").css({'display':'block'});
+            } else {
+                $(".everyweek").css({'display':'none'});
+            }
+        });
+        

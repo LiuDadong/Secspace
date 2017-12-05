@@ -52,7 +52,6 @@ block content
                                     label(class="col-xs-7 col-md-6")
                                         input(name="allow_remember_pw" type="radio" value="0")
                                         span(class="text") 不允许
-                                label(class="col-lg-5 col-xs-4 col-sm-2 control-label")
                         .row(class="col-xs-12 col-md-12")
                             h5 应用下载设置
                         .row(class="col-xs-12 col-md-12")
@@ -66,6 +65,22 @@ block content
                                         option(value="3") 3
                                 label(class="col-lg-5 col-xs-4 col-sm-2 control-label") 个
                         .row(class="col-xs-12 col-md-12")
+                            h5 密码长度设置
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "pw_min_len") 密码长度
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="number" name="pw_min_len" class = "form-control" id = "pw_min_len" min="6" max="10" value="6")
+                        .row(class="col-xs-12 col-md-12")
+                            h5 密码复杂度设置
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "passwd_type") 密码复杂度
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    select(class="form-control" name="passwd_type" id="passwd_type")
+                                        option(value="1") 数字
+                                        option(value="2") 数字加字母
+                        .row(class="col-xs-12 col-md-12")
                             h5 消息服务地址设置 
                         .row(class="col-xs-12 col-md-12")
                             .form-group
@@ -74,6 +89,87 @@ block content
                                     input(type="text" name="send_url" class = "form-control" id = "send_url") 
                                 .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
                                     a(class="btn btn-primary" href="javascript:setsave()") 保存 
+            .setting(class="col-xs-12 col-md-12")
+                .widget(class="collapsed")
+                    .widget-header
+                        i(class="widget-icon fa fa-gear")
+                        .widget-buttons(style="position:absolute;left:25px;")
+                            a(href="#" data-toggle="collapse")
+                                水印设置
+                    .widget-body
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 开启/关闭水印
+                                .inforow(class="col-lg-4 col-xs-6 col-sm-6")
+                                    label(class="col-xs-5 col-md-6")
+                                        input(name="switch" type="radio" value="1")
+                                        span(class="text") 开启
+                                    label(class="col-xs-7 col-md-6")
+                                        input(name="switch" type="radio" value="0")
+                                        span(class="text") 关闭
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "font_type") 水印显示类型
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    select(class="form-control" name="font_type" id="font_type")
+                                        option(value="user_name") 用户名
+                                        option(value="company_name") 企业名称
+                                        option(value="phone") 用户手机号
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "font_size") 文字大小
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    select(class="form-control" name="font_size" id="font_size")
+                                        option(value="1") 小
+                                        option(value="2") 标准
+                                        option(value="3") 大
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "font_color") 字体颜色
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="text" name="font_color" class = "form-control" id = "font_color" value="00ff00") 
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "font_opacity") 文字透明度
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    select(class="form-control" name="font_opacity" id="font_opacity")
+                                        option(value="75%") 75%
+                                        option(value="50%") 50%
+                                        option(value="25%") 25%
+                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                    a(class="btn btn-primary" href="javascript:modwatermarke()") 保存
+            .setting(class="col-xs-12 col-md-12")
+                .widget(class="collapsed")
+                    .widget-header
+                        i(class="widget-icon fa fa-gear")
+                        .widget-buttons(style="position:absolute;left:25px;")
+                            a(href="#" data-toggle="collapse")
+                                邮件服务器设置
+                    .widget-body
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 发送邮件服务器
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="text" name="email_server" class = "form-control" id = "email_server")
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 邮件发送者帐户
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="text" name="send_user" class = "form-control" id = "send_user") 
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 邮件发送者密码
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="text" name="send_pwd" class = "form-control" id = "send_pwd")
+                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1" style="height:auto;")
+                                    a(class="btn btn-primary" href="javascript:testemail()") 测试邮箱  
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 接收者账户
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="text" name="recv_user" class = "form-control" id = "recv_user")
+                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                    a(class="btn btn-primary email-server-btn" href="javascript:modemailserver()") 保存 
             .setting(class="col-xs-12 col-md-12")
                 .widget(class="collapsed")
                     .widget-header
@@ -217,6 +313,21 @@ block content
         .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
             .modal-dialog(style="width:500px;")
                 .modal-content
-        .background  
-    script(src="/scripts/jquery.min.js")
+        .background
+    script(src="/assets/js/jquery-1.4.2.min.js")  
+    script(src="/assets/js/colorpicker.js")
     script(async="true" src="/scripts/man_setting.js")
+    script(type='text/javascript').
+        $('#font_color').ColorPicker({
+            onSubmit: function(hsb, hex, rgb, el) {
+                $(el).val(hex);
+                //$('#colorpicker_submit').parent().css({'display':'none'});
+               // $(el).ColorPickerHide();
+            }//,
+            //onBeforeShow: function () {
+           //     $(this).ColorPickerSetColor(this.value);
+          //  }
+        })
+        $('#font_color').bind('keyup', function(){
+            $(this).ColorPickerSetColor(this.value);
+        });

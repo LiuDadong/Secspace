@@ -12,7 +12,7 @@ module.exports = function(app, _http) {
                 res.redirect('/man/first');
             }
         } else {  
-            res.render('logins');
+            res.render('login');
         }
     });
 
@@ -39,18 +39,19 @@ module.exports = function(app, _http) {
             url = '/p/org/orgLogin';
             admin = postData.account;
             //passwd = postData.pw;
-        }
+        }      
         _http.POST1(postData, url, function(cont) {
             if(cont.rt == 0) {
                 res.cookie('sid', cont.sid, {maxAge:2*60*60*1000});
                 res.cookie('admin', admin);
+                res.cookie('email', cont.manager_email);
                 if (flag!='per') {
                     res.cookie('avatar', cont.avatar);
                 }
             }
             res.send(cont);
         });
-    });
+    });  
 
     // logout-per
     app.get('/logout/per', function(req, res) {
@@ -87,6 +88,14 @@ module.exports = function(app, _http) {
         });
     });
 
+    // 获取产品名称
+    app.get('/p/login/getProductName', function(req, res) {
+        var url = '/p/org/getProductName';
+        _http.GET(url, function(cont) {
+            res.send(cont);
+        });
+    });
+   
     // 电话发送验证码
     app.post('/per/send/captchaPhone', function(req, res) {
         var postData = {

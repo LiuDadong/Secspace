@@ -1,133 +1,62 @@
-var picurl = "http://tpos.yingzixia.com/";
-//var picurl = "http://dev-server.yingzixia.com/"; // 开发环境图片地址
-//var picurl = "http://47.93.184.176:8002/"; // 开发环境图片地址
-var hosturl = "http://tpos.yingzixia.com/"; // 正式环境
-//var hosturl = "http://dev-server.yingzixia.com/"; // 开发环境
-//var hosturl = "http://47.93.184.176:8002/"; // 开发环境
-//var sendurl = 'http://118.190.70.55/pub'; // 正式环境
-//var sendurl = 'http://ws.yingzixia.com/pub'; // 开发环境
-//var sendurl = 'http://47.93.184.176:8002/pub'; // 开发环境
-//var downurl = 'http://dev-server.yingzixia.com';
-//var downurl = 'http://47.93.184.176:8002';
-var downurl = 'http://tpos.yingzixia.com';
-regBox = {
-    regEmail : /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
-    regName : /^[a-z0-9_-]{3,16}$/,//用户名
-    regMobile : /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/,//手机
-    regTel : /^0[\d]{2,3}-[\d]{7,8}$/
-};
+function selectedBt(str) {
+    location.href = str;
+}    
 
 $(function() {
+
     var avatar = localStorage.getItem("avatar");
     var icon = localStorage.getItem("icon");
     var productName = localStorage.getItem("productName");
-    if(icon){
-        $('.navbar-inner .imglogo').html('<small><img src="' + picurl + icon + '" alt=""></img></small>');
-    }else{
+    var appssec_url = localStorage.getItem("appssec_url");
+    picurl = appssec_url+'/'; // 
+    hosturl = appssec_url+'/'; //
+    downurl = appssec_url;
+
+    if(icon) {
+        $('.navbar-inner .imglogo').html('<small><img src="' + appssec_url+'/' + icon + '" alt=""></img></small>');
+    } else {
         $('.navbar-inner .imglogo').html('<small><img src="/imgs/logo.png" alt=""></img></small>');
     }
-    if(avatar){
-        $('.navbar .account-area a .avatar').html('<img src="' + picurl + avatar + '" alt=""></img>');
-        $('.navbar .account-area ul .avatar-area').html('<img class="avatar" src="' + picurl + avatar + '" alt=""></img>');//<span class="caption">修改头像</span>
-    }
+
+    if(avatar) {
+        $('.navbar .account-area a .avatar').html('<img src="' + appssec_url+'/' + avatar + '" alt=""></img>');
+        $('.navbar .account-area ul .avatar-area').html('<img class="avatar" src="' + appssec_url+'/' + avatar + '" alt=""></img>');
+    } 
+
     if(productName != 'undefined' && productName !=''){
         $('.navbar .product_name').html('<a href="#" class="navbar-brand">' + productName + '</a>');
-    }else{
+    } else {
         $('.navbar .product_name').html('<a href="#" class="navbar-brand">移动安全管理平台</a>');
     }
-    //$('.navbar-inner .navbar-brand small').html('<img src="../imgs/logo.png" style="width:170px;height:22px;margin-top:10px;"></img>');
+
     $(".searchicon").click(function(){
-        $(".searchcontent").toggle(200);
+        fnSearch();
+        $(".searchicon").toggle();
+        $(".searchcontent").slideToggle();
     });
-    var menuArry = [
-      { id: 1, name: "办公管理", pid: 0 },
-      { id: 2, name: "请假申请", pid: 1 },
-      { id: 3, name: "出差申请", pid: 1 },
-      { id: 4, name: "请假记录", pid: 2 },
-      { id: 5, name: "系统设置", pid: 0 },
-      { id: 6, name: "权限管理", pid: 5 },
-      { id: 7, name: "用户角色", pid: 6 },
-      { id: 8, name: "菜单设置", pid: 6 },
-      ];
-      //GetData(0, menuArry)
-     // $("#treetest").html(menus);
+
+    $(".treehead .cursor").click(function(){
+        $(".searchcontent").hide();
+        $(".searchicon").show();
+    });
 
 });
-var menus = '';
-function GetData(id, arry) {
-      var childArry = GetParentArry(id, arry);
-      if (childArry.length > 0) {
-        menus += '<ul class="tree-folder-content">';
-        for (var i in childArry) {
-          menus += '<li class="tree-item">' + childArry[i].name;
-          GetData(childArry[i].id, arry);
-          menus += '</li>';
-        }
-        menus += '</ul>';
-      }
-    }
- 
-//根据菜单主键id获取下级菜单
-//id：菜单主键id
-//arry：菜单数组信息
-function GetParentArry(id, arry) {
-  var newArry = new Array();
-  for (var i in arry) {
-    if (arry[i].pid == id)
-      newArry.push(arry[i]);
-  }
-  return newArry;
-}
+//function fnSearch(){}
 
-
-// 管理员修改密码
-function updatepwd() {
-    var cont = '';
-        cont += '<div class="modal-header">'
-             + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-             + '<h4 class="modal-title">修改管理员密码</h4>'
-             + '</div>'
-
-             + '<div class="modal-body">'
-             + '<form role = "form" class="form-horizontal">'
-             + '<div class = "form-group">' 
-             + '<label class="col-sm-3 control-label" for = "name">当前密码</label>' 
-             + '<div class="col-sm-7">' 
-             + '<input type = "text" class = "form-control" id = "name" name="name"/>' 
-             + '</div></div>'
-             + '<div class = "form-group">' 
-             + '<label class="col-sm-3 control-label" for = "name">新密码</label>' 
-             + '<div class="col-sm-7">' 
-             + '<input type = "text" class = "form-control" id = "name" name="name"/>' 
-             + '</div></div>'
-             + '<div class = "form-group">' 
-             + '<label class="col-sm-3 control-label" for = "tel">确认新密码</label>' 
-             + '<div class="col-sm-7">' 
-             + '<input type="text" class="form-control" id = "tel" name="phone"/>'
-             + '</div></div>'
-             + '</form>'
-             + '</div>'
-             + '<div class="modal-footer">'
-             + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-             + '<button type="button" class="btn btn-primary" onclick="admin_update()">确认</button>'
-             + '</div>';  
-    alertOpen(cont);
-}
-
-function selectedBt(str) {
-    location.href = str;
-}
 // 选择按钮
 function selectitem(e) {
     var i = 0;
     if ($(e).hasClass("tree-selected")) {
         $(e).removeClass('tree-selected');
-        $(e).find('.treechild').hide();
+        $(e).find('.treechildh').hide();
+        $(e).find('.treechilds').show();
     } else {
         $(e).addClass('tree-selected');
-        $(e).find('.treechild').show();
+        $(e).find('.treechildh').show();
+        $(e).find('.treechilds').hide();
     }
 }
+
 // 选择按钮
 function selected(e) {
     var i = 0;
@@ -137,18 +66,16 @@ function selected(e) {
         $(e).parent().find('span').removeClass('txt');
         $(e).attr("checked",false);
     } else {
-       // $('th input[type=checkbox]').attr("checked",true);
-        //$('th .checkbox .text').addClass('txt');
         $(e).parent().find('span').addClass('txt');
         $(e).attr("checked",true);
-        //$('.hrefactive').addClass("hrefallowed");
     }
+
     if($(e).parents('table').find('span').hasClass('txt')){
         i = 1;
     }
     i === 0 ? $('.hrefactive').removeClass("hrefallowed") : $('.hrefactive').addClass("hrefallowed");
-
 }
+
 // 选择按钮
 function selectcheckbox(e) {
     if ($(e).parent().find('span').hasClass('txt')) {
@@ -159,15 +86,7 @@ function selectcheckbox(e) {
         $(e).attr("checked",true);
     }
 }
-// 选择按钮
-function selected1(e) {
-    if ($(e).find('i').hasClass('fa-check')) {
-        $('th i').removeClass('fa-check');
-        $(e).find('i').removeClass('fa-check');
-    } else {
-        $(e).find('i').addClass('fa-check');
-    }
-}
+
 // 全选按钮
 function selectedAll(e) {
     var table = $(e).parents('table');
@@ -179,6 +98,7 @@ function selectedAll(e) {
             break;
         }
     }
+
     if (tag == 0) {
         $(table).find('.checkbox input[type=checkbox]').attr("checked",true);
         $(table).find('.checkbox span').addClass("txt");
@@ -189,23 +109,7 @@ function selectedAll(e) {
         $('.hrefactive').removeClass("hrefallowed");
     }
 }    
-// 全选按钮
-function selectedAll1(e) {
-    var table = $(e).parents('table');
-    var all = $(table).find('.sel i'),
-        tag = 0;
-    for (var i=1; i<all.length; i++) {
-        if ($(all[i]).hasClass('fa-check')) {
-            tag = tag + 1;
-            break;
-        }
-    }
-    if (tag == 0) {
-        $(table).find('.sel i').addClass('fa-check');
-    } else {
-        $(table).find('.sel i').removeClass('fa-check');
-    }
-}   
+
 // 创建footer
 function createFooter(page,length,total,status){
     var j = 0;
@@ -218,7 +122,7 @@ function createFooter(page,length,total,status){
                 + '<div class="dataTables_paginate paging_bootstrap">'
                 + '<ul class="pagination">';
         if(page == 1){
-            str += '<li class="prev disabled"><a href="#">上一页</a></li>'
+            str += '<li class="prev disabled"><a>上一页</a></li>'
         }else{
             str += '<li class="prev"><a href="javascript:search('+(page-1)+','+status+')">上一页</a></li>'
         }
@@ -226,7 +130,7 @@ function createFooter(page,length,total,status){
         if(pages < 6) {
             for(var i=0; i<pages; i++) {
                 if(page == (i+1)) {
-                    str += '<li class="active"><a href="javascript:search(' + (i+1) + ','+status+')">' + (i+1) + '</a></li>';
+                    str += '<li class="active"><a>' + (i+1) + '</a></li>';
                     j = i+1;
                 } else {
                     str += '<li><a href="javascript:search(' + (i+1) + ','+status+')">' + (i+1) + '</a></li>';
@@ -236,7 +140,7 @@ function createFooter(page,length,total,status){
             if(page < 3) {
                 for(var i=0; i<5; i++) {
                     if(page == i+1) {
-                        str += '<li class="active"><a href="javascript:search(' + (i+1) + ','+status+')">' + (i+1) + '</a></li>';
+                        str += '<li class="active"><a>' + (i+1) + '</a></li>';
                         j = i + 1;
                     } else {
                         str += '<li><a href="javascript:search(' + (i+1) + ','+status+')">' + (i+1) + '</a></li>';
@@ -245,7 +149,7 @@ function createFooter(page,length,total,status){
             } else if(pages-page < 3) {
                 for(var i=pages-5; i<pages; i++) {
                     if(page == i+1) {
-                        str += '<li class="active"><a href="javascript:search(' + (i+1) + ','+status+')">' + (i+1) + '</a></li>';
+                        str += '<li class="active"><a>' + (i+1) + '</a></li>';
                         j = i +1;
                     } else {
                         str += '<li><a href="javascript:search(' + (i+1) + ','+status+')">' + (i+1) + '</a></li>';
@@ -254,7 +158,7 @@ function createFooter(page,length,total,status){
             } else {
                 for(var i=page-3; i<page+2; i++) {
                     if(page == i+1) {
-                        str += '<li class="active"><a href="javascript:search(' + (i+1) + ','+status+')">' + (i+1) + '</a></li>';
+                        str += '<li class="active"><a>' + (i+1) + '</a></li>';
                         j = i +1;
                     } else {
                         str += '<li><a href="javascript:search(' + (i+1) + ','+status+')">' + (i+1) + '</a></li>';
@@ -265,7 +169,7 @@ function createFooter(page,length,total,status){
         if(j<pages){
             str +='<li class="next"><a href="javascript:search(' + (j+1) + ','+status+')">下一页</a></li>'
         } else {
-            str +='<li class="next disabled"><a href="#">下一页</a></li>'
+            str +='<li class="next disabled"><a>下一页</a></li>'
         }
         str +='</ul>'
             + '</div>'
@@ -273,6 +177,53 @@ function createFooter(page,length,total,status){
         doc.html(str);
     }
 }
+
+function authpolicy(){
+    var i = 0;
+    var tab = $('table');
+    tab.find('td span').each(function () {
+        if ($(this).hasClass('txt')) {
+            i = i+1;
+        }     
+    });
+    if(i > 0) {
+        var cont = '';
+        cont += '<div class="modal-header">'
+             + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
+             + '<h4 class="modal-title">下发策略</h4>'
+             + '</div>'
+             + '<div class="modal-body">'
+             + '<form role = "form" class="form-horizontal authpolicy">'
+             + '<div class = "form-group" style="text-align:center;margin-top:15px;">' 
+             + '<div class="col-sm-4 col-sm-offset-2">'
+             + '<a href="javascript:selectedBt(\'/man/devpolicy\')" class="btn btn-primary">设备策略</a>'
+             + '</div>' 
+             + '<div class="col-sm-4">' 
+             + '<a href="javascript:selectedBt(\'/man/compliance\')" class="btn btn-primary">合规策略</a>'
+             + '</div>'
+             + '</div>'
+             + '<div class = "form-group" style="text-align:center;">' 
+             + '<div class="col-sm-4 col-sm-offset-2">'
+             + '<a href="javascript:selectedBt(\'/man/railpoliicy\')" class="btn btn-primary btn-large">'
+             + '围栏策略'
+             + '</a>'
+             + '</div>' 
+             + '<div class="col-sm-4">' 
+             + '<a href="javascript:selectedBt(\'/man/apppolicy\')" class="btn btn-primary btn-large">'
+             + '应用策略'
+             + '</a>'
+             + '</div>'
+             + '</div>'
+             + '</form>'
+             + '</div>'
+             + '<div class="modal-footer">'
+             + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
+             + '</div>';  
+        alertOpen(cont);
+    } 
+    
+}
+
 function searchbykeywords(s,tab){
     if (s.length==0){
         warningOpen('请输入你要搜索的内容！');
@@ -310,37 +261,7 @@ function searchbykeywords(s,tab){
         $('.search input').val('');
     }    
 }
-function searchbykeywords2(s,tab){
-     var tr, str, status = 0, child;
-    if (s.length==0){
-        warningOpen('请输入你要搜索的内容！');
-        return false;
-    } else {
-        s=encode(s);
-        console.log('s='+s);
-       
-        tab.find('tr').each(function () {       
-            $(this).find('td').each(function () {
-                str = $(this).text();
-                if(str.indexOf(s)>=0){
-                    status = 1;
-                }
-            });
-            if(status == 1){
-                $(this).css({'display':'block'});
-                status = 0;
-            } else {
-                $(this).css({'display':'none'});
-            }
-            
-          //  var child = $(this).find('th');
-         //   if(child.length > 0){
-         //       $(this).css({'display':''});
-          //      $(this).css({'visibility':'visible'});
-          //  }
-        }); 
-    }    
-}
+
 function encode(s){
     return s.replace(/([\<\>\&\\\.\*\[\]\(\)\$\^\?\;\:\"\%\#\~\`\'\,\!])/g,"");
 }
@@ -351,6 +272,13 @@ function alertOpen(_cont) {
     alert.css('display', 'block');
     $('.background').addClass('modal-backdrop fade in');
 }
+
+// 隐藏警告框
+function alertOff() {
+    $('.modal-content').html('');
+    $('.background').removeClass('modal-backdrop fade in');
+    $('.bootbox').css('display', 'none');
+}
 function alertOpen1(_cont) {
     var alert = $('.bootbox2');
     alert.find('.modal-content').html(_cont);
@@ -359,24 +287,16 @@ function alertOpen1(_cont) {
     $('.bootbox').css('display', 'none');
 }
 // 隐藏警告框
-function alertOff() {
-    $('.modal-content').html('');
-    $('.background').removeClass('modal-backdrop fade in');
-    $('.bootbox').css('display', 'none');
-}
-// 隐藏警告框
 function alertOff1() {
     $('.bootbox2 .modal-content').html('');
-    //$('.background').removeClass('modal-backdrop fade in');
     $('.bootbox2').css('display', 'none');
     $('.bootbox').css('display', 'block');
 }
 function warningOpen(str,status,fa){
- //   Notify('操作以成功！', 'top-right', '5000', 'success', 'fa-check', true);
- //   Notify('Something Went Wrong!', 'top-right', '5000', 'danger', 'fa-bolt', true);
     Notify(str, 'top-right', '3000', status, fa, true);
     return false;
 }
+
 // 获取cookie里的值
 function getCookie(cookie_name) {
     var allcookies = document.cookie;  
@@ -391,6 +311,7 @@ function getCookie(cookie_name) {
     }   
     return value;    
 }  
+
 // 登录失效
 function toLoginPage() {
     $.cookie('sid', '', {path: "/", expires: -1});

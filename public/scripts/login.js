@@ -29,6 +29,14 @@ function getAction(flag) {
 }
 
 $(function() {
+    $.get('/p/login/getProductName', function(data) {
+        data = JSON.parse(data);
+        if (data.rt==0) {
+            $('h3').html(data.product_name);
+        } else {
+            $('h3').html('移动安全管理平台');
+        }
+    });
    /*
     var btn=document.getElementById("btn");
     var pass=document.getElementById("pass")
@@ -50,18 +58,20 @@ $(function() {
         type: "POST",
         dataType: 'json',
         beforeSubmit: function() {
-            if ($('.login .center input[name=account]').val()=='') {                
-                $('.login .center .err').html('请输入用户名！');
-                setTimeout("warningOff()",2000);
+            if ($('.login .center input[name=account]').val()=='') {      
+                alert('请输入用户名！');          
+                //$('.login .center .err').html('请输入用户名！');
+                //setTimeout("warningOff()",2000);
                 return false;
             } else if ($('.login .center input[name=passwd]').val()=='') {
-                $('.login .center .err').html('请输入密码！');
-                setTimeout("warningOff()",2000);
+                alert('请输入密码！');
+                //$('.login .center .err').html('请输入密码！');
+               // setTimeout("warningOff()",2000);
                 return false;
             }
         },
         success: function(data) {
-            //console.log("datart  == "+data.rt);
+            console.log("data rt  == "+data.rt);
             if(data.rt==0) {
                 if ($('.login input[name=flag]').val()=='per') {
                     localStorage.setItem("data1",JSON.stringify(data));
@@ -71,16 +81,17 @@ $(function() {
                     localStorage.setItem("avatar",data.avatar);
                     localStorage.setItem("icon",data.icon);
                     localStorage.setItem("productName",data.product_name);
+                    localStorage.setItem("appssec_url",data.manager_url);
                     location.href = "/man/first";
                 }
             } else if(data.rt==3 || data.rt==4) {
-                warningOpen('用户名或密码错误！');
+                alert('用户名或密码错误！');
             } else if(data.rt==5) {
                 location.href = "/";
             } else if(data.rt==22) {
-                warningOpen('三次登陆密码有误，账户已冻结！');
+                alert('三次登陆密码有误，账户已冻结！');
             }  else {
-                warningOpen('登录失败！ '+data.rt);
+                alert('登录失败！ '+data.rt);
             }
         },
         error:function(err){

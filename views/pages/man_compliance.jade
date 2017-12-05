@@ -3,73 +3,238 @@ extends ../layout
 block content
     .page-header(class="position-relative")
         .header-title(style="width:180px;")
-            h1
-                策略
+            h1 策略
                 small
                     i(class="fa fa-angle-right")
-                    a 系统合规
+                    a(href="javascript:policylist()") #{ title }
+                    i(class="fa fa-angle-right addpolicy" style="display:none;") 添加
+                    i(class="fa fa-angle-right modpolicy" style="display:none;") 编辑
+                    i(class="fa fa-angle-right viewpolicy" style="display:none;") 详情
+                    i(class="fa fa-angle-right issuedpolicy" style="display:none;") 下发
     .page-body
         .row
-            .setting(class="col-xs-12 col-md-12")
-                .widget(style="height: 400px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;")
-                    .widget-header(style="height:50px;")
-                        p(style="line-height: 50px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 系统合规
-                    .widget-body
+            .policylist(class="col-xs-12 col-md-12")
+                .widget
+                    .widget-btn
+                        a(class="btn btn-primary" href="javascript:add()") 
+                            i(class="fa fa-plus")
+                            添加
+                        a(class="btn btn-primary" href="javascript:auth()") 
+                            i(class="fa fa-magic")
+                            下发
+                        a(class="hrefactive" href="javascript:refresh()" style="cursor:pointer;opacity:1;")
+                            i(class="fa fa-refresh" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 刷新
+                        a(class="hrefactive" href="javascript:activate(1)")
+                            i(class="fa fa-check-circle" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 启用
+                        a(class="hrefactive" href="javascript:activate(0)")
+                            i(class="fa fa-times-circle" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 禁用
+                        a(class="hrefactive" href="javascript:deletes()")
+                            i(class="fa fa-minus-square" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 删除
+                        .input-group(class="input-group-sm")
+                            input(class="form-control" type="text" style="float:right;max-width:200px;" placeholder="名称" onfocus="this.placeholder=''")
+                            span(class="input-group-btn")
+                                button(class="btn btn-default btn-primary" type="button")
+                                    i(class="glyphicon glyphicon-search")
+                    .policytable(class="widget-body" style="box-shadow:none;padding:0;")
+                    .page1
+        .row
+            .policy_add(class="col-xs-12 col-md-12 setting" style="display:none;")
+                .widget(style="border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;")
+                    .widget-header(style="height:40px;")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 基本信息
+                    .widget-body(style="overflow:hidden;")
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
                             .form-group
-                                label(class="col-lg-4 col-xs-6 col-sm-5 control-label" for = "is_sim") 是否有sim卡(4.0以下版本只检测主卡)
-                                .inforow(class="col-lg-4 col-xs-4 col-sm-5")
-                                    div(class="checkbox" style="margin-top:0px;margin-bottom:0px;")
-                                        label(style="padding-left:0;")
-                                            input(type="checkbox" onclick="selectcheckbox(this)" name="is_sim")
-                                            span(class="text" id="is_sim")
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "name" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 名称
+                                    .adddiv(style="left: 140px;")
+                                        input(type="text" class="form-control" id = "name" name="name")
+                                        input(type="text" name="policyid" style="display:none;")
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
                             .form-group
-                                label(class="col-lg-4 col-xs-6 col-sm-5 control-label" for = "is_root") 是否root 
-                                .inforow(class="col-lg-4 col-xs-4 col-sm-5")
-                                    div(class="checkbox" style="margin-top:0px;margin-bottom:0px;")
-                                        label(style="padding-left:0;")
-                                            input(type="checkbox" onclick="selectcheckbox(this)" name="is_root")
-                                            span(class="text" id="is_root") 
-                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "delay" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 延迟
+                                    .adddiv(style="left: 140px;")
+                                        input(type="number" class="form-control" id = "delay" name="delay" min="1" max="72")
+                                div(class="col-lg-3 col-xs-3 col-sm-2")
+                                    label 请输入1-72作为小时数                            
+                    .widget-header(style="height:40px;")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 合规项
+                    .widget-body(style="overflow: hidden;")
+                        .complicance_item
+                            .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                                .form-group
+                                    div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                        label(class="control-label" style="width:110px;")
+                                            i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                            label 合规项
+                                        .adddiv(style="left:140px;")
+                                            select(class="form-control" name="compliance_type" id="item_0")
+                                                option(class="option" value="1") 系统版本过低
+                                                option(class="option" value="2") SIM卡变更
+                                                option(class="option" value="3") Rooted
+                                                //-option(class="option" value="4") 失联
+                                    .os_version(class="col-lg-2 col-xs-2 col-sm-2")
+                                        select(class="form-control" name="os_version" id="os_version")
+                                            option(class="option" value="19") Android 4.4 (API 19)
+                                            option(class="option" value="21") Android 5.0 (API 21)
+                                            option(class="option" value="22") Android 5.1 (API 22)
+                                            option(class="option" value="23") Android 6.0 (API 23)
+                                            option(class="option" value="24") Android 7.0 (API 24)
+                                            option(class="option" value="25") Android 7.1.1 (API 25)
+                        .row(class="additem")
                             .form-group
-                                label(class="col-lg-4 col-xs-6 col-sm-5 control-label" for = "is_android") 设备系统最低版本限制 
-                                .inforow(class="col-lg-4 col-xs-4 col-sm-5")
-                                    div(class="checkbox" style="margin-top:0px;margin-bottom:0px;")
-                                        label(style="padding-left:0;")
-                                            input(type="checkbox" onclick="selectsys(this)" name="is_android")
-                                            span(class="text" id="is_android") &nbsp;&nbsp; 
-                        .row(class="col-xs-12 col-md-12" class="devicesys")
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" style="width:110px; padding-left:22px;")
+                                    .adddiv(style="left:140px;text-align:center;")
+                                        a(class="btn btn-primary" href="javascript:compliance_item_add()" style="opacity:0.8;") 继续添加合规项
+                    .widget-header(style="height:40px;")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 违规限制
+                    .widget-body(style="overflow: hidden;")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
                             .form-group
-                                label(class="col-lg-4 col-xs-6 col-sm-5 control-label")
-                                .inforow(class="col-lg-4 col-xs-4 col-sm-5")
-                                    select(class="form-control" name="os_version" id="os_version")
-                                        option(class="option" value="25") Android 7.1.1 (API 25)
-                                        option(class="option" value="24") Android 7.0 (API 24)
-                                        option(class="option" value="23") Android 6.0 (API 23)
-                                        option(class="option" value="22") Android 5.1 (API 22)
-                                        option(class="option" value="21") Android 5.0 (API 21)
-                                        option(class="option" value="19") Android 4.4 (API 19)
-                                        //-option(class="option" value="18") Android 4.3 (18)
-                                        //-option(class="option" value="17") Android 4.2 (17)
-                                        //-option(class="option" value="16") Android 4.1 (16)
-                                        //-option(class="option" value="15") Android 4.0.3 (15)
-                        .row(class="col-xs-12 col-md-12")
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" style="width:150px;padding-left:22px;") 违规告警
+                                    .adddiv(style="left:180px;width:80px;float:left;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "mesg" name="mesg")
+                                            span(class="text")
+                                                通知
+                                    .adddiv(style="left:260px;width:80px;float:left;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "email" name="email")
+                                            span(class="text")
+                                                邮件
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
                             .form-group
-                                label(class="col-lg-4 col-xs-6 col-sm-5 control-label" for = "violation_handing") 违规处理
-                                .inforow(class="col-lg-4 col-xs-4 col-sm-5")
-                                    select(class="form-control" name="violation_handing" id="violation_handing")
-                                        option(value="0") 请选择
-                                        option(value="1") 禁止使用移动安全办公
-                        .row(class="col-xs-12 col-md-12")
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "camera" style="width:150px;padding-left:22px;") 禁止使用相机
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "camera" name="camera")
+                                            span(class="text")
+                                                禁止
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
                             .form-group
-                                .widget-btn(class="col-lg-1 col-xs-1 col-sm-1 col-lg-offset-4 col-sm-offset-5 col-xs-offset-6")
-                                    a(class="btn btn-primary" href="javascript:compliancesave()") 保存
-                                .widget-btn(class="col-lg-1 col-xs-1 col-sm-1 col-lg-offset-1 col-sm-offset-1 col-xs-1")
-                                    a(class="btn btn-warning" href="javascript:cancel()") 取消    
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "access_secspace" style="width:150px;padding-left:22px;") 禁止访问安全空间
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "access_secspace" name="access_secspace")
+                                            span(class="text")
+                                                禁止
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "enterprise_data" style="width:150px;padding-left:22px;") 擦除企业数据
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "enterprise_data" name="enterprise_data")
+                                            span(class="text")
+                                                开启
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "all_data" style="width:150px;padding-left:22px;") 擦除全部数据
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "all_data" name="all_data")
+                                            span(class="text")
+                                                开启
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "sd" style="width:150px;padding-left:22px;") 禁用SD卡
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "sd" name="sd")
+                                            span(class="text")
+                                                禁止
+                                    label(style="position:absolute;left:260px;width:100%;") 需获得系统权限签名
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "message" style="width:150px;padding-left:22px;") 禁止使用短信
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "message" name="message")
+                                            span(class="text")
+                                                禁止
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "phone" style="width:150px;padding-left:22px;") 禁止收听电话
+                                    .adddiv(style="left:180px;width:80px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "phone" name="phone")
+                                            span(class="text")
+                                                禁止
+                        .row
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2" style="height:60px;")
+                                    label(class="control-label" style="width:150px; padding-left:22px;")
+                                    .adddiv(style="left:180px;text-align:center;margin-top:14px;")
+                                        .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;text-align:right;")
+                                            a(class="btn" href="javascript:policylist()" style="width:78px;") 取消
+                                        .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px; text-align:left;" class="addbtn")
+                                            a(class="btn btn-primary" href="javascript:add_policy()" style="width:78px;") 保存
+                                        .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;display:none;text-align:left;" class="modbtn")
+                                            a(class="btn btn-primary" href="javascript:mod_policy()" style="width:78px;") 保存
+                                        //-.div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;display:none;text-align:left;" class="viewbtn")
+                                            a(class="btn btn-primary" href="javascript:policylist()" style="width:78px;") 确认
+        .row(class="issuedlist" style="display:none;")
+            .widget
+                div(class="col-xs-12 col-md-12")
+                    .widget-btn
+                        a(class="btn btn-primary issuedpl" href="javascript:authbtn()")
+                            i(class="fa fa-check")
+                            下发
+                        .input-group(class="input-group-sm" style="padding-right:27px;")
+                            input(class="form-control" type="text" name="keyvalue" placeholder="按账号搜索" onfocus="this.placeholder=''" style="float:right;max-width:200px;")
+                            span(class="input-group-btn")
+                                button(class="btn btn-default btn-primary" type="button" onclick="searchauthlist()")
+                                    i(class="glyphicon glyphicon-search")
+            .tab(class="col-lg-12 col-sm-12 col-xs-12")
+                .widget-main
+                    .tabbable
+                        input(name="policy_id" style="display:none;")
+                        ul(class="nav nav-tabs tabs-flat" id="myTab11")
+                            li(class="active")
+                                a(data-toggle="tab" href="#departs") 用户组
+                            li
+                                a(data-toggle="tab" href="#usertag") 标签列表
+                        div(class="tab-content tabs-flat")
+                            div(id="departs" class="tab-pane in active")
+                                div(class="col-lg-4 col-sm-4 col-xs-4")
+                                    #treegroup
+                                div(class="col-lg-8 col-sm-8 col-xs-8")
+                                    .usertable(style="box-shadow:none;padding:0;")
+                                    .page2
+                            div(id="usertag" class="tab-pane")
+                                div(class="col-lg-4 col-sm-4 col-xs-4")
+                                    ul(id="usertaglist" style="padding-left:0px;")
+                                div(class="col-lg-8 col-sm-8 col-xs-8")
+                                    .tagusertable(style="box-shadow:none;padding:0;")
+                                    .page3
         .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
             .modal-dialog(style="width:500px;")
                 .modal-content
-        .background  
-    script(src="/scripts/jquery.min.js")
+        .background 
+    script(async="true" src="/scripts/jquery.min.js")
     script(async="true" src="/scripts/man_compliance.js")
+    script(type='text/javascript').
+        $("select#compliance_type").change(function(){
+            if($(this).val() == 1){
+                $(".os_version").css({'display':'block'});
+            } else {
+                $(".os_version").css({'display':'none'});
+            }
+        });

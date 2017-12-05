@@ -1,53 +1,170 @@
-extends ../manager
+extends ../layout
 
-block right
-    .main
-        .header
-            .lt #{ title }
-            .rt
-                .search
-                    form(onsubmit="searchbykeyword(this.s.value);return false;")
-                        input(type="submit", id="submit" value="  ")
-                        input(type="text", name="s", id="s", placeholder="输入关键字" onfocus="this.placeholder=''" onblur="this.placeholder='输入关键字'")
-        .middle(class="app_blacklist")
-            .head
-                .left
-                    ul
-                        li.btn(onclick="add()") 添加黑名单                    
-                        li.btn(onclick="push()") 推送
-                        li.btn(onclick="refresh()") 刷新
-                        li.btn(onclick="deletes()" class="del" style="background-color:#EA5959;") 删除
-                .thead
-                    table
-                        tr
-                            th(width="44px")
-                                .select(onclick="selectedAll()")
-                            th(width="19%") 黑名单名称
-                            th(width="14%") 推送数/收到数
-                            th(width="19%") 创建时间
-                            th(width="19%") 最近修改时间
-                            th(width="19%") 最近推送时间
-                            th(width="10%") 操作
-            .tb
-        .push(style="display:none;")
-            .mesgid(style="display:none;")
-                input(type="text" name="message_id")
-            .dispatch
-                .headline 选定用户角色
-                .lf
-                    .h 未分配用户
-                    .s(class="spic")
-                        input(type="text" id="freeusers" name="freeusers" oninput="sfreeusers()" placeholder="输入登录名称查询..." onfocus="this.placeholder=''" onblur="this.placeholder='输入登录名称查询...'")
-                    .sheet
-                .ct
-                .rt
-                    .h 已分配用户
-                    .s(class="spic")
-                        input(type="text" id="users" name="users" oninput="susers()" placeholder="输入登录名称查询..." onfocus="this.placeholder=''" onblur="this.placeholder='输入登录名称查询...'")
-                    .sheet
-                .clear(style="clear:both;")
-            .save
-                a(href="javascript:cancel()" style="color:#666;") 取消
-                a(href="javascript:save()" style="color:#55ACE4;margin-left:80px;") 保存
-            .clear(style="clear:both;")
-    script(src="/scripts/man_appblacklist.js")
+block content
+    .page-header(class="position-relative")
+        .header-title(style="width:180px;")
+            h1 应用
+                small
+                    i(class="fa fa-angle-right")
+                    a(href="javascript:blacklist()") 应用黑名单
+                    i(class="fa fa-angle-right addblacklist" style="display:none;") 添加
+                    i(class="fa fa-angle-right modblacklist" style="display:none;") 编辑
+                    i(class="fa fa-angle-right viewblacklist" style="display:none;") 详情
+    .page-body
+        .row
+            .blacklist(class="col-xs-12 col-md-12")
+                .widget
+                    .widget-btn
+                        a(class="btn btn-primary" href="javascript:add()") 
+                            i(class="fa fa-plus")
+                            添加
+                        a(class="hrefactive" href="javascript:refresh()" style="cursor:pointer;opacity:1;")
+                            i(class="fa fa-refresh" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 刷新
+                        //-a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-lightbulb-o" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 配置策略
+                        a(class="hrefactive" href="javascript:activate(1)")
+                            i(class="fa fa-check-circle" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 启用
+                        a(class="hrefactive" href="javascript:activate(0)")
+                            i(class="fa fa-times-circle" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 禁用
+                        a(class="hrefactive" href="javascript:deletes()")
+                            i(class="fa fa-minus-square" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 删除
+                        .input-group(class="input-group-sm")
+                            input(class="form-control" type="text" style="float:right;max-width:200px;" placeholder="名称" onfocus="this.placeholder=''")
+                            span(class="input-group-btn")
+                                button(class="btn btn-default btn-primary" type="button")
+                                    i(class="glyphicon glyphicon-search")
+                    .blacktable(class="widget-body" style="box-shadow:none;padding:0;")
+                    .page1
+        .row
+            .blacklist_add(class="col-xs-12 col-md-12 setting" style="display:none;")
+                .widget(style="border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;")
+                    .widget-header(style="height:40px;")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 应用黑名单
+                    .widget-body(style="overflow:hidden;")
+                        .row
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-2 col-sm-offset-2")
+                                    label(class="control-label" for = "name" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 名称
+                                    .adddiv
+                                        div(class="col-lg-12 col-xs-12 col-sm-12" style="padding-left:0px;")
+                                            input(type="text" class="form-control" id = "name" name="name")
+                                label(class="col-lg-3 col-xs-4 col-sm-4") 需在应用策略中配置才能生效
+                        .row
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-2 col-sm-offset-2")
+                                    label(class="control-label" for = "describe" style="width:110px;padding-left:22px;") 描述
+                                    .adddiv
+                                        div(class="col-lg-12 col-xs-12 col-sm-12" style="padding-left:0px;")
+                                            input(type="text" class="form-control" id = "describe" name="describe")
+                        .row
+                            .form-group
+                                    div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-2 col-sm-offset-2")
+                                        label(class="control-label" for = "appname" style="width:110px;")
+                                            i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                            label 添加应用
+                                        .adddiv
+                                            div(class="col-lg-5 col-xs-5 col-sm-5" style="padding-left:0px;")
+                                                input(type="text" class="form-control" id = "appname" name="appname" placeholder="名称")
+                                            div(class="col-lg-7 col-xs-7 col-sm-7")
+                                                input(type="text" class="form-control" id = "apppackage" name="apppackage" placeholder="程序ID (包名 例:com.taobao.taobao)")
+                        .row
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-2 col-sm-offset-2")
+                                    .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;text-align:right;")
+                                        a(class="btn" href="javascript:blacklist()" style="width:78px;") 取消
+                                    .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;text-align:center;")
+                                        a(class="btn btn-primary" href="javascript:blacklist_add()" style="width:78px;") 保存
+        .row
+            .blacklist_mod(class="col-xs-12 col-md-12 setting" style="display:none;")
+                .widget(style="border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;")
+                    .widget-header(style="height:40px;")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 应用黑名单
+                    .widget-body(style="overflow:hidden;")
+                        .row
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-2 col-sm-offset-2")
+                                    label(class="control-label" for = "name" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 名称
+                                    .adddiv
+                                        div(class="col-lg-12 col-xs-12 col-sm-12" style="padding-left:0px;")
+                                            input(type="text" class="form-control" name="id" style="display:none;")
+                                            input(type="text" class="form-control" id = "name" name="name")
+                                label(class="col-lg-3 col-xs-4 col-sm-4") 需要在应用策略中配置才能生效
+                        .row
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-2 col-sm-offset-2")
+                                    label(class="control-label" for = "describe" style="width:110px;padding-left:22px;") 描述
+                                    .adddiv
+                                        div(class="col-lg-12 col-xs-12 col-sm-12" style="padding-left:0px;")
+                                            input(type="text" class="form-control" id = "describe" name="describe")
+                        .row
+                            .form-group
+                                    div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-2 col-sm-offset-2")
+                                        label(class="control-label" for = "appname" style="width:110px;")
+                                            i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                            label 添加应用
+                                        .adddiv
+                                            div(class="col-lg-5 col-xs-5 col-sm-5" style="padding-left:0px;")
+                                                input(type="text" class="form-control" id = "appname" name="appname")
+                                            div(class="col-lg-7 col-xs-7 col-sm-7")
+                                                input(type="text" class="form-control" id = "apppackage" name="apppackage")
+                        .row
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-2 col-sm-offset-2")
+                                    .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;text-align:right;")
+                                        a(class="btn" href="javascript:blacklist()" style="width:78px;") 取消
+                                    .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;text-align:center;")
+                                        a(class="btn btn-primary" href="javascript:modsave()" style="width:78px;") 保存
+        .row
+            .blacklist_view(class="col-xs-12 col-md-12 setting" style="display:none;")
+                .widget(style="border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;")
+                    .widget-header(style="height:40px;")
+                        p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 应用黑名单
+                    .widget-body(style="overflow:hidden;")
+                        .row
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-2 col-sm-offset-2")
+                                    label(class="control-label" for = "name" style="width:110px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 名称
+                                    .adddiv
+                                        div(class="col-lg-12 col-xs-12 col-sm-12" style="padding-left:0px;")
+                                            input(type="text" class="form-control" id = "name" name="name" disabled="disabled")
+                                label(class="col-lg-3 col-xs-3 col-sm-3") 需要在应用策略中配置才能生效
+                        .row
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-2 col-sm-offset-2")
+                                    label(class="control-label" for = "describe" style="width:110px;padding-left:22px;") 描述
+                                    .adddiv
+                                        div(class="col-lg-12 col-xs-12 col-sm-12" style="padding-left:0px;")
+                                            input(type="text" class="form-control" id = "describe" name="describe" disabled="disabled")
+                        .row
+                            .form-group
+                                    div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-2 col-sm-offset-2")
+                                        label(class="control-label" for = "appname" style="width:110px;")
+                                            i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                            label 添加应用
+                                        .adddiv
+                                            div(class="col-lg-5 col-xs-5 col-sm-5" style="padding-left:0px;")
+                                                input(type="text" class="form-control" id = "appname" name="appname" disabled="disabled")
+                                            div(class="col-lg-7 col-xs-7 col-sm-7")
+                                                input(type="text" class="form-control" id = "apppackage" name="apppackage" disabled="disabled")
+                        //-.row
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;text-align:right;")
+                                        a(class="btn" href="javascript:blacklist()" style="width:78px;") 取消
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background 
+    script(async="true" src="/scripts/jquery.min.js")
+    script(async="true" src="/scripts/man_appblacklist.js")

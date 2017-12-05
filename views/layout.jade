@@ -2,35 +2,24 @@ doctype html
 html
     head
         meta(charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="Cache-Control" content="max-age=7200")
+        meta(http-equiv="Expires" content="Mon,20Jul201623:00:00GMT")
+        meta(http-equiv="last-modified" content="Sun,05 Nov 2017 13:45:57 GMT")
         title #{ title }
         link(rel="shortcut icon" href="/imgs/16.ico" type="image/x-icon")
+        link(href="/assets/css/colorpicker.css" rel="stylesheet")
         link(href="/assets/css/bootstrap.min.css" rel="stylesheet")
         link(id="bootstrap-rtl-link" href="" rel="stylesheet")
         link(href="/assets/css/font-awesome.min.css" rel="stylesheet")
         link(id="beyond-link" href="/assets/css/beyond.min.css" rel="stylesheet")
         link(id="skin-link" href="" rel="stylesheet" type="text/css")
+        link(href="/scripts/jedate/skin/jedate.css" rel="stylesheet")
         link(id="beyond-link" href="/assets/css/beyond.min.css" rel="stylesheet")
+        link(href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet")
+        link(rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css")
         link(rel="stylesheet" href="/style/style.css")
         script(src="/assets/js/skins.min.js")
     body   
-        .loading-container
-            .loading-progress
-                .spinner
-                    .spinner-container(class="container1")
-                        .circle1
-                        .circle2
-                        .circle3
-                        .circle4
-                    .spinner-container(class="container2")
-                        .circle1
-                        .circle2
-                        .circle3
-                        .circle4
-                    .spinner-container(class="container3")
-                        .circle1
-                        .circle2
-                        .circle3
-                        .circle4
         .navbar
             .navbar-inner
                 .navbar-container
@@ -54,9 +43,9 @@ html
                                                     span #{ admin }
                                     ul(class="pull-right dropdown-menu dropdown-arrow dropdown-login-area")
                                         li(class="username")
-                                            a #{ admin }
+                                            a #{ email }
                                         li(class="email")
-                                            a #{ admin }
+                                            a #{ email }
                                         li
                                             .avatar-area
                                                 //-span(class="caption") 修改头像
@@ -107,7 +96,7 @@ html
                                 i(class="menu-icon glyphicon glyphicon-home")
                                 span(class="menu-text") 首页
                         li(class="usermenu")
-                            a(href="#" class="menu-dropdown")
+                            a(class="menu-dropdown")
                                 i(class="menu-icon fa fa-user")
                                 span(class="menu-text") 用户
                                 i(class="menu-expand")
@@ -121,14 +110,8 @@ html
                                 li
                                     a(href="javascript:selectedBt('/man/tag')")
                                         span(class="menu-text") 标签
-                                //-li
-                                    a(href="javascript:selectedBt('/man/depart')")
-                                        span(class="menu-text") 机构管理
-                                //-li
-                                    a(href="javascript:selectedBt('/man/role')")
-                                        span(class="menu-text") 角色管理
                         li(class="devicemenu")
-                            a(href="#" class="menu-dropdown")
+                            a(class="menu-dropdown")
                                 i(class="menu-icon fa fa-desktop")
                                 span(class="menu-text") 设备
                                 i(class="menu-expand")
@@ -137,36 +120,40 @@ html
                                     a(href="javascript:selectedBt('/man/device')")
                                         span(class="menu-text") 设备管理
                         li(class="policymenu")
-                            a(href="#" class="menu-dropdown")
+                            a(class="menu-dropdown")
                                 i(class="menu-icon fa fa-lightbulb-o")
                                 span(class="menu-text") 策略
                                 i(class="menu-expand")
                             ul(class="submenu")
                                 li
-                                    a(href="javascript:selectedBt('/man/policy')")
-                                        span(class="menu-text") 策略管理
+                                    a(href="javascript:selectedBt('/man/devpolicy')")
+                                        span(class="menu-text") 设备策略
                                 li
                                     a(href="javascript:selectedBt('/man/compliance')")
-                                        span(class="menu-text") 合规性检查
-                                //-li
-                                    a(href="javascript:selectedBt('/man/rail')")
-                                        span(class="menu-text") 围栏管理
+                                        span(class="menu-text") 合规策略
+                                li
+                                    a(href="javascript:selectedBt('/man/railpoliicy')")
+                                        span(class="menu-text") 围栏策略
+                                li
+                                    a(href="javascript:selectedBt('/man/apppolicy')")
+                                        span(class="menu-text") 应用策略
                         li(class="appmenu")
-                            a(href="#" class="menu-dropdown")
+                            a(class="menu-dropdown")
                                 i(class="menu-icon fa fa-th-large")
                                 span(class="menu-text") 应用
                                 i(class="menu-expand")
                             ul(class="submenu")
                                 li
                                     a(href="javascript:selectedBt('/man/apps')")
-                                        span(class="menu-text") 应用管理
-                                //-li
-                                    a(href="javascript:selectedBt('/man/apps')")
-                                        span(class="menu-text") 应用管理黑名单
-                                    //-a(href="javascript:selectedBt('/man/blacklist')")
-                                        span(class="menu-text") 应用管理黑名单
-                        li(class="mesgmenu")
-                            a(href="#" class="menu-dropdown")
+                                        span(class="menu-text") 应用商店
+                                li
+                                    a(href="javascript:selectedBt('/man/blacklist')")
+                                        span(class="menu-text") 应用黑名单
+                                li
+                                    a(href="javascript:selectedBt('/man/apptag')")
+                                        span(class="menu-text") 应用标签
+                        //-li(class="mesgmenu")
+                            a(class="menu-dropdown")
                                 i(class="menu-icon fa fa-envelope-o")
                                 span(class="menu-text") 内容
                                 i(class="menu-expand")
@@ -175,7 +162,7 @@ html
                                     a(href="javascript:selectedBt('/man/message')")
                                         span(class="menu-text") 消息推送
                         li(class="logmenu")
-                            a(href="#" class="menu-dropdown")
+                            a(class="menu-dropdown")
                                 i(class="menu-icon fa fa-file-text-o")
                                 span(class="menu-text") 日志
                                 i(class="menu-expand")
@@ -184,13 +171,13 @@ html
                                     a(href="javascript:selectedBt('/man/log')")
                                         span(class="menu-text") 用户日志
                                 //-li
-                                    a(href="javascript:selectedBt('/man/log')")
-                                        span(class="menu-text") 管理员日志
+                                    a(href="javascript:selectedBt('/man/devicelog')")
+                                        span(class="menu-text") 客户端日志
                                 //-li
-                                    a(href="javascript:selectedBt('/man/log')")
-                                        span(class="menu-text") 操作合规日志
+                                    a(href="javascript:selectedBt('/man/applog')")
+                                        span(class="menu-text") 应用日志
                         li(class="setmenu")
-                            a(href="#" class="menu-dropdown")
+                            a(class="menu-dropdown")
                                 i(class="menu-icon fa fa-gears")
                                 span(class="menu-text") 设置
                                 i(class="menu-expand")
@@ -203,83 +190,10 @@ html
                                         span(class="menu-text") 基本信息设置
                 .page-content
                     block content
-        //-.searchmesg
-            span(class="searchicon" id="searchicon")
-                //-i(class="fa fa-filter")
-                i(class="glyphicon glyphicon-dashboard")
-            //-.searchcontent(id="searchcontent")
-                .div(class="col-xs-12 col-md-12")
-                    .tree(id="MyTree2" class="tree-plus-minus")
-                        .tree-folder(style="display: none;")
-                            .tree-folder-header
-                                i(class="fa fa-folder")
-                                .tree-folder-name
-                            .tree-folder-content
-                            .tree-loader(style="display: none;")
-                        .tree-item(style="display: none;")
-                            i(class="tree-dot")
-                            .tree-item-name
-            .searchcontent(id="searchcontent")
-                .div
-                    .treehead(style="height:34px;background-color:#008080;border-bottom: 1.5px solid #888;")
-                        p(style="line-height: 34px;padding-left: 10px;width: 50px;color: #fff;") 用户组
-                        i(class="fa fa-users" style="color:#fff;")
-                        i(class="fa fa-filter" style="float: right;margin-top: -34px;margin-right: 10px;font-size: 16px;color: #fff;")
-                    //-.tree(id="MyTree2" class="tree-plus-minus")
-                        .tree-folder
-                            .tree-folder-header
-                                i(class="fa fa-folder-open")
-                                .tree-folder-name 用户组
-                            .tree-folder-content
-                                .tree-item
-                                    i(class="tree-dot")
-                                    .tree-item-name
-                                        i(class="fa-user tree-dot")
-                                        财务管理部
-                                .tree-item
-                                    i(class="tree-dot")
-                                    .tree-item-name
-                                        i(class="fa-user tree-dot")
-                                        研发部门
-                                .tree-item
-                                    i(class="tree-dot")
-                                    .tree-item-name
-                                        i(class="fa-user tree-dot")
-                                        行政部
-                            .tree-loader(style="display: none;")
-                    .tree(id="treetest" class="tree-plus-minus")
-                    .treehead(style="height:34px;background-color:#008080;border-bottom: 1.5px solid #888;")
-                        p(style="line-height: 34px;padding-left: 10px;width: 50px;color: #fff;") 标签
-                        i(class="glyphicon glyphicon-tags" style="color:#fff;")
-                    .tree(id="MyTree3" class="tree-plus-minus")
-                        .tree-folder
-                            .tree-folder-header
-                                i(class="fa fa-folder-open")
-                                .tree-folder-name 爱普安有限公司
-                            .tree-folder-content
-                                .tree-item
-                                    i(class="tree-dot")
-                                    .tree-item-name
-                                        i(class="fa-file-text-o tree-dot")
-                                        部门主任
-                                .tree-item
-                                    i(class="tree-dot")
-                                    .tree-item-name
-                                        i(class="fa-file-text-o tree-dot")
-                                        部门经理
-                                .tree-item(class="tree-selected" onclick="selectitem(this)")
-                                    i(class="fa fa-check-square-o treechild" )
-                                    .tree-item-name
-                                        i(class="fa-file-text-o tree-dot")
-                                        研发总监
-                            .tree-loader(style="display: none;")
-                        
         script(src="/assets/js/jquery-2.0.3.min.js")
         script(src="/assets/js/bootstrap.min.js")
         script(src="/assets/js/beyond.min.js")
         script(src="/scripts/jquery.cookie.js")
         script(src="/scripts/jquery.form.min.js")
         script(src="/assets/js/toastr/toastr.js")
-        //-script(src="/assets/js/tree-custom.min.js")
-        //-script(src="/assets/js/treeview-init.js")
         script(src="/scripts/layout.js")

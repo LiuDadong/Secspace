@@ -5,40 +5,37 @@
  */
 
 $(function() {
+    console.time('Timer4');
     $('.firstmenu').addClass('active');
     $('body').addClass('first');
-    var devNum = $('.t1 .count'),
-        userNum = $('.t2 .count'),
-        appNum = $('.t3 .count'),
-        depNum = $('.t4 .count');
-        devnum = $('#online span'),
-        depnum = $('#depart span'),
-        appnum = $('#app span');
+  
     // 获取统计信息 
     $.get('/man/org/statistics', function(data) {
         data = JSON.parse(data);
         if (data.rt==0) {
-            var devices = data.doc.device_count;
-            var apps = data.doc.app_count;
-            var departs = data.doc.depart_count;
-            var online_device = data.doc.online_device_count;
-            var users = data.doc.user_count;
-            var users_depart = data.doc.user_has_depart;
-            var installed_count = data.doc.installed_app_count;
             var weeks = [];
             var categories = [];
             var categories = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-            weeks = data.doc.online_device_count_daily;
+            weeks = data.doc.online_device_count_daily || [];
             if(weeks.length == 0){
                 weeks = [7,14,10,20,10,18,15];
             }
-            devNum.html(devices);
-            userNum.html(users);
-            devnum.html(((online_device/devices).toFixed(2)*100).toFixed(0));
-            depNum.html(departs);
-            depnum.html(((users_depart/users).toFixed(2)*100).toFixed(0));
-            appNum.html(apps);
-            appnum.html(((installed_count/apps).toFixed(2)*100).toFixed(0));
+            $('.blicklist_count').html(data.doc.blicklist_count);
+            $('.active_user_count').html(data.doc.active_user_count);
+            $('.issued_app').html(data.doc.issued_app);
+            $('.user_count').html(data.doc.user_count);
+            $('.online_device_count').html(data.doc.online_device_count);
+            $('.app_count').html(data.doc.app_count);
+            $('.on_policy_count').html(data.doc.on_policy_count);
+            $('.policy_count').html(data.doc.policy_count);
+            $('.device_count').html(data.doc.device_count);
+            $('.issued_policy').html(data.doc.issued_policy);
+            $('.page-version').html('版本信息 : '+data.doc.server_version);
+
+            $('#online span').html(((data.doc.active_user_count/data.doc.user_count).toFixed(2)*100).toFixed(0));
+            $('#depart span').html(((data.doc.dev_complicance_count/data.doc.device_count).toFixed(2)*100).toFixed(0));
+            $('#app span').html(((data.doc.issued_policy/data.doc.policy_count).toFixed(2)*100).toFixed(0));
+    
             var chart = new Highcharts.Chart('deviceNum', {
                 title: {
                     text:' 在线设备统计'
@@ -76,7 +73,7 @@ $(function() {
                 },
                 series: [{
                     name: '设备',
-                    data: weeks
+                    data: [7,14,10,20,10,18,15]
                 }/*, {
                     name: '纽约',
                     data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
@@ -95,6 +92,7 @@ $(function() {
             
         }
     });
+    console.timeEnd('Timer4');
     
 });
 

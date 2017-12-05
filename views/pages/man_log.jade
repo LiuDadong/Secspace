@@ -18,9 +18,9 @@ block content
                                 td
                                     .dt(style="min-width:400px;overflow:hidden;")
                                         label 操作时间： 
-                                        input(id="datestart" type="text" placeholder="起始时间" name="start_time" readonly style="float:left;width:150px;cursor:pointer;" class="form-control")
+                                        input(id="datestart" class="datestart" type="text" placeholder="起始时间" name="start_time" readonly style="float:left;width:150px;cursor:pointer;" class="form-control")
                                         .div1(class="" style="width:20px;float:left;height:34px;")
-                                        input(id="dateend" type="text" name="end_time" placeholder="结束时间" readonly style="float:left;width:150px;cursor:pointer;" class="form-control")
+                                        input(id="dateend" class="dateend" type="text" name="end_time" placeholder="结束时间" readonly style="float:left;width:150px;cursor:pointer;" class="form-control")
                                 td
                                     .uname(style="min-width:200px;overflow:hidden;")
                                         label 登录名： 
@@ -50,5 +50,13 @@ block content
                 .modal-content
         .background  
     script(src="/scripts/jquery.min.js")
-    script(src="/scripts/jedate/jedate.js")
+    script(src="/scripts/jedate/jquery-1.7.2.js")
+    script(src="/scripts/jedate/jquery.jedate.js")
     script(async="true" src="/scripts/man_log.js")
+    script(type='text/javascript').
+        $(".dateend").jeDate({
+            format: "YYYY-MM-DD hh:zz"
+        });
+        $(".datestart").jeDate({
+            format: "YYYY-MM-DD hh:zz"
+        });

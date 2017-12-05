@@ -3,47 +3,24 @@
  *                          日志管理 log
  * ==================================================================
  */
-
 $(function() {
     $('.logmenu').addClass('open active');
     $('.logmenu').find('li').eq(0).addClass('active');
-    jeDate({
-        dateCell:"#datestart",
-        //skinCell:"jedatered",
-        format:"YYYY-MM-DD hh:mm:ss",
-        isinitVal:true,
-        isTime:true, 
-        //isClear:false,
-       // initAddVal:{DD:"-1"},
-        minDate:"2000-01-01 00:00:00",
-        //maxDate:(nowDate(0)-24*60*60*1000),       
-        okfun:function(val){$('.dt').find('input[name=start_time]').val(val);}
-    });
-    jeDate({
-        dateCell:"#dateend",
-        //skinCell:"jedatered",
-        format:"YYYY-MM-DD hh:mm:ss",
-        isinitVal:true,
-        isTime:true, //isClear:false,
-        minDate:"2000-01-01 00:00:00",
-        //maxDate:nowDate(0),       
-        okfun:function(val){$('.dt').find('input[name=end_time]').val(val);}
-    });
-    //$('#datestart,#dateend').val('');
 });
+
 // 搜索日志列表
 function searchlist(){
     getloglist(1,10); 
 }
+
 // 列表
 function getloglist(start_page,page_length){  
-    var sid = getCookie('sid'); 
     var index = 0;
     var start_time = $('.dt').find('input[name=start_time]').val();
     var end_time = $('.dt').find('input[name=end_time]').val();
     var email = $('.uname').find('input[name=email]').val() == '' ? 'all' : $('.uname').find('input[name=email]').val();   
-    var operation = $('.tp').find('select[name=operation]').val();   
-   
+    var operation = $('.tp').find('select[name=operation]').val();  
+
     var table = $('.logtable'),
           str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
               + '<th>序号</th>'
@@ -58,19 +35,20 @@ function getloglist(start_page,page_length){
               + '<th>认证方式</th>'
               + '<th>操作结果</th>'
               + '<th>操作时间</th></tr>';
-             
-    //var url = '/man/Log/getLogList?start_time='+ start_time + '&end_time='+ end_time + '&email='+ email + '&operation='+ operation+ '&start_page='+ start_page + '&page_length='+ page_length;
-    var url = hosturl+'p/org/uploadLog?sid='+sid
-        +'&start_time='+ start_time + '&end_time='+ end_time 
-        + '&email='+ email + '&operation='+ operation
-        + '&start_page='+ start_page + '&page_length='+ page_length;
+
+    var url = '/man/Log/getLogList?start_time='+start_time
+            + '&end_time='+ end_time 
+            + '&account='+ email 
+            + '&operation='+ operation
+            + '&start_page='+ start_page 
+            + '&page_length='+ page_length;
     
     $.get(url, function(data) {
-       // data = JSON.parse(data);
         var name, operation, app, app_version, app_type, location, device, device_imei, auth, result, time;
+        data = JSON.parse(data);
         if (data.rt==0) {
             for(var i in data.logs) {
-                name = data.logs[i].email == '' ? '－': data.logs[i].email;
+                name = data.logs[i].account == '' ? '－': data.logs[i].account;
                 operation = data.logs[i].operation == '' ? '－': data.logs[i].operation;
                 app = data.logs[i].app == '' ? '－': data.logs[i].app;
                 app_version = data.logs[i].app_version == '' ? '－': data.logs[i].app_version;
@@ -103,8 +81,10 @@ function getloglist(start_page,page_length){
           toLoginPage();           
         }
     });
+
     currentpage = start_page;
 }
+
 // 下载日志
 function downloadFile(url) {   
     try{ 
@@ -116,6 +96,7 @@ function downloadFile(url) {
         console.log(url);
     } 
 }
+
 // 导出日志
 function impexcel(){   
     var index = 0;
@@ -125,10 +106,11 @@ function impexcel(){
     var email = $('.uname').find('input[name=email]').val() == '' ? 'all': $('.uname').find('input[name=email]').val();
     var operation = $('.tp').find('select[name=operation]').val();
     var sid = getCookie("sid");
-    var url = hosturl + 'p/org/exportExcel?sid='+sid+'&start_time='+ start_time + '&end_time='+ end_time + '&email='+ email + '&operation='+ operation;
+    var url = hosturl + 'p/org/exportExcel?sid='+sid+'&start_time='+ start_time + '&end_time='+ end_time + '&account='+ email + '&operation='+ operation;
     console.log(url);
     downloadFile(url);
 }
+
 // page查询
 function search(p,i) {
     if(i == 1){

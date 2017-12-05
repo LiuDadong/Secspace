@@ -1,9 +1,16 @@
+/*
+ * ==================================================================
+ *                          消息管理 message
+ * ==================================================================
+ */
+
 $(function() {
     $('.mesgmenu').addClass('open active');
     $('.mesgmenu').find('li').eq(0).addClass('active');
     // 消息列表
     getMessageList(1,10);
 });
+
 // 消息列表
 function getMessageList(start,length) {
     var url = '/man/message/getMessageList?start='+ start + '&length='+ length;
@@ -50,6 +57,7 @@ function getMessageList(start,length) {
     });
     currentpage = start;
 }
+
 // page页查询
 function search(p,i) {
     if(i == 1){
@@ -58,11 +66,13 @@ function search(p,i) {
         console.log(i);
     }
 }
+
 // 返回消息列表
 function mesglist(){
     $('.user, .pushadd').css({'display':'none'});
     $('.mesglist').css({'display':'block'});
 }
+
 // 添加消息时预览
 function views(i){
     var tr = $('.mesgtable table tr').eq(i+1);
@@ -88,6 +98,7 @@ function views(i){
              + '</div>';  
     alertOpen(cont);
 }
+
 // 编辑消息
 function modify(i){
     var tr = $('.mesgtable table tr').eq(i+1);
@@ -125,6 +136,7 @@ function modify(i){
              + '</div>';  
     alertOpen(cont);
 }
+
 // 编辑消息提交
 function mesg_mod(message_id){
     var mesgtitle = $('.modal-body').find('input[name=title]').val();
@@ -152,6 +164,7 @@ function mesg_mod(message_id){
         }); 
     }
 }
+
 // 消息推送
 function pushmesg(){
     var i = 0;
@@ -216,6 +229,7 @@ function pushmesg(){
         warningOpen('请选择一条消息进行推送！','danger','fa-bolt');
     }
 }
+
 //删除推送用户
 function deleteuser(obj){
     var tr = $(obj).parent().parent();
@@ -240,6 +254,7 @@ function deleteuser(obj){
     v.style.textAlign = 'center';
     $(obj).parent("td").parent("tr").remove();
 }
+
 //添加推送用户
 function adduser(obj){
     var tr = $(obj).parent().parent();
@@ -264,6 +279,7 @@ function adduser(obj){
     v.style.textAlign = 'center';
     $(obj).parent("td").parent("tr").remove();
 }
+
 //查询未推送的用户
 function sfreeusers(){
     var s = document.getElementById("freeusers").value;
@@ -271,6 +287,7 @@ function sfreeusers(){
     tab.find('tr').each(function () {$(this).css({'display':''});});
     searchbykeywords(s,tab);
 }
+
 //查询推送过的用户
 function searchusers(){
     var s = document.getElementById("users").value;
@@ -278,6 +295,7 @@ function searchusers(){
     tab.find('tr').each(function () {$(this).css({'display':''});});
     searchbykeywords(s,tab);
 }
+
 // 消息推送提交
 function save(){
     var usertable = $('.member table');
@@ -303,6 +321,7 @@ function save(){
         }
     }); 
 }
+
 // 添加消息
 function add(){
     var sid = getCookie("sid"); 
@@ -371,6 +390,7 @@ function add(){
         return false;   
     });
 }
+
 // 添加消息时预览
 function view(){
     var title = $('.bootbox').find('input[name=title]').val();
@@ -395,6 +415,7 @@ function view(){
              + '</div>';  
     alertOpen1(cont);
 }
+
 // 添加消息时添加链接
 function addhref(){
     var cont = '';
@@ -442,6 +463,7 @@ function refresh() {
     $('th span,td span').removeClass('txt');
     getMessageList(currentpage,10);
 }
+
 // 删除
 function deletes(){
     var i = 0;
@@ -467,6 +489,7 @@ function deletes(){
         warningOpen('请选择要删除的消息！','danger','fa-bolt');
     }
 }
+
 // 企业管理员删除多条消息
 function mesg_delete() {
     var message_ids = [],

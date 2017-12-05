@@ -7,6 +7,7 @@
 $(function() {
     $('.setmenu').addClass('open active');
     $('.setmenu').find('li').eq(1).addClass('active');
+    hosturl = localStorage.getItem("appssec_url") + '/';
     var acturl = hosturl + 'p/org/orgUpdateSettings';  
     document.getElementById("addimg").action=acturl;
     document.getElementById("addadmpic").action=acturl;
@@ -43,7 +44,7 @@ $(function() {
             reader.readAsDataURL(file);
             reader.onload = function(e){              
                 $('input[name=sid]').val(sid);
-                img_area.html('<img class="avatar imge-thumbnail" width="194.7px;" height="44px;" src="'+this.result+'" alt="" style="background:#ccc;"></img>');
+                img_area.html('<img class="avatar imge-thumbnail" width="194.7px;" height="44px;" src="'+this.result+'" style="background:#ccc;"></img>');
                 company_icon = this.result;
             }
         }
@@ -57,7 +58,7 @@ $(function() {
             reader.readAsDataURL(file);
             reader.onload = function(e){
                 $('input[name=sid]').val(sid);
-                img_adm.html('<img src="'+this.result+'" alt="" width="99px;" height="99px;"  class="avatar imge-thumbnail"></img>');
+                img_adm.html('<img src="'+this.result+'" width="99px;" height="99px;"  class="avatar imge-thumbnail"></img>');
                 admpic = this.result;
             }
         }      
@@ -72,7 +73,23 @@ $(function() {
             $('input[name=frozen_time]').val(data.doc.frozen_time);
             $("#max_download").find("option").eq(data.doc.max_download).attr("selected",true);
             $('input[name=send_url]').val(data.doc.send_url);
-            //$('input[name=domain_name]').val(data.doc.domain_name);
+
+            $('input[name=email_server]').val(data.doc.email_server);
+            $('input[name=send_user]').val(data.doc.send_user);
+            $('input[name=send_pwd]').val(data.doc.send_pwd);
+            $('input[name=recv_user]').val('');
+            $('input[name=font_color]').val(data.doc.font_color);
+            $('select[name=font_type]').val(data.doc.font_type);
+            $('select[name=font_size]').val(data.doc.font_size);
+            $('select[name=font_opacity]').val(data.doc.font_opacity);
+            if(data.doc['switch'] == '1'){
+                $("input:radio[name='switch']").eq(0).attr("checked",'checked');
+            }else{
+                $("input:radio[name='switch']").eq(1).attr("checked",'checked');
+            }
+
+            $('input[name=pw_min_len]').val(data.doc.pw_min_len);
+            $('select[name=passwd_type]').val(data.doc.passwd_type);
             $('input[name=manager_name]').val(data.doc.manager_name);
             $('input[name=product_name]').val(data.doc.product_name);
             $('input[name=company_name]').val(data.doc.company_name);
@@ -159,14 +176,20 @@ $(function() {
       
     // 提交修改管理员头像
     $('#addadmpic').submit(function() {  
+
         var manager_name = $('.setting input[name=manager_name]').val();
+
         if(admpic){
+
             $(this).ajaxSubmit({
+
                 resetForm: true,
                 beforeSubmit: function() {
                     // warningOpen('正在添加请稍后！');
                 },
+
                 success: function(d1, d2) {
+
                     $.get('/man/setting/orgGetSettings', function(data) {
                         data = JSON.parse(data);
                         if (data.rt==0) {
@@ -179,6 +202,7 @@ $(function() {
                             toLoginPage();           
                         }
                     });
+
                     if (d1.rt == 0) {
                         warningOpen('添加成功！','primary','fa-check');
                     } else if (d1.rt == 1) {
@@ -188,33 +212,130 @@ $(function() {
                     } else {
                         warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
                     }
+
                     alertOff();
                 }
             });
+
         } else if($('.setting input[name=manager_name]').val() != ''&&!admpic){
+
             modifymanagerName();
+
         } else{
+
             console.log("未修改！");
+
         }
+
         return false;   
     });
+
+    $("#email_server, #send_user, #send_pwd").bind("change", function(){
+        $('.email-server-btn').attr("disabled",true);
+    });
+    
 });
 
 // 修改系统设置
 function setsave(){
+
     var session_expire_time = $('input[name=session_expire_time]').val();
     var pw_max_try_times = $('input[name=pw_max_try_times]').val();
     var send_url = $('input[name=send_url]').val();
     var frozen_time = $('input[name=frozen_time]').val();
     var max_download = $('select[name=max_download]').val();
+    var pw_min_len = $('input[name=pw_min_len]').val();
+    var passwd_type = $('select[name=passwd_type]').val();
     var allow_remember_pw = $('input[name=allow_remember_pw]:checked').val();
+    
     var postData = {
         session_expire_time: session_expire_time,
         pw_max_try_times: pw_max_try_times,
         frozen_time: frozen_time,
         allow_remember_pw: allow_remember_pw,
         max_download: max_download,
+        pw_min_len: pw_min_len,
+        passwd_type: passwd_type,
         send_url: send_url
+    };
+
+    $.post('/man/setting/orgUpdateSettings', postData, function(data) {
+        if (data.rt==0) {
+            warningOpen('操作成功！','primary','fa-check');
+        } else if (data.rt==5) {
+            toLoginPage();
+        } else {
+            warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+        }
+    });  
+    
+}
+
+// 邮箱服务器设置
+function modwatermarke(){
+    var switchon = $('input[name=switch]:checked').val();
+    var font_type = $('select[name=font_type]').val();
+    var font_size = $('select[name=font_size]').val();
+    var font_color = $('input[name=font_color]').val();
+    var font_opacity = $('select[name=font_opacity]').val();
+
+    var postData = {
+        switchon: switchon,
+        font_type: font_type,
+        font_size: font_size,
+        font_color: font_color,
+        font_opacity: font_opacity
+    };
+    
+    $.post('/man/setting/orgUpdateSettings', postData, function(data) {
+        if (data.rt==0) {
+            warningOpen('操作成功！','primary','fa-check');
+        } else if (data.rt==5) {
+            toLoginPage();
+        } else {
+            warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+        }
+    });  
+}
+
+// 邮箱服务器测试
+function testemail(){
+    var email_server = $('input[name=email_server]').val();
+    var send_user = $('input[name=send_user]').val();
+    var send_pwd = $('input[name=send_pwd]').val();
+    var recv_user = $('input[name=recv_user]').val();
+
+    var postData = {
+        email_server: email_server,
+        send_user: send_user,
+        send_pwd: send_pwd,
+        recv_user: recv_user
+    };
+    if(postData.email_server && postData.send_user && postData.send_pwd && postData.recv_user){
+        $.post('/man/setting/testEmail', postData, function(data) {
+            if (data.rt==0) {
+                warningOpen('邮箱服务器信息正确！','primary','fa-check');
+                $('.email-server-btn').attr("disabled",false);
+            } else if (data.rt==5) {
+                toLoginPage();
+            } else {
+                warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+            }
+        });  
+    } else {
+        warningOpen('请将信息填写完整再测试！','danger','fa-bolt');
+    }
+}
+// 邮箱服务器设置
+function modemailserver(){
+    var email_server = $('input[name=email_server]').val();
+    var send_user = $('input[name=send_user]').val();
+    var send_pwd = $('input[name=send_pwd]').val();
+
+    var postData = {
+        email_server: email_server,
+        send_user: send_user,
+        send_pwd: send_pwd
     };
     $.post('/man/setting/orgUpdateSettings', postData, function(data) {
         if (data.rt==0) {

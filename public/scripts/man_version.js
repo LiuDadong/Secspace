@@ -10,6 +10,7 @@ $(function() {
     // 版本列表
     getVersionList(1,10);  
 });
+
 // 版本列表
 function getVersionList(start,length) {
     var st = 1;
@@ -98,6 +99,7 @@ function getVersionList(start,length) {
     currentpage = start;
     setTimeout("func()","2000");
 }
+
 function func(){
     $(function(){
         $('.versiontable tr').each(function(){
@@ -107,6 +109,7 @@ function func(){
         });
     });
 }
+
 // page页查询
 function search(p,i) {
     if(i == 1){
@@ -115,6 +118,7 @@ function search(p,i) {
         console.log(i);
     }
 }
+
 // 取消生效
 function version_cancel(i) {
     var _tr = $('.versiontable table tr').eq(2*i+1);
@@ -134,6 +138,7 @@ function version_cancel(i) {
         }
     });
 }
+
 // 版本生效
 function version(i) {
     var _tr = $('.versiontable table tr').eq(2*i+1);
@@ -165,6 +170,7 @@ function downloadFile(url) {
         console.log(url);
     } 
 }
+
 // 下载版本
 function version_download(i){   
     var _tr = $('.versiontable table tr').eq(2*i+1);
@@ -172,6 +178,7 @@ function version_download(i){
     var url = downurl+path;
     downloadFile(url);
 }
+
 // 修改版本
 function version_modify(i){
     var _tr = $('.versiontable table tr').eq(2*i+1);
@@ -209,6 +216,7 @@ function version_modify(i){
              + '</div>';  
     alertOpen(cont);
 }
+
 // 修改版本提交
 function version_update(i) {
     var _tr = $('.versiontable table tr').eq(2*i+1);
@@ -222,7 +230,7 @@ function version_update(i) {
         describe: describe,
         _id: id
     };
-    var version = /^[0-9]+\.+[0-9]+\.+[0-9]$/;
+    var version = /^([0-9]{1,2})+\.+([0-9]{1,2})+\.+([0-9]{1,2})$/;
     if (postData.name =='') {
         warningOpen('请输入版本名称！','danger','fa-bolt');
     } else if (postData.versioncode == '' || !version.test(postData.versioncode)) {
@@ -247,7 +255,7 @@ function version_update(i) {
 
 // 添加版本
 function add(){
-    var vcode = /^[0-9]+\.+[0-9]+\.+[0-9]$/;
+    var vcode = /^([0-9]{1,2})+\.+([0-9]{1,2})+\.+([0-9]{1,2})$/;
     var sid = getCookie("sid"); 
     var url = hosturl + 'p/file/uploadApp';
     var cont = '';
@@ -319,11 +327,13 @@ function add(){
         return false;
     });      
 }
+
 // 刷新
 function refresh() {
     $('th span,td span').removeClass('txt');
     getVersionList(currentpage,10);
 }
+
 // 删除
 function deletes(){
     var i = 0;
