@@ -3,8 +3,7 @@ extends ../layout
 block content
     .page-header(class="position-relative")
         .header-title(style="width:180px;")
-            h1
-                设置
+            h1 设置
                 small
                     i(class="fa fa-angle-right")
                     a 基本信息设置
@@ -15,30 +14,63 @@ block content
                     .widget-header
                         i(class="widget-icon fa fa-gear")
                         .widget-buttons(style="position:absolute;left:25px;")
-                            a(href="#" data-toggle="collapse")
-                                系统设置
+                            a(href="#" data-toggle="collapse") 服务端设置
                     .widget-body
-                        .row(class="col-xs-12 col-md-12")
-                            h5 会话时间设置
-                        .row(class="col-xs-12 col-md-12")
-                            .form-group
-                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "session_expire_time") 会话时间
-                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
-                                    input(type="text" name="session_expire_time" class = "form-control" id = "session_expire_time") 
-                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label") 分钟
                         .row(class="col-xs-12 col-md-12")
                             h5 登录安全策略
                         .row(class="col-xs-12 col-md-12")
                             .form-group
                                 label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "pw_max_try_times") 密码连续失败次数
                                 .inforow(class="col-lg-3 col-xs-4 col-sm-4")
-                                    input(type="text" name="pw_max_try_times" class = "form-control" id = "pw_max_try_times") 
+                                    input(type="number" name="pw_max_try_times" class = "form-control" id = "pw_max_try_times" min=1 max=20)
                                 label(class="col-lg-6 col-xs-4 col-sm-4 control-label") 次
                         .row(class="col-xs-12 col-md-12")
                             .form-group
                                 label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "frozen_time") 用户冻结时间
                                 .inforow(class="col-lg-3 col-xs-4 col-sm-4")
                                     input(type="text" name="frozen_time" class = "form-control" id = "frozen_time") 
+                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label") 分钟
+                        .row(class="col-xs-12 col-md-12")
+                            h5 消息服务地址设置 
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "send_url") 消息服务地址
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="text" name="send_url" class = "form-control" id = "send_url") 
+                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                    a(class="btn btn-primary" href="javascript:setsave()") 保存
+
+
+
+            //  客户端设置
+            .setting(class="col-xs-12 col-md-12")
+                .widget(class="collapsed")
+                    .widget-header
+                        i(class="widget-icon fa fa-gear")
+                        .widget-buttons(style="position:absolute;left:25px;")
+                            a(href="#" data-toggle="collapse") 客户端设置
+                    .widget-body
+                        .row(class="col-xs-12 col-md-12")
+                            h5 会话时间设置
+                        // 会话时间
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "session_expire_time") 会话时间
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="number" name="session_expire_time" class = "form-control" id = "session_expire_time" min=120)
+                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label") 分钟
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "pw_max_try_times") 密码连续失败次数
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="number" name="client_pw_try_times" class = "form-control" id = "client_pw_try_times" min=1 max=20)
+                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label") 次
+                        // 用户冻结时间
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "client_frozen_time") 用户冻结时间
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    input(type="number" name="client_frozen_time" class = "form-control" id = "client_frozen_time" min=10 max=60*24)
                                 label(class="col-lg-6 col-xs-4 col-sm-4 control-label") 分钟
                         .row(class="col-xs-12 col-md-12")
                             h5 登录设置
@@ -70,7 +102,7 @@ block content
                             .form-group
                                 label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "pw_min_len") 密码长度
                                 .inforow(class="col-lg-3 col-xs-4 col-sm-4")
-                                    input(type="number" name="pw_min_len" class = "form-control" id = "pw_min_len" min="6" max="10" value="6")
+                                    input(type="number" name="pw_min_len" class = "form-control" id = "pw_min_len" min=6 max=10 value=6)
                         .row(class="col-xs-12 col-md-12")
                             h5 密码复杂度设置
                         .row(class="col-xs-12 col-md-12")
@@ -81,21 +113,33 @@ block content
                                         option(value="1") 数字
                                         option(value="2") 数字加字母
                         .row(class="col-xs-12 col-md-12")
-                            h5 消息服务地址设置 
+                            h5 密码有效期设置
                         .row(class="col-xs-12 col-md-12")
                             .form-group
-                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "send_url") 消息服务地址
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label" for = "pw_min_len") 密码有效期
                                 .inforow(class="col-lg-3 col-xs-4 col-sm-4")
-                                    input(type="text" name="send_url" class = "form-control" id = "send_url") 
-                                .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
+                                    input(type="number" name="passwd_available" class = "form-control" id = "passwd_available" min=1 max=365 value=0)
+                                label(class="col-lg-6 col-xs-4 col-sm-4 control-label") 天
+                        .row(class="col-xs-12 col-md-12")
+                            h5 截屏设置
+                        .row(class="col-xs-12 col-md-12")
+                            .form-group
+                                label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 禁止截屏
+                                .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                    label(class="col-xs-5 col-md-6")
+                                        input(name="screenshot" type="radio" value="1")
+                                        span(class="text") 开启
+                                    label(class="col-xs-7 col-md-6")
+                                        input(name="screenshot" type="radio" value="0")
+                                        span(class="text") 关闭
+                                .widget-btn(class="col-lg-5 col-xs-2 col-sm-2 col-lg-offset-1 col-sm-offset-1 col-xs-1")
                                     a(class="btn btn-primary" href="javascript:setsave()") 保存 
             .setting(class="col-xs-12 col-md-12")
                 .widget(class="collapsed")
                     .widget-header
                         i(class="widget-icon fa fa-gear")
                         .widget-buttons(style="position:absolute;left:25px;")
-                            a(href="#" data-toggle="collapse")
-                                水印设置
+                            a(href="#" data-toggle="collapse") 水印设置
                     .widget-body
                         .row(class="col-xs-12 col-md-12")
                             .form-group
@@ -143,8 +187,7 @@ block content
                     .widget-header
                         i(class="widget-icon fa fa-gear")
                         .widget-buttons(style="position:absolute;left:25px;")
-                            a(href="#" data-toggle="collapse")
-                                邮件服务器设置
+                            a(href="#" data-toggle="collapse") 邮件服务器设置
                     .widget-body
                         .row(class="col-xs-12 col-md-12")
                             .form-group
@@ -160,7 +203,7 @@ block content
                             .form-group
                                 label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 邮件发送者密码
                                 .inforow(class="col-lg-3 col-xs-4 col-sm-4")
-                                    input(type="text" name="send_pwd" class = "form-control" id = "send_pwd")
+                                    input(type="password" name="send_pwd" class = "form-control" id = "send_pwd")
                                 .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1" style="height:auto;")
                                     a(class="btn btn-primary" href="javascript:testemail()") 测试邮箱  
                         .row(class="col-xs-12 col-md-12")
@@ -175,8 +218,7 @@ block content
                     .widget-header
                         i(class="widget-icon fa fa-gear")
                         .widget-buttons(style="position:absolute;left:25px;")
-                            a(href="#" data-toggle="collapse")
-                                管理员设置
+                            a(href="#" data-toggle="collapse") 管理员设置
                     .widget-body
                         iframe(name="iframe" width="0" height="0" style="display:none;")
                         form(form id="addadmpic" method="post" action="/p/org/orgUpdateSettings" enctype="multipart/form-data" target="iframe")
@@ -224,8 +266,7 @@ block content
                     .widget-header
                         i(class="widget-icon fa fa-gear")
                         .widget-buttons(style="position:absolute;left:25px;")
-                            a(href="#" data-toggle="collapse")
-                                认证方式设置
+                            a(href="#" data-toggle="collapse") 认证方式设置
                     .widget-body
                         .row(class="col-xs-12 col-md-12")
                             .form-group
@@ -234,18 +275,15 @@ block content
                                     div(class="checkbox" style="margin-top:0px;")
                                         label(style="padding-left:0;")
                                             input(type="checkbox" onclick="selectcheckbox(this)" name="identify_method1")
-                                            span(class="text" id="identify_method1")
-                                                用户名口令认证 
+                                            span(class="text" id="identify_method1") 用户名口令认证
                                     div(class="checkbox")
                                         label(style="padding-left:0;")
                                             input(type="checkbox" onclick="select2(this)" name="identify_method2")
-                                            span(class="text" id="identify_method2")
-                                                用户名口令＋指纹认证
+                                            span(class="text" id="identify_method2") 用户名口令＋指纹认证
                                     div(class="checkbox")
                                         label(style="padding-left:0;")
                                             input(type="checkbox" onclick="select3(this)" name="identify_method3")
-                                            span(class="text" id="identify_method3")
-                                                用户名口令＋本地指纹认证  
+                                            span(class="text" id="identify_method3") 用户名口令＋本地指纹认证
                                 .widget-btn(class="col-lg-5 col-xs-3 col-sm-3 col-lg-offset-1 col-sm-offset-1 col-xs-1")
                                     a(class="btn btn-primary" href="javascript:identify_method()" style="margin-top:38px;") 保存
             .setting(class="col-xs-12 col-md-12")
@@ -253,8 +291,7 @@ block content
                     .widget-header
                         i(class="widget-icon fa fa-gear")
                         .widget-buttons(style="position:absolute;left:25px;")
-                            a(href="#" data-toggle="collapse")
-                                产品信息
+                            a(href="#" data-toggle="collapse") 产品信息
                     .widget-body
                         iframe(name="ifme" width="0" height="0" style="display:none;")
                         form(form id="addimg" method="post" action="/p/org/orgUpdateSettings" enctype="multipart/form-data" target="ifme")

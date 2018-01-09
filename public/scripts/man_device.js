@@ -51,7 +51,9 @@ function getDeviceList(start_page,page_length){
             + '<th>系统</th>'
             + '<th>上一次在线时间</th>'
             + '<th>目前状态</th>'
-            + '<th>设备类型</th></tr>';
+            + '<th>设备类型</th>'
+            //+ '<th>Secspace版本号</th>'
+            + '</tr>';
     $.get('/man/dev/getDevList?start_page='+start_page+'&page_length='+page_length, function(data) {
         var online='';
         data = JSON.parse(data);
@@ -74,7 +76,9 @@ function getDeviceList(start_page,page_length){
                     + '<td style="display:none;">' + data.doc[i].uid + '</td>'
                     + '<td style="display:none;">' + i + '</td>'
                     + '<td style="display:none;">' + data.doc[i].email + '</td>'
-                    + '<td>安卓</td></tr>';
+                    + '<td>安卓</td>'
+                    //+ '<td>安卓</td>'
+                    + '</tr>';
             }
             str +='</table>';
             table.html(str);   
@@ -225,20 +229,31 @@ function getDetail(i){
                     location = 0;
                 }
 
-                if(position && location === 1){
-                    var map = mapObj.getInstance();
-                    map.setCenter([position.longitude, position.latitude]);
-                    document.getElementById("result").innerHTML = '位置信息：'+position.address;
+                if(position && location === 1){                    
+                    var map = new AMap.Map("address", {
+                        resizeEnable: true,
+                        center: [position.longitude, position.latitude],//地图中心点
+                        zoom: 15 //地图显示的缩放级别
+                    });
+                    AMap.plugin(['AMap.ToolBar','AMap.AdvancedInfoWindow'],function(){
+                        //创建并添加工具条控件
+                        var toolBar = new AMap.ToolBar();
+                        map.addControl(toolBar);
+                    })
+
+                    //map.setCenter([position.longitude, position.latitude]);
+                    
                     var marker = new AMap.Marker({
                         title: position.address,
                         map: map
                     });
-                    
+                    // 设置label标签
+                    marker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
+                        offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
+                        content: "位置信息："+position.address
+                    });
+                    return;
                 } else {
-                    //var map = mapObj.getInstance();
-                   // $('#myTab5 li a').eq(2).click(function(){
-                     //   return true;
-                    //});
                     var map = new AMap.Map("address", {
                         resizeEnable: true,
                         center: [116.40, 39.90],//地图中心点
@@ -249,8 +264,9 @@ function getDetail(i){
                         var toolBar = new AMap.ToolBar();
                         map.addControl(toolBar);
                     })
-                    document.getElementById("result").innerHTML = '位置：这台设备没有定位信息';
-                }   
+                    $("#result").text('位置：这台设备没有定位信息');
+                }
+                warningOpen('设备没有详细信息地址！','danger','fa-bolt');   
             } else if (data.rt==5) {
                toLoginPage();
             } else {
@@ -266,14 +282,14 @@ function getDetail(i){
                 + '<th>应用名称</th>'
                 + '<th>应用包名称</th>'
                 + '<th>版本</th>'
-                + '<th>安全状态</th>'
-                + '<th>来源</th></tr>';
+               // + '<th>安全状态</th>'
+                + '<th>安装位置</th></tr>';
         for(var i in appObj) { 
             strtab4 += '<tr>'
                 + '<td>' + appObj[i].app_name + '</td>'
                 + '<td>' + appObj[i].package_name + '</td>'
                 + '<td>' + appObj[i].version_name + '</td>' 
-                + '<td>－－</td>'
+              //  + '<td>－－</td>'
                 + '<td>－－</td></tr>';
             }
         strtab4 +='</table>';

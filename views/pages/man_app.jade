@@ -3,8 +3,7 @@ extends ../layout
 block content
     .page-header(class="position-relative")
         .header-title(style="width:180px;")
-            h1
-                应用
+            h1 应用
                 small
                     i(class="fa fa-angle-right")
                     a(href="javascript:applist()") 应用商店
@@ -19,11 +18,9 @@ block content
                 .widget
                     .widget-btn
                         a(class="btn btn-primary" href="javascript:add()")
-                            i(class="fa fa-plus")
-                            添加
+                            i(class="fa fa-plus") 添加
                         a(class="btn btn-primary" href="javascript:appauth()") 
-                            i(class="fa fa-magic")
-                            授权
+                            i(class="fa fa-magic") 授权
                         a(class="hrefactive" href="javascript:refresh()" style="cursor:pointer;opacity:1;")
                             i(class="fa fa-refresh" style="font-size:20px;")
                             p(style="font-size:10px;margin:0;") 刷新
@@ -59,6 +56,14 @@ block content
                                         .adddiv(style="left:140px;padding-top:8px;")
                                             i(class="fa fa-folder-open openfile")
                                             input(type="file" id = "file_data" name="file_data" style="position: absolute;left: 20px;top: 6px;")
+                            .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                                .form-group
+                                    div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                        label(class="control-label" for = "name" style="width:110px; padding-left:22px;") 自定义名称
+                                        .adddiv(style="left: 140px;")
+                                            input(type="text" class="form-control" id = "name" name="name")
+                                    div(class="col-lg-3 col-xs-3 col-sm-1")
+                                        label 设置后不可更改只能重新上传           
                             .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
                                 .form-group
                                     div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
@@ -129,6 +134,14 @@ block content
                     .widget-header(style="height:40px;")
                         p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 基本信息
                     .widget-body(style="overflow:hidden;")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                                .form-group
+                                    div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                        label(class="control-label" style="width:110px; padding-left:22px;") 自定义名称
+                                        .adddiv(style="left: 140px;")
+                                            input(type="text" class="form-control" name="name")
+                                    div(class="col-lg-3 col-xs-3 col-sm-1")
+                                        label 设置后不可更改只能重新上传 
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
                             .form-group
                                 div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
@@ -201,6 +214,14 @@ block content
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
                             .form-group
                                 div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
+                                    label(class="control-label" style="width:110px; padding-left:22px;") 自定义名称
+                                    .adddiv(style="left: 140px;")
+                                        input(type="text" class="form-control" name="name")
+                                div(class="col-lg-3 col-xs-3 col-sm-1")
+                                    label 设置后不可更改只能重新上传
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3")
                                     label(class="control-label" style="width:110px; padding-left:22px;") 最低系统要求
                                     .adddiv(style="left:140px;")
                                         select(class="form-control" name="app_version" id="app_version" disabled="disabled")
@@ -256,11 +277,9 @@ block content
                 div(class="col-xs-12 col-md-12")
                     .widget-btn
                         a(class="btn btn-primary issuedpl" href="javascript:authbtn()")
-                            i(class="fa fa-check")
-                            授权
+                            i(class="fa fa-check") 授权
                         a(class="btn btn-primary issuedpl" href="javascript:unauthbtn()" style="width:auto;")
-                            i(class="fa fa-times")
-                            取消授权
+                            i(class="fa fa-times") 取消授权
                         .input-group(class="input-group-sm" style="padding-right:27px;")
                             input(class="form-control" type="text" name="keyvalue" placeholder="按账号搜索" onfocus="this.placeholder=''" style="float:right;max-width:200px;")
                             span(class="input-group-btn")

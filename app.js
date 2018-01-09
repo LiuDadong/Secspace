@@ -1,5 +1,4 @@
 var express = require('express');
-var jade = require('jade');         // 模板
 var path = require('path');
 
 var app = express();

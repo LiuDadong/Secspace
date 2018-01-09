@@ -17,11 +17,9 @@ block content
                 .widget
                     .widget-btn
                         a(class="btn btn-primary" href="javascript:add()") 
-                            i(class="fa fa-plus")
-                            添加
+                            i(class="fa fa-plus") 添加
                         a(class="btn btn-primary" href="javascript:auth()") 
-                            i(class="fa fa-magic")
-                            下发
+                            i(class="fa fa-magic") 下发
                         a(class="hrefactive" href="javascript:refresh()" style="cursor:pointer;opacity:1;")
                             i(class="fa fa-refresh" style="font-size:20px;")
                             p(style="font-size:10px;margin:0;") 刷新
@@ -138,6 +136,23 @@ block content
                                 i(class="icon glyphicon glyphicon-fullscreen")
                             a(href="javascript:minmap()" class="addressicon2")
                                 i(class="icon glyphicon glyphicon-resize-small")
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "gps" style="width:150px;padding-left:22px;") 关闭GPS限置
+                                    .adddiv(style="left:180px;width:450px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "gps" name="gps")
+                                            span(class="text") 设备关闭GPS功能后视为在围栏内
+                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
+                            .form-group
+                                div(class="col-lg-8 col-xs-8 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
+                                    label(class="control-label" for = "wifi" style="width:150px;padding-left:22px;") 连接Wifi限制
+                                    .adddiv(style="left:180px;width:450px;")
+                                        label(class="cursor")
+                                            input(type="checkbox" onclick="checkthis(this)" id = "wifi" name="wifi")
+                                            span(class="text") 设备连接指定Wifi后视为在围栏内
+                                        input(type="text" name="ssid" placeholder="请输入SSID")
                     .widget-header(style="height:40px;")
                         p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 围栏内策略
                     .widget-body(style="overflow: hidden;")
@@ -166,7 +181,7 @@ block content
                                         .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px; text-align:left;" class="addbtn")
                                             a(class="btn btn-primary" href="javascript:add_policy()" style="width:78px;") 保存
                                         .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;display:none;text-align:left;" class="modbtn")
-                                            a(class="btn btn-primary" href="javascript:mod_policy()" style="width:78px;") 保存
+                                            a(class="btn btn-primary" href="javascript:mod_policy()") 保存并下发
                                         //-.div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;display:none;text-align:left;" class="viewbtn")
                                             a(class="btn btn-primary" href="javascript:policylist()" style="width:78px;") 确认
         .row(class="issuedlist" style="display:none;")
@@ -174,8 +189,7 @@ block content
                 div(class="col-xs-12 col-md-12")
                     .widget-btn
                         a(class="btn btn-primary issuedpl" href="javascript:authbtn()")
-                            i(class="fa fa-check")
-                            下发
+                            i(class="fa fa-check") 下发
                         .input-group(class="input-group-sm" style="padding-right:27px;")
                             input(class="form-control" type="text" name="keyvalue" placeholder="按账号搜索" onfocus="this.placeholder=''" style="float:right;max-width:200px;")
                             span(class="input-group-btn")
@@ -213,6 +227,8 @@ block content
     script(src="/scripts/jedate/jquery.jedate.js")
     script(type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=44ffc5b6029cb5a30b0a83e36577079d")
     script(type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js")
+    script(type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=44ffc5b6029cb5a30b0a83e36577079d")
+    script(type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js")
     script(async="true" src="/scripts/man_railpolicy.js")
     script(type='text/javascript').
         $(".stop_date").jeDate({

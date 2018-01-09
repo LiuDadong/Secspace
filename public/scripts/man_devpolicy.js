@@ -456,7 +456,7 @@ function mod_policy(){
             if (data.rt == 0) { 
                 policylist();
                 getPolicyList(currentpage,10); 
-                warningOpen('修改成功！','primary','fa-check');      
+                warningOpen('修改并下发成功！','primary','fa-check');      
             } else if (data.rt==5) {
                 toLoginPage();
             } else if (data.rt==15) {

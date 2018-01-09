@@ -16,7 +16,7 @@ module.exports = function(app, _http) {
         }
     });
 
-    // login 像cookie里添加了 passwod
+    // 向/login端口post请求
     app.post('/login', function(req, res) {
         var url,
             flag = req.body.flag,
@@ -31,19 +31,23 @@ module.exports = function(app, _http) {
             };
             url = '/p/user/userLogin';
             admin = req.body.account;
-        } else {
+        }else if(flag=='admin') {
             postData = {
                 'account': req.body.account,
-                'passwd': md5('xthinkers' + req.body.passwd)
+                'passwd': md5('xthinkers' + req.body.passwd),
+                'dev_ip': req.body.dev_ip
             };
             url = '/p/org/orgLogin';
             admin = postData.account;
             //passwd = postData.pw;
-        }      
+        }else{
+            console.error("登录请求flag值错误，必须为man或者per")
+        }
         _http.POST1(postData, url, function(cont) {
             if(cont.rt == 0) {
                 res.cookie('sid', cont.sid, {maxAge:2*60*60*1000});
                 res.cookie('admin', admin);
+                res.cookie('dev_ip', postData.dev_ip);
                 res.cookie('email', cont.manager_email);
                 if (flag!='per') {
                     res.cookie('avatar', cont.avatar);
@@ -74,9 +78,11 @@ module.exports = function(app, _http) {
     // logout-man
     app.get('/logout/man', function(req, res) {
         var postData = {
-            "sid": req.cookies.sid
+            "sid": req.cookies.sid,
+            'dev_ip': req.cookies.dev_ip
         };
         res.clearCookie('sid');
+        res.clearCookie('dev_ip');
         res.clearCookie('admin');       
         var url = '/p/org/orgLogout';
         _http.POST1(postData, url, function(cont) {

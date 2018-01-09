@@ -17,11 +17,9 @@ block content
                 .widget
                     .widget-btn
                         a(class="btn btn-primary" href="javascript:add()") 
-                            i(class="fa fa-plus")
-                            添加
+                            i(class="fa fa-plus") 添加
                         a(class="btn btn-primary" href="javascript:auth()") 
-                            i(class="fa fa-magic")
-                            下发
+                            i(class="fa fa-magic") 下发
                         a(class="hrefactive" href="javascript:refresh()" style="cursor:pointer;opacity:1;")
                             i(class="fa fa-refresh" style="font-size:20px;")
                             p(style="font-size:10px;margin:0;") 刷新
@@ -93,7 +91,7 @@ block content
                         .row(class="additem")
                             .form-group
                                 div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
-                                    label(class="control-label" style="width:110px; padding-left:22px;")
+                                    label(class="control-label" style="width:110px;")
                                     .adddiv(style="left:140px;text-align:center;")
                                         a(class="btn btn-primary" href="javascript:compliance_item_add()" style="opacity:0.8;") 继续添加合规项
                     .widget-header(style="height:40px;")
@@ -102,17 +100,17 @@ block content
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
                             .form-group
                                 div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
-                                    label(class="control-label" style="width:150px;padding-left:22px;") 违规告警
+                                    label(class="control-label" style="width:110px;") 
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        label 违规告警
                                     .adddiv(style="left:180px;width:80px;float:left;")
                                         label(class="cursor")
                                             input(type="checkbox" onclick="checkthis(this)" id = "mesg" name="mesg")
-                                            span(class="text")
-                                                通知
+                                            span(class="text") 通知
                                     .adddiv(style="left:260px;width:80px;float:left;")
                                         label(class="cursor")
                                             input(type="checkbox" onclick="checkthis(this)" id = "email" name="email")
-                                            span(class="text")
-                                                邮件
+                                            span(class="text") 邮件
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
                             .form-group
                                 div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
@@ -120,8 +118,7 @@ block content
                                     .adddiv(style="left:180px;width:80px;")
                                         label(class="cursor")
                                             input(type="checkbox" onclick="checkthis(this)" id = "camera" name="camera")
-                                            span(class="text")
-                                                禁止
+                                            span(class="text") 禁止
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
                             .form-group
                                 div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
@@ -129,8 +126,7 @@ block content
                                     .adddiv(style="left:180px;width:80px;")
                                         label(class="cursor")
                                             input(type="checkbox" onclick="checkthis(this)" id = "access_secspace" name="access_secspace")
-                                            span(class="text")
-                                                禁止
+                                            span(class="text") 禁止
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
                             .form-group
                                 div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
@@ -138,8 +134,7 @@ block content
                                     .adddiv(style="left:180px;width:80px;")
                                         label(class="cursor")
                                             input(type="checkbox" onclick="checkthis(this)" id = "enterprise_data" name="enterprise_data")
-                                            span(class="text")
-                                                开启
+                                            span(class="text") 开启
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
                             .form-group
                                 div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
@@ -147,8 +142,7 @@ block content
                                     .adddiv(style="left:180px;width:80px;")
                                         label(class="cursor")
                                             input(type="checkbox" onclick="checkthis(this)" id = "all_data" name="all_data")
-                                            span(class="text")
-                                                开启
+                                            span(class="text") 开启
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
                             .form-group
                                 div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
@@ -156,8 +150,7 @@ block content
                                     .adddiv(style="left:180px;width:80px;")
                                         label(class="cursor")
                                             input(type="checkbox" onclick="checkthis(this)" id = "sd" name="sd")
-                                            span(class="text")
-                                                禁止
+                                            span(class="text") 禁止
                                     label(style="position:absolute;left:260px;width:100%;") 需获得系统权限签名
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
                             .form-group
@@ -166,8 +159,7 @@ block content
                                     .adddiv(style="left:180px;width:80px;")
                                         label(class="cursor")
                                             input(type="checkbox" onclick="checkthis(this)" id = "message" name="message")
-                                            span(class="text")
-                                                禁止
+                                            span(class="text") 禁止
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
                             .form-group
                                 div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
@@ -175,8 +167,7 @@ block content
                                     .adddiv(style="left:180px;width:80px;")
                                         label(class="cursor")
                                             input(type="checkbox" onclick="checkthis(this)" id = "phone" name="phone")
-                                            span(class="text")
-                                                禁止
+                                            span(class="text") 禁止
                         .row
                             .form-group
                                 div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2" style="height:60px;")
@@ -187,7 +178,7 @@ block content
                                         .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px; text-align:left;" class="addbtn")
                                             a(class="btn btn-primary" href="javascript:add_policy()" style="width:78px;") 保存
                                         .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;display:none;text-align:left;" class="modbtn")
-                                            a(class="btn btn-primary" href="javascript:mod_policy()" style="width:78px;") 保存
+                                            a(class="btn btn-primary" href="javascript:mod_policy()") 保存并下发
                                         //-.div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;display:none;text-align:left;" class="viewbtn")
                                             a(class="btn btn-primary" href="javascript:policylist()" style="width:78px;") 确认
         .row(class="issuedlist" style="display:none;")
@@ -195,8 +186,7 @@ block content
                 div(class="col-xs-12 col-md-12")
                     .widget-btn
                         a(class="btn btn-primary issuedpl" href="javascript:authbtn()")
-                            i(class="fa fa-check")
-                            下发
+                            i(class="fa fa-check") 下发
                         .input-group(class="input-group-sm" style="padding-right:27px;")
                             input(class="form-control" type="text" name="keyvalue" placeholder="按账号搜索" onfocus="this.placeholder=''" style="float:right;max-width:200px;")
                             span(class="input-group-btn")

@@ -3,7 +3,7 @@ html
     head
         meta(charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0")
         meta(http-equiv="Cache-Control" content="max-age=7200")
-        meta(http-equiv="Expires" content="Mon,20Jul201623:00:00GMT")
+        meta(http-equiv="Expires")
         meta(http-equiv="last-modified" content="Sun,05 Nov 2017 13:45:57 GMT")
         title #{ title }
         link(rel="shortcut icon" href="/imgs/16.ico" type="image/x-icon")
@@ -110,6 +110,9 @@ html
                                 li
                                     a(href="javascript:selectedBt('/man/tag')")
                                         span(class="menu-text") 标签
+                                li
+                                    a(href="javascript:selectedBt('/man/us ')")
+                                        span(class="menu-text") 用户标签
                         li(class="devicemenu")
                             a(class="menu-dropdown")
                                 i(class="menu-icon fa fa-desktop")
@@ -167,15 +170,33 @@ html
                                 span(class="menu-text") 日志
                                 i(class="menu-expand")
                             ul(class="submenu")
-                                li
+                                //-li
                                     a(href="javascript:selectedBt('/man/log')")
                                         span(class="menu-text") 用户日志
-                                //-li
-                                    a(href="javascript:selectedBt('/man/devicelog')")
+                                li
+                                    a(href="javascript:selectedBt('/man/phonelog')")
                                         span(class="menu-text") 客户端日志
-                                //-li
+                                li
                                     a(href="javascript:selectedBt('/man/applog')")
                                         span(class="menu-text") 应用日志
+                                li
+                                    a(href="javascript:selectedBt('/man/userlog')")
+                                        span(class="menu-text") 用户管理日志
+                                li
+                                    a(href="javascript:selectedBt('/man/devicelog')")
+                                        span(class="menu-text") 设备管理日志
+                                li
+                                    a(href="javascript:selectedBt('/man/appcontrollog')")
+                                        span(class="menu-text") 应用管理日志
+                                li
+                                    a(href="javascript:selectedBt('/man/policylog')")
+                                        span(class="menu-text") 策略管理日志
+                                li
+                                    a(href="javascript:selectedBt('/man/adminlog')")
+                                        span(class="menu-text") 管理员日志
+                                li
+                                    a(href="javascript:selectedBt('/man/violationlog')")
+                                        span(class="menu-text") 违规情况日志
                         li(class="setmenu")
                             a(class="menu-dropdown")
                                 i(class="menu-icon fa fa-gears")

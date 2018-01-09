@@ -68,12 +68,14 @@ $(function() {
     $.get('/man/setting/orgGetSettings', function(data) {
         data = JSON.parse(data);
         if (data.rt==0) {
+            console.log(data.doc);
             $('input[name=session_expire_time]').val(data.doc.session_expire_time);
             $('input[name=pw_max_try_times]').val(data.doc.pw_max_try_times);
             $('input[name=frozen_time]').val(data.doc.frozen_time);
             $("#max_download").find("option").eq(data.doc.max_download).attr("selected",true);
             $('input[name=send_url]').val(data.doc.send_url);
-
+            $('input[name=client_frozen_time]').val(data.doc.client_frozen_time);
+            $('input[name=client_pw_try_times]').val(data.doc.client_pw_try_times);
             $('input[name=email_server]').val(data.doc.email_server);
             $('input[name=send_user]').val(data.doc.send_user);
             $('input[name=send_pwd]').val(data.doc.send_pwd);
@@ -87,9 +89,15 @@ $(function() {
             }else{
                 $("input:radio[name='switch']").eq(1).attr("checked",'checked');
             }
+            if(data.doc['screenshot'] == '1'){
+                $("input:radio[name='screenshot']").eq(0).attr("checked",'checked');
+            }else{
+                $("input:radio[name='screenshot']").eq(1).attr("checked",'checked');
+            }
 
             $('input[name=pw_min_len]').val(data.doc.pw_min_len);
             $('select[name=passwd_type]').val(data.doc.passwd_type);
+            $('input[name=passwd_available]').val(data.doc.passwd_available);
             $('input[name=manager_name]').val(data.doc.manager_name);
             $('input[name=product_name]').val(data.doc.product_name);
             $('input[name=company_name]').val(data.doc.company_name);
@@ -243,19 +251,27 @@ function setsave(){
     var pw_max_try_times = $('input[name=pw_max_try_times]').val();
     var send_url = $('input[name=send_url]').val();
     var frozen_time = $('input[name=frozen_time]').val();
+    var client_frozen_time = $('input[name=client_frozen_time]').val();
+    var client_pw_try_times = $('input[name=client_pw_try_times]').val();
     var max_download = $('select[name=max_download]').val();
     var pw_min_len = $('input[name=pw_min_len]').val();
     var passwd_type = $('select[name=passwd_type]').val();
+    var passwd_available = $('input[name=passwd_available]').val();
     var allow_remember_pw = $('input[name=allow_remember_pw]:checked').val();
+    var screenshot = $('input[name=screenshot]:checked').val();
     
     var postData = {
         session_expire_time: session_expire_time,
         pw_max_try_times: pw_max_try_times,
         frozen_time: frozen_time,
+        client_frozen_time:client_frozen_time,
+        client_pw_try_times:client_pw_try_times,
         allow_remember_pw: allow_remember_pw,
+        screenshot: screenshot,
         max_download: max_download,
         pw_min_len: pw_min_len,
         passwd_type: passwd_type,
+        passwd_available: passwd_available,
         send_url: send_url
     };
 

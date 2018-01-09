@@ -526,7 +526,7 @@ function getPolicyList(start,length){
         if (data.rt==0) {
             for(var i in data.policies) {
                 status = data.policies[i].status == 1 ? '启用' : '禁用';
-                policy_type = data.policies[i].policy_type == 'whiteapp' ? '白名单策略' : '黑名单策略';
+                policy_type = data.policies[i].policy_type == 'whiteapp' ? '限制访问策略' : '黑名单策略';
                 usedstr = data.policies[i].name === '默认策略' ? '<a> -- / -- </a>':
                 '<a href="javascript:devusers('+ i +');">' + data.policies[i].used + ' / ' + data.policies[i].issued +'</a>';
                 str += '<tr>'
@@ -856,7 +856,7 @@ function mod_policy(){
             $.post('/man/apppolicy/mod_policy', postData, function(data) {
                 if (data.rt == 0) {
                     policylist();
-                    warningOpen('修改成功！','primary','fa-check');
+                    warningOpen('修改并下发成功！','primary','fa-check');
                     getPolicyList(currentpage,10);
                 } else if (data.rt == 5) {
                     toLoginPage();
@@ -939,7 +939,7 @@ function mod_policy(){
             $.post('/man/apppolicy/mod_policy', postData, function(data) {
                 if (data.rt == 0) {
                     policylist();
-                    warningOpen('修改成功！','primary','fa-check');
+                    warningOpen('修改并下发成功！','primary','fa-check');
                     getPolicyList(currentpage,10);
                 } else if (data.rt == 5) {
                     toLoginPage();
@@ -1115,7 +1115,7 @@ function viewauth(){
         });
         
     } else {
-        warningOpen('请选择一条已下发的白名单策略查看！','danger','fa-bolt');
+        warningOpen('请选择一条已下发的限制访问策略查看！','danger','fa-bolt');
     } 
 }
 // 策略下发
@@ -1546,17 +1546,33 @@ function activate(status){
             status: status,
             blackapp: 'blackapp',
             ids: JSON.stringify(blacklist)
-        };       
-        $.post('/man/apppolicy/changePolicyStatus', postData, function(data) {
-            if (data.rt == 0) {               
-                getPolicyList(currentpage,10);  
-                warningOpen('操作成功！','primary','fa-check'); 
-            } else if (data.rt==5) {
-                toLoginPage();
-            }  else {
-                warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
-            }
-        }); 
+        };
+        if(whitelist.length > 0) {
+            setTimeout(function(){
+                $.post('/man/apppolicy/changePolicyStatus', postData, function(data) {
+                    if (data.rt == 0) {               
+                        getPolicyList(currentpage,10);  
+                        warningOpen('操作成功！','primary','fa-check'); 
+                    } else if (data.rt==5) {
+                        toLoginPage();
+                    }  else {
+                        warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+                    }
+                }); 
+            },100);
+        } else {
+            $.post('/man/apppolicy/changePolicyStatus', postData, function(data) {
+                if (data.rt == 0) {               
+                    getPolicyList(currentpage,10);  
+                    warningOpen('操作成功！','primary','fa-check'); 
+                } else if (data.rt==5) {
+                    toLoginPage();
+                }  else {
+                    warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+                }
+            }); 
+        }      
+        
     }        
 }
 

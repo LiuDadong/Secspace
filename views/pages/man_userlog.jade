@@ -1,0 +1,60 @@
+extends ../layout
+
+block content
+    .page-header(class="position-relative")
+        .header-title(style="width:180px;")
+            h1
+                日志
+                small
+                    i(class="fa fa-angle-right")
+                    a(href="#") #{ title }
+    .page-body
+        .row
+            .loglist(class="col-xs-12 col-md-12")
+                .widget
+                    .search
+                        div(class="col-lg-8 col-xs-10 col-md-9" style="padding-left: 0px;padding-right: 0px;")
+                            div(style="width:140px;float:left;display:inline;")
+                                a(class="btn btn-primary" href="javascript:impexcel()" style="width:78px;")
+                                    i(class="fa fa-download")
+                                    导出
+                                label(style="text-align: right;float:right;") 选择日期
+                            div(class="col-lg-3 col-xs-3 col-md-3" style="padding-right: 0px;")
+                                input(id="datestart" class="form-control datestart" type="text" placeholder="起始时间" name="start_time" readonly)
+                            div(class="col-lg-3 col-xs-3 col-md-3" style="padding-right: 0px;")
+                                input(id="dateend" class="form-control dateend" type="text" name="end_time" placeholder="结束时间" readonly)
+                            div(class="col-lg-3 col-xs-3 col-md-3")
+                                select(class="form-control" name="log_type")
+                                    option(value="") 全部类型
+                                    option(value="用户操作") 用户操作
+                                    option(value="用户组操作") 用户组操作
+                                    option(value="标签操作") 标签操作
+                        div(class="col-lg-4 col-xs-2 col-md-3" style="padding-top:2px;padding-right:0px;")
+                            .input-group(class="input-group-sm")
+                                input(class="form-control" type="text" name="searchval" style="float:right; max-width:240px;" placeholder="操作者/影响目标/具体操作")
+                                span(class="input-group-btn")
+                                    button(class="btn btn-default btn-primary" type="button" onclick="searchlist()")
+                                        i(class="glyphicon glyphicon-search")
+                    .logtable(class="widget-body" style="box-shadow:none;padding:0;")
+                    .page1
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background  
+    script(src="/scripts/jquery.min.js")
+    script(src="/scripts/jedate/jquery-1.7.2.js")
+    script(src="/scripts/jedate/jquery.jedate.js")
+    script(async="true" src="/scripts/man_userlog.js")
+    script(type='text/javascript').
+        $(".dateend").jeDate({
+            format: "YYYY-MM-DD hh:mm:ss",
+            okfun: function (elem,value) {
+                $('.input-group-btn button').click();
+            }
+        });
+        $(".datestart").jeDate({
+            format: "YYYY-MM-DD hh:mm:ss",
+            okfun: function (elem,value) {
+                 $('.input-group-btn button').click();
+            }
+        });

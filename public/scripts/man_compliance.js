@@ -383,7 +383,7 @@ function mod_policy(){
         $.post('/man/complicance/updatePolicy', postData, function(data) {
             if (data.rt == 0) {
                 policylist();
-                warningOpen('修改成功！','primary','fa-check');
+                warningOpen('修改并下发成功！','primary','fa-check');
                 getPolicyList(currentpage,10);
             } else if (data.rt == 5) {
                 toLoginPage();

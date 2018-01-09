@@ -81,6 +81,22 @@ module.exports = function(app, _http) {
             res.redirect('/');                    
         }
     });
+    // 用户标签管理
+    app.get('/man/usertag', function(req, res) {
+        var sid = req.cookies.sid;
+        if(sid) {
+            res.render('man_usertag', {
+                sid: sid,
+                admin: req.cookies.admin,
+                email: req.cookies.email,
+                passwd: req.cookies.passwd,
+                title: '用户标签管理',
+                logout: '/logout/man'
+            });
+        } else {
+            res.redirect('/');
+        }
+    });
 
     // 设备管理
     app.get('/man/device', function(req, res) {
@@ -242,11 +258,12 @@ module.exports = function(app, _http) {
             res.redirect('/');        
         }
     });
+
     // 客户端日志
-    app.get('/man/devicelog', function(req, res) {
+    app.get('/man/phonelog', function(req, res) {
         var sid = req.cookies.sid;
         if(sid) {
-            res.render('man_devicelog', {
+            res.render('man_phonelog', {
                 sid: sid,
                 admin: req.cookies.admin,
                 email: req.cookies.email,
@@ -257,6 +274,7 @@ module.exports = function(app, _http) {
             res.redirect('/');        
         }
     });
+
     // 应用日志
     app.get('/man/applog', function(req, res) {
         var sid = req.cookies.sid;
@@ -266,6 +284,102 @@ module.exports = function(app, _http) {
                 admin: req.cookies.admin,
                 email: req.cookies.email,
                 title: '应用日志',
+                logout: '/logout/man'
+            });
+        } else {
+            res.redirect('/');        
+        }
+    });
+
+    // 用户管理日志
+    app.get('/man/userlog', function(req, res) {
+        var sid = req.cookies.sid;
+        if(sid) {
+            res.render('man_userlog', {
+                sid: sid,
+                admin: req.cookies.admin,
+                email: req.cookies.email,
+                title: '用户管理日志',
+                logout: '/logout/man'
+            });
+        } else {
+            res.redirect('/');        
+        }
+    });
+
+    // 设备管理日志
+    app.get('/man/devicelog', function(req, res) {
+        var sid = req.cookies.sid;
+        if(sid) {
+            res.render('man_devicelog', {
+                sid: sid,
+                admin: req.cookies.admin,
+                email: req.cookies.email,
+                title: '设备管理日志',
+                logout: '/logout/man'
+            });
+        } else {
+            res.redirect('/');        
+        }
+    });
+    
+     // 应用管理日志
+    app.get('/man/appcontrollog', function(req, res) {
+        var sid = req.cookies.sid;
+        if(sid) {
+            res.render('man_appcontrollog', {
+                sid: sid,
+                admin: req.cookies.admin,
+                email: req.cookies.email,
+                title: '应用管理日志',
+                logout: '/logout/man'
+            });
+        } else {
+            res.redirect('/');        
+        }
+    });
+
+     // 策略管理日志
+    app.get('/man/policylog', function(req, res) {
+        var sid = req.cookies.sid;
+        if(sid) {
+            res.render('man_policylog', {
+                sid: sid,
+                admin: req.cookies.admin,
+                email: req.cookies.email,
+                title: '策略管理日志',
+                logout: '/logout/man'
+            });
+        } else {
+            res.redirect('/');        
+        }
+    });
+    
+     // 管理员日志
+    app.get('/man/adminlog', function(req, res) {
+        var sid = req.cookies.sid;
+        if(sid) {
+            res.render('man_adminlog', {
+                sid: sid,
+                admin: req.cookies.admin,
+                email: req.cookies.email,
+                title: '管理员日志',
+                logout: '/logout/man'
+            });
+        } else {
+            res.redirect('/');        
+        }
+    });
+
+     // 违规情况日志
+    app.get('/man/violationlog', function(req, res) {
+        var sid = req.cookies.sid;
+        if(sid) {
+            res.render('man_violationlog', {
+                sid: sid,
+                admin: req.cookies.admin,
+                email: req.cookies.email,
+                title: '违规情况日志',
                 logout: '/logout/man'
             });
         } else {
@@ -1376,6 +1490,7 @@ module.exports = function(app, _http) {
                 res.send(cont);
             });
         }
+
         if(req.body.blackapp){
             postData = {
                 'sid': req.cookies.sid,
@@ -1786,6 +1901,25 @@ module.exports = function(app, _http) {
         });
     });
 
+    // 获取日志列表
+    app.get('/man/Log/getLog', function (req, res) {
+        var url = '/p/org/viewLog?sid=' + req.cookies.sid;
+            url += '&start_page='+req.query.start_page; 
+            url += '&page_length='+req.query.page_length;  
+            url += '&start_time='+req.query.start_time; 
+            url += '&end_time='+req.query.end_time;  
+            url += '&category='+req.query.category; 
+        if(req.query.log_type){
+            url += '&log_type='+req.query.log_type; 
+        }
+        if(req.query.keyword){
+            url += '&keyword='+req.query.keyword;
+        }  
+        _http.GET(url, function(cont) {
+            res.send(cont);
+        });
+    });
+
     /*
      * =============================================================
      *                       应用管理 man_version
@@ -1893,10 +2027,14 @@ module.exports = function(app, _http) {
                 'session_expire_time': req.body.session_expire_time,
                 'pw_max_try_times': req.body.pw_max_try_times,
                 'frozen_time': req.body.frozen_time,
+                'client_frozen_time': req.body.client_frozen_time,
+                'client_pw_try_times': req.body.client_pw_try_times,
                 'allow_remember_pw': req.body.allow_remember_pw,
+                'screenshot': req.body.screenshot,
                 'max_download': req.body.max_download,
                 'pw_min_len': req.body.pw_min_len,
                 'passwd_type': req.body.passwd_type,
+                'passwd_available': req.body.passwd_available,
                 'send_url': req.body.send_url                               
             };
         } else if(req.body.switchon){
@@ -1943,6 +2081,8 @@ module.exports = function(app, _http) {
         } 
         url = '/p/org/orgUpdateSettings';
         _http.POST1(postData, url, function (cont) {
+            console.log('######');
+            console.log(postData);
             res.send(cont);
         });
     });  

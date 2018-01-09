@@ -3,11 +3,10 @@ extends ../layout
 block content
     .page-header(class="position-relative")
         .header-title(style="width:180px;")
-            h1
-                日志
+            h1 日志
                 small
                     i(class="fa fa-angle-right")
-                    a(href="#") 应用日志
+                    a(href="#") #{ title }
     .page-body
         .row
             .loglist(class="col-xs-12 col-md-12")
@@ -16,22 +15,20 @@ block content
                         div(class="col-lg-8 col-xs-10 col-md-9" style="padding-left: 0px;padding-right: 0px;")
                             div(style="width:140px;float:left;display:inline;")
                                 a(class="btn btn-primary" href="javascript:impexcel()" style="width:78px;")
-                                    i(class="fa fa-download")
-                                    导出
+                                    i(class="fa fa-download") 导出
                                 label(style="text-align: right;float:right;") 选择日期
                             div(class="col-lg-3 col-xs-3 col-md-3" style="padding-right: 0px;")
                                 input(id="datestart" class="form-control datestart" type="text" placeholder="起始时间" name="start_time" readonly)
                             div(class="col-lg-3 col-xs-3 col-md-3" style="padding-right: 0px;")
                                 input(id="dateend" class="form-control dateend" type="text" name="end_time" placeholder="结束时间" readonly)
                             div(class="col-lg-3 col-xs-3 col-md-3")
-                                select(class="form-control" name="operation")
-                                    option(value="all") 全部类型
-                                    option(value="用户行为") 用户行为
-                                    option(value="设备操作") 设备操作
+                                select(class="form-control" name="log_type")
+                                    option(value="") 全部类型
+                                    option(value="应用行为") 应用行为
                                     option(value="错误信息") 错误信息
                         div(class="col-lg-4 col-xs-2 col-md-3" style="padding-top:2px;padding-right:0px;")
                             .input-group(class="input-group-sm")
-                                input(class="form-control" type="text" name="searchval" style="float:right; max-width:240px;" placeholder="用户账号" onfocus="this.placeholder=''")
+                                input(class="form-control" type="text" name="searchval" style="float:right; max-width:240px;" placeholder="用户/应用名称/具体操作")
                                 span(class="input-group-btn")
                                     button(class="btn btn-default btn-primary" type="button" onclick="searchlist()")
                                         i(class="glyphicon glyphicon-search")
@@ -47,8 +44,14 @@ block content
     script(async="true" src="/scripts/man_applog.js")
     script(type='text/javascript').
         $(".dateend").jeDate({
-            format: "YYYY-MM-DD hh:zz"
+            format: "YYYY-MM-DD hh:mm:ss",
+            okfun: function (elem,value) {
+                $('.input-group-btn button').click();
+            }
         });
         $(".datestart").jeDate({
-            format: "YYYY-MM-DD hh:zz"
+            format: "YYYY-MM-DD hh:mm:ss",
+            okfun: function (elem,value) {
+                 $('.input-group-btn button').click();
+            }
         });

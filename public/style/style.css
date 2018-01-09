@@ -35,10 +35,10 @@ a, a:hover {
 	width: 100%;
 }
 .sel{
-	width: 70px !important;
-	text-align: left;
-	padding: 0;
 	line-height: 35px;
+	overflow: hidden;
+}
+.sel label{
 	cursor: pointer;
 }
 .DTTTFooter{
@@ -582,3 +582,11 @@ input.checkbox-slider[type="checkbox"] + .text::before {
 .deleteicon{
 	cursor: pointer;
 }
+th{
+	text-align: center;
+	white-space: nowrap;
+}
+td{
+	text-align: center;
+}
+

@@ -1,8 +1,31 @@
 function selectedBt(str) {
     location.href = str;
-}    
-
+}
 $(function() {
+    $('input[type=number]').keypress(function(e) {
+        if (!String.fromCharCode(e.keyCode).match(/[0-9]/)) {
+            return false;
+        }
+    });
+    $('input[type=number]').keyup(function(e) {
+        try{
+            var val=parseInt(this.value);
+            console.log(val)
+            if(this.max&&val>this.max){
+                this.value=this.max;
+            }else{
+                this.value=val;
+            }
+            console.log(this.value)
+        }catch(err){
+            console.log(err)
+        }
+    });
+    $('input[type=number]').blur(function(){
+            if(!this.value){
+                this.value=this.min?this.min:1;
+            }
+    })
 
     var avatar = localStorage.getItem("avatar");
     var icon = localStorage.getItem("icon");
@@ -15,7 +38,7 @@ $(function() {
     if(icon) {
         $('.navbar-inner .imglogo').html('<small><img src="' + appssec_url+'/' + icon + '" alt=""></img></small>');
     } else {
-        $('.navbar-inner .imglogo').html('<small><img src="/imgs/logo.png" alt=""></img></small>');
+        $('.navbar-inner .imglogo').html('<small>< src="/imgs/logo.png" alt=""/></small>');
     }
 
     if(avatar) {

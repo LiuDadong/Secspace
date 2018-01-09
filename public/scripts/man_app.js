@@ -13,7 +13,9 @@ $(function() {
     getAppList(1,10); 
     searchapplist();
 });
+
 function fnSearch(){}
+
 var appssec_url = localStorage.getItem("appssec_url");
 hosturl = appssec_url; 
 var st = 1;
@@ -155,9 +157,8 @@ function dev_list(i){
     var _tr = $('.appslist table tr').eq(i+1);
     var package_name = _tr.find('td').eq(9).text();
     var strtab1 = '<table class="table table-hover"><tr>'
-                + '<th>设备名称</th>'
                 + '<th>用户名</th>'
-                + '<th>邮箱</th>'
+                + '<th>设备名称</th>'
                 + '<th>状态</th>'
                 + '</tr>';
     var cont = '';
@@ -166,9 +167,9 @@ function dev_list(i){
         if (data.rt==0) {
             for(var i in data.doc) {
                 strtab1 += '<tr>'
-                        + '<td>' + data.doc[i].dev_name + '</td>'
                         + '<td>' + data.doc[i].user_name + '</td>'
-                        + '<td>' + data.doc[i].email + '</td>'
+                        + '<td>' + data.doc[i].dev_name + '</td>'
+                       // + '<td>' + data.doc[i].email + '</td>'
                         + '<td>已安装</td></tr>';              
             }
             strtab1 += '</table>';

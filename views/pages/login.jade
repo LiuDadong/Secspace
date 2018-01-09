@@ -5,25 +5,30 @@ html
         title 登录页
         link(rel="shortcut icon" href="/imgs/16.ico" type="image/x-icon")
         link(href="/style/login.css" rel="stylesheet")
+       
     body
         img(src="/imgs/login/login_bg.jpg" id="img" style="width:100%;height:100%;z-index: -1;position: fixed;")
-        h3 Secspace移动安全管理平台
+        h3
         .logo_box
             form(action="/login" id="formlogin")
                 .input_outer
                     span.u_user
                     input(type="text" class="text" onFocus="if(this.value=='输入账号名称') this.value=''" onBlur="if(this.value=='') this.value='输入账号名称'" value="输入账号名称" name="account" autocomplete="off" style="color: #FFFFFF !important")
-                    //-input(name="account" class="text" onFocus=" if(this.value=='输入账号名称') this.value=''" onBlur="if(this.value=='') this.value='输入账号名称'" value="输入账号名称" style="color: #FFFFFF !important" type="text")
                 .input_outer
                     span.us_uer
                     input(name="passwd" class="text" type="password" placeholder="请输入密码" style="color: #FFFFFF !important; position:absolute; z-index:100;"  autocomplete="off")
                 .mb2
-                    input(type="text", name="flag", value="man", style="display:none;")
+                    //用于登录用户身份识别，目前只有admin，表示管理员
+                    input(type="text", name="flag", value="admin", style="display:none;")
+                    input(type="text" name="dev_ip" style="display:none;")
+                    #keleyivisitorip(style="display:none;")
                     input(type="submit" class="act-but submit formbtn" value="登录" style="outline:none;")
                 input(value="0" id="remember-me" class="checkbox" type="checkbox")
                 span 记住用户名
             a(href="#" class="login-fgetpwd" style="color: #FFFFFF;margin-top:-18px;") 忘记密码?
-        script(src="/scripts/jquery.min.js")
-        script(src="/scripts/jquery.form.min.js")
-        script(src="/scripts/jquery.cookie.js")
-        script(src="/scripts/login.js")
+        script(src="/scripts/jquery.min.js")        
+        script(src="/scripts/login.js" defer="true")
+        script(src="/scripts/jquery.form.min.js" defer="true")
+        script(type="text/javascript" src="http://tool.keleyi.com/ip/visitoriphost/" defer="true")
+        script(type='text/javascript').
+            setTimeout("$('input[name=dev_ip]').val($('#keleyivisitorip').text())",1000);

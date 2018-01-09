@@ -1,13 +1,13 @@
 /*
  * ==================================================================
- *                          日志管理 log
+ *                          设备管理日志 log
  * ==================================================================
  */
 $(function() {
     $('.logmenu').addClass('open active');
-    $('.logmenu').find('li').eq(1).addClass('active');
-    //getloglist(1,10);
-    $("#datestart, #dateend, select[name=operation]").change(function(){
+    $('.logmenu').find('li').eq(3).addClass('active');
+    getloglist(1,10);
+    $("#datestart, #dateend, select[name=log_type]").change(function(){
         getloglist(1,10);
     });
     $('input[name=searchval]').keyup(function(){
@@ -24,51 +24,46 @@ function searchlist(){
 // 列表
 function getloglist(start_page,page_length){  
     var index = 0;
-    var start_time = $('.dt').find('input[name=start_time]').val();
-    var end_time = $('.dt').find('input[name=end_time]').val();
-    var email = $('.uname').find('input[name=email]').val() == '' ? 'all' : $('.uname').find('input[name=email]').val();   
-    var operation = $('.tp').find('select[name=operation]').val();  
+    var start_time = $('.search').find('input[name=start_time]').val();
+    var end_time = $('.search').find('input[name=end_time]').val();
+    var keyword = $('.input-group').find('input[name=searchval]').val();   
+    var log_type = $('.search').find('select[name=log_type]').val();  
 
     var table = $('.logtable'),
           str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
               + '<th>类型</th>'
               + '<th>时间</th>'
-              + '<th>用户</th>'
-              + '<th>IP地址</th>'
+              + '<th>操作者</th>'
+              + '<th>影响用户</th>'
+            //  + '<th>用户</th>'
+            //  + '<th>账号</th>'
               + '<th>设备名称</th>'
+             // + '<th>设备类型</th>'
               + '<th>具体操作</th></tr>';
- table.html(str);  
-    var url = '/man/Log/getLogList?start_time='+start_time
+    var url = '/man/Log/getLog?start_time='+start_time
             + '&end_time='+ end_time 
-            + '&account='+ email 
-            + '&operation='+ operation
+            + '&category=devLog' 
             + '&start_page='+ start_page 
             + '&page_length='+ page_length;
+    if(keyword){
+        url += '&keyword='+ encodeURI(encodeURI(keyword));
+    }
+    if(log_type){
+        url += '&log_type='+ encodeURI(encodeURI(log_type));
+    }
     
     $.get(url, function(data) {
-        var name, operation, app, app_version, app_type, location, device, device_imei, auth, result, time;
         data = JSON.parse(data);
         if (data.rt==0) {
-            for(var i in data.logs) {
-                name = data.logs[i].account == '' ? '－': data.logs[i].account;
-                operation = data.logs[i].operation == '' ? '－': data.logs[i].operation;
-                app = data.logs[i].app == '' ? '－': data.logs[i].app;
-                app_version = data.logs[i].app_version == '' ? '－': data.logs[i].app_version;
-                app_type = data.logs[i].app_type == '' ? '－': data.logs[i].app_type;
-                location = data.logs[i].location == '' ? '－': data.logs[i].location;
-                device = data.logs[i].device == '' ? '－': data.logs[i].device;
-                device_imei = data.logs[i].device_imei == '' ? '－': data.logs[i].device_imei;
-                auth = data.logs[i].auth == '' ? '－': data.logs[i].auth;
-                result = data.logs[i].result == '' ? '－': data.logs[i].result;
-                time = data.logs[i].time == '' ? '－': data.logs[i].time;
+            for(var i in data.logInfo) {
                 str += '<tr>'
-                    + '<td>'+name+'</td>'
-                    + '<td>' + location + '</td>' 
-                    + '<td>' + device + '</td>'
-                    + '<td>' + device_imei + '</td>'
-                    + '<td>' + auth + '</td>'
-                    + '<td>' + result + '</td>'      
-                    + '<td>' + time + '</td>'           
+                    + '<td>' + data.logInfo[i].log_type + '</td>'
+                    + '<td>' + data.logInfo[i].opt_time + '</td>' 
+                    + '<td>' + data.logInfo[i].creator + '</td>'
+                    + '<td>' + data.logInfo[i].effect_target + '</td>'
+                    + '<td>' + data.logInfo[i].dev_name + '</td>'
+                   // + '<td>' + data.logInfo[i].log_type + '</td>'      
+                    + '<td>' + data.logInfo[i].operate + ': ' + data.logInfo[i].state + '</td>'           
                     + '</tr>';
             }
             str +='</table>';
@@ -78,8 +73,6 @@ function getloglist(start_page,page_length){
           toLoginPage();           
         }
     });
-
-    currentpage = start_page;
 }
 
 // 下载日志
@@ -96,15 +89,8 @@ function downloadFile(url) {
 
 // 导出日志
 function impexcel(){   
-    var index = 0;
-    var check_security = '';
-    var start_time = $('.dt').find('input[name=start_time]').val();
-    var end_time = $('.dt').find('input[name=end_time]').val();
-    var email = $('.uname').find('input[name=email]').val() == '' ? 'all': $('.uname').find('input[name=email]').val();
-    var operation = $('.tp').find('select[name=operation]').val();
     var sid = getCookie("sid");
-    var url = hosturl + 'p/org/exportExcel?sid='+sid+'&start_time='+ start_time + '&end_time='+ end_time + '&account='+ email + '&operation='+ operation;
-    console.log(url);
+    var url = hosturl + 'p/org/exportExcel?sid='+sid+'&category=devLog';
     downloadFile(url);
 }
 

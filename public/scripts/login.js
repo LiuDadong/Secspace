@@ -5,6 +5,14 @@
     regTel : /^0[\d]{2,3}-[\d]{7,8}$/,
     //version: /^[0-9]*$+\.+[0-9]*$+\.+[0-9]*$/
 };
+$.get('/p/login/getProductName', function(data) {
+    data = JSON.parse(data);
+    if (data.rt==0) {
+        $('h3').html(data.product_name);
+    } else {
+        $('h3').html('移动安全管理平台');
+    }
+});
 // 切换登录状态
 function getAction(flag) {
     $('.sign a').removeClass('active');
@@ -29,6 +37,7 @@ function getAction(flag) {
 }
 
 $(function() {
+    
     $.get('/p/login/getProductName', function(data) {
         data = JSON.parse(data);
         if (data.rt==0) {
@@ -37,7 +46,16 @@ $(function() {
             $('h3').html('移动安全管理平台');
         }
     });
+   // var t=setTimeout("$('input[name=ipvalue]').val($('#keleyivisitorip').text())",1000);
    /*
+   $.get('/p/login/getProductName', function(data) {
+        data = JSON.parse(data);
+        if (data.rt==0) {
+            $('h3').html(data.product_name);
+        } else {
+            $('h3').html('移动安全管理平台');
+        }
+    });
     var btn=document.getElementById("btn");
     var pass=document.getElementById("pass")
     btn.onmouseover = function(){
@@ -46,13 +64,13 @@ $(function() {
     btn.onmouseout = function(){
         pass.type = "password";
     }
-*/
+
     $.cookie('flag', 'man', {path: "/", expires: -1});
     if($('.login .center .login_tab a').eq(0).hasClass('active')){
         $('.login .center input[name=flag]').val('man');
     }else{
         $('.login .center input[name=flag]').val('per');
-    }
+    }*/
     // login
     $('form').ajaxForm({
         type: "POST",

@@ -3,8 +3,7 @@ extends ../layout
 block content
     .page-header(class="position-relative")
         .header-title(style="width:180px;")
-            h1
-                消息
+            h1 消息
                 small
                     i(class="fa fa-angle-right")
                     a(href="javascript:mesglist()") 消息推送
@@ -15,17 +14,13 @@ block content
                 .widget
                     .widget-btn
                         a(class="btn btn-primary" href="javascript:add()")
-                            i(class="fa fa-plus")
-                            添加
+                            i(class="fa fa-plus") 添加
                         a(class="btn btn-primary" href="javascript:pushmesg()")
-                            i(class="fa fa-cloud-upload")
-                            推送
+                            i(class="fa fa-cloud-upload") 推送
                         a(class="btn btn-primary" href="javascript:refresh()")
-                            i(class="fa fa-undo")
-                            刷新
+                            i(class="fa fa-undo") 刷新
                         a(class="btn btn-danger" href="javascript:deletes()")
-                            i(class="fa fa-times")
-                            删除
+                            i(class="fa fa-times") 删除
                     .search(class="col-lg-12 col-sm-12 col-xs-12" style="padding:0")
                         .widget(class="collapsed" style="margin-bottom:10px;")
                             .widget-header(style="box-shadow:none;padding-left:0;margin-bottom:10px;")

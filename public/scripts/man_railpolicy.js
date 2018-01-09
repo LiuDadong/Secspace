@@ -507,7 +507,7 @@ function mod_policy(){
     $.post('/man/railpolicy/mod_policy', postData, function(data) {
         if (data.rt==0) {
             policylist();
-            warningOpen('策略修改成功需要重新下发！','primary','fa-check');
+            warningOpen('修改并下发成功！','primary','fa-check');
             getPolicyList(currentpage,10);
         } else if (data.rt == 39) {
             warningOpen('策略开始时间大于截止时间！','danger','fa-bolt');
@@ -744,8 +744,8 @@ var st = 2;
 // 获取用户列表
 function getUserList(start,length,keyword,tab,page,st){
     var strtab1 = '<table class="table table-striped table-bordered table-hover"><tr>'
-                + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label>'
-                + '<input type="checkbox" onclick="selectedAll(this)" checked="checked"></input>'
+                + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label style="width: 100px">'
+                + '<input type="checkbox" onclick="selectedAll(this)" checked="checked" />'
                 + '<span class="text txt">全选</span>'
                 + '</label></div></th>'
                 + '<th>用户名</th>'
@@ -963,19 +963,36 @@ function activate(status){
         var postData = {
             status: status,
             timeids: JSON.stringify(timeids)
-        };       
-        $.post('/man/railpolicy/changePolicyStatus', postData, function(data) {
-            if (data.rt == 0) {
-                alertOff();  
-                st = st + 1; 
-                getPolicyList(currentpage,10);
-                warningOpen('操作成功！','primary','fa-check');           
-            } else if (data.rt==5) {
-                toLoginPage();
-            } else {
-                warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
-            }
-        }); 
+        }; 
+        if(geoids.length > 0){
+            setTimeout(function(){
+                $.post('/man/railpolicy/changePolicyStatus', postData, function(data) {
+                    if (data.rt == 0) {
+                        alertOff();  
+                        st = st + 1; 
+                        getPolicyList(currentpage,10);
+                        warningOpen('操作成功！','primary','fa-check');           
+                    } else if (data.rt==5) {
+                        toLoginPage();
+                    } else {
+                        warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+                    }
+                }); 
+            },100)
+        }else{
+            $.post('/man/railpolicy/changePolicyStatus', postData, function(data) {
+                if (data.rt == 0) {
+                    alertOff();  
+                    st = st + 1; 
+                    getPolicyList(currentpage,10);
+                    warningOpen('操作成功！','primary','fa-check');           
+                } else if (data.rt==5) {
+                    toLoginPage();
+                } else {
+                    warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+                }
+            }); 
+        }
     }
 }
 

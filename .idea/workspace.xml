@@ -1,0 +1,969 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b8bb4ffb-773d-4df8-98c1-5e0154ac54bd" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/pages/man_usertag.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/scripts/man_usertag.js" />
+      <change type="DELETED" beforePath="F:\Appssec\Doing\secspace_server_web\public\scripts\man_log.js" afterPath="" />
+      <change type="DELETED" beforePath="F:\Appssec\Doing\secspace_server_web\views\pages\logins.jade" afterPath="" />
+      <change type="DELETED" beforePath="F:\Appssec\Doing\secspace_server_web\views\pages\man_log.jade" afterPath="" />
+      <change type="DELETED" beforePath="F:\Appssec\Doing\secspace_server_web\views\pages\per_app.jade" afterPath="" />
+      <change type="DELETED" beforePath="F:\Appssec\Doing\secspace_server_web\views\pages\per_depart.jade" afterPath="" />
+      <change type="DELETED" beforePath="F:\Appssec\Doing\secspace_server_web\views\pages\per_device.jade" afterPath="" />
+      <change type="DELETED" beforePath="F:\Appssec\Doing\secspace_server_web\views\pages\per_policy.jade" afterPath="" />
+      <change type="DELETED" beforePath="F:\Appssec\Doing\secspace_server_web\views\pages\per_settings.jade" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/1.png" afterPath="$PROJECT_DIR$/public/imgs/1.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/16.ico" afterPath="$PROJECT_DIR$/public/imgs/16.ico" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/2.png" afterPath="$PROJECT_DIR$/public/imgs/2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/3.png" afterPath="$PROJECT_DIR$/public/imgs/3.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/4.png" afterPath="$PROJECT_DIR$/public/imgs/4.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/add.png" afterPath="$PROJECT_DIR$/public/imgs/add.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/arrow.png" afterPath="$PROJECT_DIR$/public/imgs/arrow.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/background.png" afterPath="$PROJECT_DIR$/public/imgs/background.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/bell.png" afterPath="$PROJECT_DIR$/public/imgs/bell.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/colorpicker_background.png" afterPath="$PROJECT_DIR$/public/imgs/images/colorpicker_background.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/colorpicker_hex.png" afterPath="$PROJECT_DIR$/public/imgs/images/colorpicker_hex.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/colorpicker_hsb_b.png" afterPath="$PROJECT_DIR$/public/imgs/images/colorpicker_hsb_b.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/colorpicker_hsb_h.png" afterPath="$PROJECT_DIR$/public/imgs/images/colorpicker_hsb_h.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/colorpicker_hsb_s.png" afterPath="$PROJECT_DIR$/public/imgs/images/colorpicker_hsb_s.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/colorpicker_indic.gif" afterPath="$PROJECT_DIR$/public/imgs/images/colorpicker_indic.gif" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/colorpicker_overlay.png" afterPath="$PROJECT_DIR$/public/imgs/images/colorpicker_overlay.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/colorpicker_rgb_b.png" afterPath="$PROJECT_DIR$/public/imgs/images/colorpicker_rgb_b.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/colorpicker_rgb_g.png" afterPath="$PROJECT_DIR$/public/imgs/images/colorpicker_rgb_g.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/colorpicker_rgb_r.png" afterPath="$PROJECT_DIR$/public/imgs/images/colorpicker_rgb_r.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/colorpicker_select.png" afterPath="$PROJECT_DIR$/public/imgs/images/colorpicker_select.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/colorpicker_submit.png" afterPath="$PROJECT_DIR$/public/imgs/images/colorpicker_submit.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/custom_background.png" afterPath="$PROJECT_DIR$/public/imgs/images/custom_background.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/custom_hex.png" afterPath="$PROJECT_DIR$/public/imgs/images/custom_hex.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/custom_hsb_h.png" afterPath="$PROJECT_DIR$/public/imgs/images/custom_hsb_h.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/custom_hsb_s.png" afterPath="$PROJECT_DIR$/public/imgs/images/custom_hsb_s.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/custom_indic.gif" afterPath="$PROJECT_DIR$/public/imgs/images/custom_indic.gif" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/custom_rgb_b.png" afterPath="$PROJECT_DIR$/public/imgs/images/custom_rgb_b.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/custom_rgb_g.png" afterPath="$PROJECT_DIR$/public/imgs/images/custom_rgb_g.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/custom_rgb_r.png" afterPath="$PROJECT_DIR$/public/imgs/images/custom_rgb_r.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/custom_submit.png" afterPath="$PROJECT_DIR$/public/imgs/images/custom_submit.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/email.png" afterPath="$PROJECT_DIR$/public/imgs/email.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/fontawesome-webfont.eot" afterPath="$PROJECT_DIR$/public/assets/fonts/fontawesome-webfont.eot" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/fontawesome-webfont.ttf" afterPath="$PROJECT_DIR$/public/assets/fonts/fontawesome-webfont.ttf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/fontawesome-webfont.woff" afterPath="$PROJECT_DIR$/public/assets/fonts/fontawesome-webfont.woff" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/glyphicons-halflings-regular.eot" afterPath="$PROJECT_DIR$/public/assets/fonts/glyphicons-halflings-regular.eot" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/glyphicons-halflings-regular.ttf" afterPath="$PROJECT_DIR$/public/assets/fonts/glyphicons-halflings-regular.ttf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/glyphicons-halflings-regular.woff" afterPath="$PROJECT_DIR$/public/assets/fonts/glyphicons-halflings-regular.woff" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/lock.png" afterPath="$PROJECT_DIR$/public/imgs/lock.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/lockpwd.png" afterPath="$PROJECT_DIR$/public/imgs/lockpwd.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/logo2.png" afterPath="$PROJECT_DIR$/public/imgs/logo2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/logo3.png" afterPath="$PROJECT_DIR$/public/imgs/logo3.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/pa.png" afterPath="$PROJECT_DIR$/public/imgs/pa.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/pd.png" afterPath="$PROJECT_DIR$/public/imgs/pd.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/phone.png" afterPath="$PROJECT_DIR$/public/imgs/phone.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/pulldown.png" afterPath="$PROJECT_DIR$/public/imgs/pulldown.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/reset.png" afterPath="$PROJECT_DIR$/public/imgs/reset.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/roleadd.png" afterPath="$PROJECT_DIR$/public/imgs/roleadd.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/roledelete.png" afterPath="$PROJECT_DIR$/public/imgs/roledelete.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/search.png" afterPath="$PROJECT_DIR$/public/imgs/search.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/select (1).png" afterPath="$PROJECT_DIR$/public/imgs/images/select (1).png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/select.png" afterPath="$PROJECT_DIR$/public/imgs/images/select.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/images/select2.png" afterPath="$PROJECT_DIR$/public/imgs/images/select2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/imgs/star.png" afterPath="$PROJECT_DIR$/public/imgs/star.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/typicons.eot" afterPath="$PROJECT_DIR$/public/assets/fonts/typicons.eot" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/typicons.ttf" afterPath="$PROJECT_DIR$/public/assets/fonts/typicons.ttf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/typicons.woff" afterPath="$PROJECT_DIR$/public/assets/fonts/typicons.woff" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/weathericons-regular-webfont.eot" afterPath="$PROJECT_DIR$/public/assets/fonts/weathericons-regular-webfont.eot" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/weathericons-regular-webfont.ttf" afterPath="$PROJECT_DIR$/public/assets/fonts/weathericons-regular-webfont.ttf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/weathericons-regular-webfont.woff" afterPath="$PROJECT_DIR$/public/assets/fonts/weathericons-regular-webfont.woff" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/datatable/ZeroClipboard.js" afterPath="$PROJECT_DIR$/public/assets/datatable/ZeroClipboard.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/.bin/acorn" afterPath="$PROJECT_DIR$/node_modules/.bin/acorn" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/acorn/bin/acorn" afterPath="$PROJECT_DIR$/node_modules/acorn/bin/acorn" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/.bin/acorn" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/.bin/acorn" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/acorn" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/acorn" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/animate.min.css" afterPath="$PROJECT_DIR$/public/assets/css/animate.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/async/lib/async.js" afterPath="$PROJECT_DIR$/node_modules/async/lib/async.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/beyond.min.css" afterPath="$PROJECT_DIR$/public/assets/css/beyond.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/js/beyond.min.js" afterPath="$PROJECT_DIR$/public/assets/js/beyond.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/test/_/bin.js" afterPath="$PROJECT_DIR$/node_modules/optimist/test/_/bin.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/skins/black.min.css" afterPath="$PROJECT_DIR$/public/assets/css/skins/black.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/skins/blue.min.css" afterPath="$PROJECT_DIR$/public/assets/css/skins/blue.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/bootstrap-responsive.min.css" afterPath="$PROJECT_DIR$/public/assets/css/bootstrap-responsive.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/bootstrap.min.css" afterPath="$PROJECT_DIR$/public/assets/css/bootstrap.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/js/bootstrap.min.js" afterPath="$PROJECT_DIR$/public/assets/js/bootstrap.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/.bin/cleancss" afterPath="$PROJECT_DIR$/node_modules/.bin/cleancss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/clean-css/bin/cleancss" afterPath="$PROJECT_DIR$/node_modules/clean-css/bin/cleancss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/mime/cli.js" afterPath="$PROJECT_DIR$/node_modules/mime/cli.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/mkdirp/bin/cmd.js" afterPath="$PROJECT_DIR$/node_modules/mkdirp/bin/cmd.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/colorpicker.css" afterPath="$PROJECT_DIR$/public/assets/css/colorpicker.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/js/colorpicker.js" afterPath="$PROJECT_DIR$/public/assets/js/colorpicker.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/datatable/assets/swf/copy_csv_xls_pdf.swf" afterPath="$PROJECT_DIR$/public/assets/datatable/assets/swf/copy_csv_xls_pdf.swf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/skins/darkblue.min.css" afterPath="$PROJECT_DIR$/public/assets/css/skins/darkblue.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/skins/darkred.min.css" afterPath="$PROJECT_DIR$/public/assets/css/skins/darkred.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/dataTables.bootstrap.css" afterPath="$PROJECT_DIR$/public/assets/css/dataTables.bootstrap.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/datatable/dataTables.bootstrap.min.js" afterPath="$PROJECT_DIR$/public/assets/datatable/dataTables.bootstrap.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/datatable/dataTables.tableTools.min.js" afterPath="$PROJECT_DIR$/public/assets/datatable/dataTables.tableTools.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/datatable/datatables-init.js" afterPath="$PROJECT_DIR$/public/assets/datatable/datatables-init.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/skins/deepblue.min.css" afterPath="$PROJECT_DIR$/public/assets/css/skins/deepblue.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/demo.min.css" afterPath="$PROJECT_DIR$/public/assets/css/demo.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/echarts.simple.min.js" afterPath="$PROJECT_DIR$/public/scripts/echarts.simple.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/src/expression.js" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/src/expression.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/uglify-js/bin/extract-props.js" afterPath="$PROJECT_DIR$/node_modules/uglify-js/bin/extract-props.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/font-awesome.min.css" afterPath="$PROJECT_DIR$/public/assets/css/font-awesome.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/fontawesome-webfont.svg" afterPath="$PROJECT_DIR$/public/assets/fonts/fontawesome-webfont.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/glyphicons-halflings-regular.svg" afterPath="$PROJECT_DIR$/public/assets/fonts/glyphicons-halflings-regular.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/skins/gray.min.css" afterPath="$PROJECT_DIR$/public/assets/css/skins/gray.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/skins/green.min.css" afterPath="$PROJECT_DIR$/public/assets/css/skins/green.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/http.js" afterPath="$PROJECT_DIR$/http.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/lib/index.js" afterPath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/lib/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/bin/jade.js" afterPath="$PROJECT_DIR$/node_modules/jade/bin/jade.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/.bin/jade" afterPath="$PROJECT_DIR$/node_modules/.bin/jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/jedate/skin/jedate.css" afterPath="$PROJECT_DIR$/public/scripts/jedate/skin/jedate.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/js/jquery-1.4.2.min.js" afterPath="$PROJECT_DIR$/public/assets/js/jquery-1.4.2.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/jedate/jquery-1.7.2.js" afterPath="$PROJECT_DIR$/public/scripts/jedate/jquery-1.7.2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/js/jquery-1.8.3.min.js" afterPath="$PROJECT_DIR$/public/assets/js/jquery-1.8.3.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/jquery-1.8.3.min.js" afterPath="$PROJECT_DIR$/public/scripts/jquery-1.8.3.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/js/jquery-2.0.3.min.js" afterPath="$PROJECT_DIR$/public/assets/js/jquery-2.0.3.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/jquery.cookie.js" afterPath="$PROJECT_DIR$/public/scripts/jquery.cookie.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/datatable/jquery.dataTables.min.js" afterPath="$PROJECT_DIR$/public/assets/datatable/jquery.dataTables.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/jquery.form.min.js" afterPath="$PROJECT_DIR$/public/scripts/jquery.form.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/jedate/jquery.jedate.js" afterPath="$PROJECT_DIR$/public/scripts/jedate/jquery.jedate.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/jedate/jquery.jedate.min.js" afterPath="$PROJECT_DIR$/public/scripts/jedate/jquery.jedate.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/jquery.min.js" afterPath="$PROJECT_DIR$/public/scripts/jquery.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.jade" afterPath="$PROJECT_DIR$/views/layout.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/layout.js" afterPath="$PROJECT_DIR$/public/scripts/layout.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/src/location.js" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/src/location.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/login.jade" afterPath="$PROJECT_DIR$/views/pages/login.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/login.js" afterPath="$PROJECT_DIR$/login.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/login.js" afterPath="$PROJECT_DIR$/public/scripts/login.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/src/lval.js" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/src/lval.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/man_app.jade" afterPath="$PROJECT_DIR$/views/pages/man_app.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/man_app.js" afterPath="$PROJECT_DIR$/public/scripts/man_app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/man_appblacklist.jade" afterPath="$PROJECT_DIR$/views/pages/man_appblacklist.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/man_appblacklist.js" afterPath="$PROJECT_DIR$/public/scripts/man_appblacklist.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/man_applog.jade" afterPath="$PROJECT_DIR$/views/pages/man_applog.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/man_apppolicy.jade" afterPath="$PROJECT_DIR$/views/pages/man_apppolicy.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/man_apppolicy.js" afterPath="$PROJECT_DIR$/public/scripts/man_apppolicy.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/man_apptag.jade" afterPath="$PROJECT_DIR$/views/pages/man_apptag.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/man_compliance.jade" afterPath="$PROJECT_DIR$/views/pages/man_compliance.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/man_compliance.js" afterPath="$PROJECT_DIR$/public/scripts/man_compliance.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/man_device.jade" afterPath="$PROJECT_DIR$/views/pages/man_device.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/man_device.js" afterPath="$PROJECT_DIR$/public/scripts/man_device.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/man_devicelog.jade" afterPath="$PROJECT_DIR$/views/pages/man_devicelog.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/man_devicelog.js" afterPath="$PROJECT_DIR$/public/scripts/man_devicelog.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/man_devpolicy.jade" afterPath="$PROJECT_DIR$/views/pages/man_devpolicy.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/man_devpolicy.js" afterPath="$PROJECT_DIR$/public/scripts/man_devpolicy.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/man_first.jade" afterPath="$PROJECT_DIR$/views/pages/man_first.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/man_message.jade" afterPath="$PROJECT_DIR$/views/pages/man_message.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/man_railpolicy.jade" afterPath="$PROJECT_DIR$/views/pages/man_railpolicy.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/man_railpolicy.js" afterPath="$PROJECT_DIR$/public/scripts/man_railpolicy.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/man_setting.jade" afterPath="$PROJECT_DIR$/views/pages/man_setting.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/man_setting.js" afterPath="$PROJECT_DIR$/public/scripts/man_setting.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/man_user.js" afterPath="$PROJECT_DIR$/public/scripts/man_user.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manager.js" afterPath="$PROJECT_DIR$/manager.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/.bin/mime" afterPath="$PROJECT_DIR$/node_modules/.bin/mime" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/.bin/mkdirp" afterPath="$PROJECT_DIR$/node_modules/.bin/mkdirp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/src/node.js" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/src/node.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/skins/palegreen.min.css" afterPath="$PROJECT_DIR$/public/assets/css/skins/palegreen.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/lib/parse.js" afterPath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/lib/parse.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/test/parse.js" afterPath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/test/parse.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/per_apps.js" afterPath="$PROJECT_DIR$/public/scripts/per_apps.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/per_depart.js" afterPath="$PROJECT_DIR$/public/scripts/per_depart.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/per_device.js" afterPath="$PROJECT_DIR$/public/scripts/per_device.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/per_policy.js" afterPath="$PROJECT_DIR$/public/scripts/per_policy.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/per_settings.js" afterPath="$PROJECT_DIR$/public/scripts/per_settings.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/personal.jade" afterPath="$PROJECT_DIR$/views/personal.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/personal.js" afterPath="$PROJECT_DIR$/public/scripts/personal.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/skins/pink.min.css" afterPath="$PROJECT_DIR$/public/assets/css/skins/pink.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/prepublish.sh" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/prepublish.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/skins/purple.min.css" afterPath="$PROJECT_DIR$/public/assets/css/skins/purple.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/test/run-tests.js" afterPath="$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/test/run-tests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/run-tests.js" afterPath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/run-tests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/js/skins.min.js" afterPath="$PROJECT_DIR$/public/assets/js/skins.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/lib/stringify.js" afterPath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/lib/stringify.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/test/stringify.js" afterPath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/test/stringify.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/style/style.css" afterPath="$PROJECT_DIR$/public/style/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/css/skins/teal.min.css" afterPath="$PROJECT_DIR$/public/assets/css/skins/teal.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/js/toastr/toastr.js" afterPath="$PROJECT_DIR$/public/assets/js/toastr/toastr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/typicons.svg" afterPath="$PROJECT_DIR$/public/assets/fonts/typicons.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/.bin/uglifyjs" afterPath="$PROJECT_DIR$/node_modules/.bin/uglifyjs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/transformers/node_modules/.bin/uglifyjs" afterPath="$PROJECT_DIR$/node_modules/transformers/node_modules/.bin/uglifyjs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/bin/uglifyjs" afterPath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/bin/uglifyjs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/uglify-js/bin/uglifyjs" afterPath="$PROJECT_DIR$/node_modules/uglify-js/bin/uglifyjs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/acorn/bin/update_authors.sh" afterPath="$PROJECT_DIR$/node_modules/acorn/bin/update_authors.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/update_authors.sh" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/update_authors.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/lib/utils.js" afterPath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/lib/utils.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/test/utils.js" afterPath="$PROJECT_DIR$/node_modules/body-parser/node_modules/qs/test/utils.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/fonts/weathericons-regular-webfont.svg" afterPath="$PROJECT_DIR$/public/assets/fonts/weathericons-regular-webfont.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/without_eval" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/without_eval" />
+    </list>
+    <ignored path="secspace_server_web.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="secspace_server_web" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="man_setting.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/pages/man_setting.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="24" column="131" selection-start-line="24" selection-start-column="127" selection-end-line="24" selection-end-column="131" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="layout.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/layout.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="219" column="40" selection-start-line="219" selection-start-column="40" selection-end-line="219" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="man_setting.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/scripts/man_setting.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="256" column="18" selection-start-line="256" selection-start-column="8" selection-end-line="256" selection-end-column="18" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/scripts/login.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="288" column="8" selection-start-line="288" selection-start-column="8" selection-end-line="288" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="layout.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/scripts/layout.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+              <folding>
+                <marker date="1515409221808" expanded="true" signature="7424:7458" placeholder="..." />
+                <marker date="1515409221808" expanded="true" signature="7887:7905" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="manager.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/manager.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="498" column="11" selection-start-line="498" selection-start-column="11" selection-end-line="498" selection-end-column="11" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="http.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/http.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.66780823">
+              <caret line="77" column="44" selection-start-line="77" selection-start-column="44" selection-end-line="77" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/aim.js" />
+        <option value="$PROJECT_DIR$/test.js" />
+        <option value="$PROJECT_DIR$/test/aim.js" />
+        <option value="$PROJECT_DIR$/test/main.js" />
+        <option value="$PROJECT_DIR$/public/scripts/man_user.js" />
+        <option value="$PROJECT_DIR$/test.json" />
+        <option value="$PROJECT_DIR$/public/scripts/man_usertag.js" />
+        <option value="$PROJECT_DIR$/views/pages/man_first.jade" />
+        <option value="$PROJECT_DIR$/public/scripts/man_railpolicy.js" />
+        <option value="$PROJECT_DIR$/public/style/style.css" />
+        <option value="$PROJECT_DIR$/views/pages/man_usertag.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_railpolicy.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_device.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_devpolicy.jade" />
+        <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/views/pages/login.jade" />
+        <option value="$PROJECT_DIR$/login.js" />
+        <option value="$PROJECT_DIR$/http.js" />
+        <option value="$PROJECT_DIR$/views/pages/man_adminlog.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_app.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_appblacklist.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_appcontrollog.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_applog.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_apppolicy.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_apptag.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_compliance.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_devicelog.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_message.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_phonelog.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_policylog.jade" />
+        <option value="$PROJECT_DIR$/public/scripts/man_setting.js" />
+        <option value="$PROJECT_DIR$/manager.js" />
+        <option value="$PROJECT_DIR$/views/layout.jade" />
+        <option value="$PROJECT_DIR$/views/pages/man_setting.jade" />
+        <option value="$PROJECT_DIR$/public/scripts/layout.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+  </component>
+  <component name="NamedScopeManager">
+    <order />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="width" value="1364" />
+    <option name="height" value="745" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="secspace_server_web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="secspace_server_web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="secspace_server_web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="secspace_server_web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="secspace_server_web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="secspace_server_web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="secspace_server_web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="secspace_server_web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="secspace_server_web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="secspace_server_web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="secspace_server_web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="recentsLimit" value="5" />
+    <property name="FullScreen" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Appssec\Doing\secspace_server_web" />
+      <recent name="F:\Appssec\Doing\secspace_server_web\public\scripts" />
+      <recent name="F:\Appssec\Doing\secspace_server_web\views\pages" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Appssec\Doing\secspace_server_web\test" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Node.js.aim.js">
+    <configuration default="false" name="aim.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="C:/Program Files/nodejs/node" path-to-js-file="$PROJECT_DIR$/test/main.js" working-dir="$PROJECT_DIR$">
+      <method />
+    </configuration>
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <method />
+    </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="JsTestDriver-test-runner" factoryName="JsTestDriver">
+      <setting name="configLocationType" value="CONFIG_FILE" />
+      <setting name="settingsFile" value="" />
+      <setting name="serverType" value="INTERNAL" />
+      <setting name="preferredDebugBrowser" value="Chrome" />
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <method />
+    </configuration>
+    <configuration default="true" type="cucumber.js" factoryName="Cucumber.js">
+      <option name="cucumberJsArguments" value="" />
+      <option name="executablePath" />
+      <option name="filePath" />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <pass-parent-envs>true</pass-parent-envs>
+      <envs />
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Node.js.aim.js" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Node.js.aim.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b8bb4ffb-773d-4df8-98c1-5e0154ac54bd" name="Default" comment="" />
+      <created>1514871954305</created>
+      <option name="number" value="Default" />
+      <updated>1514871954305</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="0" width="1364" height="745" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20588236" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5059701" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4852255" sideWeight="0.49402985" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.029968454" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39905363" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.029968454" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22613803" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39905363" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/public/imgs/radic.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/imgs/reset.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/imgs/www.gif">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/imgs/star.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/imgs/._16.ico">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/imgs/16.ico">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Makefile.builddeb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/scripts/per_apps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/scripts/man_app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_tag.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_users.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/scripts/man_adminlog.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="74" column="31" selection-start-line="74" selection-start-column="31" selection-end-line="74" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/scripts/man_user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-23.0">
+          <caret line="41" column="27" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/scripts/man_apppolicy.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3321918">
+          <caret line="1107" column="22" selection-start-line="1107" selection-start-column="22" selection-end-line="1107" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22018349">
+          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/md5/md5.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/scripts/man_version.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/scripts/man_usertag.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="309" column="0" selection-start-line="309" selection-start-column="0" selection-end-line="309" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.5641026">
+          <caret line="25" column="29" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/style/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.0172415">
+          <caret line="43" column="11" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_user.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_usertag.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="16" column="50" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/scripts/man_railpolicy.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.133333">
+          <caret line="461" column="24" selection-start-line="461" selection-start-column="24" selection-end-line="461" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/scripts/man_device.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33212996">
+          <caret line="97" column="19" selection-start-line="97" selection-start-column="8" selection-end-line="97" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/personal.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="60" selection-start-line="28" selection-start-column="60" selection-end-line="28" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.4666667">
+          <caret line="124" column="17" selection-start-line="124" selection-start-column="17" selection-end-line="124" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/login.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.0">
+          <caret line="20" column="48" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_adminlog.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.535714">
+          <caret line="17" column="62" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_app.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.678571">
+          <caret line="281" column="51" selection-start-line="281" selection-start-column="51" selection-end-line="281" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_appblacklist.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.535714">
+          <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_appcontrollog.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.535714">
+          <caret line="17" column="62" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_applog.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="29.428572">
+          <caret line="17" column="62" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_apppolicy.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.535714">
+          <caret line="311" column="51" selection-start-line="311" selection-start-column="51" selection-end-line="311" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_apptag.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.9642856">
+          <caret line="19" column="50" selection-start-line="19" selection-start-column="50" selection-end-line="19" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_compliance.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.535714">
+          <caret line="188" column="51" selection-start-line="188" selection-start-column="51" selection-end-line="188" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_device.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.0714285">
+          <caret line="29" column="84" selection-start-line="29" selection-start-column="84" selection-end-line="29" selection-end-column="84" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_devicelog.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.535714">
+          <caret line="17" column="62" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_devpolicy.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.0714285">
+          <caret line="259" column="51" selection-start-line="259" selection-start-column="51" selection-end-line="259" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_first.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.0714285">
+          <caret line="31" column="27" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_message.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.964286">
+          <caret line="22" column="51" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_phonelog.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.535714">
+          <caret line="17" column="62" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_policylog.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.535714">
+          <caret line="17" column="62" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_railpolicy.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.0714285">
+          <caret line="53" column="65" selection-start-line="53" selection-start-column="65" selection-end-line="53" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/scripts/login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="288" column="8" selection-start-line="288" selection-start-column="8" selection-end-line="288" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/layout.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="219" column="40" selection-start-line="219" selection-start-column="40" selection-end-line="219" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/pages/man_setting.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="131" selection-start-line="24" selection-start-column="127" selection-end-line="24" selection-end-column="131" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/scripts/layout.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+          <folding>
+            <marker date="1515409221808" expanded="true" signature="7424:7458" placeholder="..." />
+            <marker date="1515409221808" expanded="true" signature="7887:7905" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/scripts/man_setting.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="256" column="18" selection-start-line="256" selection-start-column="8" selection-end-line="256" selection-end-column="18" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="498" column="11" selection-start-line="498" selection-start-column="11" selection-end-line="498" selection-end-column="11" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/http.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.66780823">
+          <caret line="77" column="44" selection-start-line="77" selection-start-column="44" selection-end-line="77" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

@@ -1,0 +1,85 @@
+extends ../layout
+
+block content
+    .page-header(class="position-relative")
+        .header-title(style="width:180px;")
+            h1 用户
+                small
+                    i(class="fa fa-angle-right")
+                    a(href="javascript:taglist()") #{ title }
+                    i(class="fa fa-angle-right addt" style="display:none;") 添加用户
+    .page-body
+        .row
+            .taglist(class="col-xs-12 col-md-12")
+                .widget
+                    .widget-btn
+                        a(class="btn btn-primary" href="javascript:add()") 
+                            i(class="fa fa-plus") 添加
+                        a(class="hrefactive" href="javascript:refresh()" style="cursor:pointer;opacity:1;")
+                            i(class="fa fa-refresh" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 刷新
+                        //-a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-th" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 下发应用
+                        a(class="hrefactive" href="javascript:authpolicy()")
+                            i(class="fa fa-lightbulb-o" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 下发策略
+                        //-a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-file-text-o" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 下发内容
+                        a(class="hrefactive" href="javascript:deletes()")
+                            i(class="fa fa-minus-square" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 删除
+                        //-a(class="hrefactive" href="javascript:keys()")
+                            i(class="fa fa-list-ul" style="font-size:20px;")
+                            p(style="font-size:10px;margin:0;") 更多
+                        .input-group(class="input-group-sm")
+                            input(class="form-control" type="text" style="float:right;max-width:200px;" placeholder="名称" onfocus="this.placeholder=''")
+                            span(class="input-group-btn")
+                                button(class="btn btn-default btn-primary" type="button")
+                                    i(class="glyphicon glyphicon-search")
+                        //-a(class="btn btn-primary" href="javascript:window.history.back()")
+                            i(class="fa fa-times")
+                            返回
+                    .tagtable(class="widget-body" style="box-shadow:none;padding:0;")
+                    .page1
+        .row
+            .user(class="col-lg-12 col-sm-12 col-xs-12" style="display:none;")
+                .row(style="margin-left:0;")
+                    .widget-btn
+                        a(class="btn btn-primary" href="javascript:taglist()")
+                            i(class="fa fa-times")
+                            取消
+                        a(class="btn btn-primary" href="javascript:save()")
+                            i(class="fa fa-plus")
+                            保存
+                h5(class="row-title befor-magenta") 选定添加用户
+                input(name="tag_id" style="display:none;")
+                .row
+                    div(class="col-lg-5 col-sm-5 col-xs-5")
+                        .widget
+                            .widget-header(class="bordered-bottom bordered-blue")
+                                span(class="widget-caption" style="line-height:30px;") 标签外用户
+                            .widget-body
+                                .input-group
+                                    span(class="input-icon")
+                                        input(type="text" class="form-control input-sm" id="freeusers" name="freeusers" oninput="sfreeusers()")
+                                        i(class="glyphicon glyphicon-search primary")
+                                .freeuser(style="height:200px;overflow-y:auto;")
+                    div(class="col-lg-2 col-sm-2 col-xs-2" style="height:326px;background:url(../imgs/arrow.png) center no-repeat;")
+                    div(class="col-lg-5 col-sm-5 col-xs-5")
+                        .widget
+                            .widget-header(class="bordered-bottom bordered-blue")
+                                span(class="widget-caption" style="line-height:30px;") 标签内用户
+                            .widget-body
+                                .input-group
+                                    span(class="input-icon")
+                                        input(type="text" class="form-control input-sm" id="users" name="users" oninput="searchusers()")
+                                        i(class="glyphicon glyphicon-search primary")
+                                .member(style="height:200px;overflow-y:auto;")
+        .bootbox(class="modal fade bootbox-confirm in modal-primary" tabindex="-1" role="dialog" style="display:none;" aria-hidden="false")
+            .modal-dialog(style="width:500px;")
+                .modal-content
+        .background     
+    script(async="true" src="/scripts/jquery.min.js")
+    script(async="true" src="/scripts/man_usertag.js")

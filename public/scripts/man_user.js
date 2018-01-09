@@ -9,7 +9,7 @@ $(function() {
     $('.usermenu').addClass('open active');
     $('.usermenu').find('li').eq(0).addClass('active');
     // 用户列表
-    getUserList(1,10,'');  
+    getUserList(1,10,'');
     $(".searchicon, .modifyhref").mouseover(function(){ tagObj.getLabel();usersObj.getUsers(); });
     $(".fa-arrows").mouseover(function(){ usersObj.getUsers(); });
     $(".fa-plus-square").mouseover(function(){ tagObj.getLabel(); });
@@ -998,6 +998,7 @@ function user_mod() {
         warningOpen('请选择标签！','danger','fa-bolt');
     } else {
         $.post('/man/user/updateUser', postData, function(data) {
+            console.log('userdata'+data);
             if (data.rt == 0) {
                 warningOpen('操作成功！','primary','fa-check');
                 userlist();
