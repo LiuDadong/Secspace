@@ -322,6 +322,8 @@ td,.devinfo li{
 	border-bottom: 1px solid #ccc;
 }
 .setting .widget-body{
+	overflow: hidden;
+	display: block;
 	box-shadow: none;
 	background: #fff;
 }

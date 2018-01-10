@@ -10,13 +10,11 @@ $(function() {
     $('input[type=number]').keyup(function(e) {
         try{
             var val=parseInt(this.value);
-            console.log(val)
             if(this.max&&val>this.max){
                 this.value=this.max;
             }else{
                 this.value=val;
             }
-            console.log(this.value)
         }catch(err){
             console.log(err)
         }

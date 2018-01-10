@@ -1,4 +1,4 @@
- var regBox = {
+var regBox = {
     regEmail : /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
     regName : /^[a-z0-9_-]{3,16}$/,//用户名
     regMobile : /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/,//手机
@@ -107,13 +107,15 @@ $(function() {
             } else if(data.rt==5) {
                 location.href = "/";
             } else if(data.rt==22) {
-                alert('三次登陆密码有误，账户已冻结！');
+                alert('多次登录密码有误，账户已冻结！');
             }  else {
                 alert('登录失败！ '+data.rt);
             }
         },
         error:function(err){
-            alert("表单提交异常！"+err.msg);
+            console.log('err');
+            console.log(err);
+            //alert("表单提交异常！"+err.msg);
         }
     });
 });

@@ -7,7 +7,7 @@
  */
 var md5 = require('md5');
 
-module.exports = function(app, _http) {
+module.exports = function(app, chttp) {
 
     /*
      * =============================================================
@@ -33,7 +33,7 @@ module.exports = function(app, _http) {
     app.get('/per/dev/getUserDev', function(req, res) {
         var url = '/p/dev/getUserDev?sid=' + req.cookies.sid       
                 + '&email=' + req.query.email;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -43,7 +43,7 @@ module.exports = function(app, _http) {
         var url = '/p/dev/devBasicInfo?sid=' + req.cookies.sid       
                 + '&dev_id=' + req.query.dev_id
                 + '&email=' + req.query.email;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -70,7 +70,7 @@ module.exports = function(app, _http) {
     app.get('/per/getDepart', function(req, res) {
         var url = '/p/org/getDepartById?sid=' + req.cookies.sid;
             url += '&departId=' + req.query.departId;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -102,7 +102,7 @@ module.exports = function(app, _http) {
      */
     app.get('/per/companyicon', function(req, res) {
         var url = '/p/user/getUserInfo?sid=' + req.cookies.sid;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -134,7 +134,7 @@ module.exports = function(app, _http) {
                 'email': req.body.email
              },
             url = '/p/user/modifyPhone';
-        _http.POST(postData, url, function(cont) {
+        chttp.POST(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -147,7 +147,7 @@ module.exports = function(app, _http) {
                 'new_pw': md5('xthinkers' + req.body.new_pw)
              },
             url = '/p/user/userUpdatePw';
-        _http.POST(postData, url, function(cont) {
+        chttp.POST(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -160,7 +160,7 @@ module.exports = function(app, _http) {
                 'verify_pw': md5('xthinkers' + req.body.verify_pw)
              },
             url = '/p/user/resetPw';
-        _http.POST(postData, url, function(cont) {
+        chttp.POST(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -171,7 +171,7 @@ module.exports = function(app, _http) {
                 'email': req.body.email
              },
             url = '/p/user/sendCaptchaEmail';
-        _http.POST(postData, url, function(cont) {
+        chttp.POST(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -182,7 +182,7 @@ module.exports = function(app, _http) {
                 'phone': req.body.phone
              },
             url = '/p/user/sendCaptchaPhone';
-        _http.POST(postData, url, function(cont) {
+        chttp.POST(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -193,7 +193,7 @@ module.exports = function(app, _http) {
                 'type': req.body.type
              },
             url = '/p/user/sendCaptcha';
-        _http.POST(postData, url, function(cont) {
+        chttp.POST(postData, url, function(cont) {
             res.send(cont);
         });
     });

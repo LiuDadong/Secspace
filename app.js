@@ -12,16 +12,16 @@ app.use(require('body-parser')());
 app.use(require('cookie-parser')());
 
 /* 跨域访问 */
-var _http = require('./http.js');
+var chttp = require('./crosshttp.js');
 
 /* 登陆页面 */
-require('./login.js')(app, _http);
+require('./login.js')(app, chttp);
 
 /* 个人 personal */
-require('./personal.js')(app, _http);
+require('./personal.js')(app, chttp);
 
 /* 企业 manager */
-require('./manager.js')(app, _http);
+require('./manager.js')(app, chttp);
 
 /* 错误页面 */
 app.get('/404', function(req, res) { res.send('Not Found') });

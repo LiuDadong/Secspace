@@ -7,7 +7,7 @@
  */
 var md5 = require('md5');
 
-module.exports = function(app, _http) {
+module.exports = function(app, chttp) {
 
     /*
      * =============================================================
@@ -428,7 +428,7 @@ module.exports = function(app, _http) {
     // 查询首页数据
     app.get('/man/org/statistics', function(req, res) {
         var url = '/p/org/statistics?sid=' + req.cookies.sid;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -445,7 +445,7 @@ module.exports = function(app, _http) {
             url += req.query.start ? '&start='+req.query.start : 1; 
             url += req.query.length ? '&length='+req.query.length : 10;      
             url += req.query.keyword ? '&keyword='+req.query.keyword : '';
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -457,7 +457,7 @@ module.exports = function(app, _http) {
                 'id': req.body.id
             },
             url = '/p/org/policyByUserId';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -465,7 +465,7 @@ module.exports = function(app, _http) {
     // 下载导入用户模板
     app.get('/man/user/templateDownload', function(req, res) {
         var url = '/p/org/templateDownload?name=' + req.query.name;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -482,7 +482,7 @@ module.exports = function(app, _http) {
                 'tag_id': req.body.tag_id
             },
             url = '/p/org/modifyUser';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -494,7 +494,7 @@ module.exports = function(app, _http) {
                 'users': req.body.users
             },
             url = '/p/org/delUser';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -507,7 +507,7 @@ module.exports = function(app, _http) {
                 'pw': md5('xthinkers' + req.body.newpw)
             },
             url = '/p/org/resetUserPw';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -527,7 +527,7 @@ module.exports = function(app, _http) {
             'flag': req.body.flag
         };
         url = '/p/org/addUser';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -536,7 +536,7 @@ module.exports = function(app, _http) {
     app.get('/man/user/getTagList', function (req, res) {
         var url = '/p/org/userTagList?sid=' + req.cookies.sid;
             url += '&id=' + req.query.id;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -545,7 +545,7 @@ module.exports = function(app, _http) {
     app.get('/man/user/getDeviceList', function (req, res) {
         var url = '/p/org/activeDevList?sid=' + req.cookies.sid;
             url += '&id=' + req.query.id;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -557,7 +557,7 @@ module.exports = function(app, _http) {
                 'user_list': req.body.user_list
             },
             url = '/p/org/activeInvite';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -568,7 +568,7 @@ module.exports = function(app, _http) {
             url += '&depart_id=' + req.query.depart_id;
             url += '&start_page=' + req.query.start;
             url += '&page_length=' + req.query.length;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -579,7 +579,7 @@ module.exports = function(app, _http) {
             url += '&id=' + req.query.id;
             url += '&start_page=' + req.query.start;
             url += '&page_length=' + req.query.length;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -600,7 +600,7 @@ module.exports = function(app, _http) {
                 url += '&keyword=' + req.query.keyword;
             }
             
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
          console.timeEnd('Timer100');
@@ -616,7 +616,7 @@ module.exports = function(app, _http) {
     app.get('/man/users/getUsersList', function(req, res) {
         var url = '/p/org/getDepartList?sid=' + req.cookies.sid
                 + '&depart_id='+req.query.depart_id;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -630,7 +630,7 @@ module.exports = function(app, _http) {
             'parent_id': req.body.parent_id
         };
         url = '/p/org/addDepart';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -645,7 +645,7 @@ module.exports = function(app, _http) {
                 'parent_id': req.body.parent_id
             },
             url = '/p/org/updateDepart';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -657,7 +657,7 @@ module.exports = function(app, _http) {
                 'departs': req.body.departs
             },
             url = '/p/org/delDepart';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -666,7 +666,7 @@ module.exports = function(app, _http) {
     app.get('/man/users/freeUserList', function(req, res) {
         var url = '/p/org/departManagement?sid=' + req.cookies.sid       
                 + '&depart_id=' + req.query.depart_id;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -679,7 +679,7 @@ module.exports = function(app, _http) {
                 'user_list': req.body.user_list
             },
             url = '/p/org/departManagement';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -695,7 +695,7 @@ module.exports = function(app, _http) {
         var url = '/p/org/tagList?sid=' + req.cookies.sid       
                 + '&start_page=' + req.query.start
                 + '&page_length=' + req.query.length;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -710,7 +710,7 @@ module.exports = function(app, _http) {
             'description': req.body.description
         };
         url = '/p/org/addTag';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -726,7 +726,7 @@ module.exports = function(app, _http) {
                 'description': req.body.description
             },
             url = '/p/org/updateTag';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -738,7 +738,7 @@ module.exports = function(app, _http) {
                 'tag_ids': req.body.tag_ids
             },
             url = '/p/org/deleteTag';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -747,7 +747,7 @@ module.exports = function(app, _http) {
     app.get('/man/tag/tagManagement', function(req, res) {
         var url = '/p/org/tagManagement?sid=' + req.cookies.sid       
                 + '&tag_id=' + req.query.tag_id;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -761,7 +761,7 @@ module.exports = function(app, _http) {
                 'app_list': req.body.app_list
             },
             url = '/p/org/tagManagement';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -780,7 +780,7 @@ module.exports = function(app, _http) {
             url += req.query.keyword
             ? '&keyword='+req.query.keyword
             : '';
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -793,7 +793,7 @@ module.exports = function(app, _http) {
                 'dev_id': req.body.dev_id
             },
             url = '/p/org/orgGetPolicyById';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -806,7 +806,7 @@ module.exports = function(app, _http) {
                 'dev_id': req.body.dev_id
             },
             url = '/p/push/PushDev';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -815,7 +815,7 @@ module.exports = function(app, _http) {
     app.get('/p/dev/uploadLocation', function(req, res) {
         var url = '/p/dev/uploadLocation?sid=' + req.cookies.sid       
                 + '&dev_id=' + req.query.dev_id;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -827,7 +827,7 @@ module.exports = function(app, _http) {
                 'dev_id': req.body.dev_id
             },
             url = '/p/dev/delete';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -844,7 +844,7 @@ module.exports = function(app, _http) {
             url += '&policy_type=device'; 
             url += req.query.start_page ? '&start_page='+req.query.start_page : 1; 
             url += req.query.page_length ? '&page_length='+req.query.page_length : 10; 
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -854,7 +854,7 @@ module.exports = function(app, _http) {
         var url = '/p/org/userByPolicyId?sid=' + req.cookies.sid;
             url += '&policy_type=device'; 
             url += '&id='+req.query.id; 
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -871,7 +871,7 @@ module.exports = function(app, _http) {
                 'wifi': req.body.wifi
             },
             url = '/p/org/uploadPolicy';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -884,7 +884,7 @@ module.exports = function(app, _http) {
                 'policy_type': 'device'
             },
             url = '/p/org/deletePolicy';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -902,7 +902,7 @@ module.exports = function(app, _http) {
                 'wifi': req.body.wifi
             };    
         var url = '/p/org/updatePolicy';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -933,7 +933,7 @@ module.exports = function(app, _http) {
             };
         }
             url = '/p/org/boundPolicy';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -947,7 +947,7 @@ module.exports = function(app, _http) {
                 'policy_type': 'device'
             };    
         var url = '/p/org/changePolicyStatus';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -961,7 +961,7 @@ module.exports = function(app, _http) {
                 'policy_type': 'device'
             };    
         var url = '/p/org/unbindPolicy';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -977,7 +977,7 @@ module.exports = function(app, _http) {
             url += '&policy_type=complicance'; 
             url += req.query.start_page ? '&start_page='+req.query.start_page : 1; 
             url += req.query.page_length ? '&page_length='+req.query.page_length : 10; 
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -987,7 +987,7 @@ module.exports = function(app, _http) {
         var url = '/p/org/userByPolicyId?sid=' + req.cookies.sid;
             url += '&policy_type=complicance'; 
             url += '&id='+req.query.id; 
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1003,7 +1003,7 @@ module.exports = function(app, _http) {
                 'policy_type': 'complicance'
             },
             url = '/p/org/uploadComPolicy';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -1016,7 +1016,7 @@ module.exports = function(app, _http) {
                 'policy_type': 'complicance'
             },
             url = '/p/org/deleteComPolicy';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -1033,7 +1033,7 @@ module.exports = function(app, _http) {
                 'policy_type': 'complicance',
             };    
         var url = '/p/org/updateComPolicy';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -1064,7 +1064,7 @@ module.exports = function(app, _http) {
             };
         }
             url = '/p/org/boundPolicy';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1078,7 +1078,7 @@ module.exports = function(app, _http) {
                 'policy_type': 'complicance'
             };    
         var url = '/p/org/changeComPolicyStatus';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -1092,7 +1092,7 @@ module.exports = function(app, _http) {
                 'policy_type': 'complicance'
             };    
         var url = '/p/org/unbindPolicy';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -1108,7 +1108,7 @@ module.exports = function(app, _http) {
         var url = '/p/org/listFencePolicy?sid=' + req.cookies.sid;
             url += req.query.start_page ? '&start_page='+req.query.start_page : 1; 
             url += req.query.page_length ? '&page_length='+req.query.page_length : 10; 
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1116,65 +1116,29 @@ module.exports = function(app, _http) {
     // 企业管理员查询已启用设备策略
     app.get('/man/policy/getUsedDevPolicy', function(req, res) {
         var url = '/p/org/onDevPolicy?sid=' + req.cookies.sid;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
 
     // 企业管理员添加围栏策略
     app.post('/man/railpolicy/add_policy', function (req, res) {
-        var postData = {}, url;
-        if(req.body.site_range){
-            postData = {
-                'sid': req.cookies.sid,
-                'name': req.body.name,
-                'site_range': req.body.site_range,
-                'in_fence': req.body.in_fence,
-                'out_fence': req.body.out_fence,
-                'policy_type': 'geofence'
-            };
-        } else {
-            postData = {
-                'sid': req.cookies.sid,
-                'name': req.body.name,
-                'time_limit': req.body.time_limit,
-                'in_fence': req.body.in_fence,
-                'out_fence': req.body.out_fence,
-                'policy_type': 'timefence'
-            };
-        }
-        url = '/p/org/uploadFencePolicy';
-        _http.POST1(postData, url, function (cont) {
+        var postData = req.body;
+        postData.sid=req.cookies.sid;
+        console.log(postData);
+        chttp.cpost(postData,'/p/org/uploadFencePolicy', function (cont) {
+            console.log(cont);
             res.send(cont);
+
         });
     });
 
     // 企业管理员修改围栏策略
     app.post('/man/railpolicy/mod_policy', function (req, res) {
-        var postData = {}, url;
-        if(req.body.site_range){
-            postData = {
-                'sid': req.cookies.sid,
-                'id': req.body.id,
-                'name': req.body.name,
-                'site_range': req.body.site_range,
-                'in_fence': req.body.in_fence,
-                'out_fence': req.body.out_fence,
-                'policy_type': 'geofence'
-            };
-        } else {
-            postData = {
-                'sid': req.cookies.sid,
-                'id': req.body.id,
-                'name': req.body.name,
-                'time_limit': req.body.time_limit,
-                'in_fence': req.body.in_fence,
-                'out_fence': req.body.out_fence,
-                'policy_type': 'timefence'
-            };
-        }
-        url = '/p/org/updateFencePolicy';
-        _http.POST1(postData, url, function (cont) {
+        var postData = req.body;
+        postData.sid=req.cookies.sid;
+        console.log(postData);
+        chttp.cpost(postData, '/p/org/updateFencePolicy', function (cont) {
             res.send(cont);
         });
     });
@@ -1189,7 +1153,7 @@ module.exports = function(app, _http) {
                 'policy_type': 'geofence'
             };
             url = '/p/org/deleteFencePolicy';
-            _http.POST1(postData, url, function (cont) {
+            chttp.cpost(postData, url, function (cont) {
                 res.send(cont);
             });
         }
@@ -1200,7 +1164,7 @@ module.exports = function(app, _http) {
                 'policy_type': 'timefence'
             };
             url = '/p/org/deleteFencePolicy';
-            _http.POST1(postData, url, function (cont) {
+            chttp.cpost(postData, url, function (cont) {
                 res.send(cont);
             });
         }
@@ -1217,7 +1181,7 @@ module.exports = function(app, _http) {
                 'status': req.body.status
             };
             url = '/p/org/changeFencePolicyStatus';
-            _http.POST1(postData, url, function (cont) {
+            chttp.cpost(postData, url, function (cont) {
                 res.send(cont);
             });
         }
@@ -1229,7 +1193,7 @@ module.exports = function(app, _http) {
                 'status': req.body.status
             };
             url = '/p/org/changeFencePolicyStatus';
-            _http.POST1(postData, url, function (cont) {
+            chttp.cpost(postData, url, function (cont) {
                 res.send(cont);
             });
         }
@@ -1240,7 +1204,7 @@ module.exports = function(app, _http) {
         var url = '/p/org/userByPolicyId?sid=' + req.cookies.sid
                 + '&policy_type='+req.query.policy_type 
                 + '&id='+req.query.id; 
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1254,7 +1218,7 @@ module.exports = function(app, _http) {
                 'policy_type': req.body.policy_type
             };    
         var url = '/p/org/unbindPolicy';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -1286,7 +1250,7 @@ module.exports = function(app, _http) {
         }
             url = '/p/org/boundPolicy';
         console.time('Timer5');
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             console.timeEnd('Timer5');
             res.send(cont);
         });
@@ -1303,7 +1267,7 @@ module.exports = function(app, _http) {
         var url = '/p/org/listAppPolicy?sid=' + req.cookies.sid;
             url += req.query.start_page ? '&start_page='+req.query.start_page : 1; 
             url += req.query.page_length ? '&page_length='+req.query.page_length : 10; 
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1313,7 +1277,7 @@ module.exports = function(app, _http) {
         var url = '/p/org/userByPolicyId?sid=' + req.cookies.sid;
             url += '&policy_type='+req.query.policy_type; 
             url += '&id='+req.query.id; 
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1321,7 +1285,7 @@ module.exports = function(app, _http) {
     // 企业管理员查询已启用黑名单
     app.get('/man/apppolicy/onBlackList', function(req, res) {
         var url = '/p/org/onBlackList?sid=' + req.cookies.sid;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1329,7 +1293,7 @@ module.exports = function(app, _http) {
     // 企业管理员查询所有应用列表
     app.get('/man/apppolicy/appList', function(req, res) {
         var url = '/p/org/appList?sid=' + req.cookies.sid;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1339,7 +1303,7 @@ module.exports = function(app, _http) {
         var url = '/p/org/onDevPolicy?sid=' + req.cookies.sid;
             url += req.query.start_page ? '&start_page='+req.query.start_page : 1; 
             url += req.query.page_length ? '&page_length='+req.query.page_length : 10; 
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1353,7 +1317,7 @@ module.exports = function(app, _http) {
             'policy_type': req.body.policy_type
         };
         url = '/p/org/appAuthList';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -1402,7 +1366,7 @@ module.exports = function(app, _http) {
             };
         }
         url = '/p/org/uploadAppPolicy';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -1456,7 +1420,7 @@ module.exports = function(app, _http) {
             };
         }
         url = '/p/org/updateAppPolicy';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -1470,7 +1434,7 @@ module.exports = function(app, _http) {
             'policy_type': req.body.policy_type
         };
         url = '/p/org/deleteAppPolicy';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -1486,7 +1450,7 @@ module.exports = function(app, _http) {
                 'status': req.body.status
             };
             url = '/p/org/changeAppPolicyStatus';
-            _http.POST1(postData, url, function (cont) {
+            chttp.cpost(postData, url, function (cont) {
                 res.send(cont);
             });
         }
@@ -1499,7 +1463,7 @@ module.exports = function(app, _http) {
                 'status': req.body.status
             };
             url = '/p/org/changeAppPolicyStatus';
-            _http.POST1(postData, url, function (cont) {
+            chttp.cpost(postData, url, function (cont) {
                 res.send(cont);
             });
         }
@@ -1513,7 +1477,7 @@ module.exports = function(app, _http) {
                 'policy_type': req.body.policy_type
             };    
         var url = '/p/org/unbindPolicy';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -1544,7 +1508,7 @@ module.exports = function(app, _http) {
             };
         }
             url = '/p/org/boundPolicy';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1559,7 +1523,7 @@ module.exports = function(app, _http) {
         var url = '/p/app/list?sid=' + req.cookies.sid;
             url += req.query.start ? '&start_page='+req.query.start : 1; 
             url += req.query.length ? '&page_length='+req.query.length : 10;  
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1568,7 +1532,7 @@ module.exports = function(app, _http) {
     app.get('/man/app/getDeviceList', function (req, res) {
         var url = '/p/app/devByUserId?sid=' + req.cookies.sid
                 +'&package_name='+req.query.package_name; 
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1599,7 +1563,7 @@ module.exports = function(app, _http) {
             };
         } 
         url = '/p/org/authApp';
-        _http.POST1(postData, url, function (cont) {
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });
@@ -1618,7 +1582,7 @@ module.exports = function(app, _http) {
                 'describe': req.body.describe
             },
             url = '/p/app/modify';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1630,7 +1594,7 @@ module.exports = function(app, _http) {
                 'downloads': req.body.downloads
             },
             url = '/p/app/del';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1639,7 +1603,7 @@ module.exports = function(app, _http) {
     app.get('/man/app/getAppTag', function (req, res) {
         var url = '/p/app/appTagList?sid=' + req.cookies.sid;
             url += '&id='+req.query.id; 
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1650,7 +1614,7 @@ module.exports = function(app, _http) {
             url += '&id='+req.query.id; 
             url += req.query.start ? '&start_page='+req.query.start : 1; 
             url += req.query.length ? '&page_length='+req.query.length : 10;  
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1666,7 +1630,7 @@ module.exports = function(app, _http) {
         var url = '/p/app/ShowBlackList?sid=' + req.cookies.sid;
             url += req.query.start ? '&start_page='+req.query.start : 1; 
             url += req.query.length ? '&page_length='+req.query.length : 10;  
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1681,7 +1645,7 @@ module.exports = function(app, _http) {
                 'package_name': req.body.package_name
             },
             url = '/p/app/addBlackList';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1697,7 +1661,7 @@ module.exports = function(app, _http) {
                 'package_name': req.body.package_name
             },
             url = '/p/app/updateBlackList';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1709,7 +1673,7 @@ module.exports = function(app, _http) {
                 'id': req.body.id
             },
             url = '/p/app/delBlackList';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1722,7 +1686,7 @@ module.exports = function(app, _http) {
                 'flag': req.body.flag,
             },
             url = '/p/app/statusBlackList';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1738,7 +1702,7 @@ module.exports = function(app, _http) {
         var url = '/p/org/appTagList?sid=' + req.cookies.sid;
             url += req.query.start ? '&start_page='+req.query.start : 1; 
             url += req.query.length ? '&page_length='+req.query.length : 10;  
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1751,7 +1715,7 @@ module.exports = function(app, _http) {
                 'description': req.body.description
             },
             url = '/p/org/addAppTag';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1765,7 +1729,7 @@ module.exports = function(app, _http) {
                 'description': req.body.description
             },
             url = '/p/org/updateAppTag';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1777,7 +1741,7 @@ module.exports = function(app, _http) {
                 'apptag_ids': req.body.apptag_ids
             },
             url = '/p/org/deleteAppTag';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1786,7 +1750,7 @@ module.exports = function(app, _http) {
     app.get('/man/appTag/getAppByTag', function (req, res) {
         var url = '/p/org/appTagManagement?sid=' + req.cookies.sid;
             url += '&apptag_id='+req.query.apptag_id; 
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1799,7 +1763,7 @@ module.exports = function(app, _http) {
                 'app_list': req.body.app_list
             },
             url = '/p/org/appTagManagement';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1815,7 +1779,7 @@ module.exports = function(app, _http) {
         var url = '/p/org/messageList?sid=' + req.cookies.sid;
             url += req.query.start ? '&start_page='+req.query.start : 1; 
             url += req.query.length ? '&page_length='+req.query.length : 10;  
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1824,7 +1788,7 @@ module.exports = function(app, _http) {
     app.get('/man/message/sendMessage', function (req, res) {
         var url = '/p/org/sendMessage?sid=' + req.cookies.sid;
             url += '&message_id='+req.query.message_id;  
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1837,7 +1801,7 @@ module.exports = function(app, _http) {
                 'content': req.body.content
             },
             url = '/p/org/addMessage';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1849,7 +1813,7 @@ module.exports = function(app, _http) {
                 'message_ids': req.body.message_ids
             },
             url = '/p/org/deleteMessage';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1863,7 +1827,7 @@ module.exports = function(app, _http) {
                 'content': req.body.content
             },
             url = '/p/org/modifyMessage';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1876,7 +1840,7 @@ module.exports = function(app, _http) {
                 'users': req.body.users
             },
             url = '/p/org/sendMessage';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1896,7 +1860,7 @@ module.exports = function(app, _http) {
             url += '&end_time='+req.query.end_time;  
             url += '&account='+req.query.account; 
             url += '&operation='+req.query.operation;  
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1915,7 +1879,7 @@ module.exports = function(app, _http) {
         if(req.query.keyword){
             url += '&keyword='+req.query.keyword;
         }  
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1931,7 +1895,7 @@ module.exports = function(app, _http) {
         var url = '/p/file/listApp?sid=' + req.cookies.sid;
             url += '&start_page='+req.query.start_page; 
             url += '&page_length='+req.query.page_length;  
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1944,7 +1908,7 @@ module.exports = function(app, _http) {
                 'status': req.body.status
             },
             url = '/p/org/authSecspace';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1959,7 +1923,7 @@ module.exports = function(app, _http) {
                 'describe': req.body.describe
             },
             url = '/p/org/modifyVersion';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1971,7 +1935,7 @@ module.exports = function(app, _http) {
                 'versions': req.body.versions
             },
             url = '/p/org/deleteApp';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -1985,7 +1949,7 @@ module.exports = function(app, _http) {
     // 企业管理员获取企业基本信息
     app.get('/man/setting/orgGetSettings', function(req, res) {
         var url = '/p/org/orgGetSettings?sid=' + req.cookies.sid;
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -1998,7 +1962,7 @@ module.exports = function(app, _http) {
                 'new_passwd': md5('xthinkers' + req.body.new_passwd)
             },
             url = '/p/org/orgUpdatePw';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -2013,15 +1977,16 @@ module.exports = function(app, _http) {
                 'recv_user': req.body.recv_user
             },
             url = '/p/org/testEmail';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
 
     // 企业管理员修改企业信息
     app.post('/man/setting/orgUpdateSettings', function (req, res) {
-        var postData;
-        if(req.body.session_expire_time){
+        var postData=req.body;
+        postData.sid=req.cookies.sid;
+        /*if(req.body.session_expire_time){
             postData = {
                 'sid': req.cookies.sid,
                 'session_expire_time': req.body.session_expire_time,
@@ -2078,11 +2043,9 @@ module.exports = function(app, _http) {
             };
         } else{
             console.log("settings");
-        } 
+        } */
         url = '/p/org/orgUpdateSettings';
-        _http.POST1(postData, url, function (cont) {
-            console.log('######');
-            console.log(postData);
+        chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
     });  

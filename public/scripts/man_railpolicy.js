@@ -129,52 +129,75 @@ function reset(){
 }
 
 // 提交添加策略
-function add_policy(){ 
-    var site_range = {};
-    var time_limit = {};
+
+//
+function getPolicyData(){
     var postData = {};
-
-    if($('select[name=policy_type]').val() == 1){
-        site_range = {
-            site: $('.pointer').text(),
-            range: $('.radius').text()
-        }
-        postData = {
-            name: $('input[name=name]').val(),
-            site_range: JSON.stringify(site_range),
-            in_fence: $('select[name=in_fence]').val(),
-            out_fence: $('select[name=out_fence]').val()
-        };
-
-    } else {
-        
-        if($('select[name=repeat_type]').val() == 1){
-            time_limit = {
-                repeat_type: '1',
-                start_date: $('input[name=start_date]').val(),
-                stop_date: $('input[name=stop_date]').val(),
-                start_time: $('input[name=start_time]').val(),
-                stop_time: $('input[name=stop_time]').val(),
-                weekday: $('select[name=weekday]').val()
+    var policy_type=$('select[name=policy_type]').val();
+    /*根据选择的围栏类型配置请求数据postData*/
+    switch (policy_type){
+        case '1':   //地理围栏
+            policy_type="geofence";
+            var site_range = {
+                site: $('.pointer').text(),
+                range: $('.radius').text()
             };
-        } else {
-            time_limit = {
+            var ssid=$('input[name=ssid]').val().replace(/\s+/g,' '); //替换多空格为单空格
+            if(ssid.charAt(ssid.length-1)===' '){
+                console.log('后面有空格')
+                ssid = ssid.substr(0,ssid.length-1)
+            }
+            if(ssid.charAt(0)===' '){
+                console.log('前面有空格')
+                ssid = ssid.substr(1)
+            }
+            var wifi_limit={
+                open:$('input[name=wifi]')[0].checked?1:0,
+                ssid:ssid.split(' ')
+            }
+            postData = {
+                name: $('input[name=name]').val(),
+                policy_type:policy_type,
+                site_range: JSON.stringify(site_range),
+                gps:$('input[name=gps]')[0].checked?1:0,
+                wifi_limit:JSON.stringify(wifi_limit),
+                in_fence: $('select[name=in_fence]').val(),
+                out_fence: $('select[name=out_fence]').val()
+            };
+            break;
+        case '2':   //时间围栏
+            policy_type="timefence";
+            var time_limit = {
                 repeat_type: $('select[name=repeat_type]').val(),
                 start_date: $('input[name=start_date]').val(),
                 stop_date: $('input[name=stop_date]').val(),
                 start_time: $('input[name=start_time]').val(),
-                stop_time: $('input[name=stop_time]').val()
+                stop_time: $('input[name=stop_time]').val(),
             };
-        }
-        postData = {
-            name: $('input[name=name]').val(),
-            time_limit: JSON.stringify(time_limit),
-            in_fence: $('select[name=in_fence]').val(),
-            out_fence: $('select[name=out_fence]').val()
-        };
+            if($('select[name=repeat_type]').val() == '1'){
+                time_limit.weekday=$('select[name=weekday]').val();
+            }
+            postData = {
+                name: $('input[name=name]').val(),
+                policy_type:policy_type,
+                time_limit: JSON.stringify(time_limit),
+                in_fence: $('select[name=in_fence]').val(),
+                out_fence: $('select[name=out_fence]').val()
+            };
+            break;
+        default:
+            alert('man_railpolicay.js围栏类型policy_type设置错误')
     }
-
+    return postData;
+}
+function add_policy(){
+    var postData=getPolicyData();
+    postData.
+    console.log(postData.policy_type+'围栏请求数据：')
+    console.log(postData);
     $.post('/man/railpolicy/add_policy', postData, function(data) {
+        console.log(policy_type+'围栏返回数据：')
+        console.log(data)
         if (data.rt==0) {
             policylist();
             warningOpen('操作成功！','primary','fa-check');
@@ -192,7 +215,28 @@ function add_policy(){
         }
     });
 }
-
+// 编辑提交
+function mod_policy(){
+    var postData=getPolicyData();
+    postData.id=$('input[name=policyid]').val();
+    $.post('/man/railpolicy/mod_policy', postData, function(data) {
+        if (data.rt==0) {
+            policylist();
+            warningOpen('修改并下发成功！','primary','fa-check');
+            getPolicyList(currentpage,10);
+        } else if (data.rt == 39) {
+            warningOpen('策略开始时间大于截止时间！','danger','fa-bolt');
+        } else if (data.rt == 40) {
+            warningOpen('策略截止时间小于当前时间！','danger','fa-bolt');
+        } else if (data.rt==5) {
+            toLoginPage();
+        } else if (data.rt==15) {
+            warningOpen('策略名称重复！','danger','fa-bolt');
+        } else {
+            warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+        }
+    });
+}
 var st = 2;
 // 设备策略列表
 function getPolicyList(start,length){   
@@ -201,7 +245,7 @@ function getPolicyList(start,length){
     var table = $('.policytable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
             + '<th class="sel" style="line-height:20px;"><div class="checkbox">'
-            + '<label><input type="checkbox" onclick="selectedAll(this)"></input>'
+            + '<label><input type="checkbox" onclick="selectedAll(this)"/>'
             + '<span class="text">全选</span></label></div></th>'
             + '<th>名称</th>'
             + '<th>类型</th>'
@@ -218,8 +262,8 @@ function getPolicyList(start,length){
             for(var i in data.policies) {
                 status = data.policies[i].status == 1 ? '启用' : '禁用';
                 policy_type = data.policies[i].policy_type == 'timefence' ? '时间围栏' : '地理围栏';
-                str += '<tr>'
-                    + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"></input>'
+                str += '<tr policy_id='+ data.policies[i].id +'>'
+                    + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"/>'
                     + '<span class="text"></span></label></div></td>'
                     + '<td>' + data.policies[i].name + '</td>'
                     + '<td>' + policy_type + '</td>'
@@ -251,7 +295,6 @@ function getPolicyList(start,length){
     $('.hrefactive').removeClass("hrefallowed");
     currentpage = start;
 }
-
 // page页查询
 function search(p,i) {
     if(i == 1){
@@ -266,7 +309,6 @@ function search(p,i) {
         console.log(i);
     }
 }
-
 // 返回列表
 function policylist(){
     $('.policy_add, .addpolicy, .modpolicy, .viewpolicy, .issuedlist, .issuedpolicy').css({'display':'none'});
@@ -280,7 +322,7 @@ function devusers(i) {
     var policy_type = tr.find('td').eq(10).text();
     var strtab1 = '<table class="table table-hover"><tr>'
                 + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label>'
-                + '<input type="checkbox" onclick="selectedAll(this)"></input>'
+                + '<input type="checkbox" onclick="selectedAll(this)"/>'
                 + '<span class="text"></span></label></div></th>'
                 + '<th>用户名</th>'
                 + '<th>账号</th>'
@@ -325,7 +367,6 @@ function devusers(i) {
         }
     });
 }
-
 // 移除策略
 function user_remove(i){
     var _tr = $('.modal-body table tr').eq(i+1);
@@ -349,11 +390,10 @@ function user_remove(i){
         }
     }); 
 }
-
 // 编辑
 function modify(i){
     var tr = $('.policytable table tr').eq(i+1);
-    var id = tr.find('td').eq(7).text(); 
+    var id = tr.find('td').eq(7).text();
     var name = tr.find('td').eq(1).text(); 
     var policy_type = tr.find('td').eq(10).text(); 
     var in_fence = tr.find('td').eq(8).text()*1; 
@@ -457,72 +497,6 @@ function modify(i){
     } 
 }
 
-// 编辑提交
-function mod_policy(){
-    var site_range = {};
-    var time_limit = {};
-    var postData = {};
-
-    if($('select[name=policy_type]').val() == 1){
-        site_range = {
-            site: $('.pointer').text(),
-            range: $('.radius').text()
-        }
-        postData = {
-            id: $('input[name=policyid]').val()*1,
-            name: $('input[name=name]').val(),
-            site_range: JSON.stringify(site_range),
-            in_fence: $('select[name=in_fence]').val(),
-            out_fence: $('select[name=out_fence]').val()
-        };
-    } else {
-        
-        if($('select[name=repeat_type]').val() == 1){
-            time_limit = {
-                repeat_type: '1',
-                start_date: $('input[name=start_date]').val(),
-                stop_date: $('input[name=stop_date]').val(),
-                start_time: $('input[name=start_time]').val(),
-                stop_time: $('input[name=stop_time]').val(),
-                weekday: $('select[name=weekday]').val()
-            };
-        } else {
-            time_limit = {
-                repeat_type: $('select[name=repeat_type]').val(),
-                start_date: $('input[name=start_date]').val(),
-                stop_date: $('input[name=stop_date]').val(),
-                start_time: $('input[name=start_time]').val(),
-                stop_time: $('input[name=stop_time]').val()
-            };
-        }
-        postData = {
-            id: $('input[name=policyid]').val()*1,
-            name: $('input[name=name]').val(),
-            time_limit: JSON.stringify(time_limit),
-            in_fence: $('select[name=in_fence]').val(),
-            out_fence: $('select[name=out_fence]').val()
-        };
-    }
-
-    $.post('/man/railpolicy/mod_policy', postData, function(data) {
-        if (data.rt==0) {
-            policylist();
-            warningOpen('修改并下发成功！','primary','fa-check');
-            getPolicyList(currentpage,10);
-        } else if (data.rt == 39) {
-            warningOpen('策略开始时间大于截止时间！','danger','fa-bolt');
-        } else if (data.rt == 40) {
-            warningOpen('策略截止时间小于当前时间！','danger','fa-bolt');
-        } else if (data.rt==5) {
-            toLoginPage();
-        } else if (data.rt==15) {
-            warningOpen('策略名称重复！','danger','fa-bolt');
-        } else {
-            warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
-        }
-    });
-}
-
 function view(i){
     modify(i);
     $('.policylist,.modbtn, .addbtn, .addpolicy,.modpolicy').css({'display':'none'});
@@ -531,7 +505,6 @@ function view(i){
     $('.policy_add input').attr("disabled",true);
     $('.policy_add select').attr("disabled",true);
 }
-
 // 策略下发
 function auth(){
     var list = [],i = 0;
@@ -566,7 +539,6 @@ function auth(){
         warningOpen('请选择一条启用的策略进行下发！','danger','fa-bolt');
     } 
 }
-
 function searchtaglist(){
     var str = '';
     $.get('/man/tag/getTagList?start='+ 1 + '&length='+ 1000, function(data) {  // 获取标签列表
@@ -589,7 +561,6 @@ function searchtaglist(){
         }
     });
 }
-
 function _selectbytag(e){
     var tab1 = $('.tagusertable');
     var tab = $('#usertaglist');
@@ -598,7 +569,6 @@ function _selectbytag(e){
     $(e).next().show(); 
     getUserList(1,10,'',tab1,3,2); 
 }
-
 function _cancelbytag(e){
     var tab1 = $('.tagusertable');
     var tab = $('#usertaglist');
@@ -656,7 +626,6 @@ function searchuserlist1(){
         }
     });
 }
-
 function opentreesearch(e){
     var id = $(e).parent().find('input[name=tree_id]').eq(0).val()*1;
     var tab = $('#treegroup');
@@ -701,7 +670,6 @@ function opentreesearch(e){
         togusers(e);
     }  
 }
-
 var active2 = '';
 function togusers(e){
     var that = $(e).parent().parent();
@@ -720,7 +688,6 @@ function togusers(e){
     }
     active2 = '';
 }
-
 function _select(e){
     var tab1 = $('.usertable');
     var tab = $('#treegroup');
@@ -729,7 +696,6 @@ function _select(e){
     $(e).next().show(); 
     getUserList(1,10,'',tab1,2,2); 
 }
-
 function _cancel(e){
     var tab1 = $('.usertable');
     var tab = $('#treegroup');
@@ -739,7 +705,6 @@ function _cancel(e){
     $(e).prev().show();
     getUserList(1,10,'',tab1,2,3); 
 }
-
 var st = 2;
 // 获取用户列表
 function getUserList(start,length,keyword,tab,page,st){
@@ -755,14 +720,14 @@ function getUserList(start,length,keyword,tab,page,st){
     var userurl;   
     var status;
     var id;
-    var checkstr = '<input type="checkbox" onclick="selected(this)" checked="checked"></input><span class="text txt"></span>';
+    var checkstr = '<input type="checkbox" onclick="selected(this)" checked="checked"/><span class="text txt"></span>';
     if(st == 2){
         userurl = '/man/user/getUserList?start='+ start + '&length='+ length;
         userurl += keyword?'&keyword=' + keyword : '';
-        checkstr = '<input type="checkbox" onclick="selected(this)"></input><span class="text"></span>';
+        checkstr = '<input type="checkbox" onclick="selected(this)"/><span class="text"></span>';
         strtab1 = '<table class="table table-striped table-bordered table-hover"><tr>'
                 + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label>'
-                + '<input type="checkbox" onclick="selectedAll(this)"></input>'
+                + '<input type="checkbox" onclick="selectedAll(this)"/>'
                 + '<span class="text">全选</span>'
                 + '</label></div></th>'
                 + '<th>用户名</th>'

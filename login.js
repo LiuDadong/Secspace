@@ -1,7 +1,7 @@
 /* 个人登录 */
 var md5 = require('md5');
 
-module.exports = function(app, _http) {
+module.exports = function(app, chttp) {
     
     // 登录页
     app.get('/', function(req, res) {
@@ -43,7 +43,7 @@ module.exports = function(app, _http) {
         }else{
             console.error("登录请求flag值错误，必须为man或者per")
         }
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             if(cont.rt == 0) {
                 res.cookie('sid', cont.sid, {maxAge:2*60*60*1000});
                 res.cookie('admin', admin);
@@ -66,7 +66,7 @@ module.exports = function(app, _http) {
                 'dev_id': 'web'
             };
         var url = '/p/user/userLogout';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             if(cont.rt==0 || cont.rt == 5) {                
                 res.redirect('/');
             } else {
@@ -85,7 +85,7 @@ module.exports = function(app, _http) {
         res.clearCookie('dev_ip');
         res.clearCookie('admin');       
         var url = '/p/org/orgLogout';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             if(cont.rt==0 || cont.rt == 5) {            
                 res.redirect('/');
             } else {
@@ -97,7 +97,7 @@ module.exports = function(app, _http) {
     // 获取产品名称
     app.get('/p/login/getProductName', function(req, res) {
         var url = '/p/org/getProductName';
-        _http.GET(url, function(cont) {
+        chttp.cget(url, function(cont) {
             res.send(cont);
         });
     });
@@ -110,7 +110,7 @@ module.exports = function(app, _http) {
              },
             url = '/p/user/sendCaptchaPhone';
            
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
          });
     });
@@ -122,7 +122,7 @@ module.exports = function(app, _http) {
                 'pw': md5('xthinkers' + req.body.pw)
              },
             url = '/p/user/register';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });
@@ -133,7 +133,7 @@ module.exports = function(app, _http) {
                 'captcha': req.body.captcha
              },
             url = '/p/user/verifyRegisterCaptcha';
-        _http.POST1(postData, url, function(cont) {
+        chttp.cpost(postData, url, function(cont) {
             res.send(cont);
         });
     });

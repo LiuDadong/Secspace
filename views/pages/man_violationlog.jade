@@ -3,8 +3,7 @@ extends ../layout
 block content
     .page-header(class="position-relative")
         .header-title(style="width:180px;")
-            h1
-                日志
+            h1 日志
                 small
                     i(class="fa fa-angle-right")
                     a(href="#") #{ title }
@@ -16,8 +15,7 @@ block content
                         div(class="col-lg-8 col-xs-10 col-md-9" style="padding-left: 0px;padding-right: 0px;")
                             div(style="width:140px;float:left;display:inline;")
                                 a(class="btn btn-primary" href="javascript:impexcel()" style="width:78px;")
-                                    i(class="fa fa-download")
-                                    导出
+                                    i(class="fa fa-download") 导出
                                 label(style="text-align: right;float:right;") 选择日期
                             div(class="col-lg-3 col-xs-3 col-md-3" style="padding-right: 0px;")
                                 input(id="datestart" class="form-control datestart" type="text" placeholder="起始时间" name="start_time" readonly)

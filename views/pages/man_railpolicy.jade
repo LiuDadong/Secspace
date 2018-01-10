@@ -64,7 +64,7 @@ block content
                                             option(class="option" value="2") 时间围栏                                   
                     .widget-header(style="height:40px;")
                         p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 围栏限制
-                    .widget-body(style="overflow: hidden;display:none;" class="timepolicy")
+                    .widget-body(class="timepolicy")
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
                             .form-group
                                 div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
@@ -112,7 +112,7 @@ block content
                                             label 至
                                         div(class="col-lg-5 col-xs-5 col-sm-5" style="padding-left:0;padding-right:0;")
                                             input(id="stop_time" class="stop_time" type="text" name="stop_time" class="form-control cursor")
-                    .widget-body(style="overflow: hidden;" class="addresspolicy")
+                    .widget-body(style="padding-bottom:50px;" class="addresspolicy")
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;")
                             .form-group
                                 div(class="col-lg-6 col-xs-10 col-sm-10 col-lg-offset-3 col-xs-offset-1 col-sm-offset-1")
@@ -142,7 +142,7 @@ block content
                                     label(class="control-label" for = "gps" style="width:150px;padding-left:22px;") 关闭GPS限置
                                     .adddiv(style="left:180px;width:450px;")
                                         label(class="cursor")
-                                            input(type="checkbox" onclick="checkthis(this)" id = "gps" name="gps")
+                                            input(type="checkbox" name="gps")
                                             span(class="text") 设备关闭GPS功能后视为在围栏内
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
                             .form-group
@@ -150,7 +150,7 @@ block content
                                     label(class="control-label" for = "wifi" style="width:150px;padding-left:22px;") 连接Wifi限制
                                     .adddiv(style="left:180px;width:450px;")
                                         label(class="cursor")
-                                            input(type="checkbox" onclick="checkthis(this)" id = "wifi" name="wifi")
+                                            input(type="checkbox" name="wifi")
                                             span(class="text") 设备连接指定Wifi后视为在围栏内
                                         input(type="text" name="ssid" placeholder="请输入SSID")
                     .widget-header(style="height:40px;")

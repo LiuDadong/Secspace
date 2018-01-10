@@ -68,7 +68,7 @@ $(function() {
     $.get('/man/setting/orgGetSettings', function(data) {
         data = JSON.parse(data);
         if (data.rt==0) {
-            console.log(data.doc);
+            $('input[name=session_expire_time]').val(data.doc.session_expire_time);
             $('input[name=session_expire_time]').val(data.doc.session_expire_time);
             $('input[name=pw_max_try_times]').val(data.doc.pw_max_try_times);
             $('input[name=frozen_time]').val(data.doc.frozen_time);
@@ -89,11 +89,13 @@ $(function() {
             }else{
                 $("input:radio[name='switch']").eq(1).attr("checked",'checked');
             }
-            if(data.doc['screenshot'] == '1'){
+            $("input:radio[name='camera_control'][value="+data.doc.camera_control+"]").attr("checked",'checked');
+            $("input:radio[name='screenshot'][value="+data.doc.screenshot+"]").attr("checked",'checked');
+            /*if(data.doc == '1'){
                 $("input:radio[name='screenshot']").eq(0).attr("checked",'checked');
             }else{
                 $("input:radio[name='screenshot']").eq(1).attr("checked",'checked');
-            }
+            }*/
 
             $('input[name=pw_min_len]').val(data.doc.pw_min_len);
             $('select[name=passwd_type]').val(data.doc.passwd_type);
@@ -230,9 +232,7 @@ $(function() {
             modifymanagerName();
 
         } else{
-
             console.log("未修改！");
-
         }
 
         return false;   
@@ -243,49 +243,26 @@ $(function() {
     });
     
 });
-
-// 修改系统设置
-function setsave(){
-
-    var session_expire_time = $('input[name=session_expire_time]').val();
-    var pw_max_try_times = $('input[name=pw_max_try_times]').val();
-    var send_url = $('input[name=send_url]').val();
-    var frozen_time = $('input[name=frozen_time]').val();
-    var client_frozen_time = $('input[name=client_frozen_time]').val();
-    var client_pw_try_times = $('input[name=client_pw_try_times]').val();
-    var max_download = $('select[name=max_download]').val();
-    var pw_min_len = $('input[name=pw_min_len]').val();
-    var passwd_type = $('select[name=passwd_type]').val();
-    var passwd_available = $('input[name=passwd_available]').val();
-    var allow_remember_pw = $('input[name=allow_remember_pw]:checked').val();
-    var screenshot = $('input[name=screenshot]:checked').val();
-    
-    var postData = {
-        session_expire_time: session_expire_time,
-        pw_max_try_times: pw_max_try_times,
-        frozen_time: frozen_time,
-        client_frozen_time:client_frozen_time,
-        client_pw_try_times:client_pw_try_times,
-        allow_remember_pw: allow_remember_pw,
-        screenshot: screenshot,
-        max_download: max_download,
-        pw_min_len: pw_min_len,
-        passwd_type: passwd_type,
-        passwd_available: passwd_available,
-        send_url: send_url
-    };
-
-    $.post('/man/setting/orgUpdateSettings', postData, function(data) {
-        if (data.rt==0) {
-            warningOpen('操作成功！','primary','fa-check');
-        } else if (data.rt==5) {
-            toLoginPage();
-        } else {
-            warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
-        }
-    });  
-    
+function setCallback(){
+    var data=arguments[0];
+    if (data.rt==0) {
+        warningOpen('操作成功！','primary','fa-check');
+    } else if (data.rt==5) {
+        toLoginPage();
+    } else {
+        warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+    }
 }
+// 修改系统设置
+function formAjax(){
+    var form=$(event.target)[0].form;
+    var url=form.action;
+    var querystring=$(form).serialize();
+    $.post(url,querystring,function(data){
+        setCallback(data);
+    })
+}
+
 
 // 邮箱服务器设置
 function modwatermarke(){
@@ -502,3 +479,49 @@ function set_updatePW(){
         warningOpen('两次密码不一致！','danger','fa-bolt');
     }
 }
+
+
+
+
+/*
+function setsave(){
+
+    var session_expire_time = $('input[name=session_expire_time]').val();
+    var pw_max_try_times = $('input[name=pw_max_try_times]').val();
+    var send_url = $('input[name=send_url]').val();
+    var frozen_time = $('input[name=frozen_time]').val();
+    var client_frozen_time = $('input[name=client_frozen_time]').val();
+    var client_pw_try_times = $('input[name=client_pw_try_times]').val();
+    var max_download = $('select[name=max_download]').val();
+    var pw_min_len = $('input[name=pw_min_len]').val();
+    var passwd_type = $('select[name=passwd_type]').val();
+    var passwd_available = $('input[name=passwd_available]').val();
+    var allow_remember_pw = $('input[name=allow_remember_pw]:checked').val();
+    var screenshot = $('input[name=screenshot]:checked').val();
+
+    var postData = {
+        session_expire_time: session_expire_time,
+        pw_max_try_times: pw_max_try_times,
+        frozen_time: frozen_time,
+        client_frozen_time:client_frozen_time,
+        client_pw_try_times:client_pw_try_times,
+        allow_remember_pw: allow_remember_pw,
+        screenshot: screenshot,
+        max_download: max_download,
+        pw_min_len: pw_min_len,
+        passwd_type: passwd_type,
+        passwd_available: passwd_available,
+        send_url: send_url
+    };
+
+    $.post('/man/setting/orgUpdateSettings', postData, function(data) {
+        if (data.rt==0) {
+            warningOpen('操作成功！','primary','fa-check');
+        } else if (data.rt==5) {
+            toLoginPage();
+        } else {
+            warningOpen('其它错误 ' + data.rt +'！','danger','fa-bolt');
+        }
+    });
+
+}*/
