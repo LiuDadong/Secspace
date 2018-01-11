@@ -192,7 +192,6 @@ function getPolicyData(){
 }
 function add_policy(){
     var postData=getPolicyData();
-    postData.
     console.log(postData.policy_type+'围栏请求数据：')
     console.log(postData);
     $.post('/man/railpolicy/add_policy', postData, function(data) {
@@ -239,7 +238,7 @@ function mod_policy(){
 }
 var st = 2;
 // 设备策略列表
-function getPolicyList(start,length){   
+function getPolicyList(start,length){
     var status;
     var policy_type;
     var table = $('.policytable'),
@@ -262,7 +261,7 @@ function getPolicyList(start,length){
             for(var i in data.policies) {
                 status = data.policies[i].status == 1 ? '启用' : '禁用';
                 policy_type = data.policies[i].policy_type == 'timefence' ? '时间围栏' : '地理围栏';
-                str += '<tr policy_id='+ data.policies[i].id +'>'
+                str += '<tr>'
                     + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"/>'
                     + '<span class="text"></span></label></div></td>'
                     + '<td>' + data.policies[i].name + '</td>'
@@ -287,9 +286,67 @@ function getPolicyList(start,length){
             }
             str +='</table>';
             table.html(str);
+
             createFooter(start,length,data.total_count,1);
         } else if (data.rt==5) {
           toLoginPage();           
+        }
+    });
+    $('.hrefactive').removeClass("hrefallowed");
+    currentpage = start;
+}
+function NEWgetPolicyList(start,length){
+    var status;
+    var policy_type;
+    var table = $('.policytable'),
+        str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
+            + '<th class="sel" style="line-height:20px;"><div class="checkbox">'
+            + '<label><input type="checkbox" onclick="selectedAll(this)"/>'
+            + '<span class="text">全选</span></label></div></th>'
+            + '<th>名称</th>'
+            + '<th>类型</th>'
+            + '<th>状态</th>'
+            + '<th>创建者</th>'
+            + '<th>已应用/已下发</th>'
+            + '<th>更新时间</th>'
+            + '<th>操作</th></tr>';
+
+    var url = '/man/railpolicy/getRailpolicyList?start_page='+ start + '&page_length='+ length;
+    $.get(url, function(data) {
+        data = JSON.parse(data);
+        if (data.rt==0) {
+            for(var i in data.policies) {
+                status = data.policies[i].status == 1 ? '启用' : '禁用';
+                policy_type = data.policies[i].policy_type == 'timefence' ? '时间围栏' : '地理围栏';
+                str += '<tr>'
+                    + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"/>'
+                    + '<span class="text"></span></label></div></td>'
+                    + '<td>' + data.policies[i].name + '</td>'
+                    + '<td>' + policy_type + '</td>'
+                    + '<td>' + status + '</td>'
+                    + '<td>' + data.policies[i].creator + '</td>'
+                    + '<td>'
+                    + '<a href="javascript:devusers('+ i +');">' + data.policies[i].used + ' / ' + data.policies[i].issued +'</a>'
+                    + '</td>'
+                    + '<td>' + data.policies[i].update_time + '</td>'
+                    + '<td style="display:none;">' + data.policies[i].id + '</td>'
+                    + '<td style="display:none;">' + data.policies[i].in_fence + '</td>'
+                    + '<td style="display:none;">' + data.policies[i].out_fence + '</td>'
+                    + '<td style="display:none;">' + data.policies[i].policy_type + '</td>'
+                    + '<td style="display:none;">' + JSON.stringify(data.policies[i].site_range) + '</td>'
+                    + '<td style="display:none;">' + JSON.stringify(data.policies[i].time_limit) + '</td>'
+                    + '<td style="display:none;">' + data.policies[i].status + '</td>'
+                    + '<td>'
+                    + '<a href="javascript:modify('+ i +');">编辑</a>&nbsp;&nbsp;'
+                    + '<a href="javascript:view('+ i +');">详情</a>'
+                    + '</td></tr>';
+            }
+            str +='</table>';
+            table.html(str);
+
+            createFooter(start,length,data.total_count,1);
+        } else if (data.rt==5) {
+            toLoginPage();
         }
     });
     $('.hrefactive').removeClass("hrefallowed");
@@ -393,6 +450,7 @@ function user_remove(i){
 // 编辑
 function modify(i){
     var tr = $('.policytable table tr').eq(i+1);
+    console.log(tr)
     var id = tr.find('td').eq(7).text();
     var name = tr.find('td').eq(1).text(); 
     var policy_type = tr.find('td').eq(10).text(); 

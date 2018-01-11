@@ -15,6 +15,12 @@ module.exports = function(app, chttp) {
             res.render('login');
         }
     });
+    app.get('/test', function(req, res) {
+        res.render('test')
+    });
+    app.post('/test/xml', function(req, res) {
+        res.sendfile('xml.html');
+    });
 
     // 向/login端口post请求
     app.post('/login', function(req, res) {

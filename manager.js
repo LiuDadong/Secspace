@@ -1125,9 +1125,7 @@ module.exports = function(app, chttp) {
     app.post('/man/railpolicy/add_policy', function (req, res) {
         var postData = req.body;
         postData.sid=req.cookies.sid;
-        console.log(postData);
         chttp.cpost(postData,'/p/org/uploadFencePolicy', function (cont) {
-            console.log(cont);
             res.send(cont);
 
         });

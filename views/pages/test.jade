@@ -1,0 +1,28 @@
+doctype html
+html
+    head
+        meta(charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0")
+        title 登录页
+        style.
+            *{
+                padding: 0;
+                margin:0;
+            }
+            div{
+                height: 100px;
+            }
+    body
+        #header(style='background:red')
+            h3 头部
+        #table(style='background:yellow')
+            button(onclick='getxml()') 获取xml
+        #footer(style='background:blue')
+            h3 头部
+        script(src="/scripts/jquery.min.js")
+        script(type='text/javascript').
+            function getxml(){
+                $.post('/test/xml',function(data){
+                    console.log(data);
+                    $.('#table').html(data);
+                })
+            }
