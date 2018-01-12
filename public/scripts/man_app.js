@@ -168,7 +168,7 @@ function dev_list(i){
             for(var i in data.doc) {
                 strtab1 += '<tr>'
                         + '<td>' + data.doc[i].user_name + '</td>'
-                        + '<td>' + data.doc[i].dev_name + '</td>'
+                        + '<td class="dev_names" title='+data.doc[i].dev_name +'>' + data.doc[i].dev_name + '</td>'
                        // + '<td>' + data.doc[i].email + '</td>'
                         + '<td>已安装</td></tr>';              
             }
@@ -177,7 +177,7 @@ function dev_list(i){
                  + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
                  + '<h4 class="modal-title">已安装设备</h4>'
                  + '</div>'
-                 + '<div class="modal-body" style="max-height:340px;overflow-y:auto;">'
+                 + '<div class="modal-body">'
                  + strtab1
                  + '</div>'
                  + '<div class="modal-footer">'

@@ -14,15 +14,15 @@ html
     body
         #header(style='background:red')
             h3 头部
-        #table(style='background:yellow')
+        #tableBox(style='background:yellow')
             button(onclick='getxml()') 获取xml
         #footer(style='background:blue')
             h3 头部
         script(src="/scripts/jquery.min.js")
         script(type='text/javascript').
             function getxml(){
-                $.post('/test/xml',function(data){
+                $.get('/test/xml',function(data){
                     console.log(data);
-                    $.('#table').html(data);
+                    $('#tableBox').html(data);
                 })
             }

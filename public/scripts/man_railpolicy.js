@@ -11,6 +11,7 @@ $(function() {
     // 围栏策略列表
     getPolicyList(1,10); 
 });
+var railPolicies={};
 
 var mapObj = (function(){
     var map;
@@ -258,27 +259,28 @@ function getPolicyList(start,length){
     $.get(url, function(data) {
         data = JSON.parse(data);
         if (data.rt==0) {
-            for(var i in data.policies) {
-                status = data.policies[i].status == 1 ? '启用' : '禁用';
-                policy_type = data.policies[i].policy_type == 'timefence' ? '时间围栏' : '地理围栏';
+            railPolicies=data.policies;
+            for(var i in railPolicies) {
+                status = railPolicies[i].status == 1 ? '启用' : '禁用';
+                policy_type = railPolicies[i].policy_type == 'timefence' ? '时间围栏' : '地理围栏';
                 str += '<tr>'
                     + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"/>'
                     + '<span class="text"></span></label></div></td>'
-                    + '<td>' + data.policies[i].name + '</td>'
+                    + '<td>' + railPolicies[i].name + '</td>'
                     + '<td>' + policy_type + '</td>'
                     + '<td>' + status + '</td>'
-                    + '<td>' + data.policies[i].creator + '</td>'  
+                    + '<td>' + railPolicies[i].creator + '</td>'
                     + '<td>' 
-                    + '<a href="javascript:devusers('+ i +');">' + data.policies[i].used + ' / ' + data.policies[i].issued +'</a>'
+                    + '<a href="javascript:devusers('+ i +');">' + railPolicies[i].used + ' / ' + railPolicies[i].issued +'</a>'
                     + '</td>'  
-                    + '<td>' + data.policies[i].update_time + '</td>'
-                    + '<td style="display:none;">' + data.policies[i].id + '</td>' 
-                    + '<td style="display:none;">' + data.policies[i].in_fence + '</td>' 
-                    + '<td style="display:none;">' + data.policies[i].out_fence + '</td>' 
-                    + '<td style="display:none;">' + data.policies[i].policy_type + '</td>' 
-                    + '<td style="display:none;">' + JSON.stringify(data.policies[i].site_range) + '</td>' 
-                    + '<td style="display:none;">' + JSON.stringify(data.policies[i].time_limit) + '</td>' 
-                    + '<td style="display:none;">' + data.policies[i].status + '</td>' 
+                    + '<td>' + railPolicies[i].update_time + '</td>'
+                    + '<td style="display:none;">' + railPolicies[i].id + '</td>'
+                    + '<td style="display:none;">' + railPolicies[i].in_fence + '</td>'
+                    + '<td style="display:none;">' + railPolicies[i].out_fence + '</td>'
+                    + '<td style="display:none;">' + railPolicies[i].policy_type + '</td>'
+                    + '<td style="display:none;">' + JSON.stringify(railPolicies[i].site_range) + '</td>'
+                    + '<td style="display:none;">' + JSON.stringify(railPolicies[i].time_limit) + '</td>'
+                    + '<td style="display:none;">' + railPolicies[i].status + '</td>'
                     + '<td>'  
                     + '<a href="javascript:modify('+ i +');">编辑</a>&nbsp;&nbsp;'  
                     + '<a href="javascript:view('+ i +');">详情</a>'    
@@ -290,63 +292,6 @@ function getPolicyList(start,length){
             createFooter(start,length,data.total_count,1);
         } else if (data.rt==5) {
           toLoginPage();           
-        }
-    });
-    $('.hrefactive').removeClass("hrefallowed");
-    currentpage = start;
-}
-function NEWgetPolicyList(start,length){
-    var status;
-    var policy_type;
-    var table = $('.policytable'),
-        str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-            + '<th class="sel" style="line-height:20px;"><div class="checkbox">'
-            + '<label><input type="checkbox" onclick="selectedAll(this)"/>'
-            + '<span class="text">全选</span></label></div></th>'
-            + '<th>名称</th>'
-            + '<th>类型</th>'
-            + '<th>状态</th>'
-            + '<th>创建者</th>'
-            + '<th>已应用/已下发</th>'
-            + '<th>更新时间</th>'
-            + '<th>操作</th></tr>';
-
-    var url = '/man/railpolicy/getRailpolicyList?start_page='+ start + '&page_length='+ length;
-    $.get(url, function(data) {
-        data = JSON.parse(data);
-        if (data.rt==0) {
-            for(var i in data.policies) {
-                status = data.policies[i].status == 1 ? '启用' : '禁用';
-                policy_type = data.policies[i].policy_type == 'timefence' ? '时间围栏' : '地理围栏';
-                str += '<tr>'
-                    + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)"/>'
-                    + '<span class="text"></span></label></div></td>'
-                    + '<td>' + data.policies[i].name + '</td>'
-                    + '<td>' + policy_type + '</td>'
-                    + '<td>' + status + '</td>'
-                    + '<td>' + data.policies[i].creator + '</td>'
-                    + '<td>'
-                    + '<a href="javascript:devusers('+ i +');">' + data.policies[i].used + ' / ' + data.policies[i].issued +'</a>'
-                    + '</td>'
-                    + '<td>' + data.policies[i].update_time + '</td>'
-                    + '<td style="display:none;">' + data.policies[i].id + '</td>'
-                    + '<td style="display:none;">' + data.policies[i].in_fence + '</td>'
-                    + '<td style="display:none;">' + data.policies[i].out_fence + '</td>'
-                    + '<td style="display:none;">' + data.policies[i].policy_type + '</td>'
-                    + '<td style="display:none;">' + JSON.stringify(data.policies[i].site_range) + '</td>'
-                    + '<td style="display:none;">' + JSON.stringify(data.policies[i].time_limit) + '</td>'
-                    + '<td style="display:none;">' + data.policies[i].status + '</td>'
-                    + '<td>'
-                    + '<a href="javascript:modify('+ i +');">编辑</a>&nbsp;&nbsp;'
-                    + '<a href="javascript:view('+ i +');">详情</a>'
-                    + '</td></tr>';
-            }
-            str +='</table>';
-            table.html(str);
-
-            createFooter(start,length,data.total_count,1);
-        } else if (data.rt==5) {
-            toLoginPage();
         }
     });
     $('.hrefactive').removeClass("hrefallowed");
@@ -449,24 +394,14 @@ function user_remove(i){
 }
 // 编辑
 function modify(i){
-    var tr = $('.policytable table tr').eq(i+1);
-    console.log(tr)
-    var id = tr.find('td').eq(7).text();
-    var name = tr.find('td').eq(1).text(); 
-    var policy_type = tr.find('td').eq(10).text(); 
-    var in_fence = tr.find('td').eq(8).text()*1; 
-    var out_fence = tr.find('td').eq(9).text()*1; 
-    var time_limit = tr.find('td').eq(12).text();
-    var timeObj;
-    var site_range = tr.find('td').eq(11).text();        
-    var siteObj;
+    var railPolicyMod=railPolicies[i];
     $('.policylist, .addbtn, .viewbtn').css({'display':'none'});
     $('.policy_add, .modbtn').css({'display':'block'});
     $('.modpolicy').css({'display':'inline-block'});
-    $('input[name=policyid]').val(id);
-    $('input[name=name]').val(name);
+    $('input[name=policyid]').val(railPolicyMod.id);
+    $('input[name=name]').val(railPolicyMod.name);
     $('.policy_add select[name=policy_type]').attr("disabled",true);
-   
+    $('input[name=name]').val(railPolicyMod.name);
     var str = '';
     if($('select[name=in_fence] li').length < 1){
         $.get('/man/policy/getUsedDevPolicy', function(data) {  // 获取已经启用策略列表
@@ -480,22 +415,22 @@ function modify(i){
                 }
                 $('select[name=in_fence]').html(str);
                 $('select[name=out_fence]').html(str);
-                $('select[name=in_fence]').val(in_fence);
-                $('select[name=out_fence]').val(out_fence);
+                $('select[name=in_fence]').val(railPolicyMod.in_fence);
+                $('select[name=out_fence]').val(railPolicyMod.out_fence);
             } else {
                 warningOpen('获取已启用策略失败！','danger','fa-bolt');
             }
         });
     } else {
-        $('select[name=in_fence]').val(in_fence);
-        $('select[name=out_fence]').val(out_fence);
+        $('select[name=in_fence]').val(railPolicyMod.in_fence);
+        $('select[name=out_fence]').val(railPolicyMod.out_fence);
     }
     
-    if(policy_type === 'timefence'){
+    if(railPolicyMod.policy_type === 'timefence'){
+        var timeObj = railPolicyMod.time_limit;
         $(".addresspolicy").css({'display':'none'});
         $(".timepolicy").css({'display':'block'});
         $('select[name=policy_type]').val(2);
-        timeObj = JSON.parse(time_limit);
         timeObj.repeat_type == 1 ? $(".everyweek").css({'display':'block'}) :
         $(".everyweek").css({'display':'none'});
         $('select[name=repeat_type]').val(timeObj.repeat_type);
@@ -505,11 +440,14 @@ function modify(i){
         $('input[name=stop_time]').val(timeObj.stop_time);
         $('input[name=start_time]').val(timeObj.start_time);
     } else {
-
+        var siteObj = railPolicyMod.site_range;
+        var wifiObj = railPolicyMod.wifi_limit;
         $(".timepolicy").css({'display':'none'});
         $(".addresspolicy").css({'display':'block'});
-        $('select[name=policy_type]').val(1);
-        siteObj = JSON.parse(site_range);
+        $('select[name=policy_type]').val(1)
+        $('input[name=gps]').attr('checked',railPolicyMod.gps==1);
+        $('input[name=wifi]').attr('checked',wifiObj.open==1);
+        $('input[name=ssid]').val(wifiObj.ssid.join(' '));
         var pointer = siteObj.site.split(',');
         var map = mapObj.getInstance();
         var zoomindex = 12;

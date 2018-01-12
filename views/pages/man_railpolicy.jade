@@ -49,7 +49,7 @@ block content
                             .form-group
                                 div(class="col-lg-6 col-xs-6 col-sm-8 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
                                     label(class="control-label" for = "name" style="width:110px;")
-                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;")
+                                        i(class="icon glyphicon glyphicon-asterisk" style="color:red; font-size:12px;margin-right:10px;margin-left:-5px")
                                         label 名称
                                     .adddiv(style="left: 140px;")
                                         input(type="text" name="policyid" style="display:none;")
@@ -137,9 +137,9 @@ block content
                             a(href="javascript:minmap()" class="addressicon2")
                                 i(class="icon glyphicon glyphicon-resize-small")
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
-                            .form-group
+                            .form-group(style='padding:20px 0')
                                 div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
-                                    label(class="control-label" for = "gps" style="width:150px;padding-left:22px;") 关闭GPS限置
+                                    label(class="control-label" for = "gps" style="width:150px;padding-left:22px;") 关闭GPS限制
                                     .adddiv(style="left:180px;width:450px;")
                                         label(class="cursor")
                                             input(type="checkbox" name="gps")
@@ -152,7 +152,7 @@ block content
                                         label(class="cursor")
                                             input(type="checkbox" name="wifi")
                                             span(class="text") 设备连接指定Wifi后视为在围栏内
-                                        input(type="text" name="ssid" placeholder="请输入SSID")
+                                        input(type="text" class='form-control' name="ssid" placeholder="请输入SSID")
                     .widget-header(style="height:40px;")
                         p(style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;") 围栏内策略
                     .widget-body(style="overflow: hidden;")

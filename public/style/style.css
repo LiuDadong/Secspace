@@ -58,7 +58,6 @@ a, a:hover {
 td,.devinfo li{
 	overflow:hidden;
 	white-space:nowrap;
-	text-overflow:ellipsis;
 	text-overflow: ellipsis;/* IE/Safari */
 	-ms-text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;/* Opera */
@@ -347,7 +346,22 @@ td,.devinfo li{
 	margin-bottom: 10px;
 }
 .modal-dialog{
-	margin: 85px auto auto auto;
+	margin: 30vh auto auto auto;
+}
+.modal-dialog .modal-body{
+	max-height:300px;
+	margin:0 auto;
+	overflow-y:auto;
+	padding: 20px 30px;
+}
+.modal-dialog .modal-body table{
+	border-top: 4px solid #ddd;
+	border-bottom: 3px solid #ddd;
+}
+.modal-dialog .modal-body table tbody tr>*:nth-child(2){
+	max-width: 140px;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
 }
 .imge-thumbnail {
   display: inline-block;
@@ -591,4 +605,3 @@ th{
 td{
 	text-align: center;
 }
-

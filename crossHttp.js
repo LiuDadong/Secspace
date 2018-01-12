@@ -63,7 +63,7 @@ exports.cget = function (url, fun) {
             fun(cont);
         });
     }).on('error', function (err) {
-        console.log("跨越cget报错:");
+        console.log("跨越cget报错111111:");
         console.log(err.message)
     });
 };
@@ -94,7 +94,7 @@ exports.cpost = function (postData, url, fun) {
             //hostname: '127.0.0.1',
             hostname:domain,
             path: url,
-            port: 1443,
+            port: port?port:80,
             method: 'post',
             headers: {
                 'Content-Length': postData.length,

@@ -410,7 +410,6 @@ function mod_policy(){
         dev_security["passwd_type"] = $('select[name=passwd_type]').val();
         dev_security["pw_fail_count"] = $('select[name=pw_fail_count]').val();
         dev_security["available_time"] = $('select[name=available_time]').val();
-
         dev_limit["camera"] = document.getElementById('camera').checked == true ? 1 : 0;
         dev_limit["wifi"] = document.getElementById('wifi').checked == true ? 1 : 0;
         dev_limit["recording"] = document.getElementById('recording').checked == true ? 1 : 0;
