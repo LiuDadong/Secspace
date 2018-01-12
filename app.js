@@ -13,7 +13,7 @@ app.use(require('body-parser').urlencoded({extended:false}));
 app.use(require('cookie-parser')());
 
 /* 跨域访问 */
-var chttp = require('./crosshttp.js');
+var chttp = require('./crossHttp.js');
 
 /* 登陆页面 */
 require('./login.js')(app, chttp);
