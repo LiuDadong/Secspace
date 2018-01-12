@@ -81,22 +81,7 @@ module.exports = function(app, chttp) {
             res.redirect('/');                    
         }
     });
-    // 用户标签管理
-    app.get('/man/usertag', function(req, res) {
-        var sid = req.cookies.sid;
-        if(sid) {
-            res.render('man_usertag', {
-                sid: sid,
-                admin: req.cookies.admin,
-                email: req.cookies.email,
-                passwd: req.cookies.passwd,
-                title: '用户标签管理',
-                logout: '/logout/man'
-            });
-        } else {
-            res.redirect('/');
-        }
-    });
+
 
     // 设备管理
     app.get('/man/device', function(req, res) {
