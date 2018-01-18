@@ -342,8 +342,7 @@ td,.devinfo li{
 	margin:0;
 }
 .setting .row{
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin: 10px auto;
 }
 .modal-dialog{
 	margin: 30vh auto auto auto;
@@ -561,39 +560,64 @@ input.checkbox-slider[type="checkbox"] + .text::before {
 }
 /* rail policy */
 .address{
-	height: 300px;
+	height: 100%;
 	border: 1px solid #ccc;
 	border-radius: 3px;
 }
-#searchaddress{
-	position: absolute;
-	z-index: 1000;
-	margin-left: -156px;
-	margin-top: 10px;
-	border-radius: 3px 3px 3px 3px !important;
+#mapwrap{
+	padding: 0;
+	height: 400px;
 }
-.addressicon, .addressicon2{
+#mapwrap .mapEle{
 	position: absolute;
 	z-index: 1000;
-	margin-left: -30px;
-	font-size: 18px;
+	font-size: 20px;
 	color: #999;
 	background: #fff;
 	border: 1px solid #ccc;
-	width: 25px;
-	height: 25px;
-	text-align: center;
+	border-radius: 3px 3px 3px 3px!important;
+	box-shadow: 0 0 2px #999;
+}
+
+#mapwrap .mapBtn{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 36px;
+	height: 36px;
 	border-radius: 3px 3px 3px 3px;
 }
-.addressicon{
-	margin-top: 270px;
+
+#mapwrap .mapBtn:hover{
+	color: #18A4DA;
+	transform: scale(1.1);
+	box-shadow: 0 0 3px #999;
 }
-.addressicon2{
-	margin-top: 620px;
+
+#mapwrap #inputSearch{
+	right: 82px;
+	bottom: 20px;
+	padding: 0 0.5em;
+	line-height: 34px;
+}
+#mapwrap #btnSearch{
+	bottom: 20px;
+	right: 50px;
+}
+#mapwrap #btnReset{
+	bottom: 20px;
+	right: 10px;
+}
+#mapwrap .amap-geo{
 	display: none;
 }
+#mapwrap #btnResize{
+	top: 10px;
+	right: 10px;
+}
+
 .maxmap{
-	height: 650px !important;
+	height: 550px !important;
 }
 .deleteicon{
 	cursor: pointer;

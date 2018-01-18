@@ -129,13 +129,16 @@ block content
                                             label(style="width:40px;") 范围
                                             label(class="radius" style="font-weight:normal;")
                                             label(style="width:20px;text-align:right;") 米
-                        .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;padding-right:0px;")
-                            .address(id="address" class="col-lg-7 col-xs-10 col-sm-10 col-lg-offset-3 col-xs-offset-1 col-sm-offset-1")
-                            input(type="text" id = "searchaddress" name="searchaddress" placeholder="🔍搜索地址")
-                            a(href="javascript:bridgemap()" class="addressicon")
-                                i(class="icon glyphicon glyphicon-fullscreen")
-                            a(href="javascript:minmap()" class="addressicon2")
-                                i(class="icon glyphicon glyphicon-resize-small")
+                        .row(class="col-xs-12 col-md-12")
+                            #mapwrap(class="col-lg-8 col-xs-10 col-sm-10 col-lg-offset-2 col-xs-offset-1 col-sm-offset-1")
+                                .address(id="address" )
+                                input(type="text" id = "inputSearch" name="searchaddress" class="mapEle" placeholder="请输入地址关键字...")
+                                button(class="mapEle mapBtn" id="btnSearch" title="搜索" )
+                                    i(class="icon glyphicon glyphicon-search")
+                                button(class="mapEle mapBtn" id="btnReset" title="重置")
+                                    i(class="icon glyphicon glyphicon-record")
+                                button(class="mapEle mapBtn" id="btnResize" onclick="mapResize(this)" title="大图")
+                                    i(class="icon glyphicon glyphicon-fullscreen")
                         .row(class="col-xs-12 col-md-12" style="margin-bottom:0px;margin-top:0px;")
                             .form-group(style='padding:20px 0')
                                 div(class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-2")
@@ -177,7 +180,7 @@ block content
                                     label(class="control-label" style="width:110px; padding-left:22px;")
                                     .adddiv(style="left:140px;text-align:center;margin-top:14px;")
                                         .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;text-align:right;")
-                                            a(class="btn" href="javascript:policylist()" style="width:78px;") 取消
+                                            a(class="btn" href="javascript:policylist()" style="width:78px;") 返回
                                         .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px; text-align:left;" class="addbtn")
                                             a(class="btn btn-primary" href="javascript:add_policy()" style="width:78px;") 保存
                                         .div(class="col-lg-6 col-xs-6 col-sm-6" style="padding-top:10px;display:none;text-align:left;" class="modbtn")
@@ -225,12 +228,18 @@ block content
     script(async="true" src="/scripts/jquery.min.js")
     script(src="/scripts/jedate/jquery-1.7.2.js")
     script(src="/scripts/jedate/jquery.jedate.js")
-    script(type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=44ffc5b6029cb5a30b0a83e36577079d")
-    script(type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js")
-    script(type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=44ffc5b6029cb5a30b0a83e36577079d")
-    script(type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js")
+    script(type='text/javascript').
+        var scriptTag=document.createElement("script");
+        $(scriptTag).attr('src','http://webapi.amap.com/maps?v=1.4.3&key=44ffc5b6029cb5a30b0a83e36577079d')
+        if(window.location.protocol==="https:"){
+            $(scriptTag).attr('src','https://webapi.amap.com/maps?v=1.4.3&key=44ffc5b6029cb5a30b0a83e36577079d')
+        }
+        $('body')[0].append(scriptTag);
+        scriptTag=null;
+    script(type="text/javascript" src="/assets/js/amap.lbs.js")
     script(async="true" src="/scripts/man_railpolicy.js")
     script(type='text/javascript').
+
         $(".stop_date").jeDate({
             format: "YYYY-MM-DD"
         });

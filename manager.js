@@ -116,7 +116,7 @@ module.exports = function(app, chttp) {
     });
 
     // 围栏策略
-    app.get('/man/railpoliicy', function(req, res) {
+    app.get('/man/railpolicy', function(req, res) {
         var sid = req.cookies.sid;
         if(sid) {
             res.render('man_railpolicy', {

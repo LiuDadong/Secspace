@@ -5,7 +5,6 @@
  */
 
 $(function() {
-    console.time('Timer4');
     $('.firstmenu').addClass('active');
     $('body').addClass('first');
   
@@ -44,8 +43,6 @@ $(function() {
             
         }
     });
-    console.timeEnd('Timer4');
-    
 });
 
 //绘画圆形百分比函数

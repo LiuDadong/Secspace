@@ -7,19 +7,19 @@ html
         meta(http-equiv="last-modified" content="Sun,05 Nov 2017 13:45:57 GMT")
         title #{ title }
         link(rel="shortcut icon" href="/imgs/16.ico" type="image/x-icon")
-        link(href="/assets/css/colorpicker.css" rel="stylesheet")
-        link(href="/assets/css/bootstrap.min.css" rel="stylesheet")
-        link(id="bootstrap-rtl-link" href="" rel="stylesheet")
-        link(href="/assets/css/font-awesome.min.css" rel="stylesheet")
-        link(id="beyond-link" href="/assets/css/beyond.min.css" rel="stylesheet")
-        link(id="skin-link" href="" rel="stylesheet" type="text/css")
-        link(href="/scripts/jedate/skin/jedate.css" rel="stylesheet")
-        link(id="beyond-link" href="/assets/css/beyond.min.css" rel="stylesheet")
-        link(href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet")
-        link(rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css")
+        link(rel="stylesheet" href="/assets/css/colorpicker.css")
+        link(rel="stylesheet" href="/assets/css/bootstrap.min.css")
+        link(rel="stylesheet" href="/assets/css/font-awesome.min.css")
+        link(rel="stylesheet" href="/scripts/jedate/skin/jedate.css")
+        link(rel="stylesheet" href="/assets/css/amaps")
         link(rel="stylesheet" href="/style/style.css")
+        //控制共有导航行为
+        link(rel="stylesheet" href="" id="bootstrap-rtl-link")
+        link(rel="stylesheet" href="/assets/css/beyond.min.css" id="beyond-link")
+        link(rel="stylesheet" href="" type="text/css" id="skin-link")
+        link(rel="stylesheet" href="/assets/css/beyond.min.css")
         script(src="/assets/js/skins.min.js")
-    body   
+    body
         .navbar
             .navbar-inner
                 .navbar-container
@@ -132,7 +132,7 @@ html
                                     a(href="javascript:selectedBt('/man/compliance')")
                                         span(class="menu-text") 合规策略
                                 li
-                                    a(href="javascript:selectedBt('/man/railpoliicy')")
+                                    a(href="javascript:selectedBt('/man/railpolicy')")
                                         span(class="menu-text") 围栏策略
                                 li
                                     a(href="javascript:selectedBt('/man/apppolicy')")

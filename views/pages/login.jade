@@ -29,6 +29,14 @@ html
         script(src="/scripts/jquery.min.js")        
         script(src="/scripts/login.js" defer="true")
         script(src="/scripts/jquery.form.min.js" defer="true")
-        script(type="text/javascript" src="http://tool.keleyi.com/ip/visitoriphost/" defer="true")
+        script(type='text/javascript').
+            var scriptTag=document.createElement("script");
+                $(scriptTag).attr('src','http://tool.keleyi.com/ip/visitoriphost/')
+                $(scriptTag).attr('defer','true');
+            if(window.location.protocol==="https:"){
+                $(scriptTag).attr('src','https://tool.keleyi.com/ip/visitoriphost/')
+            }
+            $('body')[0].append(scriptTag);
+            scriptTag=null;
         script(type='text/javascript').
             setTimeout("$('input[name=dev_ip]').val($('#keleyivisitorip').text())",1000);

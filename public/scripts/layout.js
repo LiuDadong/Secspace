@@ -225,7 +225,7 @@ function authpolicy(){
              + '</div>'
              + '<div class = "form-group" style="text-align:center;">' 
              + '<div class="col-sm-4 col-sm-offset-2">'
-             + '<a href="javascript:selectedBt(\'/man/railpoliicy\')" class="btn btn-primary btn-large">'
+             + '<a href="javascript:selectedBt(\'/man/railpolicy\')" class="btn btn-primary btn-large">'
              + '围栏策略'
              + '</a>'
              + '</div>' 

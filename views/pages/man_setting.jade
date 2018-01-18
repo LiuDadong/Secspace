@@ -123,7 +123,7 @@ block content
                                         input(type="number" name="passwd_available" class = "form-control" id = "passwd_available" min=1 max=365 value=0)
                                     label(class="col-lg-6 col-xs-4 col-sm-4 control-label") 天
                             .row(class="col-xs-12 col-md-12")
-                                h5(title="控制安全空间内应用对摄像头的访问") 空间应用摄像头设置
+                                h5(title="控制安全空间内应用对摄像头的访问") 应用摄像头设置
                             .row(class="col-xs-12 col-md-12")
                                 .form-group
                                     label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 禁止访问
@@ -145,6 +145,18 @@ block content
                                             span(class="text") 开启
                                         label(class="col-xs-7 col-md-6")
                                             input(name="screenshot" type="radio" value="0")
+                                            span(class="text") 关闭
+                            .row(class="col-xs-12 col-md-12")
+                                h5 安全空间卸载权限
+                            .row(class="col-xs-12 col-md-12")
+                                .form-group
+                                    label(class="col-lg-3 col-xs-4 col-sm-4 control-label") 禁止卸载
+                                    .inforow(class="col-lg-3 col-xs-4 col-sm-4")
+                                        label(class="col-xs-5 col-md-6")
+                                            input(name="forbid_unload" type="radio" value="1")
+                                            span(class="text") 开启
+                                        label(class="col-xs-7 col-md-6")
+                                            input(name="forbid_unload" type="radio" value="0")
                                             span(class="text") 关闭
                                     .widget-btn(class="col-lg-5 col-xs-2 col-sm-2 col-lg-offset-1 col-sm-offset-1 col-xs-1")
                                         button(type="button" class="btn btn-primary" onclick="formAjax(setCallback)") 保存
