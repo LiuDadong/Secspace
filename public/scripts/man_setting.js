@@ -7,10 +7,6 @@
 $(function() {
     $('.setmenu').addClass('open active');
     $('.setmenu').find('li').eq(1).addClass('active');
-    localStorage.setItem('myCat', 'Tom');
-    localStorage.setItem('myCat', JSON.stringify({name:'Tom',hobbies:['xrd',3232,{x:1,y:'xx'}]}));
-    console.log(JSON.parse(localStorage.getItem('myCat')));
-
     hosturl = localStorage.getItem("appssec_url") + '/';
     var acturl = hosturl + 'p/org/orgUpdateSettings';  
     document.getElementById("addimg").action=acturl;

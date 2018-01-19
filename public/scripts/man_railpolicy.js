@@ -26,9 +26,11 @@ function mapAdjust(map, circle, delay) {
             r = 50000;
             circle.setRadius(r);
         }
-        map.setZoomAndCenter(zoom(r), circle.getCenter());
+        var cirCenter=circle.getCenter();
+        map.setZoomAndCenter(zoom(r), [cirCenter.lng,cirCenter.lat]);
     }, delay)
     function zoom(r) {   //根据圆形围栏半径获取合适的缩放比zoom
+        r=1*r;
         var z,
             s = 35; //控制自动调整边界
         z = 18 - Math.floor(Math.log((r >= s ? r : s) / s) / Math.log(2));
@@ -36,6 +38,7 @@ function mapAdjust(map, circle, delay) {
     }
 }
 function mapInit() {
+
     var initSite = [116.397428,39.90923],// 圆心位置(天安门)
         initRadius = 300,
         map = new AMap.Map("address", {
@@ -52,7 +55,7 @@ function mapInit() {
             fillOpacity: 0.15//填充透明度
         });
     map.plugin(["AMap.CircleEditor"], function () {
-        var timer;
+        var timer
         circleEditor = new AMap.CircleEditor(map, circle);
         circleEditor.open();
         circleEditor.on('adjust', function (e) {
@@ -72,8 +75,8 @@ function mapInit() {
     });
     if(arguments[0]){
         var initPolicy=arguments[0];
-        initSite=initPolicy.site_range.site;
-        initRadius=initPolicy.site_range.range;
+        initSite=initPolicy.site_range.site.split(',');
+        initRadius= parseInt(initPolicy.site_range.range);
         init();
     }else{
         geoLocate();
@@ -108,6 +111,7 @@ function mapInit() {
         map.addControl(ToolBar);
         ToolBar.hideLocation();
     });
+
     map.plugin(["AMap.PlaceSearch"], function () {
         var placeSearch = new AMap.PlaceSearch({ //构造地点查询类
             pageSize: 1,
@@ -145,13 +149,13 @@ function mapInit() {
             lat = e.lnglat.getLat();
         circle.setCenter([lng, lat])
         mapAdjust(this, circle, 0);
-        $('.pointer').html(lng + ', ' + lat);
+        $('.pointer').html(lng + ',' + lat);
     });
     function init(){   //基于initSite,initRadius重置地图
         try{
             circle.setCenter(initSite);
             circle.setRadius(initRadius);
-            $('.pointer').html(initSite.join(', '));
+            $('.pointer').html(initSite.join(','));
             $('.radius').html(initRadius);
             mapAdjust(map,circle,100);
         }catch(err){
@@ -240,8 +244,8 @@ function getPolicyData() {
         case '1':   //地理围栏
             policy_type = "geofence";
             var site_range = {
-                site: $('.pointer').text().split(','),
-                range: $('.radius').text() * 1
+                site: $('.pointer').text(),
+                range: $('.radius').text()
             };
             var ssid = $('input[name=ssid]').val().replace(/\s+/g, ' '); //替换多空格为单空格
             if (ssid.charAt(ssid.length - 1) === ' ') {
@@ -541,7 +545,7 @@ function modify(i) {
         $('input[name=gps]').attr('checked', railPolicyMod.gps == 1);
         $('input[name=wifi]').attr('checked', wifiObj.open == 1);
         $('input[name=ssid]').val(wifiObj.ssid.join(' '));
-        $('.pointer').html(siteObj.site.join(','));
+        $('.pointer').html(siteObj.site);
         $('.radius').html(siteObj.range);
         mapObj = mapInit(railPolicyMod);
         mapAdjust(mapObj.map, mapObj.circle, 0);

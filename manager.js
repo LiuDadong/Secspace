@@ -1120,7 +1120,6 @@ module.exports = function(app, chttp) {
     app.post('/man/railpolicy/mod_policy', function (req, res) {
         var postData = req.body;
         postData.sid=req.cookies.sid;
-        console.log(postData);
         chttp.cpost(postData, '/p/org/updateFencePolicy', function (cont) {
             res.send(cont);
         });

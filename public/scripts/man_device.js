@@ -3,7 +3,7 @@
  *                          设备管理 device
  * ==================================================================
  */
-
+var devices={};
 $(function() { 
     $('.devicemenu').addClass('open active');
     $('.devicemenu').find('li').eq(0).addClass('active');
@@ -57,6 +57,7 @@ function getDeviceList(start_page,page_length){
     $.get('/man/dev/getDevList?start_page='+start_page+'&page_length='+page_length, function(data) {
         var online='';
         data = JSON.parse(data);
+        devices=data.doc;
         if (data.rt== 0) {
             for(var i in data.doc) {
                 online = (data.doc[i].online == 1) ? '在线':'离线';
@@ -128,38 +129,41 @@ function checkmap(){
     }
 }
 // 获取设备详细信息
-function getDetail(i){
-
+function devDetail(i){
+    var dev=devices[i];
+    console.log(dev);
     var _tr = $('.devicetable table tr').eq(i+1);
-    var devObj;
     var appObj1,appObj;
-    var dev_info = _tr.find('td').eq(7).text();
-    var app_list = _tr.find('td').eq(9).text() || '{}'; 
-       
-    var last_online = _tr.find('td').eq(4).text();   
-    if(dev_info.length > 0 && dev_info != "undefined"){
-        devObj = JSON.parse(dev_info);
+    var devInfo = dev.dev_info;
+    var devAppList = dev.app_list.app_info_list;
+    var devSystem = dev.dev_system;
+    console.log(dev_info)
+    console.log(app_list)
+    if(devInfo){
         $('.devicelist').css({'display':'none'});
         $('.device').css({'display':'block'});
         $('.deviceinfo').css({'display':'inline-block'});
-
         $('#myTab5 li').removeClass('active');
         $('#myTab5 li').eq(0).addClass('active');
         $('.tab-content div').removeClass('active');
         $('#tab1').addClass('active');
 
-        var devicename = _tr.find('td').eq(1).text(),
-            lasttime = _tr.find('td').eq(5).text(),
-            status = _tr.find('td').eq(6).text(),
-            userid = _tr.find('td').eq(10).text(),
-            dev_id = _tr.find('td').eq(8).text();
+        var devicename = dev.dev_name,
+            lasttime = dev.last_online,
+            status = dev.online==1?'在线':'离线',
+            uid = dev.uid,
+            dev_id = dev.dev_id;
+        console.log(lasttime)
+        console.log(status)
+        console.log(uid)
+        console.log(dev_id)
         var strtab1 = '';
         var strtab4 = '';
         var strtab2 = '';
 
         $('.devicename').text('设备名称 : '+devicename);
         $('.lasttime').text('上一次在线时间 : '+lasttime);
-        $('.imei').text('IMEI : '+devObj.imei);
+        $('.imei').text('IMEI : '+devInfo.imei);
         $('.status').text('目前状态 : '+status);
         var reset = '<li class="list-group-item" style="border:none;">'
                   + '<img class="img-circle" src="../imgs/reset.png" onclick="sendCmd(\'reset\',\''+dev_id+'\')"/></li>'
@@ -179,34 +183,34 @@ function getDetail(i){
         $('.lockpwd').html(lockpwd);
 
         // tab1 设备基本信息 
-        var ulinfo1 = '<li class="list-group-item" style="border:none;">'+devObj.manufacture+'</li>'
-                    + '<li class="list-group-item" style="border:none;">'+devObj.screen_resolution+'</li>'
-                    + '<li class="list-group-item" style="border:none;">'+devObj.screen_size+'</li>'
-                    + '<li class="list-group-item" style="border:none;">'+devObj.system_language+'</li>'
-                    + '<li class="list-group-item" style="border:none;">'+devObj.battery+'</li>'
-                    + '<li class="list-group-item" style="border:none;">'+devObj.sim_supportor+'</li>';
+        var ulinfo1 = '<li class="list-group-item" style="border:none;">'+devInfo.manufacture+'</li>'
+                    + '<li class="list-group-item" style="border:none;">'+devInfo.screen_resolution+'</li>'
+                    + '<li class="list-group-item" style="border:none;">'+devInfo.screen_size+'</li>'
+                    + '<li class="list-group-item" style="border:none;">'+devInfo.system_language+'</li>'
+                    + '<li class="list-group-item" style="border:none;">'+devInfo.battery+'</li>'
+                    + '<li class="list-group-item" style="border:none;">'+devInfo.sim_supportor+'</li>';
         $('.ulinfo1').html(ulinfo1);
-        var ulinfo2 = '<li class="list-group-item" style="border:none;">'+devObj.model_number+'</li>'
-                    + '<li class="list-group-item" style="border:none;">'+devObj.cpu_name+'</li>'
-                    + '<li class="list-group-item" style="border:none;">'+devObj.cpu_count+'</li>'
-                    + '<li class="list-group-item" style="border:none;">'+devObj.memory_total+'</li>'
-                    + '<li class="list-group-item" style="border:none;">'+devObj.phone_type+'</li>'
-                    + '<li class="list-group-item" style="border:none;">'+devObj.serial+'</li>';
+        var ulinfo2 = '<li class="list-group-item" style="border:none;">'+devInfo.model_number+'</li>'
+                    + '<li class="list-group-item" style="border:none;">'+devInfo.cpu_name+'</li>'
+                    + '<li class="list-group-item" style="border:none;">'+devInfo.cpu_count+'</li>'
+                    + '<li class="list-group-item" style="border:none;">'+devInfo.memory_total+'</li>'
+                    + '<li class="list-group-item" style="border:none;">'+devInfo.phone_type+'</li>'
+                    + '<li class="list-group-item" style="border:none;">'+devInfo.serial+'</li>';
         $('.ulinfo2').html(ulinfo2);
 
         // tab2 设备网络信息
-        var netinfo1 = '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.phone_number+'</li>'
-            + '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.isrouting+'</li>'
-            + '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.sim_provider+'</li>'
+        var netinfo1 = '<li class="list-group-item" style="border:none;">'+devInfo.devicemobileinfo.phone_number+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devInfo.devicemobileinfo.isrouting+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devInfo.devicemobileinfo.sim_provider+'</li>'
             + '<li class="list-group-item" style="border:none;">－－</li>';
         $('.netinfo1').html(netinfo1);
         var netinfo2 = '<li class="list-group-item" style="border:none;">－－</li>'
             + '<li class="list-group-item" style="border:none;">－－</li>'
             + '<li class="list-group-item" style="border:none;">－－</li>'
-            + '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.network_type+'</li>';
+            + '<li class="list-group-item" style="border:none;">'+devInfo.devicemobileinfo.network_type+'</li>';
         $('.netinfo2').html(netinfo2);
-        var netinfo3 = '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.device_wifi_info.bssid+'</li>'
-            + '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.device_wifi_info.ip_address+'</li>';
+        var netinfo3 = '<li class="list-group-item" style="border:none;">'+devInfo.devicemobileinfo.device_wifi_info.bssid+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devInfo.devicemobileinfo.device_wifi_info.ip_address+'</li>';
         $('.netinfo3').html(netinfo3);
         var netinfo4 = '<li class="list-group-item" style="border:none;">'+lasttime+'</li>'
             + '<li class="list-group-item" style="border:none;">－－</li>';
@@ -266,7 +270,7 @@ function getDetail(i){
                     })
                     $("#result").text('位置：这台设备没有定位信息');
                 }
-                warningOpen('设备没有详细信息地址！','danger','fa-bolt');   
+                warningOpen('设备没有详细地址信息！','danger','fa-bolt');
             } else if (data.rt==5) {
                toLoginPage();
             } else {
@@ -284,18 +288,191 @@ function getDetail(i){
                 + '<th>版本</th>'
                // + '<th>安全状态</th>'
                 + '<th>安装位置</th></tr>';
-        for(var i in appObj) { 
+
+        for(var i in appObj) {
+            var apptype=appObj[i].is_system_app?'系统应用':'空间应用';
+            console.log(apptype)
             strtab4 += '<tr>'
-                + '<td>' + appObj[i].app_name + '</td>'
-                + '<td>' + appObj[i].package_name + '</td>'
-                + '<td>' + appObj[i].version_name + '</td>' 
-              //  + '<td>－－</td>'
-                + '<td>－－</td></tr>';
-            }
+            + '<td>' + appObj[i].app_name + '</td>'
+            + '<td>' + appObj[i].package_name + '</td>'
+            + '<td>' + appObj[i].version_name + '</td>'
+            + '<td>' + apptype + '</td>';
+        }
         strtab4 +='</table>';
         $('.applist').html(strtab4);
     }else{
-        warningOpen('设备没有详细信息信息！','danger','fa-bolt');
+        warningOpen('设备没有详细地址信息！','danger','fa-bolt');
+    }
+}
+function getDetail(i){
+    var dev=devices[0];
+    console.log(dev);
+    var _tr = $('.devicetable table tr').eq(i+1);
+    var devObj;
+    var appObj1,appObj;
+    var dev_info = _tr.find('td').eq(7).text();
+    var app_list = _tr.find('td').eq(9).text() || '{}';
+
+    var last_online = _tr.find('td').eq(4).text();
+    if(dev_info.length > 0 && dev_info != "undefined"){
+        devObj = JSON.parse(dev_info);
+        $('.devicelist').css({'display':'none'});
+        $('.device').css({'display':'block'});
+        $('.deviceinfo').css({'display':'inline-block'});
+
+        $('#myTab5 li').removeClass('active');
+        $('#myTab5 li').eq(0).addClass('active');
+        $('.tab-content div').removeClass('active');
+        $('#tab1').addClass('active');
+
+        var devicename = _tr.find('td').eq(1).text(),
+            lasttime = _tr.find('td').eq(5).text(),
+            status = _tr.find('td').eq(6).text(),
+            userid = _tr.find('td').eq(10).text(),
+            dev_id = _tr.find('td').eq(8).text();
+        var strtab1 = '';
+        var strtab4 = '';
+        var strtab2 = '';
+
+        $('.devicename').text('设备名称 : '+devicename);
+        $('.lasttime').text('上一次在线时间 : '+lasttime);
+        $('.imei').text('IMEI : '+devObj.imei);
+        $('.status').text('目前状态 : '+status);
+        var reset = '<li class="list-group-item" style="border:none;">'
+            + '<img class="img-circle" src="../imgs/reset.png" onclick="sendCmd(\'reset\',\''+dev_id+'\')"/></li>'
+            + '<li class="list-group-item" onclick="sendCmd(\'reset\',\''+dev_id+'\')" style="border:none;">擦除全部数据</li>';
+        $('.reset').html(reset);
+        var bell = '<li class="list-group-item" style="border:none;">'
+            + '<img class="img-circle" src="../imgs/bell.png" onclick="sendCmd(\'bell\',\''+dev_id+'\')"/></li>'
+            + '<li class="list-group-item" onclick="sendCmd(\'bell\',\''+dev_id+'\')" style="border:none;">响铃追踪</li>';
+        $('.bell').html(bell);
+        var lock = '<li class="list-group-item" style="border:none;">'
+            + '<img class="img-circle" src="../imgs/lock.png" onclick="sendCmd(\'lockscreen\',\''+dev_id+'\')"/></li>'
+            + '<li class="list-group-item" onclick="sendCmd(\'lockscreen\',\''+dev_id+'\')" style="border:none;">锁屏</li>';
+        $('.lock').html(lock);
+        var lockpwd = '<li class="list-group-item" style="border:none;"><input name="userid" value="'+userid+'" style="display:none;"/>'
+            + '<img class="img-circle" src="../imgs/lockpwd.png" onclick="updatescreenpw(\''+dev_id+'\')"/></li>'
+            + '<li class="list-group-item" onclick="updatescreenpw(\''+dev_id+'\')" style="border:none;">锁屏密码</li>';
+        $('.lockpwd').html(lockpwd);
+
+        // tab1 设备基本信息
+        var ulinfo1 = '<li class="list-group-item" style="border:none;">'+devObj.manufacture+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.screen_resolution+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.screen_size+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.system_language+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.battery+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.sim_supportor+'</li>';
+        $('.ulinfo1').html(ulinfo1);
+        var ulinfo2 = '<li class="list-group-item" style="border:none;">'+devObj.model_number+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.cpu_name+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.cpu_count+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.memory_total+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.phone_type+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.serial+'</li>';
+        $('.ulinfo2').html(ulinfo2);
+
+        // tab2 设备网络信息
+        var netinfo1 = '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.phone_number+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.isrouting+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.sim_provider+'</li>'
+            + '<li class="list-group-item" style="border:none;">－－</li>';
+        $('.netinfo1').html(netinfo1);
+        var netinfo2 = '<li class="list-group-item" style="border:none;">－－</li>'
+            + '<li class="list-group-item" style="border:none;">－－</li>'
+            + '<li class="list-group-item" style="border:none;">－－</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.network_type+'</li>';
+        $('.netinfo2').html(netinfo2);
+        var netinfo3 = '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.device_wifi_info.bssid+'</li>'
+            + '<li class="list-group-item" style="border:none;">'+devObj.devicemobileinfo.device_wifi_info.ip_address+'</li>';
+        $('.netinfo3').html(netinfo3);
+        var netinfo4 = '<li class="list-group-item" style="border:none;">'+lasttime+'</li>'
+            + '<li class="list-group-item" style="border:none;">－－</li>';
+        $('.netinfo4').html(netinfo4);
+
+        // tab3 设备定位信息
+        var url = '/p/dev/uploadLocation?dev_id=' + dev_id;
+        $.get(url, function(data) {
+            data = JSON.parse(data);
+            if (data.rt == 0) {
+                var location = 0;
+                var time = new Date();
+                var position_type = data.position_type;
+                var position = JSON.parse(data.position);
+                if(position_type == 1){
+                    location = 1;
+                } else if(position_type == 2){
+                    location = (time.getDay() != 6 && time.getDay() != 0) ? 1 : 0;
+                } else {
+                    location = 0;
+                }
+
+                if(position && location === 1){
+                    var map = new AMap.Map("address", {
+                        resizeEnable: true,
+                        center: [position.longitude, position.latitude],//地图中心点
+                        zoom: 15 //地图显示的缩放级别
+                    });
+                    AMap.plugin(['AMap.ToolBar','AMap.AdvancedInfoWindow'],function(){
+                        //创建并添加工具条控件
+                        var toolBar = new AMap.ToolBar();
+                        map.addControl(toolBar);
+                    })
+
+                    //map.setCenter([position.longitude, position.latitude]);
+
+                    var marker = new AMap.Marker({
+                        title: position.address,
+                        map: map
+                    });
+                    // 设置label标签
+                    marker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
+                        offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
+                        content: "位置信息："+position.address
+                    });
+                    return;
+                } else {
+                    var map = new AMap.Map("address", {
+                        resizeEnable: true,
+                        center: [116.40, 39.90],//地图中心点
+                        zoom: 15 //地图显示的缩放级别
+                    });
+                    AMap.plugin(['AMap.ToolBar','AMap.AdvancedInfoWindow'],function(){
+                        //创建并添加工具条控件
+                        var toolBar = new AMap.ToolBar();
+                        map.addControl(toolBar);
+                    })
+                    $("#result").text('位置：这台设备没有定位信息');
+                }
+                warningOpen('设备没有详细地址信息！','danger','fa-bolt');
+            } else if (data.rt==5) {
+                toLoginPage();
+            } else {
+                mapObj.getInstance();
+                warningOpen('其他错误 '+data.rt+' ！','danger','fa-bolt');
+            }
+        });
+
+        // tab4 设备已安装app列表
+        appObj1 = JSON.parse(app_list);
+        appObj = appObj1.app_info_list;
+        strtab4 = '<table class="table table-hover"><tr>'
+            + '<th>应用名称</th>'
+            + '<th>应用包名称</th>'
+            + '<th>版本</th>'
+                // + '<th>安全状态</th>'
+            + '<th>安装位置</th></tr>';
+        for(var i in appObj) {
+            var apptype=appObj[i].is_system_app?'系统应用':'空间应用';
+            strtab4 += '<tr>'
+                + '<td>' + appObj[i].app_name + '</td>'
+                + '<td>' + appObj[i].package_name + '</td>'
+                + '<td>' + appObj[i].version_name + '</td>'
+                + '<td>' + apptype + '</td>';
+        }
+        strtab4 +='</table>';
+        $('.applist').html(strtab4);
+    }else{
+        warningOpen('设备没有详细地址信息！','danger','fa-bolt');
     }
 }
 // 单个设备推送
