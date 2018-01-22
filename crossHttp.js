@@ -20,17 +20,15 @@ var httpSettings = {
 /*
 * 配置网络参数PDP（protocol,domain,port）
 */
-var PDP=httpSettings.PDP_base;    //内网基础测试
+//var PDP=httpSettings.PDP_base;    //内网基础测试
 //var PDP=httpSettings.PDP_formal;  //正式
-//var PDP=httpSettings.PDP_online;  //上线
+var PDP=httpSettings.PDP_online;  //上线
 var protocol=PDP.protocol,
     domain=PDP.domain,
     port= PDP.port?PDP.port:'';
 var baseUrl = port
     ? protocol + '://' + domain + ':'+ port
     : protocol + '://' + domain;
-console.log('当前网络环境基础路径baseUrl:')
-console.log(baseUrl)
 //引入所需模块
 var http = (protocol==='https')?require('https'):require('http');
 var util = require('util');
