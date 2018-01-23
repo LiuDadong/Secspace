@@ -30,5 +30,5 @@ app.get('/*', function(req, res) { res.send('Not Found') });
 
 /* 启动监听 */
 app.listen(app.get('port'), function() {
-    console.log('AppsSecid-IO running on ' + app.get('port') + '.');
+    console.info('AppsSecid-IO running on port ' + app.get('port') + '.');
 });

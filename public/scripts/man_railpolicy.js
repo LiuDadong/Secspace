@@ -75,7 +75,9 @@ function mapInit() {
     });
     if(arguments[0]){
         var initPolicy=arguments[0];
-        initSite=initPolicy.site_range.site.split(',');
+        console.log(initPolicy);
+        var site=initPolicy.site_range.site;
+        initSite=(typeof site==='string')?site.split(','):site;
         initRadius= parseInt(initPolicy.site_range.range);
         init();
     }else{
@@ -538,13 +540,15 @@ function modify(i) {
         $('input[name=start_time]').val(timeObj.start_time);
     } else {
         var siteObj = railPolicyMod.site_range;
-        var wifiObj = railPolicyMod.wifi_limit;;
+        var wifiObj = railPolicyMod.wifi_limit;
         $(".timepolicy").hide();
         $(".addresspolicy").show();
         $('select[name=policy_type]').val(1)
         $('input[name=gps]').attr('checked', railPolicyMod.gps == 1);
-        $('input[name=wifi]').attr('checked', wifiObj.open == 1);
-        $('input[name=ssid]').val(wifiObj.ssid.join(' '));
+        if(wifiObj){
+            $('input[name=wifi]').attr('checked', wifiObj.open == 1);
+            $('input[name=ssid]').val(wifiObj.ssid.join(' '));
+        }
         $('.pointer').html(siteObj.site);
         $('.radius').html(siteObj.range);
         mapObj = mapInit(railPolicyMod);

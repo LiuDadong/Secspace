@@ -2,11 +2,97 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ac482f9-3e85-4600-9c56-3d33514891ff" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/debug/History.md" afterPath="$PROJECT_DIR$/node_modules/debug/History.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/Makefile.dryice.js" afterPath="$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/Makefile.dryice.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/cliui/node_modules/wordwrap/README.markdown" afterPath="$PROJECT_DIR$/node_modules/cliui/node_modules/wordwrap/README.markdown" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/wordwrap/README.markdown" afterPath="$PROJECT_DIR$/node_modules/wordwrap/README.markdown" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/acorn/README.md" afterPath="$PROJECT_DIR$/node_modules/acorn/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/acorn-globals/README.md" afterPath="$PROJECT_DIR$/node_modules/acorn-globals/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/async/README.md" afterPath="$PROJECT_DIR$/node_modules/async/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/cliui/README.md" afterPath="$PROJECT_DIR$/node_modules/cliui/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/cookie-parser/README.md" afterPath="$PROJECT_DIR$/node_modules/cookie-parser/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/graceful-readlink/README.md" afterPath="$PROJECT_DIR$/node_modules/graceful-readlink/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/iconv-lite/README.md" afterPath="$PROJECT_DIR$/node_modules/iconv-lite/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/lazy-cache/README.md" afterPath="$PROJECT_DIR$/node_modules/lazy-cache/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/md5/README.md" afterPath="$PROJECT_DIR$/node_modules/md5/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/source-map/README.md" afterPath="$PROJECT_DIR$/node_modules/source-map/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/README.md" afterPath="$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/README.md" afterPath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/uglify-js/README.md" afterPath="$PROJECT_DIR$/node_modules/uglify-js/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/uglify-js/node_modules/source-map/README.md" afterPath="$PROJECT_DIR$/node_modules/uglify-js/node_modules/source-map/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/README.md" afterPath="$PROJECT_DIR$/node_modules/with/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/README.md" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/yargs/README.md" afterPath="$PROJECT_DIR$/node_modules/yargs/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/clean-css/node_modules/commander/Readme.md" afterPath="$PROJECT_DIR$/node_modules/clean-css/node_modules/commander/Readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/commander/Readme.md" afterPath="$PROJECT_DIR$/node_modules/commander/Readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/debug/Readme.md" afterPath="$PROJECT_DIR$/node_modules/debug/Readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/acorn/src/bin/acorn.js" afterPath="$PROJECT_DIR$/node_modules/acorn/src/bin/acorn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/dist/acorn.js" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/dist/acorn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/acorn/bin/acorn" afterPath="$PROJECT_DIR$/node_modules/acorn/bin/acorn" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/acorn" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/acorn" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/dist/acorn_csp.js" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/dist/acorn_csp.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/test/_/argv.js" afterPath="$PROJECT_DIR$/node_modules/optimist/test/_/argv.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/css/benchmark.js" afterPath="$PROJECT_DIR$/node_modules/css/benchmark.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/test/_/bin.js" afterPath="$PROJECT_DIR$/node_modules/optimist/test/_/bin.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/example/bool.js" afterPath="$PROJECT_DIR$/node_modules/optimist/example/bool.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/debug/browser.js" afterPath="$PROJECT_DIR$/node_modules/debug/browser.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/acorn/bin/build-acorn.js" afterPath="$PROJECT_DIR$/node_modules/acorn/bin/build-acorn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/build-acorn.js" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/build-acorn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/mime/build/build.js" afterPath="$PROJECT_DIR$/node_modules/mime/build/build.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/cliui/node_modules/wordwrap/example/center.js" afterPath="$PROJECT_DIR$/node_modules/cliui/node_modules/wordwrap/example/center.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/wordwrap/example/center.js" afterPath="$PROJECT_DIR$/node_modules/wordwrap/example/center.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/clean-css/lib/clean.js" afterPath="$PROJECT_DIR$/node_modules/clean-css/lib/clean.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/clean-css/bin/cleancss" afterPath="$PROJECT_DIR$/node_modules/clean-css/bin/cleancss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/uglify-js/lib/compress.js" afterPath="$PROJECT_DIR$/node_modules/uglify-js/lib/compress.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crossHttp.js" afterPath="$PROJECT_DIR$/crossHttp.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/dead-code.js" afterPath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/dead-code.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/debug/debug.js" afterPath="$PROJECT_DIR$/node_modules/debug/debug.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/example/default_hash.js" afterPath="$PROJECT_DIR$/node_modules/optimist/example/default_hash.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/example/default_singles.js" afterPath="$PROJECT_DIR$/node_modules/optimist/example/default_singles.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/example/divide.js" afterPath="$PROJECT_DIR$/node_modules/optimist/example/divide.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/uglify-js/bin/extract-props.js" afterPath="$PROJECT_DIR$/node_modules/uglify-js/bin/extract-props.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/lib/filters.js" afterPath="$PROJECT_DIR$/node_modules/jade/lib/filters.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/acorn/bin/generate-identifier-regex.js" afterPath="$PROJECT_DIR$/node_modules/acorn/bin/generate-identifier-regex.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/generate-identifier-regex.js" afterPath="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/generate-identifier-regex.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/clean-css/node_modules/commander/index.js" afterPath="$PROJECT_DIR$/node_modules/clean-css/node_modules/commander/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/commander/index.js" afterPath="$PROJECT_DIR$/node_modules/commander/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/lazy-cache/index.js" afterPath="$PROJECT_DIR$/node_modules/lazy-cache/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/void-elements/test/index.js" afterPath="$PROJECT_DIR$/node_modules/void-elements/test/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/yargs/index.js" afterPath="$PROJECT_DIR$/node_modules/yargs/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/jade.js" afterPath="$PROJECT_DIR$/node_modules/jade/jade.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/bin/jade.js" afterPath="$PROJECT_DIR$/node_modules/jade/bin/jade.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/labels.js" afterPath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/labels.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/example/line_count.js" afterPath="$PROJECT_DIR$/node_modules/optimist/example/line_count.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/example/line_count_options.js" afterPath="$PROJECT_DIR$/node_modules/optimist/example/line_count_options.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/example/line_count_wrap.js" afterPath="$PROJECT_DIR$/node_modules/optimist/example/line_count_wrap.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/pages/login.jade" afterPath="$PROJECT_DIR$/views/pages/login.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/login.js" afterPath="$PROJECT_DIR$/login.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/man_device.js" afterPath="$PROJECT_DIR$/public/scripts/man_device.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scripts/man_railpolicy.js" afterPath="$PROJECT_DIR$/public/scripts/man_railpolicy.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manager.js" afterPath="$PROJECT_DIR$/manager.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/cliui/node_modules/wordwrap/example/meat.js" afterPath="$PROJECT_DIR$/node_modules/cliui/node_modules/wordwrap/example/meat.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/wordwrap/example/meat.js" afterPath="$PROJECT_DIR$/node_modules/wordwrap/example/meat.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/lib/mozilla-ast.js" afterPath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/lib/mozilla-ast.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/uglify-js/lib/mozilla-ast.js" afterPath="$PROJECT_DIR$/node_modules/uglify-js/lib/mozilla-ast.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/example/nonopt.js" afterPath="$PROJECT_DIR$/node_modules/optimist/example/nonopt.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/mkdirp/examples/pow.js" afterPath="$PROJECT_DIR$/node_modules/mkdirp/examples/pow.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/void-elements/pre-publish.js" afterPath="$PROJECT_DIR$/node_modules/void-elements/pre-publish.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/mkdirp/readme.markdown" afterPath="$PROJECT_DIR$/node_modules/mkdirp/readme.markdown" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/readme.markdown" afterPath="$PROJECT_DIR$/node_modules/optimist/readme.markdown" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/camelcase/readme.md" afterPath="$PROJECT_DIR$/node_modules/camelcase/readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/jade/release.js" afterPath="$PROJECT_DIR$/node_modules/jade/release.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/test/run-tests.js" afterPath="$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/test/run-tests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/sequences.js" afterPath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/sequences.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/example/short.js" afterPath="$PROJECT_DIR$/node_modules/optimist/example/short.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/style/style.css" afterPath="$PROJECT_DIR$/public/style/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/switch.js" afterPath="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/switch.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/mime/build/test.js" afterPath="$PROJECT_DIR$/node_modules/mime/build/test.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/uglify-js/bin/uglifyjs" afterPath="$PROJECT_DIR$/node_modules/uglify-js/bin/uglifyjs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/example/usage-options.js" afterPath="$PROJECT_DIR$/node_modules/optimist/example/usage-options.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/test/usage.js" afterPath="$PROJECT_DIR$/node_modules/optimist/test/usage.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/yargs/lib/usage.js" afterPath="$PROJECT_DIR$/node_modules/yargs/lib/usage.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/optimist/example/xup.js" afterPath="$PROJECT_DIR$/node_modules/optimist/example/xup.js" />
     </list>
     <ignored path="secspace_server_web.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,58 +112,7 @@
     <favorites_list name="secspace_server_web" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="login.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/pages/login.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.464286">
-              <caret line="34" column="49" selection-start-line="34" selection-start-column="49" selection-end-line="34" selection-end-column="49" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="crossHttp.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/crossHttp.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="4.0677967">
-              <caret line="76" column="22" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="manager.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/manager.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4920071">
-              <caret line="2019" column="37" selection-start-line="2019" selection-start-column="37" selection-end-line="2019" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="login.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/login.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="50" column="30" selection-start-line="50" selection-start-column="30" selection-end-line="50" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -94,41 +129,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/views/pages/man_setting.jade" />
-        <option value="$PROJECT_DIR$/node_modules/debug/History.md" />
-        <option value="$PROJECT_DIR$/GaodeDemo/gaode.html" />
-        <option value="$PROJECT_DIR$/public/scripts/man_version.js" />
-        <option value="$PROJECT_DIR$/public/scripts/login.js" />
-        <option value="$PROJECT_DIR$/public/assets/css/amap.css" />
-        <option value="$PROJECT_DIR$/public/scripts/man_first.js" />
-        <option value="$PROJECT_DIR$/public/assets/js/amap.webapi.http.js" />
-        <option value="$PROJECT_DIR$/public/assets/js/amap.lbs.js" />
-        <option value="$PROJECT_DIR$/public/assets/js/highcharts.js" />
-        <option value="$PROJECT_DIR$/views/pages/man_first.jade" />
-        <option value="$PROJECT_DIR$/public/assets/js/amap.webapi.https.js" />
-        <option value="$PROJECT_DIR$/public/scripts/layout.js" />
-        <option value="$PROJECT_DIR$/public/scripts/man_railpolicy.js" />
-        <option value="$PROJECT_DIR$/views/pages/man_railpolicy.jade" />
-        <option value="$PROJECT_DIR$/public/scripts/man_device.js" />
-        <option value="$PROJECT_DIR$/views/pages/man_device.jade" />
-        <option value="$PROJECT_DIR$/public/scripts/upload.js" />
-        <option value="$PROJECT_DIR$/views/pages/man_app.jade" />
+        <option value="$PROJECT_DIR$/node_modules/mime/build/test.js" />
+        <option value="$PROJECT_DIR$/node_modules/mkdirp/examples/pow.js" />
+        <option value="$PROJECT_DIR$/node_modules/mkdirp/readme.markdown" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/example/bool.js" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/example/default_hash.js" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/example/default_singles.js" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/example/divide.js" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/example/line_count.js" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/example/line_count_options.js" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/example/line_count_wrap.js" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/example/nonopt.js" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/example/short.js" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/example/usage-options.js" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/example/xup.js" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/readme.markdown" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/test/_/argv.js" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/test/_/bin.js" />
+        <option value="$PROJECT_DIR$/node_modules/optimist/test/usage.js" />
+        <option value="$PROJECT_DIR$/node_modules/source-map/README.md" />
+        <option value="$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/Makefile.dryice.js" />
+        <option value="$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/README.md" />
+        <option value="$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/test/run-tests.js" />
+        <option value="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/README.md" />
+        <option value="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/lib/mozilla-ast.js" />
+        <option value="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/dead-code.js" />
+        <option value="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/labels.js" />
+        <option value="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/sequences.js" />
+        <option value="$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/switch.js" />
+        <option value="$PROJECT_DIR$/node_modules/uglify-js/README.md" />
+        <option value="$PROJECT_DIR$/node_modules/uglify-js/bin/extract-props.js" />
+        <option value="$PROJECT_DIR$/node_modules/uglify-js/bin/uglifyjs" />
+        <option value="$PROJECT_DIR$/node_modules/uglify-js/lib/compress.js" />
+        <option value="$PROJECT_DIR$/node_modules/uglify-js/lib/mozilla-ast.js" />
+        <option value="$PROJECT_DIR$/node_modules/uglify-js/node_modules/source-map/README.md" />
+        <option value="$PROJECT_DIR$/node_modules/void-elements/pre-publish.js" />
+        <option value="$PROJECT_DIR$/node_modules/void-elements/test/index.js" />
+        <option value="$PROJECT_DIR$/node_modules/with/README.md" />
+        <option value="$PROJECT_DIR$/node_modules/with/node_modules/acorn/README.md" />
+        <option value="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/acorn" />
+        <option value="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/build-acorn.js" />
+        <option value="$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/generate-identifier-regex.js" />
+        <option value="$PROJECT_DIR$/node_modules/with/node_modules/acorn/dist/acorn.js" />
+        <option value="$PROJECT_DIR$/node_modules/with/node_modules/acorn/dist/acorn_csp.js" />
+        <option value="$PROJECT_DIR$/node_modules/wordwrap/README.markdown" />
+        <option value="$PROJECT_DIR$/node_modules/wordwrap/example/center.js" />
+        <option value="$PROJECT_DIR$/node_modules/wordwrap/example/meat.js" />
+        <option value="$PROJECT_DIR$/node_modules/yargs/README.md" />
+        <option value="$PROJECT_DIR$/node_modules/yargs/index.js" />
+        <option value="$PROJECT_DIR$/node_modules/yargs/lib/usage.js" />
         <option value="$PROJECT_DIR$/public/style/style.css" />
-        <option value="$PROJECT_DIR$/package-lock.json" />
-        <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/public/scripts/man_setting.js" />
-        <option value="$PROJECT_DIR$/views/layout.jade" />
-        <option value="$PROJECT_DIR$/test/js.js" />
-        <option value="$PROJECT_DIR$/test/test.html" />
-        <option value="$PROJECT_DIR$/views/pages/login.jade" />
-        <option value="$PROJECT_DIR$/crossHttp1.js" />
-        <option value="$PROJECT_DIR$/http1.js" />
-        <option value="$USER_HOME$/Documents/WeChat Files/liudd0312/Files/http.js" />
-        <option value="$PROJECT_DIR$/http.js" />
-        <option value="$PROJECT_DIR$/login.js" />
         <option value="$PROJECT_DIR$/crossHttp.js" />
-        <option value="$PROJECT_DIR$/manager.js" />
       </list>
     </option>
   </component>
@@ -211,20 +262,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="secspace_server_web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="secspace_server_web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="secspace_server_web_deb" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -246,6 +283,10 @@
               <option name="myItemId" value="public" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="style" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -258,10 +299,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -359,16 +396,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32744783" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.030546624" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6613162" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41294643" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28943452" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17014447" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.9453376" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39967898" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -376,7 +414,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.03210273" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -415,352 +452,413 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/views/pages/man_first.jade">
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/example/bool.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="130" column="20" selection-start-line="130" selection-start-column="20" selection-end-line="130" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/pages/login.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/scripts/layout.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="230" column="24" selection-start-line="230" selection-start-column="24" selection-end-line="230" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/pages/man_railpolicy.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="132" column="88" selection-start-line="132" selection-start-column="88" selection-end-line="132" selection-end-column="88" />
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/scripts/man_railpolicy.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/example/default_hash.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="162" column="6" selection-start-line="162" selection-start-column="6" selection-end-line="162" selection-end-column="6" />
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crossHttp.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/example/default_singles.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/example/divide.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/example/line_count.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/example/line_count_options.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/example/line_count_wrap.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/example/nonopt.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/example/short.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/example/usage-options.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/example/xup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/readme.markdown">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.821429">
+          <caret line="24" column="4" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/test/_/argv.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/test/_/bin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/optimist/test/usage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="273" column="19" selection-start-line="273" selection-start-column="19" selection-end-line="273" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/source-map/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.821429">
+          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/Makefile.dryice.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="2" selection-start-line="29" selection-start-column="2" selection-end-line="29" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.821429">
+          <caret line="54" column="4" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/transformers/node_modules/source-map/test/run-tests.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="10" selection-start-line="25" selection-start-column="10" selection-end-line="25" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.821429">
+          <caret line="203" column="8" selection-start-line="203" selection-start-column="8" selection-end-line="203" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/lib/mozilla-ast.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="239" column="11" selection-start-line="239" selection-start-column="11" selection-end-line="239" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/dead-code.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="70" column="12" selection-start-line="70" selection-start-column="12" selection-end-line="70" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/labels.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/sequences.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="70" column="32" selection-start-line="70" selection-start-column="32" selection-end-line="70" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/transformers/node_modules/uglify-js/test/compress/switch.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="136" column="20" selection-start-line="136" selection-start-column="20" selection-end-line="136" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/uglify-js/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.821429">
+          <caret line="235" column="0" selection-start-line="235" selection-start-column="0" selection-end-line="235" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/uglify-js/bin/extract-props.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/uglify-js/bin/uglifyjs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="591" column="4" selection-start-line="591" selection-start-column="4" selection-end-line="591" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/uglify-js/lib/compress.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2141" column="32" selection-start-line="2141" selection-start-column="32" selection-end-line="2141" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/uglify-js/lib/mozilla-ast.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="544" column="10" selection-start-line="544" selection-start-column="10" selection-end-line="544" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/uglify-js/node_modules/source-map/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.821429">
+          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/void-elements/pre-publish.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="4" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/void-elements/test/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/with/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.821429">
+          <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/with/node_modules/acorn/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.4107144">
+          <caret line="208" column="0" selection-start-line="208" selection-start-column="0" selection-end-line="208" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/acorn">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.821429">
+          <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/build-acorn.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.821429">
+          <caret line="13" column="32" selection-start-line="13" selection-start-column="32" selection-end-line="13" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/with/node_modules/acorn/bin/generate-identifier-regex.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.785714">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/with/node_modules/acorn/dist/acorn.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.821429">
+          <caret line="761" column="33" selection-start-line="761" selection-start-column="33" selection-end-line="761" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/with/node_modules/acorn/dist/acorn_csp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.821429">
+          <caret line="761" column="33" selection-start-line="761" selection-start-column="33" selection-end-line="761" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/style/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="619" column="14" selection-start-line="619" selection-start-column="14" selection-end-line="619" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.5818815">
+          <caret line="788" column="14" selection-start-line="788" selection-start-column="14" selection-end-line="788" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/pages/man_railpolicy.jade">
+    <entry file="file://$PROJECT_DIR$/public/assets/js/toastr/toastr.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.43728223">
+          <caret line="259" column="0" selection-start-line="259" selection-start-column="0" selection-end-line="259" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/scripts/man_railpolicy.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/pages/man_setting.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.12069">
-          <caret line="400" column="0" selection-start-line="400" selection-start-column="0" selection-end-line="400" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/assets/datatable/jquery.dataTables.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21238938">
-          <caret line="0" column="65486" selection-start-line="0" selection-start-column="65486" selection-end-line="0" selection-end-column="65486" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/uglify-js/tools/domprops.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23285198">
-          <caret line="3603" column="9" selection-start-line="3603" selection-start-column="9" selection-end-line="3603" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/debug/browser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54468805">
-          <caret line="165" column="18" selection-start-line="165" selection-start-column="18" selection-end-line="165" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/debug/Readme.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22831859">
-          <caret line="85" column="62" selection-start-line="85" selection-start-column="62" selection-end-line="85" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/debug/History.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21238938">
-          <caret line="130" column="15" selection-start-line="130" selection-start-column="15" selection-end-line="130" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/HTML5.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43338954">
-          <caret line="1345" column="15" selection-start-line="1345" selection-start-column="15" selection-end-line="1345" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/scripts/man_version.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3035413">
-          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/assets/css/amap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="116" column="1" selection-start-line="116" selection-start-column="1" selection-end-line="116" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/scripts/man_first.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26436782">
-          <caret line="44" column="7" selection-start-line="44" selection-start-column="7" selection-end-line="44" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/assets/js/highcharts.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3321492">
-          <caret line="11" column="319" selection-start-line="11" selection-start-column="315" selection-end-line="11" selection-end-column="319" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/pages/man_first.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6283186">
-          <caret line="137" column="55" selection-start-line="137" selection-start-column="55" selection-end-line="137" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/assets/js/amap.lbs.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14117648">
-          <caret line="2" column="46" selection-start-line="2" selection-start-column="46" selection-end-line="2" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/assets/js/skins.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1598579">
-          <caret line="3" column="2" selection-start-line="3" selection-start-column="2" selection-end-line="3" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/scripts/layout.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.766666">
-          <caret line="337" column="12" selection-start-line="337" selection-start-column="4" selection-end-line="337" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/pages/man_devpolicy.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/scripts/man_device.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.0169492">
-          <caret line="474" column="31" selection-start-line="474" selection-start-column="21" selection-end-line="474" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/pages/man_device.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.0689654">
-          <caret line="193" column="60" selection-start-line="193" selection-start-column="60" selection-end-line="193" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/style/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="815" column="23" selection-start-line="815" selection-start-column="23" selection-end-line="815" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/express/History.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.4642856">
-          <caret line="1020" column="10" selection-start-line="1020" selection-start-column="10" selection-end-line="1020" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/express/lib/express.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/express/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.7179487">
-          <caret line="92" column="5" selection-start-line="92" selection-start-column="5" selection-end-line="92" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1450381">
-          <caret line="28" column="3" selection-start-line="28" selection-start-column="3" selection-end-line="28" selection-end-column="3" />
+        <state vertical-scroll-proportion="0.33275262">
+          <caret line="13" column="612" selection-start-line="13" selection-start-column="612" selection-end-line="13" selection-end-column="612" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/scripts/man_app.js">
+    <entry file="file://$PROJECT_DIR$/public/assets/datatable/jquery.dataTables.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/scripts/man_railpolicy.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.233333">
-          <caret line="104" column="24" selection-start-line="104" selection-start-column="16" selection-end-line="104" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/acorn/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="11.583333">
-          <caret line="389" column="4" selection-start-line="389" selection-start-column="4" selection-end-line="389" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/pages/man_app.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.0714285">
-          <caret line="65" column="8" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/scripts/man_setting.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="54" selection-start-line="8" selection-start-column="54" selection-end-line="8" selection-end-column="54" />
+        <state vertical-scroll-proportion="0.34981686">
+          <caret line="0" column="33252" selection-start-line="0" selection-start-column="33252" selection-end-line="0" selection-end-column="33252" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.jade">
+    <entry file="file://$PROJECT_DIR$/node_modules/yargs/lib/usage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="19" column="64" selection-start-line="19" selection-start-column="64" selection-end-line="19" selection-end-column="64" />
+        <state vertical-scroll-proportion="0.3728223">
+          <caret line="308" column="39" selection-start-line="308" selection-start-column="39" selection-end-line="308" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/js.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/yargs/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="3" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13363029">
-          <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.33275262">
+          <caret line="369" column="4" selection-start-line="369" selection-start-column="4" selection-end-line="369" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/pages/man_railpolicy.jade">
+    <entry file="file://$PROJECT_DIR$/node_modules/yargs/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.8150184">
-          <caret line="236" column="8" selection-start-line="236" selection-start-column="8" selection-end-line="236" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.34981686">
+          <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/scripts/login.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/wordwrap/example/meat.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="82" column="17" selection-start-line="82" selection-start-column="17" selection-end-line="82" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
+        <state vertical-scroll-proportion="0.10452962">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/pages/login.jade">
+    <entry file="file://$PROJECT_DIR$/node_modules/wordwrap/example/center.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.464286">
-          <caret line="34" column="49" selection-start-line="34" selection-start-column="49" selection-end-line="34" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.05226481">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/login.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/wordwrap/README.markdown">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="30" selection-start-line="50" selection-start-column="30" selection-end-line="50" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.34981686">
+          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/crossHttp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.0677967">
-          <caret line="76" column="22" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4920071">
-          <caret line="2019" column="37" selection-start-line="2019" selection-start-column="37" selection-end-line="2019" selection-end-column="37" />
-          <folding />
+        <state vertical-scroll-proportion="-0.4703833">
+          <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

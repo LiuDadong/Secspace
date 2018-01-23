@@ -785,7 +785,8 @@ input.checkbox-slider[type="checkbox"] + .text::before {
 }
 
 .maxmap {
-    height: 550px !important;
+    height: 700px;
+    height: 90vh !important;
 }
 
 .deleteicon {

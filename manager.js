@@ -8,13 +8,11 @@
 var md5 = require('md5');
 
 module.exports = function(app, chttp) {
-
     /*
      * =============================================================
      *                      企业版页面框架 
      * =============================================================
      */
-
     // 管理员主页
     app.get('/man/first', function(req, res) {
         var sid = req.cookies.sid;
@@ -1723,7 +1721,6 @@ module.exports = function(app, chttp) {
             res.send(cont);
         });
     });
-
     // 获取应用标签对应的应用列表
     app.get('/man/appTag/getAppByTag', function (req, res) {
         var url = '/p/org/appTagManagement?sid=' + req.cookies.sid;
@@ -1964,68 +1961,9 @@ module.exports = function(app, chttp) {
     app.post('/man/setting/orgUpdateSettings', function (req, res) {
         var postData=req.body;
         postData.sid=req.cookies.sid;
-        /*if(req.body.session_expire_time){
-            postData = {
-                'sid': req.cookies.sid,
-                'session_expire_time': req.body.session_expire_time,
-                'pw_max_try_times': req.body.pw_max_try_times,
-                'frozen_time': req.body.frozen_time,
-                'client_frozen_time': req.body.client_frozen_time,
-                'client_pw_try_times': req.body.client_pw_try_times,
-                'allow_remember_pw': req.body.allow_remember_pw,
-                'screenshot': req.body.screenshot,
-                'max_download': req.body.max_download,
-                'pw_min_len': req.body.pw_min_len,
-                'passwd_type': req.body.passwd_type,
-                'passwd_available': req.body.passwd_available,
-                'send_url': req.body.send_url                               
-            };
-        } else if(req.body.switchon){
-            postData = {
-                'sid': req.cookies.sid,
-                'switch': req.body.switchon,
-                'font_type': req.body.font_type,
-                'font_size': req.body.font_size,
-                'font_color': req.body.font_color,
-                'font_opacity': req.body.font_opacity 
-            };
-        } else if(req.body.email_server){
-            postData = {
-                'sid': req.cookies.sid,
-                'email_server': req.body.email_server,
-                'send_user': req.body.send_user,
-                'send_pwd': req.body.send_pwd,
-            };
-        } else if(req.body.domain_name){
-            postData = {
-                'sid': req.cookies.sid,
-                'domain_name': req.body.domain_name,
-                'send_url': req.body.send_url
-            };
-        } else if(req.body.company_domain){
-            postData = {
-                'sid': req.cookies.sid,
-                'company_domain': req.body.company_domain,
-                'product_name': req.body.product_name,
-                'company_name': req.body.company_name
-            };
-        }else if(req.body.manager_name){
-            postData = {
-                'sid': req.cookies.sid,
-                'manager_name': req.body.manager_name
-            };
-        }else if(req.body.identify_method){
-            postData = {
-                'sid': req.cookies.sid,
-                'identify_method': req.body.identify_method
-            };
-        } else{
-            console.log("settings");
-        } */
         url = '/p/org/orgUpdateSettings';
         chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
-    });  
-  
+    });
 };

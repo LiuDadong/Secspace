@@ -1,28 +1,27 @@
 /*配置测试网络环境http*/
-var httpSettings = {
-    PDP_base: {//内网基础测试
-        protocol: 'https',
-        domain: '192.168.1.25',
-        port: 1443
-    },
-    PDP_formal: {//正式：本地测试上线部署
-        protocol: 'http',
-        domain: 'tpos.appssec.cn'
-    },
-    PDP_online: {//上线部署
-        protocol: 'http',
-        domain: '127.0.0.1',
-        port: 7770
-    },
-    crossGet: true,//控制跨域cget请求的日志输出
-    crossPost: true
+var logSettings = {
+    crossGet: false,//控制跨域cget请求的日志输出
+    crossPost: false //控制跨域cpost请求的日志输出
+}
+var PDP,
+    v= 3;
+    // 1: 内网基础测试
+    // 2: 正式：本地测试上线部署
+    // 3: 上线部署
+switch (v){
+    case 1://内网基础测试
+        PDP={protocol: 'https', domain: '192.168.1.25', port: 1443};
+        break;
+    case 2://正式：本地测试上线部署
+        PDP={protocol: 'http', domain: 'tpos.appssec.cn'};
+        break;
+    case 3://上线部署
+        PDP={protocol: 'http', domain: '127.0.0.1', port: 7770};
+        break;
 }
 /*
  * 配置网络参数PDP（protocol,domain,port）
  */
-//var PDP=httpSettings.PDP_base;    //内网基础测试
-//var PDP=httpSettings.PDP_formal;  //正式
-var PDP=httpSettings.PDP_online;  //上线
 var protocol=PDP.protocol,
     domain=PDP.domain,
     port= PDP.port?PDP.port:'';
@@ -45,7 +44,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 exports.cget = function (url, fun) {
     var cont = '';
     url = baseUrl + url;
-    if (httpSettings.crossGet) {   //根据设置输出log
+    if (logSettings.crossGet) {   //根据设置输出log
         console.info('跨域cget请求的url:');
         console.info(url);
     }
@@ -55,7 +54,7 @@ exports.cget = function (url, fun) {
             cont += chunk;
         });
         res.on('end', function () {
-            if (httpSettings.crossGet) {
+            if (logSettings.crossGet) {
                 console.info('跨域cget响应的cont:');
                 console.info(cont);
             }
@@ -83,7 +82,7 @@ exports.cpost = function (postData, url, fun) {
         port=7771
     }
     postData = querystring.stringify(postData);
-    if (httpSettings.crossPost) {
+    if (logSettings.crossPost) {
         console.info('跨域cpost请求的url:');
         console.info(url);
     }
@@ -105,7 +104,7 @@ exports.cpost = function (postData, url, fun) {
             res.on('end', function () {
                 try {
                     cont = JSON.parse(cont);
-                    if (httpSettings.crossPost) {
+                    if (logSettings.crossPost) {
                         console.info('跨域cpost响应的cont：')
                         console.info(cont)
                     }

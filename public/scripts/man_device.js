@@ -306,7 +306,6 @@ function devDetail(i){
 }
 function getDetail(i){
     var dev=devices[0];
-    console.log(dev);
     var _tr = $('.devicetable table tr').eq(i+1);
     var devObj;
     var appObj1,appObj;
