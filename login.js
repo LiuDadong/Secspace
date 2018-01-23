@@ -18,6 +18,8 @@ module.exports = function(app, chttp) {
 
     // 向/login端口post请求
     app.post('/login', function(req, res) {
+        console.log('req.body');
+        console.log(req.body);
         var url,
             flag = req.body.flag,
             postData,
@@ -43,7 +45,14 @@ module.exports = function(app, chttp) {
         }else{
             console.error("登录请求flag值错误，必须为man或者per")
         }
+        console.log("**********")
+        console.log("将请求转发到服务端")
+        console.log(url);
+        console.log(postData);
+        console.log("**********")
         chttp.cpost(postData, url, function(cont) {
+            console.log('----cont---')
+            console.log(cont)
             if(cont.rt == 0) {
                 res.cookie('sid', cont.sid, {maxAge:2*60*60*1000});
                 res.cookie('admin', admin);
@@ -98,6 +107,7 @@ module.exports = function(app, chttp) {
     app.get('/p/login/getProductName', function(req, res) {
         var url = '/p/org/getProductName';
         chttp.cget(url, function(cont) {
+            console.log(cont)
             res.send(cont);
         });
     });

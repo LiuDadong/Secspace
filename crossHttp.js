@@ -3,23 +3,23 @@ var httpSettings = {
     PDP_base: {//内网基础测试
         protocol: 'https',
         domain: '192.168.1.25',
-        port: '1443'
+        port: 1443
     },
-    PDP_formal: {//正式
+    PDP_formal: {//正式：本地测试上线部署
         protocol: 'http',
-        domain: 'tpos.appssec.cn',
+        domain: 'tpos.appssec.cn'
     },
-    PDP_online: {//上线
+    PDP_online: {//上线部署
         protocol: 'http',
         domain: '127.0.0.1',
-        port: '7770'
+        port: 7770
     },
-    crossGet: false,//控制跨域cget请求的日志输出
-    crossPost: false
+    crossGet: true,//控制跨域cget请求的日志输出
+    crossPost: true
 }
 /*
-* 配置网络参数PDP（protocol,domain,port）
-*/
+ * 配置网络参数PDP（protocol,domain,port）
+ */
 //var PDP=httpSettings.PDP_base;    //内网基础测试
 //var PDP=httpSettings.PDP_formal;  //正式
 var PDP=httpSettings.PDP_online;  //上线
@@ -29,6 +29,7 @@ var protocol=PDP.protocol,
 var baseUrl = port
     ? protocol + '://' + domain + ':'+ port
     : protocol + '://' + domain;
+
 //引入所需模块
 var http = (protocol==='https')?require('https'):require('http');
 var util = require('util');
@@ -44,9 +45,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 exports.cget = function (url, fun) {
     var cont = '';
     url = baseUrl + url;
-    if (httpSettings.crossGet) {
-        console.log('跨域cget请求的url:');
-        console.log(url);
+    if (httpSettings.crossGet) {   //根据设置输出log
+        console.info('跨域cget请求的url:');
+        console.info(url);
     }
     http.get(url, function (res) {
         res.setEncoding('utf-8');
@@ -55,14 +56,14 @@ exports.cget = function (url, fun) {
         });
         res.on('end', function () {
             if (httpSettings.crossGet) {
-                console.log('跨域cget响应的cont:');
-                console.log(cont);
+                console.info('跨域cget响应的cont:');
+                console.info(cont);
             }
             fun(cont);
         });
     }).on('error', function (err) {
-        console.log("跨越cget报错111111:");
-        console.log(err.message)
+        console.info("跨越cget报错:");
+        console.info(err.message)
     });
 };
 /*
@@ -78,30 +79,26 @@ exports.cget = function (url, fun) {
  *      function(cont),cont返回的数据
  */
 exports.cpost = function (postData, url, fun) {
+    if(port==7770){
+        port=7771
+    }
     postData = querystring.stringify(postData);
-    url = baseUrl + url;
     if (httpSettings.crossPost) {
-        console.log('跨域cpost请求的url:');
-        console.log(url);
+        console.info('跨域cpost请求的url:');
+        console.info(url);
     }
     var cont = '',
         options = {
-//------------tp3/5测试环境配置点：hostname------------
-            //hostname: '192.168.1.25', //内网测试环境
-            //hostname: 'tpos.appssec.cn', // 正式
-            //hostname: '127.0.0.1',
             hostname:domain,
             path: url,
-            port: port?port:80,
-            method: 'post',
+            port: parseInt(port?port:80),
+            method: 'POST',
             headers: {
                 'Content-Length': postData.length,
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         },
-//------------tp5/5测试环境配置点：http、http-----------
         req = http.request(options, function (res) {
-//            console.timeEnd('Timer2');
             res.on('data', function (chunk) {
                 cont += chunk;
             });
@@ -109,8 +106,8 @@ exports.cpost = function (postData, url, fun) {
                 try {
                     cont = JSON.parse(cont);
                     if (httpSettings.crossPost) {
-                        console.log('跨域cpost响应的cont：')
-                        console.log(cont)
+                        console.info('跨域cpost响应的cont：')
+                        console.info(cont)
                     }
                     fun(cont);
                 } catch (e) {
@@ -119,7 +116,8 @@ exports.cpost = function (postData, url, fun) {
             });
         });
     req.on('error', function (e) {
-        console.log('跨域cpost Error: ' + e.messsage);
+        console.info('跨域cpost Error: ');
+        console.info(e.message);
     });
     req.write(postData);
     req.end();

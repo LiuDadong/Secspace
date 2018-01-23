@@ -571,7 +571,6 @@ module.exports = function(app, chttp) {
 
     // 企业管理员根据标签id和用户组id获取用户列表
     app.get('/man/user/getMembers', function (req, res) {
-         console.time('Timer100');
         var url = '/p/org/members?sid=' + req.cookies.sid;
             url += '&start_page=' + req.query.start;
             url += '&page_length=' + req.query.length;
@@ -588,7 +587,6 @@ module.exports = function(app, chttp) {
         chttp.cget(url, function(cont) {
             res.send(cont);
         });
-         console.timeEnd('Timer100');
     });
 
     /*
@@ -1231,9 +1229,7 @@ module.exports = function(app, chttp) {
             };
         }
             url = '/p/org/boundPolicy';
-        console.time('Timer5');
         chttp.cpost(postData, url, function(cont) {
-            console.timeEnd('Timer5');
             res.send(cont);
         });
     });
