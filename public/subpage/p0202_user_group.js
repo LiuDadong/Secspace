@@ -4,10 +4,21 @@
  * ==================================================================
  */
 
-// 用户组
-getUsersList(0);
+(function () {
+    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
+
+
+    var subCaption = $('#subCaption').data('itemText', '用户组').text('用户组列表');
+
+    // 用户组
+    getUsersList(0);
+
+
+})();
+
+
 // 用户组列表
-function getUsersList(depart_id) {
+function getUsersList(departId) {
     var str = '<table class="table table-striped table-bordered table-hover" style="width:100%;background-color:#fff;" ><tr style="line-height:36px;">'
         + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label>'
         + '<input type="checkbox" onclick="selectedAll(this)" />'
@@ -24,95 +35,139 @@ function getUsersList(depart_id) {
     var tdName = '';
     var tdAct = '';
     var table = $('.userstable');
-    $.silentGet('/man/users/getUsersList', { depart_id: depart_id }, function (data) {
+    $.silentGet('/common/org/list', {
+        departId: departId,
+        url: '/p/depart/manage'
+    }, function (data) {
         if (data.rt == '0000') {
+            var tbl = $('<table class="table table-striped table-bordered table-hover" style="width:100%;background-color:#fff;" >\
+                            <tr style="line-height:36px;">\
+                                <th class="sel" style="line-height:20px;">\
+                                    <div class="checkbox">\
+                                        <label><input type="checkbox" onclick="selectedAll(this)" /><span class="text">全选</span></label>\
+                                    </div>\
+                                </th>\
+                                <th>名称</th>\
+                                <th>创建人</th>\
+                                <th>用户关联数量</th>\
+                                <th>更新时间</th>\
+                                <th>状态</th>\
+                                <th>操作</th>\
+                            </tr>\
+                        </table>');
             for (var i in data.depart_list) {
-                tdCkb = data.depart_list[i].id == -1 ? '<td></td>' : '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" /><span class="text"></span></label></div></td>';
-                tdAct = data.depart_list[i].id == -1 ? '<td></td>' : '<td class="other"><span onclick="modify(this)"><a class="btn btn-primary btn-xs">编辑</a></span></td>';
-                
-                status = data.depart_list[i].status == 1 ? '正常' : '禁止';
-                tdName = data.depart_list[i].child_node != 0 ?
-                    '<td onclick="findChild(this)" class="cursor"><i class="fa fa-plus faopen"></i><i class="fa fa-minus faclose"></i>' + data.depart_list[i].name + '</td>' :
-                    '<td>' + data.depart_list[i].name + '</td>';
-                str += '<tr>'
-                    + tdCkb
-                    + tdName
-                    + '<td>' + data.depart_list[i].creator + '</td>'
-                    + '<td><span onclick="add_user(this)" class="cursor"><a>' + data.depart_list[i].current_num + '</a></span></td>'
-                    + '<td>' + data.depart_list[i].update_time + '</td>'
+                var item = data.depart_list[i];
+                tri = $('<tr></tr>').data('item', item);
+                tri.data('item')['parent_id'] = 0;
+                tdCkb = item.name === "未分组" ? '<td></td>' : '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" /><span class="text"></span></label></div></td>';
+                tdAct = item.name === "未分组" ? '<td></td>' : '<td class="other"><a class="btn btn-primary btn-xs' + (hasFn('mod') ? '" onclick="edit(this)"' : ' unable"') + '>编辑</a></td>';
+                tdUsersInfo = item.name == '未分组'
+                    ? '<td><span>' + item.current_num + '</span></td>'
+                    : '<td><span onclick="dialogForMoveUser(this)" class="cursor"><a>' + item.current_num + '</a></span></td>';
+
+                status = item.status == 1 ? '正常' : '禁止';
+                tdName = item.child_node != 0 ?
+                    '<td class="tdGrpName" onclick="toggleChild(this)" class="cursor"><i class="fa fa-plus"></i>' + item.name + '</td>' :
+                    '<td class="tdGrpName">' + item.name + '</td>';
+                tri.html(tdCkb + tdName
+                    + '<td>' + item.creator + '</td>'
+                    + tdUsersInfo
+                    + '<td>' + item.update_time + '</td>'
                     + '<td>' + status + '</td>'
-                    + '<td style="display:none;">' + data.depart_list[i].id + '</td>'
-                    + '<td style="display:none;">' + data.depart_list[i].name + '</td>'
-                    + '<td style="display:none;">' + data.depart_list[i].status + '</td>'
-                    + '<td style="display:none;">' + depart_id + '</td>'
-                    + tdAct
-                    + '</tr>';
+                    + '<td departid="' + data.depart_list[i].departId + '" style="display:none;">' + item.id + '</td>'
+                    + '<td style="display:none;">' + item.name + '</td>'
+                    + '<td style="display:none;">' + item.status + '</td>'
+                    + '<td style="display:none;">' + departId + '</td>'
+                    + tdAct);
+                tbl.append(tri);
             }
-            str += '</table>';
-            table.html(str);
+            table.html(tbl);
         }
     });
     $('.hrefactive').removeClass("hrefallowed");
 }
+
 // 返回列表
 function userslist() {
     $('.user, .addur, .user_mod, .addusertitle').css({ 'display': 'none' });
     $('.userslist').css({ 'display': 'block' });
 }
-// 用户组下级
-function findChild(e) {
-    var id = $(e).parent().find('td').eq(6).text() * 1;
-    var nextchildid = $(e).parent().next().find('td').eq(9).text() * 1;
-    if (id != nextchildid) {
-        $(e).find('.faopen').css('display', 'none');
-        $(e).find('.faclose').css('display', 'inline-block');
-        var trHtml;
-        var str2 = '';
-        var status = '';
-        $.silentGet('/man/users/getUsersList', { depart_id: id }, function (data) {
+// 用户组下级显示/隐藏
+function toggleChild(td) {
+    var tr = $(td).closest('tr'),
+        item = tr.data('item');
+    $(td).find('i.fa').toggleClass('fa-plus').toggleClass('fa-minus');
+    if (item.departId != tr.next().attr('pid')) {
+        $.silentGet('/common/org/list', {
+            departId: item.departId,
+            url: '/p/depart/manage'
+        }, function (data) {
             if (data.rt == '0000') {
                 for (var i in data.depart_list) {
-                    status = data.depart_list[i].status == 1 ? '正常' : '禁止';
-                    str2 =  data.depart_list[i].child_node != 0 ?
-                        '<td onclick="findChild(this)" class="cursor" style="padding-left:'
-                        + ((data.depart_list[i].layer * 1 - 1) * 36) + 'px;background:url(../imgs/fold_line.png) no-repeat '
-                        + (10 + (data.depart_list[i].layer * 1 - 2) * 20) + 'px 0;">'
+                    var cItem = data.depart_list[i];
+                    var status = cItem.status == 1 ? '正常' : '禁止';
+                    var str2 = cItem.child_node != 0
+                        ? '<td onclick="toggleChild(this)" class="cursor" style="padding-left:'
+                        + ((cItem.layer * 1 - 1) * 40) + 'px;background:url(../imgs/fold_line.png) no-repeat '
+                        + (10 + (cItem.layer * 1 - 2) * 20) + 'px 0;">'
                         + '<i class="fa fa-plus faopen"></i><i class="fa fa-minus faclose"></i>'
-                        + data.depart_list[i].name + '</td>':
-                        '<td style="padding-left:'
-                        + ((data.depart_list[i].layer * 1 - 1) * 36) + 'px;background:url(../imgs/fold_line.png) no-repeat '
-                        + (10 + (data.depart_list[i].layer * 1 - 2) * 20) + 'px 0;">'
-                        + data.depart_list[i].name + '</td>';
-                    
-                    trHtml = '<tr>'
-                        + '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" />'
-                        + '<span class="text"></span></label></div></td>'
-                        + str2
-                        + '<td>' + data.depart_list[i].creator + '</td>'
-                        + '<td><span onclick="add_user(this)" class="cursor"><a>' + data.depart_list[i].current_num + '</a></span></td>'
-                        + '<td>' + data.depart_list[i].update_time + '</td>'
-                        + '<td>' + status + '</td>'
-                        + '<td style="display:none;">' + data.depart_list[i].id + '</td>'
-                        + '<td style="display:none;">' + data.depart_list[i].name + '</td>'
-                        + '<td style="display:none;">' + data.depart_list[i].status + '</td>'
-                        + '<td style="display:none;">' + id + '</td>'
-                        + '<td class="other">'
-                        + '<span onclick="modify(this)"><a class="btn btn-primary btn-xs">编辑</a></span>'
-                        + '<td>'
-                        + '</tr>';
-                    $(e).parent().after(trHtml);
+                        + cItem.name + '</td>'
+                        : '<td style="padding-left:'
+                        + ((cItem.layer * 1 - 1) * 40) + 'px;background:url(../imgs/fold_line.png) no-repeat '
+                        + (10 + (cItem.layer * 1 - 2) * 20) + 'px 0;">'
+                        + cItem.name + '</td>';
+                    cItem['parent_id'] = item.id;
+                    var cTr = $('<tr>').data('item', cItem).attr('pid', item.departId)
+                        .html('<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" />'
+                            + '<span class="text"></span></label></div></td>'
+                            + str2
+                            + '<td>' + cItem.creator + '</td>'
+                            + '<td><span onclick="dialogForMoveUser(this)" class="cursor"><a>' + cItem.current_num + '</a></span></td>'
+                            + '<td>' + cItem.update_time + '</td>'
+                            + '<td>' + status + '</td>'
+                            + '<td departid="' + cItem.departId + '" style="display:none;">' + cItem.departId + '</td>'
+                            + '<td style="display:none;">' + cItem.name + '</td>'
+                            + '<td style="display:none;">' + cItem.status + '</td>'
+                            + '<td style="display:none;">' + cItem.departId + '</td>'
+                            + '<td class="other"><a class="btn btn-primary btn-xs' + (hasFn('mod') && item.name !== "未分组" ? '" onclick="edit(this)"' : ' unable"') + '>编辑</a><td>')
+                    if (cTr.find('td:last').html() == '') {
+                        cTr.find('td:last').remove();
+                    }
+                    tr.after(cTr);
                 }
-
             }
         });
     } else {
-        showusers(e);
+        toggleChildByTd(td)
     }
+}
+function toggleChildByTd(td) {
+    var item = $(td).closest('tr').data('item'),
+        hide = $(td).find('i.fa').hasClass('fa-plus');
+    $('.userstable table tr').each(function () {
+        if ($(this).attr('pid') === item.departId) {
+            if ($(td).is(':visible')) {
+                $(this).toggleClass('hidden', hide);
+            } else {
+                $(this).addClass('hidden');
+            }
+            var ctd = $(this).find('td[onclick="toggleChild(this)"]')[0];
+            if (ctd) {
+                toggleChildByTd(ctd)
+            }
+        }
+    })
+}
+
+function getTrByDepartId(departId) {
+    return $('.userstable table tr').filter(function () {
+        return $(this).attr('pid') === departId;
+    });
 }
 var active = '';
 function showusers(e) {
-    var id = $(e).parent().find('td').eq(6).text();
-    var childArry = getchildtr(id);
+    var item = $(e).closest('tr').data('item');
+    var childArry = getTrByDepartId(item.departId);
     if (childArry.length > 0) {
         var tab = $('.userstable table');
         tab.find('tr').each(function () {
@@ -126,8 +181,8 @@ function showusers(e) {
 }
 function showorhide(e) {
     var that = e;
-    var id = $(e).parent().find('td').eq(6).text();
-    var childArry = getchildtr(id);
+    var id = $(e).parent().find('td').eq(6).attr('departId');
+    var childArry = getTrByDepartId(id);
     if (childArry.length > 0) {
         for (var i in childArry) {
             var tab = $('.userstable table');
@@ -150,60 +205,8 @@ function showorhide(e) {
         }
     }
 }
-function getchildtr(id) {
-    var newArry = new Array();
-    var tab = $('.userstable table');
-    tab.find('tr').each(function () {
-        if ($(this).find('td').eq(9).text() == id) {
-            newArry.push($(this).find('td').eq(6).text());
-        }
-    });
-    return newArry;
-}
-// 用户组添加用户
-function add_user(e) {
-    var _tr = $(e).parent().parent();
-    var id = _tr.find('td').eq(6).text() * 1;
-    $('.userslist').css({ 'display': 'none' });
-    $('.user').css({ 'display': 'block' });
-    $('.addur').css({ 'display': 'inline-block' });
-    $('.user').find('input[name=depart_id]').val(id);
-    var table1 = $('.freeuser'),
-        str1 = '<table class="table table-striped table-bordered table-hover" style="table-layout: fixed;" id="adduser"><tr>'
-            + '<th width="50%">账号</th>'
-            + '<th width="50%">姓名</th>'
-            + '<th width="50px" style="text-align:center;">操作</th></tr>',
-        table2 = $('.member'),
-        str2 = '<table class="table table-striped table-bordered table-hover" style="table-layout: fixed;" id="deleteuser"><tr>'
-            + '<th width="50%">账号</th>'
-            + '<th width="50%">姓名</th>'
-            + '<th width="50px" style="text-align:center;">操作</th></tr>';
-    $.silentGet('/man/users/freeUserList', { depart_id: id }, function (data) {
-        if (data.rt == '0000') {
-            for (var i in data.available_users) {
-                str1 += '<tr>'
-                    + '<td>' + data.available_users[i].account + '</td>'
-                    + '<td>' + data.available_users[i].name + '</td>'
-                    + '<td style="display:none;">' + data.available_users[i].id + '</td>'
-                    + '<td style="padding:0;text-align:center;"><img src="../imgs/roleadd.png" onclick="adduser(this)" style="vertical-align: middle;cursor:pointer;" />'
-                    + '</td></tr>';
-            }
-            str1 += '</table>';
-            table1.html(str1);
 
-            for (var j in data.depart_users) {
-                str2 += '<tr>'
-                    + '<td>' + data.depart_users[j].account + '</td>'
-                    + '<td>' + data.depart_users[j].name + '</td>'
-                    + '<td style="display:none;">' + data.depart_users[j].id + '</td>'
-                    + '<td style="padding:0;text-align:center;"><img src="../imgs/roledelete.png" onclick="deleteuser(this)" style="vertical-align: middle;cursor:pointer;" />'
-                    + '</td></tr>';
-            }
-            str2 += '</table>';
-            table2.html(str2);
-        }
-    });
-}
+
 //页面删除用户
 function deleteuser(obj) {
     var tr = $(obj).parent().parent();
@@ -277,10 +280,10 @@ function save() {
         }
     });
     var postData = {
-        depart_id: $('.user').find('input[name=depart_id]').val() * 1,
+        departId: $('.user').find('input[name=departId]').val(),
         user_list: JSON.stringify(user_list)
     };
-    $.actPost('/man/users/addUsers', postData, function (data) {
+    $.actPost('/admin/depart/memberManage', postData, function (data) {
         if (data.rt == '0000') {
             userslist();
             getUsersList(0);
@@ -291,6 +294,7 @@ function save() {
 function modify(e) {
     var _tr = $(e).parent().parent();
     var id = _tr.find('td').eq(6).text() * 1;
+    var departid = _tr.find('td').eq(6).attr('departid');
     var pid = _tr.find('td').eq(9).text() * 1;
     var name = _tr.find('td').eq(7).text();
     var status = _tr.find('td').eq(8).text();
@@ -330,16 +334,19 @@ function modify(e) {
         + '</div>'
         + '<div class="modal-footer">'
         + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-        + '<button type="button" class="btn btn-primary" onclick="users_modify(' + id + ')">确认</button>'
+        + '<button type="button" class="btn btn-primary" departid="' + departid + '" onclick="users_modify(this)">确认</button>'
         + '</div>';
     alertOpen(cont);
     $(document).ready(function () {
         $("input[name=status][value='" + status + "']").attr("checked", true);
     });
-    $.silentGet('/man/users/getUsersList', { depart_id: 0 }, function (data) {
+    $.silentGet('/common/org/list', {
+        departId: 0,
+        url: '/p/depart/manage'
+    }, function (data) {
         if (data.rt == '0000') {
             for (var i in data.depart_list) {
-                if( data.depart_list[i].id!=-1){
+                if (data.depart_list[i].id != -1) {
                     if (data.depart_list[i].status == 1) {
                         checkstr = data.depart_list[i].id == pid ? '<i class="fa fa-check-square-o treechildh cursor" onclick="select(this)">'
                             + '<input type="text" name="tree_id" value="' + data.depart_list[i].id + '" style="display:none;" /></i>'
@@ -368,7 +375,8 @@ function modify(e) {
 
 }
 // 修改用户组提交
-function users_modify(id) {
+function users_modify(e) {
+    var departid = $(e).attr('departid');
     var pid = $('input[name=parent_id]').val() * 1;
     var tab = $('#treegroup');
     tab.find('.treechildh').each(function () {
@@ -379,14 +387,15 @@ function users_modify(id) {
 
     var postData = {
         name: $('input[name=name]').val(),
-        id: id,
+        departId: departid,
         status: $("input[name='status']:checked").val(),
-        parent_id: pid
+        parent_id: pid,
+        url: '/p/depart/manage'
     };
     if (postData.name == "") {
         warningOpen('请填写名称！', 'danger', 'fa-bolt');
     } else {
-        $.actPost('/man/users/updateUsers', postData, function (data) {
+        $.actPost('/common/mod', postData, function (data) {
             if (data.rt == '0000') {
                 alertOff();
                 getUsersList(0);
@@ -396,63 +405,162 @@ function users_modify(id) {
 }
 // 添加用户组
 function add() {
-    var cont = '';
-    var folder = '';
-    var str = '<ul style="padding-left: 20px;">';
-    cont += '<div class="modal-header">'
-        + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-        + '<h4 class="modal-title">添加用户组</h4>'
-        + '</div>'
-        + '<div class="modal-body">'
-        + '<form role = "form" class="form-horizontal">'
-        + '<div class = "form-group">'
-        + '<label class="col-sm-3 control-label" for = "name">名称</label>'
-        + '<div class="col-sm-7">'
-        + '<input type = "text" class = "form-control" id = "name" name="name" placeholder = "请输入名称" />'
-        + '</div>'
-        + '<div class="col-sm-2" style="padding-left:0;">'
-        + '<img src = "../imgs/star.png"></img>'
-        + '</div></div>'
-        + '<div class = "form-group">'
-        + '<label class="col-sm-3 control-label" for = "name">上级用户组</label>'
-        + '<div class="col-sm-7">'
-        + '<input type="text" name="parent_id" id="parent_id" style="display:none;" />'
-        + '<div id="treegroup" style="height:atuo;max-height:180px;overflow:auto;padding:5px;border:1px solid #ccc;">'
-        + '</div>'
-        + '</div></div>'
-        + '</form>'
-        + '</div>'
-        + '<div class="modal-footer">'
-        + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-        + '<button type="button" class="btn btn-primary" onclick="users_add()">确认</button>'
-        + '</div>';
-    alertOpen(cont);
-    $.silentGet('/man/users/getUsersList', { depart_id: 0 }, function (data) {
-        if (data.rt == '0000') {
-            for (var i in data.depart_list) {
-                if( data.depart_list[i].id!=-1){
-                    if (data.depart_list[i].status == 1) {
-                        folder = data.depart_list[i].child_node != 0 ?
-                            '<i class="fa fa-plus faopen cursor" onclick="opentrees(this)" style="width: 15px;"></i><i class="fa fa-minus faclose cursor" onclick="opentrees(this)" style="width: 15px;"></i>' : '';
-                        str += '<li class="tree-item">'
-                            + '<div class ="tree-item-name">'
-                            + '<i class="fa fa-check-square-o treechildh cursor" style="display:none;" onclick="select(this)">'
-                            + '<input type="text" name="tree_id" value="' + data.depart_list[i].id + '" style="display:none;" /></i>'
-                            + '<i class="fa fa-square-o treechilds cursor" onclick="cancel(this)"></i>'
-                            + '<input type="text" name="p_id" value="' + 0 + '" style="display:none;" />'
-                            + folder
-                            + data.depart_list[i].name
-                            + '</div>'
-                            + '</li>';
-                    } else {
-                        console.warn('禁用：', data.depart_list[i]);
-                    }
+    grpFormFor('add');
+}
+function edit(e) {
+    grpFormFor('edit', e)
+}
+
+function grpFormFor(use, ele) {
+    var item = {};
+    switch (use) {
+        case 'add':
+            title = "新建用户组";
+            break;
+        case 'edit':
+            item = $(ele).closest('tr').data('item');
+            title = "编辑用户组:" + item.name;
+            break;
+    }
+    var cont = '<form id="frmUserGroup" class="form-horizontal form-bordered" role="form" method="post">\
+            <input type="hidden" name="departId"/>\
+            <div class="form-group">\
+                <label for="name" class="col-sm-3 control-label no-padding-right">用户组名</label>\
+                <div class="col-sm-9">\
+                    <input type="text" class="form-control require" id="name" name="name" ctrl-regex="groupname" placeholder="请输入用户组名">\
+                </div>\
+            </div>\
+            <div class="form-group">\
+                <label for="status" class="col-sm-3 control-label no-padding-right">用户组名</label>\
+                <div class="col-sm-9">\
+                    <div class="control-group">\
+                        <div class="radio col-sm-5">\
+                            <label>\
+                                <input name="status" value="1" type="radio" checked="checked" />\
+                                <span class="text">正常</span>\
+                            </label>\
+                        </div>\
+                        <div class="radio col-sm-5">\
+                            <label>\
+                                <input name="status" value="0" type="radio" />\
+                                <span class="text">禁止</span>\
+                            </label>\
+                        </div>\
+                    </div>\
+                </div>\
+            </div>\
+            <div class="form-group">\
+                <label class="col-md-3 control-label no-padding-right">上级组</label>\
+                <div class="col-md-9">\
+                    <input type="hidden" name="parent_id" value="0" />\
+                    <div id="xtreegroup" style="min-height:100px;max-height:300px;"></div>\
+                </div>\
+            </div>\
+            <div class="form-group">\
+                <div class="col-sm-2  col-sm-offset-4">\
+                    <button type="button" class="btnBack btn btn-default">返回</button>\
+                </div>\
+                <div class="col-sm-2 col-sm-offset-1">\
+                    <input type="submit" class="btn btn-primary" disabled="">\
+                </div>\
+            </div>\
+        </form>';
+    $.dialog('confirm', {
+        width: 500,
+        height: null,
+        autoSize: true,
+        maskClickHide: true,
+        title: title,
+        content: cont,
+        hasBtn: false,
+        hasClose: true,
+        hasMask: true,
+        confirmValue: '确认',
+        confirm: function () {
+            frmUserGroup.submit();
+        },
+        confirmHide: false,
+        cancelValue: '取消'
+    });
+    var frmUserGroup = $('#frmUserGroup').MultForm({
+        addUrl: '/p/depart/manage',
+        addBtnTxt: '确认',
+        editUrl: '/p/depart/manage',
+        editBtnTxt: '保存',
+        afterUsed: function (use) {
+            switch (use) {
+                case 'add':
+                    frmUserGroup.find('input[name=parent_id]').val(0);
+                    break;
+                case 'edit':
+                    frmUserGroup.find('input[name=status][value="' + item.status + '"]').prop('checked', true);
+                    break;
+                default:
+            }
+        },
+        beforeSubmit: function (arrKeyVal, $frm, ajaxOptions) {
+            if (item && frmUserGroup.find('input[name=parent_id]').val() == item.id) {
+                warningOpen('用户组不能移至自身', 'danger', 'fa-bolt');
+                return false;
+            }
+            for (var i = 0; i < arrKeyVal.length; i++) {
+                if (delKeyVal(arrKeyVal[i].name)) {
+                    arrKeyVal.splice(i, 1);
+                    i--;
                 }
             }
-            str += '</ul>'
-            $("#treegroup").html(str);
+            function delKeyVal(key) {  //删掉不需要提交的数据
+                switch (key) {
+                    case 'xtreeitem':
+                        return true;
+                    case 'departId':
+                        return use === 'add';
+                    default:
+                }
+            }
+            return true;
+        },
+        cbSubmit: function (use) {
+            $.dialogClose();
+            getUsersList(0);
         }
     });
+
+    if (item) {
+        frmUserGroup.data('item', item);
+    } else {
+        frmUserGroup.removeData('item');
+    }
+
+    $('#frmUserGroup').parent().css({
+        display: 'block'
+    })
+    $('#xtreegroup').XTree({
+        multiple: false,
+        hasRoot: false,
+        relPTable: null
+    });
+    $('#xtreegroup').off().on('click', function (e) {
+        if (e.target.tagName === "LABEL") {
+            return;
+        } else if (e.target.tagName === "INPUT") {
+            var li = $(e.target).closest('li'),
+                gid = li.data('gid'),
+                ipt = li.find('input'),
+                iptDid = $('#xtreegroup').prev();
+            if (gid == iptDid.val()) {
+                iptDid.val('0');
+                ipt.prop('checked', false);
+            } else {
+                iptDid.val(gid);
+            }
+        } else {
+
+        }
+
+    });
+
+    frmUserGroup.usedAs(use);
 }
 var active1 = '';
 function opentrees(e) {
@@ -470,7 +578,10 @@ function opentrees(e) {
         $(e).css('display', 'none');
         $(e).next().css('display', 'inline-block');
         var str = '<ul style="padding-left: 20px;">';
-        $.silentGet('/man/users/getUsersList', { depart_id: id }, function (data) {
+        $.silentGet('/common/org/list', {
+            departId: id,
+            url: '/p/depart/manage'
+        }, function (data) {
             if (data.rt == '0000') {
                 for (var i in data.depart_list) {
                     if (data.depart_list[i].status == 1) {
@@ -542,12 +653,13 @@ function users_add() {
     var postData = {
         name: $('input[name=name]').val(),
         status: 1,
-        parent_id: parent_id
+        parent_id: parent_id,
+        url: '/p/depart/manage'
     };
     if (postData.name == "") {
         warningOpen('请填写名称！', 'danger', 'fa-bolt');
     } else {
-        $.actPost('/man/users/addUserGroup', postData, function (data) {
+        $.actPost('/common/org_add', postData, function (data) {
             if (data.rt == '0000') {
                 alertOff();
                 getUsersList(0);
@@ -595,15 +707,16 @@ function users_delete() {
     tab.find('td span').each(function () {
         if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
-            departs[i] = tr.find('td').eq(6).text() * 1;
+            departs[i] = tr.find('td').eq(6).attr('departid');
             i = i + 1;
         }
     });
     if (departs.length > 0) {
         var postData = {
-            departs: JSON.stringify(departs)
+            departs: JSON.stringify(departs),
+            url: '/p/depart/manage'
         };
-        $.actPost('/man/users/delUsers', postData, function (data) {
+        $.actPost('/common/del', postData, function (data) {
             if (data.rt == '0000') {
                 getUsersList(0);
                 alertOff();
@@ -612,4 +725,171 @@ function users_delete() {
     } else {
         warningOpen('请选择标签！', 'danger', 'fa-bolt');
     }
+}
+
+
+
+// 用户组内外用户移动
+function dialogForMoveUser(e) {
+    var cont = '<div style="display:flex;">\
+            <input type="hidden" name="departId" />\
+            <div style="width:45%">\
+                    <form id="pnlForInGroup" class="form-inline pnl" role="form" onkeydown="if(event.keyCode==13){return false;}">\
+                            <div class="buttons-preview pull-left"><h5>组内用户</h5></div>\
+                            <div class="pull-right">\
+                                <div class="input-group">\
+                                    <span class="input-icon">\
+                                        <input type="text" class="form-control input-sm" autocomplete="off" placeholder="请输入搜索关键字">\
+                                        <i class="glyphicon glyphicon-search blue"></i>\
+                                    </span>\
+                                </div>\
+                            </div>\
+                    </form>\
+                    <table id="tblForInner"></table>\
+            </div>\
+            <div style="width:10%">\
+                <div class="arrows">\
+                    <i onclick="moveGrpUsers(\'in\')" class="iconfont icon-zuojiantouxiangzuofanhuimianxing"></i>\
+                    <i onclick="moveGrpUsers(\'out\')" class="iconfont icon-zuojiantouxiangzuofanhuimianxing1"></i>\
+                </div>\
+            </div>\
+            <div style="width:45%">\
+                    <form id="pnlForOutGroup" class="form-inline pnl" role="form" onkeydown="if(event.keyCode==13){return false;}">\
+                            <div class="buttons-preview pull-left"><h5>组外用户</h5></div>\
+                                <div class="pull-right"><div class="input-group">\
+                                    <span class="input-icon">\
+                                        <input type="text" class="form-control input-sm" autocomplete="off" placeholder="请输入搜索关键字">\
+                                        <i class="glyphicon glyphicon-search blue"></i>\
+                                    </span>\
+                                </div>\
+                            </div>\
+                    </form>\
+                    <table id="tblForOuter"></table>\
+            </div>\
+        </div>';
+    $.dialog('list', {
+        width: 1200,
+        title: '移入移出用户组',
+        content: cont
+    });
+    $('.dialog-box').css({
+        top: '15%'
+    }).find();
+    var _tr = $(e).closest('tr');
+    var departId = _tr.find('td').eq(6).attr('departId');
+    $('input:hidden[name=departId]').val(departId);
+    tblCoupleInit(departId);
+}
+
+
+
+
+function tblCoupleInit(departId) {
+    tblCouple(departId);
+}
+function tblCoupleRefresh(departId) {
+    tblCouple(departId, function () {
+        getUsersList(0);
+        $('.arrows').removeClass('antiCursor');
+    });
+}
+
+function tblCouple(departId, cb) {
+    $.silentGet('/admin/depart/memberManage', { departId: departId }, function (data) {
+        if (data.rt == '0000') {
+            $('#tblForInner').ScrollList({
+                inputList: data.depart_users,
+                width: '100%',
+                height: '300px',
+                elesTop: ['序号', '账号', '姓名', '<label><input class="allcheck" type="checkbox"><span>全选</span></div>'],
+                elesDemo: [
+                    '<span class="counter"></span>',
+                    '<span item-key="account"></span>',
+                    '<span item-key="name"></span>',
+                    '<label><input class="itemcheck" type="checkbox"><span></span></label>'
+                ],
+                widthProportion: [0.5, 1, 1, 0.5]
+            });
+            $('#tblForOuter').ScrollList({
+                inputList: data.available_users,
+                width: '100%',
+                height: '300px',
+                elesTop: ['序号', '账号', '姓名', '<label><input class="allcheck" type="checkbox"><span>全选</span></label>'],
+                elesDemo: [
+                    '<span class="counter"></span>',
+                    '<span item-key="account"></span>',
+                    '<span item-key="name"></span>',
+                    '<label><input class="itemcheck" type="checkbox"><span></span></label>'
+                ],
+                widthProportion: [0.5, 1, 1, 0.5]
+            });
+            if (cb) {
+                cb(data);
+            }
+        }
+    });
+
+    $('.pnl input').off().on('input change propertychange', function () {
+        var keyword = encode($(this).val()),
+            tbl = $(this).closest('.pnl').next('table');
+        tbl.find('input:checkbox').prop('checked', false);
+        tbl.find('dd.ddHas>ul').each(function () {
+            if (keyword === '') {
+                $(this).removeClass('hidden');
+            } else {
+                var yesno = true;
+                $(this).find('li span[item-key]').each(function () {
+                    if ($(this).text().toLowerCase().indexOf(keyword.toLowerCase()) !== -1) {
+                        yesno = false;
+                    }
+                })
+                $(this).toggleClass('hidden', yesno);
+            }
+        })
+    })
+
+    $('#tblForOuter,#tblForInner').off().on('change', function (e) {
+        if ($(e.target).hasClass('allcheck')) {
+            $(this).find('dd.ddHas input:checkbox:visible').prop('checked', $(e.target).prop('checked'));
+        }
+    });
+}
+
+function moveGrpUsers(flag) {
+    $('.arrows').addClass('antiCursor');
+    event.stopPropagation();
+    var user_list = [],
+        departId = $('input:hidden[name=departId]').val();
+    switch (flag) {
+        case 'in':
+            $('#tblForOuter').find('dd.ddHas>ul:has(input:checked:visible)').each(function () {
+                user_list.push($(this).data('item').userId)
+            });
+            if (user_list.length == 0) {
+                warningOpen('请选择组外用户', 'danger', 'fa-bolt');
+                $('.arrows').removeClass('antiCursor');
+                return;
+            }
+            break;
+        case 'out':
+            $('#tblForInner').find('dd.ddHas>ul:has(input:checked:visible)').each(function () {
+                user_list.push($(this).data('item').userId)
+            });
+            if (user_list.length == 0) {
+                warningOpen('请选择组内用户', 'danger', 'fa-bolt');
+                $('.arrows').removeClass('antiCursor');
+                return;
+            }
+            break;
+        default:
+    }
+    $.actPost('/admin/depart/memberManage', {
+        flag: flag,
+        departId: departId,
+        user_list: JSON.stringify(user_list)
+    }, function (data) {
+        if (data.rt === "0000") {
+            tblCoupleRefresh(departId);
+        }
+    })
 }

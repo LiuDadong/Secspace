@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget">
+            <div class="widget-header bg-primary">
+                <span id="subCaption" class="widget-caption">机构树</span>
+            </div>
+            <!-- section:分页列表 -->
+            <div class="widget-body section table clearfix" style="overflow:hidden;">
+                <form id="panel" class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}" style="height:80px">
+                    <div id="orgmind_btns" class="buttons-preview pull-left">
+                        <button class="btnAdd btn btn-primary btn-sm" type="button"><i class="fa fa-plus">添加</i></button>
+                        <button class="btnEdit btn btn-default btn-sm" type="button"><i class="fa fa-pencil-square-o">编辑</i></button>
+                        <button class="btnDel btn btn-default btn-sm" type="button"><i class="fa fa-minus-square">删除</i></button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle btnExport"
+                                data-toggle="dropdown">导出<i class="fa fa-angle-down"></i></button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop1" onclick="event.stopPropagation();">
+                                <li><a href="#">选定机构</a></li>
+                                <li><a href="#">选定机构及下级机构</a></li>
+                            </ul>
+                        </div>
+                        <button class="btnImport btnRefresh btn btn-default btn-sm" type="button">导入</button>
+                        <button class="btnRefresh btn btn-default btn-sm" type="button">刷新</button>
+                    </div>
+                </form>
+                <div class="col-lg-12">
+                    <div class="orgPanel profile-contacts">
+                        <div class="profile-badge azure">
+                            <i class="fa fa-map-marker azure"></i><span>机构信息</span>
+                        </div>
+                        <div class="contact-info">
+                            <p>机构名 : <span id="topic"></span> </p>
+                            <p>机构码 : <span id="orgCode"></span> </p>
+                            <p>用户数 : <span id="orgUser"></span> </p>
+                            <p>策略数 : <span id="orgPolicy"></span> </p>
+                        </div>
+                    </div>
+                    <div id="jsmind_container" class="jsmind orgManage"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script data-src="/subpage/p0801_org.js"></script>

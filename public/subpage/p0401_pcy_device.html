@@ -11,12 +11,15 @@
                         <button class="btnAdd btn btn-primary">
                             <i class="fa fa-plus">添加</i>
                         </button>
-                        <button class="btnToIssue btn btn-primary">
-                            <i class="fa fa-magic">下发</i>
-                        </button>
-                        <button class="btnRefresh btn btn-default btn-sm">
-                            <i class="fa fa-refresh">刷新</i>
-                        </button>
+                        <div class="btn-group">
+                            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-magic">下发</i> <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0);" class="btnToIssue">机构内下发</a></li>
+                                <li><a href="javascript:void(0);" class="btnToSubOrgs">发布/下发至下级机构</a></li>
+                            </ul>
+                        </div>
                         <button class="btnAct btn btn-default btn-sm">
                             <i class="fa fa-check-circle">启用</i>
                         </button>
@@ -25,6 +28,9 @@
                         </button>
                         <button class="btnDel btn btn-default btn-sm">
                             <i class="fa fa-minus-square">删除</i>
+                        </button>
+                        <button class="btnRefresh btn btn-default btn-sm">
+                            <i class="fa fa-refresh">刷新</i>
                         </button>
                         <button type="button" class="btnDefPcy btn btn-sm btn-primary">默认设备策略</button>
                     </div>
@@ -117,46 +123,46 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="camera" class="col-md-4 control-label no-padding-right">禁止使用相机</label>
+                            <label for="camera" class="col-md-4 control-label no-padding-right">相机</label>
                             <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="camera" name="camera" />
-                                        <span class="text">禁止</span>
+                                        <span class="text">禁用</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="camera_control" class="col-md-4 control-label no-padding-right">禁用应用摄像头</label>
+                            <label for="camera_control" class="col-md-4 control-label no-padding-right">应用摄像头</label>
                             <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="camera_control" name="camera_control" />
-                                        <span class="text">禁止</span>
+                                        <span class="text">禁用</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="wifi" class="col-md-4 control-label no-padding-right">禁止使用Wifi</label>
+                            <label for="wifi" class="col-md-4 control-label no-padding-right">Wifi</label>
                             <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" onclick="checkwifi(this)" id="wifi" name="wifi" />
-                                        <span class="text">禁止</span>
-                                        <span class="help">不能和禁止移动数据同时开启</span>
+                                        <span class="text">禁用</span>
+                                        <span class="help">不能和移动数据同时禁用</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="mobile_data" class="col-md-4 control-label no-padding-right">禁止移动数据</label>
+                            <label for="mobile_data" class="col-md-4 control-label no-padding-right">移动数据</label>
                             <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" onclick="checkmobile(this)" id="mobile_data" name="mobile_data" />
-                                        <span class="text">禁止</span>
+                                        <span class="text">禁用</span>
                                         <span class="help">仅支持5.0以上系统，需获得系统权限签名</span>
                                         <span class="help"> </span>
                                     </label>
@@ -164,12 +170,12 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="bluetooth" class="col-md-4 control-label no-padding-right">禁止使用蓝牙</label>
+                            <label for="bluetooth" class="col-md-4 control-label no-padding-right">蓝牙</label>
                             <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="bluetooth" name="bluetooth" />
-                                        <span class="text">禁止</span>
+                                        <span class="text">禁用</span>
                                     </label>
                                 </div>
                             </div>
@@ -199,42 +205,42 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="recording" class="col-md-4 control-label no-padding-right">禁止录音</label>
+                            <label for="recording" class="col-md-4 control-label no-padding-right">录音</label>
                             <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="recording" name="recording" />
-                                        <span class="text">禁止</span>
+                                        <span class="text">禁用</span>
                                         <span class="help">仅支持6.0以上系统，需获得系统权限签名</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="setfactory" class="col-md-4 control-label no-padding-right">禁止恢复出厂</label>
+                            <label for="setfactory" class="col-md-4 control-label no-padding-right">恢复出厂</label>
                             <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="setfactory" name="setfactory" />
-                                        <span class="text">禁止</span>
+                                        <span class="text">禁用</span>
                                         <span class="help">仅支持5.0以上系统，需获得系统权限签名</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="message" class="col-md-4 control-label no-padding-right">禁止使用短信</label>
+                            <label for="message" class="col-md-4 control-label no-padding-right">使用短信</label>
                             <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="message" name="message" />
-                                        <span class="text">禁止</span>
+                                        <span class="text">禁用</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="phone" class="col-md-4 control-label no-padding-right">禁止收听电话</label>
+                            <label for="phone" class="col-md-4 control-label no-padding-right">接听电话</label>
                             <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
@@ -358,7 +364,7 @@
             </div>
             <!-- section:策略下发 -->
             <div style="overflow:hidden;display: none;" class="widget-body section">
-                <div id="issuePane">
+                <div id="issuePane" style="height:50px;">
                     <form>
                         <div class="buttons-preview pull-left">
                             <button class="btnIssue btn btn-primary">
@@ -414,6 +420,11 @@
                     </div>
                 </div>
 
+            </div>
+            <!-- section:策略发布/下发至下级机构 -->
+            <div style="overflow:hidden;display: none;" class="widget-body section">
+                <div id="issueSubsPane" style="height:50px"></div>
+                <div id="select_jm_container"></div>
             </div>
         </div>
     </div>

@@ -587,7 +587,6 @@ a, a:hover {
     opacity: .5;
     cursor: not-allowed;
     pointer-events: none;
-    width: 60px;
 }
 
 .hrefallowed {

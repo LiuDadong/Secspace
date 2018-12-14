@@ -1,153 +1,80 @@
-html{color:#000;background:#FFF;} 
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form, 
-fieldset,input,textarea,p,blockquote,th,td { 
-margin:0; 
-padding:0;
-color: inherit;
-} 
-table { 
-border-collapse:collapse; 
-border-spacing:0; 
-} 
-fieldset,img { 
-border:0; 
-} 
-address,caption,cite,code,dfn,em,strong,th,var { 
-font-style:normal; 
-font-weight:normal; 
-} 
-ol,ul { 
-list-style:none; 
-} 
-caption,th { 
-text-align:left; 
-} 
-h1,h2,h3,h4,h5,h6 { 
-font-size:100%; 
-font-weight:normal; 
-} 
-q:before,q:after { 
-content:''; 
-} 
-abbr,acronym { border:0; 
-}
-
-.clearfix::before{
-	content: "";
-	display: table;
-}
-.clearfix::after{
-	display: block;
-	clear: both;
-	content: "";
-	visibility: hidden;
-	height: 0;
+html{
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	background-color:white;
 }
 body{
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif,'Open Sans','Segoe UI';
-	font-size: 14px;
+	padding: 0;
+	margin: 0;
+	background:url(/imgs/login/login_bg.jpg) no-repeat fixed top center;
+	background-size: cover;
+	color:white;
+	font-size:20px;
 }
 
-
-
-
-#img{
-	z-index: -1;
-	position: fixed;
-	width: 100%;
-	height: 100%;
-}
-
-h3{
+h3.product-name{
 	text-align: center;
-	font: 26px "microsoft yahei",Helvetica,Tahoma,Arial,"Microsoft jhengHei",sans-serif;
-	color: #FFFFFF;
-	padding-top:90px;
-	letter-spacing: 1.5px;
+	font-weight: bold;
+	font-size: 40px;
+	padding: 20vh 0 5vh;
 }
 
-.loginbox{
-	width: 280px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin: 10px auto;
-	color: #FFF;
-}
-
-.loginbox .input_outer{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 46px;
-	line-height: 46px;
-	margin: 10px 0;
-	border-radius: 50px;
-	overflow: hidden;
-	box-shadow: 0 0 0 2px rgba(255,255,255,0.2) inset;
-}
-
-.loginbox .input_outer .icon{
-	width: 25px;
-	height: 25px;
-	margin-right: 8px;
-}
-.loginbox .input_outer .account{
-	background: url(/imgs/login/login_ico.png);
-	background-position:  -125px 0;
-}
-.loginbox .input_outer .passwd{
-	background-image: url(/imgs/login/login_ico.png);
-	background-position: -125px -34px;
+#login-form{
+	width: 50%;
+	max-width: 400px;
+	margin: 0 auto;
 }
 
 
-.loginbox .input_outer .input{
-	width: 220px;
-	color: #FFF!important;
-	font: 18px "microsoft yahei",Helvetica,Tahoma,Arial,"Microsoft jhengHei";
-	line-height: 36px;
-	border: none;
-	outline: none;
-	background: none;
-	background-color:transparent !important;
-	
+#login-form .input-icon>input{
+	background:none !important;
+	outline: none !important;
+	height: 50px;
+	line-height: 30px;
+	font-size: 18px;
+	color: rgba(255, 255, 255, 1);
+	border: 1px solid rgba(255, 255, 255, 1);
+	margin: 0;
+	padding: 0 0.5em;
+	border-radius: 2px !important;
+	opacity: 0.7;
 }
 
-.loginbox .input_outer .formbtn{
+
+#login-form .checkbox input+span.text{
 	font-size: 20px;
-	width: 280px;
-	line-height: 46px;
-	text-align: center;
-	background: #0096e6;
-	border: none;
-	border-radius: 50px;
-	cursor: pointer;
 }
-.loginbox .input_outer .formbtn:hover{
-	background: #2ba4e4;
-}
-.loginbox .input_outer .formbtn:active{
-	background: #2ba4e4;
-	border:none;
+#login-form .btn-block{
+	height: 50px;
+	line-height: 30px;
+	font-size: 22px;
 }
 
-.loginbox .form-bottom{
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+#login-form .input-icon>input:focus{
+	opacity: 1;
+	background:none !important;
+	outline: none !important;
 }
-.loginbox .form-bottom .savepw{
-	display: flex;
-	align-items: center;
+
+#login-form .input-icon>input+i{
+	color: rgba(255, 255, 255, 1) !important;
+	width: 40px!important;
+	height: 40px!important;
+	font-size: 24px;
+	line-height: 40px;
+	opacity: 0.7;
 }
-.loginbox .form-bottom .savepw input{
-	width: 20px;
-	height: 20px;
-	margin-right: 5px;
-	border: 1px solid #e5e6e7;
-	border-radius: 2px;
+
+#login-form .input-icon>input+i.fa-lock{  
+	font-size: 28px;
 }
-.loginbox .form-bottom a{
-	color: #fff;
+
+#login-form .input-icon>input:focus+i{
+	opacity: 1;
+}
+
+
+hr.wide{
+	opacity: 0.4;
 }

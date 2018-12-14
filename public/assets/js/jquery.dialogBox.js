@@ -18,6 +18,7 @@
 			hasMask: false,  //是否显示遮罩层
 			hasClose: false,  //是否显示关闭按钮
 			hasBtn: false,  //是否显示操作按钮，如取消，确定
+			confirmHide: true,
 			confirmValue: null,  //确定按钮文字内容
 			confirm: function () { }, //点击确定后回调函数
 			cancelValue: null,  //取消按钮文字内容
@@ -26,7 +27,6 @@
 			type: 'normal', //对话框类型：normal(普通对话框),correct(正确/操作成功对话框),error(错误/警告对话框)
 			title: '',  //标题内容，如果不设置，则连同关闭按钮（不论设置显示与否）都不显示标题
 			content: ''  //正文内容，可以为纯字符串，html标签字符串，以及URL地址，当content为URL地址时，将内嵌目标页面的iframe。
-
 		};
 
 	function DialogBox(element, options) {
@@ -200,7 +200,6 @@
 		//显示弹出框
 		show: function () {
 			$('.dialog-box').css({ display: 'block' });
-
 			setTimeout(function () {
 				$('.dialog-box').addClass('show');
 			}, 50)
@@ -358,10 +357,14 @@
 		trigger: function (element, event) {
 			var that = this,
 				$this = $(element);
-			$('.dialog-box-close,.dialog-btn-cancel,.dialog-btn-confirm').on('click', function () {
+			$('.dialog-box-close,.dialog-btn-cancel').on('click', function () {
 				that.hide($this);
 			});
-
+			if (that.settings.confirmHide) {
+				$('.dialog-btn-confirm').on('click', function () {
+					that.hide($this);
+				});
+			}
 			if (that.settings.maskClickHide) {
 				$('#dialog-box-mask').on('click', function () {
 					that.hide($this);
@@ -373,15 +376,16 @@
 				}
 			});
 
-			if (that.settings.autoHide) {
+			if (that.settings.autoHide && typeof that.settings.time == 'number') {
 				setTimeout(function () {
 					that.hide($this);
 				}, that.settings.time)
 			}
 
 			if ($.isFunction(that.settings.confirm)) {
-				$('.dialog-btn-confirm').on('click', function () {
-					that.settings.confirm();
+				$('.dialog-btn-confirm').on('click', function (e) {
+					that.settings.confirm($('.dialog-box-container'));
+					return;
 				})
 			}
 
@@ -396,11 +400,16 @@
 	};
 
 	$.fn[pluginName] = function (options) {
-		this.each(function () {
-			if (!$.data(this, "plugin_" + pluginName)) {
-				$.data(this, "plugin_" + pluginName, new DialogBox(this, options));
-			}
-		});
+		// this.each(function () {
+		// 	console.log('333this');
+		// 	console.log(this);
+		// 	if (!$.data(this, "plugin_" + pluginName)) {
+		// 		$.data(this, "plugin_" + pluginName, new DialogBox(this, options));
+		// 	}
+		// });
+		if (!this.data("plugin_" + pluginName)) {
+			this.data("plugin_" + pluginName, new DialogBox(this, options))
+		}
 		return this;
 	};
 

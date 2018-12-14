@@ -442,7 +442,6 @@ cAmap.prototype = {
         this.fnMapAdjust();
     },
     fnMapResize: function () {
-        console.log(this);
         var oBtnResize=this.oMapFuncEles.mapBtns.oBtns.mapResizeBtn;
         if(oBtnResize.ele.innerHTML===oBtnResize.sInHtml){
             oBtnResize.ele.innerHTML=oBtnResize.sInHtmlMin;

@@ -5,7 +5,7 @@
  */
 $('.firstmenu').addClass('active');  
     // 获取统计信息 
-    $.silentGet('/man/org/statistics',{}, function(data) {
+    $.silentGet('/common/org/statistics',{}, function(data) {
         if (data.rt=='0000') {
             var weeks = [];
             var categories = [];

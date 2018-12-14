@@ -1,27 +1,31 @@
 <div class="row">
   <div class="apptaglist col-xs-12 col-md-12">
     <div class="widget">
-      <div class="widget-btn">
-        <a href="javascript:add()" class="btn btn-primary">
-          <i class="fa fa-plus">添加</i>
-        </a>
-        <a href="javascript:refresh()" style="cursor:pointer;opacity:1;text-align:center;">
-          <i style="font-size:20px;" class="fa fa-refresh"></i>
-          <p style="font-size:10px;margin:0;">刷新</p>
-        </a>
-        <a href="javascript:deletes()" class="hrefactive">
-          <i style="font-size:20px;" class="fa fa-minus-square"></i>
-          <p style="font-size:10px;margin:0;">删除</p>
-        </a>
-        <div class="input-group input-group-sm">
-          <input type="text" name="searchval" style="float:right;max-width:200px;" placeholder="名称" onfocus="this.placeholder=''" class="form-control"
-          />
-          <span class="input-group-btn">
-            <button type="button" onclick="searchlist()" class="btn btn-default btn-primary">
-              <i class="glyphicon glyphicon-search"></i>
-            </button>
-          </span>
-        </div>
+      <div class="widget-header">
+          <span id="subCaption" class="widget-caption">应用标签</span>
+      </div>
+      <div class="widget-body">
+          <form id="panel" class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
+              <div class="buttons-preview pull-left">
+                  <button rolefn="add" onclick="add()" class="btnInvite btn btn-primary" type="button">
+                      <i class="fa fa-plus">添加</i>
+                  </button>
+                  <button rolefn="del" onclick="deletes()" class="btnInvite btn btn-default btn-sm hrefactive" type="button">
+                      <i class="fa fa-minus-square">删除</i>
+                  </button>
+                  <button onclick="refresh()" class="btnRefresh btn btn-default btn-sm" type="button">
+                      <i class="fa fa-refresh">刷新</i>
+                  </button>
+              </div>
+              <div class="pull-right">
+                  <div class="input-group">
+                      <span class="input-icon">
+                          <input id="iptKeyword" name="searchval" type="text" class="form-control input-sm" autocomplete="off" placeholder="根据名称搜索">
+                          <i class="glyphicon glyphicon-search blue"></i>
+                      </span>
+                  </div>
+              </div>
+          </form>
       </div>
       <div style="box-shadow:none;padding:0;" class="apptagtable widget-body"></div>
       <div class="page1"></div>

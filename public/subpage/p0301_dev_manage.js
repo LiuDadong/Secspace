@@ -3,10 +3,23 @@
  *                          设备管理 device
  * ==================================================================
  */
+(function () {
+    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
 
-// 设备管理列表
-getDeviceList(1, 10);
-var mapObj = (function() {
+    $('input[name=searchval]').on('input change propertychange', function () {
+        var searchvalTimer;
+        clearTimeout(searchvalTimer);
+        searchvalTimer = setTimeout(function () {
+            getDeviceList(1, 10);
+        }, 500)
+
+    })
+
+    // 设备管理列表
+    getDeviceList(1, 10);
+
+})();
+var mapObj = (function () {
     var map;
     function getInstance() {
         if (map === undefined) {
@@ -21,7 +34,7 @@ var mapObj = (function() {
             center: [116.40, 39.90], //地图中心点
             zoom: 15 //地图显示的缩放级别
         });
-        AMap.plugin(['AMap.ToolBar', 'AMap.AdvancedInfoWindow'], function() {
+        AMap.plugin(['AMap.ToolBar', 'AMap.AdvancedInfoWindow'], function () {
             //创建并添加工具条控件
             var toolBar = new AMap.ToolBar();
             map.addControl(toolBar);
@@ -36,33 +49,37 @@ var mapObj = (function() {
 function getDeviceList(start_page, page_length) {
     var table = $('.devicetable'),
         str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>' +
-        '<th class="sel" style="line-height:20px;"><div class="checkbox">' +
-        '<label><input type="checkbox" onclick="selectedAll(this)" />' +
-        '<span class="text">全选</span></label></div></th>' +
-        '<th>设备名称</th>' +
-        '<th>姓名</th>' +
-        '<th>所属账号</th>' +
-        '<th>设备类型</th>' +
-        '<th>系统</th>' +
-        '<th>上一次在线时间</th>' +
-        '<th>目前状态</th>' +
-        '</tr>';
-    $.get('/man/dev/getDevList?start_page=' + start_page + '&page_length=' + page_length, function(data) {
-        var online = '',platform='';
-        data = JSON.parse(data);
+            '<th class="sel" style="line-height:20px;"><div class="checkbox">' +
+            '<label><input type="checkbox" onclick="selectedAll(this)" />' +
+            '<span class="text">全选</span></label></div></th>' +
+            '<th>设备名称</th>' +
+            '<th>姓名</th>' +
+            '<th>所属账号</th>' +
+            '<th>设备类型</th>' +
+            '<th>系统</th>' +
+            '<th>上一次在线时间</th>' +
+            '<th>目前状态</th>' +
+            '</tr>';
+
+    $.silentGet('/man/dev/getDevList', {
+        start_page: start_page,
+        page_length: page_length,
+        keyword: $('input[name=searchval]').val()
+    }, function (data) {
+        var online = '', platform = '';
         if (data.rt == '0000') {
             for (var i in data.doc) {
-                dev_name = data.doc[i].dev_name|| '未知设备';
-                dev_system = data.doc[i].dev_system|| '未知系统';
+                dev_name = data.doc[i].dev_name || '未知设备';
+                dev_system = data.doc[i].dev_system || '未知系统';
                 online = (data.doc[i].online == 1) ? '在线' : '离线';
                 platform = (data.doc[i].platform == "ios") ? 'iOS' : 'Android';
-                str += '<tr data-i="'+i+'">' +
-                    '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" />'+ 
+                str += '<tr data-i="' + i + '">' +
+                    '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" />' +
                     '<span class="text"></span></label></div></td>' +
                     '<td><a href="javascript:getDetail(' + i + ');">' + dev_name + '</a></td>' +
                     '<td>' + data.doc[i].user_name + '</td>' +
                     '<td>' + data.doc[i].account + '</td>' +
-                    '<td>' + platform + '</td>'+
+                    '<td>' + platform + '</td>' +
                     '<td>' + dev_system + '</td>' +
                     '<td>' + data.doc[i].last_online + '</td>' +
                     '<td>' + online + '</td>' +
@@ -70,7 +87,7 @@ function getDeviceList(start_page, page_length) {
             }
             str += '</table>';
             table.html(str);
-            table.find('table').data('data',data);
+            table.find('table').data('data', data);
             createFooter(start_page, page_length, data.total_count, 1);
         } else if (data.rt == 5) {
             toLoginPage();
@@ -100,10 +117,10 @@ function checkmap() {
         i = 0;
     var tr;
     var tab = $('.devicetable table');
-    tab.find('td span.text').each(function() {
+    tab.find('td span.text').each(function () {
         if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
-            dev_id[i] = tr.data('i')*1;
+            dev_id[i] = tr.data('i') * 1;
             i = i + 1;
         }
     });
@@ -120,9 +137,9 @@ function checkmap() {
 
 function getDetail(i) {
     var oItem = $('.devicelist table').data('data').doc[i];
-    var oDevInfo = oItem.dev_info?oItem.dev_info:null,
-        oAppInfoList=oItem.app_list?oItem.app_list.app_info_list:null;
-    if (typeof oDevInfo==="object"&&JSON.stringify(oDevInfo)!=='{}'&&oDevInfo!==null) {
+    var oDevInfo = oItem.dev_info ? oItem.dev_info : null,
+        oAppInfoList = oItem.app_list ? oItem.app_list.app_info_list : null;
+    if (typeof oDevInfo === "object" && JSON.stringify(oDevInfo) !== '{}' && oDevInfo !== null) {
         $('.devicelist').css({ 'display': 'none' });
         $('.device').css({ 'display': 'block' });
         $('.deviceinfo').css({ 'display': 'inline-block' });
@@ -197,7 +214,7 @@ function getDetail(i) {
 
         // tab3 设备定位信息
         var url = '/man/dev/location?dev_id=' + dev_id;
-        $.get(url, function(data) {
+        $.get(url, function (data) {
             data = JSON.parse(data);
             showLocationMap(data);
         });
@@ -207,7 +224,7 @@ function getDetail(i) {
             '<th>应用名称</th>' +
             '<th>应用包名称</th>' +
             '<th>版本</th>'
-            '<th>安装位置</th></tr>';
+        '<th>安装位置</th></tr>';
         for (var i in oAppInfoList) {
             var apptype = oAppInfoList[i].is_system_app ? '系统应用' : '空间应用';
             strtab4 += '<tr>' +
@@ -224,33 +241,33 @@ function getDetail(i) {
 }
 
 //根据请求获得的定位数据，展示定位地图
-function showLocationMap(data){
-    var posType=$('#position_type');
-    var uplTime=$('#upload_time');
+function showLocationMap(data) {
+    var posType = $('#position_type');
+    var uplTime = $('#upload_time');
     var time = new Date();
     var rt = data.rt,
         position_type = data.position_type,
-        position = data.position?JSON.parse(data.position):'',
-        upload_time=data.upload_time;
-    switch (position_type){
+        position = data.position ? JSON.parse(data.position) : '',
+        upload_time = data.upload_time;
+    switch (position_type) {
         case 1:
             posType.text('正常定位模式');
-            if(upload_time&&position){
+            if (upload_time && position) {
                 uplTime.text(upload_time);
-                uplTime.css('color','inherit');
-            }else{
+                uplTime.css('color', 'inherit');
+            } else {
                 uplTime.text('获取最新定位时间失败');
-                uplTime.css('color','red');
+                uplTime.css('color', 'red');
             }
             break;
         case 2:
             posType.text('工作日定位模式');
-            if(upload_time&&position){
+            if (upload_time && position) {
                 uplTime.text(upload_time);
-                uplTime.css('color','inherit');
-            }else{
+                uplTime.css('color', 'inherit');
+            } else {
                 uplTime.text('获取定位时间失败');
-                uplTime.css('color','red');
+                uplTime.css('color', 'red');
             }
             break;
         case 3:
@@ -266,7 +283,7 @@ function showLocationMap(data){
                 center: [position.longitude, position.latitude], //地图中心点
                 zoom: 15 //地图显示的缩放级别
             });
-            AMap.plugin(['AMap.ToolBar', 'AMap.AdvancedInfoWindow'], function() {
+            AMap.plugin(['AMap.ToolBar', 'AMap.AdvancedInfoWindow'], function () {
                 //创建并添加工具条控件
                 var toolBar = new AMap.ToolBar();
                 map.addControl(toolBar);
@@ -316,7 +333,7 @@ function sendCmd(cmd, dev_id) {
             '<button type="button" class="btn btn-primary" id="resetdata">确认</button>' +
             '</div>';
         alertOpen(cont);
-        $("#resetdata").click(function() {
+        $("#resetdata").click(function () {
             alertOff();
             sendcmd(cmd, dev_id);
         });
@@ -332,7 +349,7 @@ function sendcmd(cmd, dev_id) {
         dev_id: JSON.stringify(dev_id),
         opt_type: cmd
     };
-    $.actPost('/man/device/sendCmd', postData, function(data) {
+    $.actPost('/man/device/sendCmd', postData, function (data) {
         if (data.rt == '0000') {
 
         }
@@ -348,7 +365,7 @@ function updatescreenpw(dev_id) {
         dev_id: dev_id,
         id: id
     };
-    $.silentPost('/man/device/orgGetPolicy', postData, function(data) {
+    $.silentPost('/man/device/orgGetPolicy', postData, function (data) {
         if (data.rt == '0000') {
             passwd_type = data.passwd_type;
             min_len = data.pw_min_len;
@@ -367,7 +384,7 @@ function updatescreenpw(dev_id) {
         }
     });
 
-    setTimeout(function() {
+    setTimeout(function () {
         var cont = '';
         cont += '<div class="modal-header">' +
             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>' +
@@ -394,7 +411,7 @@ function updatescreenpw(dev_id) {
             '</div>';
         alertOpen(cont);
 
-        $('input[name=screen_pw],input[name=confirm]').keyup(function() { // 输入限制，只能输入整数 
+        $('input[name=screen_pw],input[name=confirm]').keyup(function () { // 输入限制，只能输入整数 
             if (passwd_type == 1) {
                 if (this.value.length == 1) {
                     this.value = this.value.replace(/[^0-9]/g, '');
@@ -407,7 +424,7 @@ function updatescreenpw(dev_id) {
 
         });
 
-        $("input[name=screen_pw], input[name=confirm]").blur(function() {
+        $("input[name=screen_pw], input[name=confirm]").blur(function () {
 
             if (passwd_type == 1) {
                 if (this.value.length < min_len * 1) {
@@ -447,7 +464,7 @@ function sendpw(devid) {
             dev_id: JSON.stringify(dev_id),
             opt_type: cmd
         };
-        $.actPost('/man/device/sendCmd', postData, function(data) {
+        $.actPost('/man/device/sendCmd', postData, function (data) {
             if (data.rt == '0000') {
 
             }
@@ -461,7 +478,7 @@ function send_cmds(cmd) {
         i = 0,
         tr;
     var tab = $('.devicetable table');
-    tab.find('td span.text').each(function() {
+    tab.find('td span.text').each(function () {
         if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             dev_id[i] = tab.data('data').doc[tr.data('i')].dev_id;
@@ -483,7 +500,7 @@ function send_cmds(cmd) {
                 '<button type="button" class="btn btn-primary" id="resetdata">确认</button>' +
                 '</div>';
             alertOpen(cont);
-            $("#resetdata").click(function() {
+            $("#resetdata").click(function () {
                 alertOff();
                 sendcmds(cmd);
             });
@@ -502,7 +519,7 @@ function sendcmds(cmd) {
         min_len;
     var cmd = cmd;
     var tab = $('.devicetable table');
-    tab.find('td span').each(function() {
+    tab.find('td span').each(function () {
         if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             dev_id[i] = tab.data('data').doc[tr.data('i')].dev_id;
@@ -518,7 +535,7 @@ function sendcmds(cmd) {
                     dev_id: dev_id[0],
                     id: id
                 };
-                $.post('/man/device/orgGetPolicy', postData, function(data) {
+                $.post('/man/device/orgGetPolicy', postData, function (data) {
                     if (data.rt == '0000') {
                         passwd_type = data.passwd_type;
                         min_len = data.pw_min_len;
@@ -537,7 +554,7 @@ function sendcmds(cmd) {
                     }
                 });
 
-                setTimeout(function() {
+                setTimeout(function () {
                     var cont = '';
                     cont += '<div class="modal-header">' +
                         '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>' +
@@ -563,7 +580,7 @@ function sendcmds(cmd) {
                         '<button type="button" class="btn btn-primary updscrpw" onclick="changesppw()">确认</button>' +
                         '</div>';
                     alertOpen(cont);
-                    $('input[name=screen_pw],input[name=confirm]').keyup(function() { // 输入限制，只能输入整数 
+                    $('input[name=screen_pw],input[name=confirm]').keyup(function () { // 输入限制，只能输入整数 
                         if (passwd_type == 1) {
                             if (this.value.length == 1) {
                                 this.value = this.value.replace(/[^0-9]/g, '');
@@ -576,7 +593,7 @@ function sendcmds(cmd) {
 
                     });
 
-                    $("input[name=screen_pw], input[name=confirm]").blur(function() {
+                    $("input[name=screen_pw], input[name=confirm]").blur(function () {
 
                         if (passwd_type == 1) {
                             if (this.value.length < min_len * 1) {
@@ -607,7 +624,7 @@ function sendcmds(cmd) {
                 dev_id: JSON.stringify(dev_id),
                 opt_type: cmd
             };
-            $.actPost('/man/device/sendCmd', postData, function(data) {
+            $.actPost('/man/device/sendCmd', postData, function (data) {
                 if (data.rt == '0000') {
 
                 }
@@ -624,7 +641,7 @@ function changesppw() {
         i = 0,
         tr;
     var tab = $('.devicetable table');
-    tab.find('td span').each(function() {
+    tab.find('td span').each(function () {
         if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             dev_id[i] = tab.data('data').doc[tr.data('i')].dev_id;
@@ -643,7 +660,7 @@ function changesppw() {
             dev_id: JSON.stringify(dev_id),
             opt_type: cmd
         };
-        $.actPost('/man/device/sendCmd', postData, function(data) {
+        $.actPost('/man/device/sendCmd', postData, function (data) {
             if (data.rt == '0000') {
                 alertOff();
             }
@@ -711,7 +728,7 @@ function device_unlink() {
         i = 0;
     var tr;
     var tab = $('.devicetable table');
-    tab.find('td span').each(function() {
+    tab.find('td span').each(function () {
         if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             dev_id[i] = tab.data('data').doc[tr.data('i')].dev_id;
@@ -723,7 +740,7 @@ function device_unlink() {
             dev_id: JSON.stringify(dev_id)
         };
 
-        $.actPost('/man/device/unlinkDevice', postData, function(data) {
+        $.actPost('/man/device/unlinkDevice', postData, function (data) {
             if (data.rt == '0000') {
                 alertOff();
                 getDeviceList(1, 10);
@@ -737,7 +754,7 @@ function device_weepout() {
         i = 0;
     var tr;
     var tab = $('.devicetable table');
-    tab.find('td span').each(function() {
+    tab.find('td span').each(function () {
         if ($(this).hasClass('txt')) {
             tr = $(this).parents("tr");
             dev_id[i] = tab.data('data').doc[tr.data('i')].dev_id;
@@ -749,7 +766,7 @@ function device_weepout() {
             dev_id: JSON.stringify(dev_id)
         };
 
-        $.actPost('/man/device/weepoutDevice', postData, function(data) {
+        $.actPost('/man/device/weepoutDevice', postData, function (data) {
             if (data.rt == '0000') {
                 alertOff();
                 getDeviceList(1, 10);

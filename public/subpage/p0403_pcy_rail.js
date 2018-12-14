@@ -3,13 +3,17 @@
  *                          围栏策略 railpolicy
  * ==================================================================
  */
+
+
+applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
+
 //用于交互时改变标题显示
 var subCaption = $('#subCaption').data('itemText', '围栏策略').text('围栏策略列表');
 
 //采用分页表格组件pagingTable初始化黑白名单列表
 var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
     jsonData: {
-        'listurl': '/p/org/listFencePolicy',
+        'url': '/p/policy/fenceMan',
     },
     // theadHtml为表头类元素，第一个th用于存放全选复选框
     theadHtml: '<tr>\
@@ -18,8 +22,40 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
                     <th>类型</th>\
                     <th>状态</th>\
                     <th>已应用/已下发</th>\
+                    <th class="filter btn-group">\
+                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">\
+                            <span>来源</span> <i class="fa fa-angle-down"></i>\
+                        </a>\
+                        <ul class="dropdown-menu">\
+                            <li>\
+                                <div class="checkbox">\
+                                    <label>\
+                                        <input type="checkbox" name="filter" value="PUB" />\
+                                        <span class="text">上级发布</span>\
+                                    </label>\
+                                </div>\
+                            </li>\
+                            <li>\
+                                <div class="checkbox">\
+                                    <label>\
+                                        <input type="checkbox" name="filter" value="ISS" />\
+                                        <span class="text">上级下发</span>\
+                                    </label>\
+                                </div>\
+                            </li>\
+                            <li>\
+                                <div class="checkbox">\
+                                    <label>\
+                                        <input type="checkbox" name="filter" value="NAV" />\
+                                        <span class="text">本地创建</span>\
+                                    </label>\
+                                </div>\
+                            </li>\
+                        </ul>\
+                    </th>\
                     <th>更新时间</th>\
                     <th>创建者</th>\
+                    <th>管理者</th>\
                     <th>操作</th>\
                 </tr>',
     // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
@@ -30,12 +66,14 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
                         <td><span item-key="policy_type"></span></td>\
                         <td><span item-key="status"></span></td>\
                         <td>\
-                            <a href="#" class="numInfo" data-listurl="/p/org/userByPolicyId">\
+                            <a href="#" class="numInfo" data-url="/p/policy/userByPolId">\
                                 <span item-key="used"></span>/<span item-key="issued"></span>\
                             </a>\
                         </td>\
+                        <td><span item-key="origin"></span></td>\
                         <td><span item-key="update_time"></span></td>\
                         <td><span item-key="creator"></span></td>\
+                        <td><span item-key="manager"></span></td>\
                         <td><a toForm="edit">编辑</a><a toForm="view">查看</a></td>\
                     </tr>',
     //因不同需求需要个性控制组件表现的修正函数和增强函数
@@ -45,42 +83,24 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
     fnValByKey: function (k, v) {  //用于根据键值对修正要显示文本
         switch (k) {
             case 'policy_type':
-                switch (v) {
-                    //设备策略
-                    case 'device':
-                        v = '设备策略';
-                        break;
-                    //合规策略
-                    case 'complicance':
-                        v = '合规策略';
-                        break;
-                    //围栏策略
-                    case 'geofence':
-                        v = '地理围栏';
-                        break;
-                    case 'timefence':
-                        v = '时间围栏';
-                        break;
-                    //应用策略
-                    case 'blackapp':
-                        v = '黑名单策略';
-                        break;
-                    case 'whiteapp':
-                        v = '白名单策略';
-                        break;
-                    case 'limitaccess':
-                        v = '限制访问策略';
-                        break;
-                    //客户端策略
-                    case 'customer':
-                        v = '客户端策略';
-                        break;
-                    default:
-                        v = '未知策略';
-                }
+                v = $.textPolicy(v).type;
                 break;
             case 'status':
                 v = v == 1 ? '启用' : '禁用';  //例： item['status']的值为1时，在<span item-key="status"></span>中显示文本‘启用’，否则显示‘禁用’
+                break;
+            case 'origin':
+                switch(v){
+                    case 'NAV':
+                        v='本地创建';
+                        break;
+                    case 'PUB':
+                        v='上级发布';
+                        break;
+                    case 'ISS':
+                        v='上级下发';
+                        break;
+                    default:
+                }
                 break;
             default:
         }
@@ -96,8 +116,8 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
 
 // 采用multForm组件初始化黑白名单多用途表单
 var multForm = $('#multForm').MultForm({
-    addUrl: '/p/org/uploadFencePolicy',
-    editUrl: '/p/org/updateFencePolicy',
+    addUrl: '/p/policy/fenceMan',
+    editUrl: '/p/policy/fenceMan',
     editBtnTxt: '保存并下发',
     afterReset: function () {  //表单重置之后紧接着的回调
         //控制禁用客户端权限样式和行为
@@ -156,69 +176,69 @@ var panel = $('#panel').Panel({
     objTargetTable: pagingTable,
     objTargetForm: multForm,
     objTargetCaption: subCaption,
-    policy_type: 'rail',
-    deleteJson: {
-        url: '/p/org/deleteFencePolicy',
-    },
-    updateStatusUrl: '/p/org/changeFencePolicyStatus',
-    updateStatusJson: {
-        url: '/p/org/changeFencePolicyStatus',
-    }
+    updateStatusUrl: '/p/policy/chFenPolicySta'
 })
 var issuePane = $('#issuePane').IssuePane({
     objTargetTable: pagingTable,
     objTargetCaption: subCaption
 })
+var issueSubsPane = $('#issueSubsPane').IssuePane({
+    objTargetTable: pagingTable,
+    objTargetCaption: subCaption,
+    hasIssueBtn: 0,
+    hasUnissueBtn: 0,
+    hasIssSubBtn:1,
+    hasPubSubBtn:1,
+    hasBackBtn: 1,
+    hasSearchIpt: 0
+})
+
 
 
 
 
 var Amap = new cAmap('amapwrap');
 Amap.run();
-$.silentGet('/man/policy/getUsedDevPolicy', {}, function (data) {//获取已启用设备策略
+$.silentPost('/policy/dev_app', {}, function (data) {//获取已启用设备策略和应用策略
     if (data.rt == '0000') {
-        var devPolicy = $('select[name=dev_policy]'),
-            option = $('<option>').attr('value', -1).text('默认策略');
-        devPolicy.append(option);
-        for (var i in data.policies) {
-            if (data.policies[i].id != -1) {
-                devPolicy.append(
-                    option.clone(true)
-                        .attr('value', data.policies[i].id)
-                        .text(data.policies[i].name)
-                );
-            }
+        var device=data.policies.device,
+            blackapp=data.policies.blackapp,
+            whiteapp=data.policies.whiteapp;
+        var devPolicy = $('select[name=dev_policy]').empty(),
+            appPolicy = $('select[name=app_policy]').html('<option value="-1">不设置应用策略</option>');
+
+        
+        for (var i in device) {
+            var option = $('<option>')
+            devPolicy.append(
+                option.clone(true)
+                    .attr('value', device[i].id)
+                    .text(device[i].name)
+            );
+        }
+        for (var i in blackapp) {
+            var option = $('<option>')
+            option.attr({
+                'value': blackapp[i].id,
+                title: '黑名单应用策略'
+            }).html('<span>' + blackapp[i].name + '</span>')
+                .addClass('black-option');
+            appPolicy.append(option);
+        }
+        for (var i in whiteapp) {
+            var option = $('<option>')
+            option.attr({
+                'value': whiteapp[i].id,
+                title: '白名单应用策略'
+            }).html('<span>' + whiteapp[i].name + '</span>')
+                .addClass('white-option');
+            appPolicy.append(option);
         }
     } else {
         console.warn('获取已启用设备策略失败！');
     }
 });
 
-$.silentGet('/man/policy/getUsedAppPolicy', {}, function (data) {//获取已启用应用策略
-    if (data.rt == '0000') {
-        var appPolicy = $('select[name=app_policy]');
-        for (var i in data.blackapp) {
-            var option = $('<option>')
-            option.attr({
-                'value': data.blackapp[i].id,
-                title: '黑名单应用策略'
-            }).html('<span>' + data.blackapp[i].name + '</span>')
-                .addClass('black-option');
-            appPolicy.append(option);
-        }
-        for (var i in data.whiteapp) {
-            var option = $('<option>')
-            option.attr({
-                'value': data.whiteapp[i].id,
-                title: '白名单应用策略'
-            }).html('<span>' + data.whiteapp[i].name + '</span>')
-                .addClass('white-option');
-            appPolicy.append(option);
-        }
-    } else {
-        console.warn('获取已启用应用策略失败！');
-    }
-});
 
 
 $(".jedate").each(function () {
@@ -246,7 +266,7 @@ $(".jedate").each(function () {
     }
 })
 
-$('.append-box').fnInit();
+$('.append-box').plugInit();
 
 $('input:checkbox[name=wifi]').on('change', function () {
     $('.form-group:has(input[name=ssid])').toggleClass('hidden', !this.checked);
@@ -283,6 +303,7 @@ function getPolicyData() {
         return false;
     }
     var postData = {
+        url:'/p/policy/fenceMan',
         name: $('input[name=name]').val(),
         policy_type: $('select[name=policy_type]').val(),
         in_fence: JSON.stringify({
@@ -330,7 +351,7 @@ function add_policy() {
     if (!postData) {
         return;
     }
-    $.actPost('/man/railpolicy/add_policy', postData, function (data) {
+    $.actPost('/common/org_add', postData, function (data) {
         if (data.rt == '0000') {
             multForm.find('.btnBack').click();
         }
@@ -343,7 +364,7 @@ function mod_policy() {
         return;
     }
     postData.id = $('input[name=id]').val();
-    $.actPost('/man/railpolicy/mod_policy', postData, function (data) {
+    $.actPost('/common/mod', postData, function (data) {
         if (data.rt == '0000') {
             multForm.find('.btnBack').click();
         }
@@ -388,12 +409,12 @@ function showItem(item) {
             $(".timepolicy").css({ 'display': 'block' });
             timeObj.repeat_type == 1 ? $(".everyweek").css({ 'display': 'block' }) :
                 $(".everyweek").css({ 'display': 'none' });
-            $('select[name=repeat_type]').val(timeObj.repeat_type);
-            $('select[name=weekday]').val(timeObj.weekday);
-            $('input[name=stop_date]').val(timeObj.stop_date);
-            $('input[name=start_date]').val(timeObj.start_date);
-            $('input[name=stop_time]').val(timeObj.stop_time);
-            $('input[name=start_time]').val(timeObj.start_time);
+            $('select[name=repeat_type]').val(timeObj.repeat_type).change();
+            $('select[name=weekday]').val(timeObj.weekday).change();
+            $('input[name=stop_date]').val(timeObj.stop_date).change();
+            $('input[name=start_date]').val(timeObj.start_date).change();
+            $('input[name=stop_time]').val(timeObj.stop_time).change();
+            $('input[name=start_time]').val(timeObj.start_time).change();
             break;
         default:
             console.error("检查modify(i)中的围栏类型railPolicyMod.policy_type")
@@ -401,5 +422,4 @@ function showItem(item) {
 
 
 }
-
 

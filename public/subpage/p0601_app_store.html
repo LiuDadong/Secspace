@@ -141,13 +141,13 @@
 
 <!-- 表单：新增add、修改modify、查看view操作 -->
 <div class="row part partForm hidden">
-    <div class="col-lg-8 col-lg-offset-2 col-sm-6 col-sm-offset-3 col-xs-12">
+    <div class="col-xs-12 col-md-12">
         <div class="widget">
-            <div class="widget-header bordered-bottom bordered-blue">
-                <span class="widget-caption">应用上传</span>
+            <div class="widget-header">
+                <span id="frmCap" class="widget-caption">应用上传</span>
             </div>
-            <div class="widget-body">
-                <div id="horizontal-form">
+            <div class="widget-body" style="overflow:hidden;">
+                <div id="horizontal-form" class="col-lg-8 col-lg-offset-2 col-sm-6 col-sm-offset-3 col-xs-12">
                     <iframe name="upFileIframe" width="0" height="0" style="display:none;"></iframe>
                     <form id="multForm" class="form-horizontal xxx" role="form" method="post" action="/app/upload" enctype="multipart/form-data"
                         target="upFileIframe">
@@ -174,20 +174,6 @@
                                 应用类型
                             </label>
                             <div class="col-sm-7">
-                                <!-- <div class="control-group">
-                                    <div class="radio col-sm-5">
-                                        <label>
-                                            <input class="radToggle" name="app_type" value=1 type="radio" checked="checked" />
-                                            <span class="text">移动应用</span>
-                                        </label>
-                                    </div>
-                                    <div class="radio col-sm-5">
-                                        <label>
-                                            <input class="radToggle" name="app_type" value=0 type="radio" />
-                                            <span class="text">web应用</span>
-                                        </label>
-                                    </div>
-                                </div> -->
                                 <select class="form-control" name="app_type">
                                     <option value="plugin">移动应用</option>
                                     <option value="wrap">wrapping应用</option>
@@ -446,7 +432,7 @@
                 <span class="widget-caption">应用授权</span>
             </div>
             <div class="widget-body">
-                <div id="issuePane">
+                <div id="issuePane" style="height:50px;">
                     <form class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
                         <div class="buttons-preview pull-left">
                             <button class="btnIssue btn btn-primary" type="button">

@@ -1,12 +1,58 @@
 $.isJson = function (obj) {
     return typeof (obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
-}
+};
+$.arrKeyFlt = function (arr, key, flt) {
+    return arr.filter(flt ? flt : function () {
+        return true;
+    }).map(function (item) {
+        return key ? item[key] : item;
+    });
+};
+
+$.indexOfArr = function (item, items) {   //获取成员对象item在数组中的下标
+    var index = -1;
+    if (item.id) {
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].id == item.id) {
+                index = i;
+                break;
+            }
+        }
+    } else if (item.account) {
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].account == item.account) {
+                index = i;
+                break;
+            }
+        }
+    } else {
+        if (items.indexOf) {
+            index = items.indexOf(item);
+        } else {
+            for (var i = 0; i < items.length; i++) {
+                if (items[i] === item) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+    }
+    return index;
+};
+
+
 $.handleECode = function () {
+    //arguments[0]: true则无论失败与否，都给出提示   false:则只有返回异常时给出提示，请求为rt=“0000”,则不提示
+    //arguments[1]: 返回的json格式数据
+    //arguments[2]: 操作文本：如“上传”、“添加”、“删除”等
+    //arguments[3]: 操作对象：如“用户”、“文件”、“策略”等
     var dt = arguments[1],
         act = arguments[2] ? arguments[2] : (arguments[0] ? '操作' : ''),
         aim = arguments[3] ? arguments[3] : '',
         okText,
         errorText;
+    console.log('dt');
+    console.log(dt);
     switch (dt.rt) {
         case '0':
         case 0:
@@ -16,13 +62,22 @@ $.handleECode = function () {
                 return;
             }
             break;
+        case '9053':    //请求成功，但是暂无数据
+            return;
+            break;
         case '0001':    //操作失败
             errorText = act + dt.desc;
             break;
         case '9001':    //操作失败
-            setTimeout(function(){
-                
-            },1000)
+            setTimeout(function () {
+                location.href = '/logout';
+            }, 3000)
+            if ($('.dialog-box .dialog-box-content').text() != "登陆已过期，请重新登陆。") {
+                $.dialog('info', {
+                    content: "登陆已过期，请重新登陆。"
+                });
+            }
+
             break;
         // case '3009':
         //     break;
@@ -156,35 +211,15 @@ $.dealRt3009 = function (policy_list) {
                     var htmlPolicies = '',
                         textPolicies = '';
                     if (v instanceof Array) {
-                        var ptype = '';
                         for (var j = 0; j < v.length; j++) {
-                            switch (v[j].policy_type) {
-                                case 'geofence':
-                                    ptype = '地理围栏策略';
-                                    pt='rail';
-                                    break;
-                                case 'device':
-                                    ptype = '设备策略';
-                                    pt='dev';
-                                    break;
-                                case 'complicance':
-                                    ptype = '合规策略';
-                                    pt='comp';
-                                    break;
-                                case 'timefence':
-                                    ptype = '时间围栏策略';
-                                    pt='rail';
-                                    break;
-                                default:
-                                    ptype = '未知策略';
-                                    pt='null';
-                            }
+                            var objPcy=$.textPolicy(v[j].policy_type);
+                            
                             if (j == v.length - 1) {
-                                textPolicies = v[j].name+'('+pt+')';
-                                htmlPolicies += '<span title="' + ptype + '">' + v[j].name + '</span>'
+                                textPolicies = v[j].name + '(' + objPcy.tip + ')';
+                                htmlPolicies += '<span title="' + objPcy.type + '">' + v[j].name + '</span>'
                             } else {
-                                textPolicies = v[j].name+'('+pt+')、';
-                                htmlPolicies += ('<span title="' + ptype + '">' + v[j].name + '</span>、')
+                                textPolicies = v[j].name + '(' + objPcy.tip + ')、';
+                                htmlPolicies += ('<span title="' + objPcy.type + '">' + v[j].name + '</span>、')
                             }
                         }
                         v = textPolicies;
@@ -203,13 +238,8 @@ $.dealRt3009 = function (policy_list) {
     });
 }
 
-
-
-$.fn.tablePaging = function () {
-    this.data("fnDealKeyVal")()
-}
-
 $.fn.iptsReset = function () {
+    console.log('111')
     for (var i = 0; i < this.length; i++) {
         var e = $(this[i]), TT = '';
         TT = e.prop('tagName').toLowerCase();
@@ -225,12 +255,11 @@ $.fn.iptsReset = function () {
                 break;
             case "file":
                 e[0].files[0] = null;
-                //nextImg.attr('stc',nextImg.data('src'));
                 break;
             default:
                 e.val('');
         }
-        e.change();
+        e.removeData();
     }
     return this;
 }
@@ -265,53 +294,7 @@ $.fn.jsonSerialize = function () {
 };
 
 
-
-//根据url调整边栏和面包屑导航样式
-$.activeSidebar = function (actHref) {
-    var iClass, aText, aHref, aLi = [],
-        openLi = $('ul.sidebar-menu>li:has(a[href="' + actHref + '"])');
-    // 调整边栏样式
-    openLi.siblings('li').removeClass('open active')
-        .find('ul.submenu').hide()
-        .find('li.active').removeClass('active');
-    openLi.addClass('active').toggleClass('open', openLi.find('ul.submenu').length === 1)
-        .find('ul.submenu>li:has(a[href="' + actHref + '"])').addClass('active')
-        .siblings('li.active').removeClass('active');
-
-    //获取更新面包屑导航所需元素要素
-    var pagetitle, //页标题
-        txt1, //一级菜单文本
-        txt2; //二级菜单文本
-    var li1 = openLi.find('a>i');
-    txt1 = li1.next('span').text();
-    aLi.push({
-        i: li1.clone(false),
-        a: li1.closest('a').clone(false).text(txt1)
-    });
-    $('.header-title>h1').text(txt1);
-    pagetitle = 'SecSpace-' + txt1;
-    var li2 = openLi.find('ul.submenu>li.active>a');
-    if (li2.length === 1) {
-        txt2 = li2.find('span').text();
-        aLi.push({
-            a: li2.clone(false).text(txt2)
-        })
-        $('.header-title>h1').text(txt2);
-        pagetitle = 'SecSpace-' + txt2;
-    }
-    document.title = pagetitle;
-    var bc = $('ul.breadcrumb').empty();
-    for (var i = 0; i < aLi.length; i++) {
-        var li = $('<li>');
-        if (aLi[i].i) {
-            li.append(aLi[i].i);
-        }
-        li.append(aLi[i].a);
-        bc.append(li);
-    }
-}
-
-$.fn.fnInit = function () {
+$.fn.plugInit = function () {
     if (this.length === 1) {
         if (this.hasClass('append-box')) {   //组件:追加盒子初始化
             /**
@@ -337,8 +320,6 @@ $.fn.fnInit = function () {
              *      c.实时将有效成员(成员中:input的不全为空)中的值序列化成json对象push至$('input[type=hidden]').data('arrData')中；
              *      
              */
-
-
             // 数据准备
             var box = this,
                 maxLength = 10;   // 最多追加的成员个数
@@ -354,7 +335,6 @@ $.fn.fnInit = function () {
             // 定义组件的控制函数，主要用于控制样式和获取数据
             if (!box.appendCheck) {
                 box.appendCheck = function () {
-
                     //只有一个全空成员时隐藏删除/清空按钮
                     var emp = true;
                     if (box.find('.item').length === 1) {
@@ -368,7 +348,7 @@ $.fn.fnInit = function () {
                     }
                     box.find('.item i').toggleClass('hidden', emp);
                     var appendBtn = box.find('button').prop('disabled', false);
-                    var noRepeatIpts = box.find('.item .no-repeat').removeClass('danger');
+                    var noRepeatIpts = box.find('.item .no-repeat').removeClass('danger');  //查重
                     if (noRepeatIpts.length > 1) {
                         for (var i = 0; i < noRepeatIpts.length - 1; i++) {
                             for (var j = i + 1; j < noRepeatIpts.length; j++) {
@@ -394,10 +374,10 @@ $.fn.fnInit = function () {
                     })
 
                     //实时刷新数据
-                    box.find('input[type=hidden]').data('arrData', [])
-                    var arrData = box.find('input[type=hidden]').data('arrData'),
+                    var ipdHid = box.find('input[type=hidden]').data('arrData', []),
+                        arrData = box.find('input[type=hidden]').data('arrData'),
                         iptNum = box.find('.item:first :input').length,
-                        onlyname, dt, hasVal, ipdHid;
+                        onlyname, dt, hasVal;
                     if (iptNum > 1) {
                         box.find('.item').each(function () {
                             dt = {};
@@ -415,6 +395,7 @@ $.fn.fnInit = function () {
                                 arrData.push(dt);
                             }
                         })
+                        
                     } else if (iptNum == 1) {
                         box.find('.item').each(function () {
                             dt = $(this).find(':input').val();
@@ -425,7 +406,8 @@ $.fn.fnInit = function () {
                     } else {
                         console.error('.item中必须至少含有一个:input类元素。')
                     }
-
+                    console.log(arrData);
+                    ipdHid.val(JSON.stringify(arrData)).change();
                     if (box.closest('form').data('fns') !== undefined) {  //尝试检查可能所属的表单预先绑定的数据检查函数check
                         try {
                             box.closest('form').data('fns').check();
@@ -475,8 +457,7 @@ $.fn.fnInit = function () {
             })
 
             // 监控第一个.item（将用于复制追加）中的所有:input值的变化，再通过appendCheck函数实时控制整个组件
-            box.find('.item :input').off('input propertychange change').on('input propertychange change', function () {
-
+            box.find('.item :input').off().on('input propertychange change', function () {
                 $(this).val($(this).val().replace(/\s/g, ''));
                 box.appendCheck();
             })
@@ -502,7 +483,7 @@ $.fn.fnInit = function () {
             return box;
         }
     } else {
-        console.warn('fnInit()只支持一个.need-init元素的初始化,如有多个匹配的元素，可以使用each(function(){$(this).fnInit()})的方式初始化组件');
+        console.warn('plugInit()只支持一个.need-init元素的初始化,如有多个匹配的元素，可以使用each(function(){$(this).plugInit()})的方式初始化组件');
         alert('组件初始化失败，详情见Console!');
         return this;
     }
@@ -630,71 +611,38 @@ $.fn.fnShowData = function () {
 
 }
 
-$.mdlMsg = function (option) {
-    var mdlOpt = {
-        dom: '#mdlMsg',
-        type: 'info',
-        title: true,
-        body: true
-    };
-    $.extend(mdlOpt, option);
-    var mdl = $(mdlOpt.dom),
-        mdlHeader = mdl.find('.modal-header'),
-        headerIcon = mdlHeader.find('i'),
-        mdlTitle = mdl.find('.modal-title'),
-        mdlBody = mdl.find('.modal-body'),
-        mdlBtn = mdl.find('.modal-footer button.btn');
-    mdlTitle.toggleClass('hidden', mdlOpt.title === false).html(mdlOpt.title);
-    mdlBody.toggleClass('hidden', mdlOpt.body === false).html(mdlOpt.body);
-    // 成功、信息、警告、危险四种样式
-    mdl.toggleClass('modal-success', mdlOpt.type === 'success');
-    headerIcon.toggleClass('glyphicon glyphicon-check', mdlOpt.type === 'success');
-    mdlBtn.toggleClass('btn-success', mdlOpt.type === 'success');
-    mdl.toggleClass('modal-info', mdlOpt.type === 'info');
-    headerIcon.toggleClass('fa fa-envelope', mdlOpt.type === 'info');
-    mdlBtn.toggleClass('btn-info', mdlOpt.type === 'info');
-    mdl.toggleClass('modal-warning', mdlOpt.type === 'warning');
-    headerIcon.toggleClass('fa fa-warning', mdlOpt.type === 'warning');
-    mdlBtn.toggleClass('btn-warning', mdlOpt.type === 'warning');
-    mdl.toggleClass('modal-danger', mdlOpt.type === 'danger');
-    headerIcon.toggleClass('glyphicon glyphicon-fire', mdlOpt.type === 'danger');
-    mdlBtn.toggleClass('btn-danger', mdlOpt.type === 'danger');
-    mdl.modal({
-        //remote:"test/test.jsp",//可以填写一个url，会调用jquery load方法加载数据
-        backdrop: "static",//指定一个静态背景，当用户点击背景处，modal界面不会消失
-        keyboard: true//当按下esc键时，modal框消失
-    });
-    return mdl;
+$.dialogClose= function() {
+    $('.dialog-box-title span.dialog-box-close').click();
 }
-
-
 $.dialog = function (type, opts) {
     if ($('#dialogBox').length == 0) {
         $('body').append($('<div id="dialogBox"></div>'));
     }
     var dialog = $('#dialogBox');
     var __def__ = {
+        width: null,
+        height: null,
+        zIndex: 99999,
         autoHide: false,
-        maskClickHide:false,
+        maskClickHide: false,
         autoSize: true,
         cancel: function () { },
         cancelValue: null,
         confirm: function () { },
         confirmValue: null,
+        confirmHide:true, //点击确认之后自动关闭对话框  false则不关闭
         content: "",
         effect: "",
         hasBtn: true,
         hasClose: true,
         hasMask: true,
-        height: null,
-        time: 999999999,
+        time: 0,
         title: "",
         type: "normal",  //normal,correct,error
-        width: null,
-        zIndex: 99999,
+
     };
     switch (type) {
-        case 'confirm':
+        case 'confirm':   //确认对话框
             opts.content = $('<div>').html(opts.content).css({
                 textAlign: 'center',
                 display: 'flex',
@@ -714,7 +662,7 @@ $.dialog = function (type, opts) {
             );
 
             break;
-        case 'list':
+        case 'list':    //列表对话框
             opts = $.extend(
                 true,
                 __def__,
@@ -725,12 +673,12 @@ $.dialog = function (type, opts) {
                 opts
             );
             break;
-        case 'info':
+        case 'info':    //消息对话框
             opts = $.extend(
                 true,
                 __def__,
                 {
-                    time: 5000,
+                    time: 3000,
                     hasClose: true,
                     hasBtn: false
                 },
@@ -739,12 +687,64 @@ $.dialog = function (type, opts) {
             break;
         default:
     }
-    dialog.dialogBox(opts);
+    var x = dialog.dialogBox(opts);
     $('.dialog-box .dialog-btn').css({
         display: 'flex',
         justifyContent: 'flex-end',
         alignItems: 'center',
         fontSize: '0.8em',
         padding: '0 60px 20px'
-    })
+    });
+    return x;
+}
+
+
+$.textPolicy=function(v){
+    var obj={
+        type:'',
+        tip:''
+    }
+    switch (v) {
+        //设备策略
+        case 'device':
+            obj.type = '设备策略';
+            obj.tip = 'dev';
+            break;
+        //合规策略
+        case 'complicance':
+            obj.type = '合规策略';
+            obj.tip = 'comp';
+            break;
+        //围栏策略
+        case 'geofence':
+            obj.type = '地理围栏';
+            obj.tip = 'geo';
+            break;
+        case 'timefence':
+            obj.type = '时间围栏';
+            obj.tip = 'time';
+            break;
+        //应用策略
+        case 'blackapp':
+            obj.type = '黑名单策略';
+            obj.tip = 'black';
+            break;
+        case 'whiteapp':
+            obj.type = '白名单策略';
+            obj.tip = 'white';
+            break;
+        case 'limitaccess':
+            obj.type = '限制访问策略';
+            obj.tip = 'limit';
+            break;
+        //客户端策略
+        case 'customer':
+            obj.type = '客户端策略';
+            obj.tip = 'cstom';
+            break;
+        default:
+            obj.type = '未知策略';
+            obj.tip = '';
+    }
+    return obj;
 }

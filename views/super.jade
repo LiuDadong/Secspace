@@ -1,0 +1,230 @@
+doctype html
+html(xmlns="http://www.w3.org/1999/xhtml")
+    head
+        meta(charset="utf-8")
+        title 
+        meta(name="description" content="Secspace移动安全管理平台")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
+        //meta(http-equiv="Cache-Control" content="max-age=7200")
+        //meta(http-equiv="Expires")
+        //meta(http-equiv="last-modified" content="Sun,05 Nov 2017 13:45:57 GMT")
+        link(rel="shortcut icon" type="image/x-icon" href="/imgs/16.ico")
+        // Basic styles
+        link(rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css")
+        link#bootstrap-rtl-link(rel="stylesheet" href="")
+        link(rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css")
+        link(rel="stylesheet" type="text/css" href="/assets/css/weather-icons.min.css")
+        // Fonts
+        link(rel="stylesheet" type="text/css" href="/assets/css/iconfont.css")
+        // link(rel="stylesheet" type="text/css" href="/assets/css/fonts.googleapis.css")
+        // Beyond styles
+        link#beyond-link(rel="stylesheet" type="text/css" href="/assets/css/beyond.min.css")
+        
+        link(rel="stylesheet" type="text/css" href="/assets/css/demo.min.css")
+        link(rel="stylesheet" type="text/css" href="/assets/css/typicons.min.css")
+        link(rel="stylesheet" type="text/css" href="/assets/css/animate.min.css")
+        link#skin-link(rel="stylesheet"  type="text/css" href="")
+        
+        
+        // Page Related styles        
+        link(rel="stylesheet" type="text/css" href="/assets/css/dataTables.bootstrap.css")
+
+
+        // 包括图表和表格按钮等样式
+        link(rel="stylesheet" type="text/css" href="/assets/css/style.css")
+
+
+        // 对话框       
+        link(rel="stylesheet" type="text/css" href="/assets/css/jquery.dialogbox.css")
+
+        // jsmind       
+        link(rel="stylesheet" type="text/css" href="/assets/css/jsmind.css")
+
+
+        link(rel="stylesheet" type="text/css" href="/style/common.css")
+        link(rel="stylesheet" type="text/css" href="/style/super.css")
+        // link(rel="stylesheet" type="text/css" href="/style/patch.css")
+
+        // Skin Script: Place this script in head to load scripts for skins and rtl support
+        script(type="text/javascript" src="/assets/js/skins.min.js")
+        script(type="text/javascript" src="/assets/js/jquery-2.0.3.js")
+        script(type="text/javascript" src="/assets/js/jquery.pjax.js")
+        
+        style(type='text/css').
+            .jqstooltip {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                visibility: hidden;
+                background: rgb(0, 0, 0) transparent;
+                background-color: rgba(0,0,0,0.6);
+                filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+                -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+                color: white;
+                font: 10px arial, san serif;
+                text-align: left;
+                white-space: nowrap;
+                padding: 5px;
+                border: 1px solid white;
+                z-index: 10000;
+            }
+            .jqsfield {
+                color: white;
+                font: 10px arial, san serif;
+                text-align: left;
+            }
+    body
+        nav.navbar(class="navbar-fixed-top")
+            .navbar-inner
+                .navbar-container
+                    .navbar-header.pull-left(style="width:177px;")
+                        a.navbar-brand(href='#')
+                            small
+                                img(src='/assets/img/logo.png' alt='log')
+                    .sidebar-collapse(id="sidebar-collapse")
+                        i(class="collapse-icon fa fa-bars")
+                    .product_name
+                    .navbar-header(class="pull-right")
+                        .navbar-account
+                            ul(class="account-area")
+                                li(style="min-width:180px;")
+                                    a(class="login-area dropdown-toggle" data-toggle="dropdown" title="点击查看账户信息" style="min-width:180px;")
+                                        .avatar
+                                            img(src="https://192.168.1.25:1443/images/78805a221a988e79ef3f42d7c5bfd418.jpg" alt="")
+                                        section
+                                            h2
+                                                span(class="profile")
+                                                    span.managerName
+                                    ul(class="pull-right dropdown-menu dropdown-arrow dropdown-login-area")
+                                        //- li(class="manager")
+                                        //-     a
+                                        //- li(class="email")
+                                        //-     a
+                                        li
+                                            .avatar-area
+                                                img.avatar(src="https://192.168.1.25:1443/images/78805a221a988e79ef3f42d7c5bfd418.jpg" alt="")
+                                        li(class="edit" style="text-align:center;")
+                                            button.btn.btn-defalut.btn-sm.pull-left(onclick="accountInfo()") 账户信息
+                                            button.btn.btn-defalut.btn-sm.pull-right(onclick="updatePW()") 修改密码
+                                        li(class="theme-area")
+                                            ul(class="colorpicker" id="skin-changer")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#2dc3e8;" rel="/assets/css/skins/blue.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#28b779;" rel="/assets/css/skins/palegreen.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#008080;" rel="/assets/css/skins/seagreen.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#03B3B2;" rel="/assets/css/skins/teal.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#53a93f;" rel="/assets/css/skins/green.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#db7093;" rel="/assets/css/skins/pink.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#AC193D;" rel="/assets/css/skins/darkred.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#8C0095;" rel="/assets/css/skins/purple.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#0072C6;" rel="/assets/css/skins/darkblue.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#585858;" rel="/assets/css/skins/gray.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#474544;" rel="/assets/css/skins/black.min.css")
+                                                li
+                                                    a(class="colorpick-btn" href="#" style="background-color:#001940;" rel="/assets/css/skins/deepblue.min.css")
+                                        li(class="dropdown-footer")
+                                            //a(href="/logout") 退出
+                            .setting
+                                a(id="btn-logout" title="退出" href="/logout")
+                                    i(class="icon glyphicon glyphicon-log-out")
+
+
+
+
+        .main-container(class="container-fluid")
+            .page-container
+                .page-sidebar(class="sidebar-fixed" id="sidebar")
+                    .sidebar-header-wrapper(style="display:none;")
+                        input(type="text" class="searchinput")
+                        i(class="searchicon fa fa-search")
+                        .searchhelper Search Reports, Charts, Emails or Notifications
+                    ul(class="nav sidebar-menu")
+                        //- li
+                        //-     a(data-pjax href="/sub?pg=super_home")
+                        //-         i(class="menu-icon glyphicon glyphicon-home")
+                        //-         span(class="menu-text") 首页
+                        li
+                            a(data-pjax href="/sub?pg=super_org")
+                                i(class="menu-icon fa fa-sitemap")
+                                span(class="menu-text") 机构管理
+                        li
+                            a(data-pjax href="/sub?pg=super_admin")
+                                i(class="menu-icon iconfont icon-quanxianguanli")
+                                span(class="menu-text") 管理员管理
+                        li
+                            a(data-pjax href="/sub?pg=super_role")
+                                i(class="menu-icon glyphicon glyphicon-user")
+                                span(class="menu-text") 管理员角色
+                        li
+                            a(class="menu-dropdown")
+                                i(class="menu-icon fa fa-gears")
+                                span(class="menu-text") 设置
+                                i(class="menu-expand")
+                            ul(class="submenu")
+                                li
+                                    a(data-pjax href="/sub?pg=super_version")
+                                        span(class="menu-text") 客户端版本管理
+                                li  
+                                    a(data-pjax href="/sub?pg=super_system")
+                                        span(class="menu-text") 系统设置
+                                li
+                                    a(data-pjax href="/sub?pg=super_licence")
+                                        span(class="menu-text") Licence管理
+                        
+
+                .page-content(id="rightpart")                        
+                    // 页面标题
+                    .page-header.position-relative.page-header-fixed
+                        .header-title
+                            ul.breadcrumb
+                        // Header Buttons
+                        .header-buttons
+                            a.sidebar-toggler(href='#')
+                                i.fa.fa-arrows-h
+                            a#refresh-toggler.refresh(href='')
+                                i.glyphicon.glyphicon-refresh
+                            a#fullscreen-toggler.fullscreen(href='#')
+                                i.glyphicon.glyphicon-fullscreen
+                            
+                        // Header Buttons End
+                    // /页面标题
+                    #pjax-aim.page-body
+                        block content
+
+        // Basic scripts
+        script(type="text/javascript" src="/assets/js/bootstrap.min.js")
+
+        // Beyond scripts
+        script(type="text/javascript" src="/assets/js/beyond.min.js")
+        script(type="text/javascript" src="/assets/js/bootbox.js")
+
+        // BreadCrumb script  （返回oBreadCrumb对象）
+        // script(src="/assets/js/jquerysession.js")
+        // script(src="/assets/js/breadcrumb.js")
+
+        // Datatables scripts
+        script(type="text/javascript" src="/assets/js/jquery.cookie.js")
+        script(type="text/javascript" src="/assets/js/jquery.form.min.js")
+        script(type="text/javascript" src="/assets/js/jquery.jedate.js")
+        script(type="text/javascript" src="/assets/js/jquery.dialogBox.js")
+        script(type="text/javascript" src="/assets/js/toastr/toastr.js")
+        script(type="text/javascript" src="/assets/js/jsmind.js")
+        script(type="text/javascript" src="/scripts/orgmind.js")
+        script(type="text/javascript" src="/assets/js/paging.js")
+        script(type="text/javascript" src="/assets/js/validation/bootstrapValidator.js")
+        script(type="text/javascript" src="/scripts/jquery.group-fns.js")
+        script(type="text/javascript" src="/scripts/jquery.group-modules.js")
+        script(type="text/javascript" src="/scripts/common.js")
+        script(type="text/javascript" src="/scripts/super.js")
+        

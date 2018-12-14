@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="versionlist col-xs-12 col-md-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span class="widget-caption">版本列表</span>
+            </div>
+            <div class="widget-body" style="overflow: hidden;">
+                <form id="actList" class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
+                    <div class="buttons-preview pull-left">
+                        <button type="button" onclick="add()" class="btnAdd btn btn-primary">
+                            <i class="fa fa-plus"></i>添加
+                        </button>
+                        <button type="button" onclick="refresh()" class="btnRefresh btn btn-primary">
+                            <i class="fa fa-refresh"></i>刷新
+                        </button>
+                        <button type="button" onclick="deletes()" class="btnDel btn btn-primary">
+                            <i class="fa fa-minus-square"></i>删除
+                        </button>
+                    </div>
+                </form>
+                <div class="versiontable"></div>
+                <div class="page1"></div>
+            </div>  
+        </div>
+    </div>
+</div>
+<div tabindex="-1" role="dialog" style="display:none;" aria-hidden="false" class="bootbox modal fade bootbox-confirm in modal-primary">
+    <div style="width:500px;" class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<div class="background"> </div>
+<script data-src="/subpage/super_version.js"></script>

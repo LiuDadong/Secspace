@@ -18,13 +18,14 @@ html(xmlns="http://www.w3.org/1999/xhtml")
         // Fonts
         link(rel="stylesheet" type="text/css" href="/assets/css/iconfont.css")
         // link(rel="stylesheet" type="text/css" href="/assets/css/fonts.googleapis.css")
+
         // Beyond styles
         link#beyond-link(rel="stylesheet" type="text/css" href="/assets/css/beyond.min.css")
-        
         link(rel="stylesheet" type="text/css" href="/assets/css/demo.min.css")
         link(rel="stylesheet" type="text/css" href="/assets/css/typicons.min.css")
         link(rel="stylesheet" type="text/css" href="/assets/css/animate.min.css")
         link#skin-link(rel="stylesheet"  type="text/css" href="")
+        
         
         
         // Page Related styles        
@@ -45,9 +46,10 @@ html(xmlns="http://www.w3.org/1999/xhtml")
         link(rel="stylesheet" type="text/css" href="/assets/css/jedate.css")
         // 对话框       
         link(rel="stylesheet" type="text/css" href="/assets/css/jquery.dialogbox.css")
-
-
+        // jsmind       
+        link(rel="stylesheet" type="text/css" href="/assets/css/jsmind.css")
         link(rel="stylesheet" type="text/css" href="/style/common.css")
+        link(rel="stylesheet" type="text/css" href="/style/layout.css")
         // link(rel="stylesheet" type="text/css" href="/style/patch.css")
 
         // Skin Script: Place this script in head to load scripts for skins and rtl support
@@ -106,24 +108,33 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                     .navbar-header(class="pull-right")
                         .navbar-account
                             ul(class="account-area")
-                                li(style="min-width:150px;")
-                                    a(class="login-area dropdown-toggle" data-toggle="dropdown" style="min-width:150px;")
-                                        .avatar(title="View your public profile")
+                                li.orgBox(style="width:600px;")
+                                    a(id="btnJmSwitch" class="pull-right login-area dropdown-toggle" data-toggle="dropdown")
+                                        p(style="color:#fff;line-height:30px;font-size:14px;") 当前机构-
+                                            span.orgBtn
+                                    ul(class="pull-left dropdown-menu dropdown-arrow dropdown-login-area")
+                                        li(class="theme-area" onclick="event.stopPropagation();")
+                                            #switch_jm_container(style="height:300px;overflow:auto;")
+                                                
+                                li(style="min-width:180px;")
+                                    a(class="login-area dropdown-toggle" data-toggle="dropdown" title="点击查看账户信息" style="min-width:180px;")
+                                        .avatar
+                                            img
                                         section
                                             h2
                                                 span(class="profile")
-                                                    span#admin
+                                                    span.managerName
                                     ul(class="pull-right dropdown-menu dropdown-arrow dropdown-login-area")
-                                        li(class="username")
-                                            a
-                                        li(class="email")
-                                            a
+                                        //- li(class="manager")
+                                        //-     a
+                                        //- li(class="email")
+                                        //-     a
                                         li
                                             .avatar-area
-                                                // span(class="caption") 修改头像
-                                        li(class="edit")
-                                            // a(href="javascript:void(0);" onclick="updatepic()" class="pull-left") 账号
-                                            // a(href="javascript:void(0);" onclick="updatepwd()" class="pull-right") 密码
+                                                img.avatar(src="https://192.168.1.25:1443/images/78805a221a988e79ef3f42d7c5bfd418.jpg" alt="")
+                                        li(class="edit" style="text-align:center;")
+                                            button.btn.btn-defalut.btn-sm.pull-left(onclick="accountInfo()") 账户信息
+                                            button.btn.btn-defalut.btn-sm.pull-right(onclick="updatePW()") 修改密码
                                         li(class="theme-area")
                                             ul(class="colorpicker" id="skin-changer")
                                                 li
@@ -151,7 +162,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                                 li
                                                     a(class="colorpick-btn" href="#" style="background-color:#001940;" rel="/assets/css/skins/deepblue.min.css")
                                         li(class="dropdown-footer")
-                                            a(href="/logout") 退出
+                                            //a(href="/logout") 退出
                             .setting
                                 a(id="btn-logout" title="退出" href="/logout")
                                     i(class="icon glyphicon glyphicon-log-out")
@@ -177,6 +188,9 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                 li
                                     a(data-pjax href="/sub?pg=p0201_user_manage")
                                         span(class="menu-text") 用户管理
+                                //- li
+                                //-     a(data-pjax href="/sub?pg=p0201_user_manage_old")
+                                //-         span(class="menu-text") 用户管理
                                 li
                                     a(data-pjax href="/sub?pg=p0202_user_group")
                                         span(class="menu-text") 用户组
@@ -242,7 +256,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                 i(class="menu-icon fa fa-file-text-o")
                                 span(class="menu-text") 日志
                                 i(class="menu-expand")
-                            ul(class="submenu" style="height:160px;overflow:auto;")
+                            ul(class="submenu" style="height:160px;overflow:auto;padding-left: 4px;margin-left: -4px;")
                                 li
                                     a(data-pjax href="/sub?pg=p0701_log_client")
                                         span(class="menu-text") 客户端日志
@@ -270,21 +284,24 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                 li
                                     a(data-pjax href="/sub?pg=p0709_log_violation")
                                         span(class="menu-text") 违规情况日志
-                        li(class="setmenu")
+                                li
+                                    a(data-pjax href="/sub?pg=p0710_log_org")
+                                        span(class="menu-text") 机构管理日志
+                                //- li
+                                //-     a(data-pjax href="/sub?pg=p0711_log_role")
+                                //-         span(class="menu-text") 角色管理日志
+                        li
                             a(class="menu-dropdown")
-                                i(class="menu-icon fa fa-gears")
-                                span(class="menu-text") 设置
+                                i(class="menu-icon fa fa-sitemap")
+                                span(class="menu-text") 机构
                                 i(class="menu-expand")
                             ul(class="submenu")
-                                li
-                                    a(data-pjax href="/sub?pg=p0801_set_version")
-                                        span(class="menu-text") 版本管理
                                 li  
-                                    a(data-pjax href="/sub?pg=p0802_set_system")
-                                        span(class="menu-text") 系统设置
+                                    a(data-pjax href="/sub?pg=p0801_org")
+                                        span(class="menu-text") 机构树
                                 li
-                                    a(data-pjax href="/sub?pg=p0803_set_licence")
-                                        span(class="menu-text") Licence
+                                    a(data-pjax href="/sub?pg=p0802_admin")
+                                        span(class="menu-text") 管理员
                 .page-content(id="rightpart")                        
                     // 页面标题
                     .page-header.position-relative.page-header-fixed
@@ -304,20 +321,6 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                     #pjax-aim.page-body
                         block content
 
-        #mdlMsg.modal.modal-message.fade(style='display: none;', aria-hidden='true')
-            .modal-dialog
-                .modal-content
-                    .modal-header
-                        i
-                    .modal-title 消息头
-                    .modal-body
-                        table.table.table-hover.table-striped.table-bordered.table-condensed
-                            thead
-                            tbody
-                    .modal-footer
-                        button.btn.btn-info(type='button', data-dismiss='modal') 关闭
-                // / .modal-content
-            // / .modal-dialog
         // Basic scripts
         script(type="text/javascript" src="/assets/js/bootstrap.min.js")
 
@@ -331,14 +334,17 @@ html(xmlns="http://www.w3.org/1999/xhtml")
 
         // Datatables scripts
         script(type="text/javascript" src="/assets/js/jquery.cookie.js")
-        script(type="text/javascript" src="/assets/js/jquery.form.min.js")
+        script(type="text/javascript" src="/assets/js/jquery.form.js")
         script(type="text/javascript" src="/assets/js/jquery.jedate.js")
         script(type="text/javascript" src="/assets/js/jquery.dialogBox.js")
         script(type="text/javascript" src="/assets/js/toastr/toastr.js")
         script(type="text/javascript" src="/assets/js/paging.js")
         script(type="text/javascript" src="/assets/js/validation/bootstrapValidator.js")
+        script(type="text/javascript" src="/assets/js/jsmind.js")
+        script(type="text/javascript" src="/scripts/orgmind.js")
         script(type="text/javascript" src="/scripts/jquery.group-fns.js")
         script(type="text/javascript" src="/scripts/jquery.group-modules.js")
+        script(type="text/javascript" src="/scripts/common.js")
         script(type="text/javascript" src="/scripts/layout.js")
         script(type="text/javascript" src="/scripts/layout_new.js")
         

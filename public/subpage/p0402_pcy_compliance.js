@@ -4,13 +4,18 @@
  * ==================================================================
  */
 
+
+applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
+
+
 //用于交互时改变标题显示
 var subCaption = $('#subCaption').data('itemText', '合规策略').text('合规策略列表');
 
 //采用分页表格组件pagingTable初始化黑白名单列表
 var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
+    type:'POST',
     jsonData: {
-        'listurl': '/p/org/listComPolicy',
+        url: '/p/policy/query',
         policy_type: 'complicance'
     },
     // theadHtml为表头类元素，第一个th用于存放全选复选框
@@ -20,8 +25,40 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
                     <th>类型</th>\
                     <th>状态</th>\
                     <th>已应用/已下发</th>\
+                    <th class="filter btn-group">\
+                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">\
+                            <span>来源</span> <i class="fa fa-angle-down"></i>\
+                        </a>\
+                        <ul class="dropdown-menu">\
+                            <li>\
+                                <div class="checkbox">\
+                                    <label>\
+                                        <input type="checkbox" name="filter" value="PUB" />\
+                                        <span class="text">上级发布</span>\
+                                    </label>\
+                                </div>\
+                            </li>\
+                            <li>\
+                                <div class="checkbox">\
+                                    <label>\
+                                        <input type="checkbox" name="filter" value="ISS" />\
+                                        <span class="text">上级下发</span>\
+                                    </label>\
+                                </div>\
+                            </li>\
+                            <li>\
+                                <div class="checkbox">\
+                                    <label>\
+                                        <input type="checkbox" name="filter" value="NAV" />\
+                                        <span class="text">本地创建</span>\
+                                    </label>\
+                                </div>\
+                            </li>\
+                        </ul>\
+                    </th>\
                     <th>更新时间</th>\
                     <th>创建者</th>\
+                    <th>管理者</th>\
                     <th>操作</th>\
                 </tr>',
     // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
@@ -32,12 +69,14 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
                         <td><span item-key="policy_type"></span></td>\
                         <td><span item-key="status"></span></td>\
                         <td>\
-                            <a href="#" class="numInfo" data-listurl="/p/org/userByPolicyId">\
+                            <a href="#" class="numInfo" data-url="/p/policy/userByPolId">\
                                 <span item-key="used"></span>/<span item-key="issued"></span>\
                             </a>\
                         </td>\
+                        <td><span item-key="origin"></span></td>\
                         <td><span item-key="update_time"></span></td>\
                         <td><span item-key="creator"></span></td>\
+                        <td><span item-key="manager"></span></td>\
                         <td><a toForm="edit">编辑</a><a toForm="view">查看</a></td>\
                     </tr>',
     //因不同需求需要个性控制组件表现的修正函数和增强函数
@@ -47,39 +86,24 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
     fnValByKey: function (k, v) {  //用于根据键值对修正要显示文本
         switch (k) {
             case 'policy_type':
-                switch (v) {
-                    //设备策略
-                    case 'device':
-                        v = '设备策略';
-                        break;
-                    //合规策略
-                    case 'complicance':
-                        v = '合规策略';
-                        break;
-                    //围栏策略
-                    case 'geofence':
-                        v = '围栏策略';
-                        break;
-                    //应用策略
-                    case 'blackapp':
-                        v = '黑名单策略';
-                        break;
-                    case 'whiteapp':
-                        v = '白名单策略';
-                        break;
-                    case 'limitaccess':
-                        v = '限制访问策略';
-                        break;
-                    //客户端策略
-                    case 'customer':
-                        v = '客户端策略';
-                        break;
-                    default:
-                        v = '未知策略';
-                }
+                v = $.textPolicy(v).type;
                 break;
             case 'status':
                 v = v == 1 ? '启用' : '禁用';  //例： item['status']的值为1时，在<span item-key="status"></span>中显示文本‘启用’，否则显示‘禁用’
+                break;
+            case 'origin':
+                switch(v){
+                    case 'NAV':
+                        v='本地创建';
+                        break;
+                    case 'PUB':
+                        v='上级发布';
+                        break;
+                    case 'ISS':
+                        v='上级下发';
+                        break;
+                    default:
+                }
                 break;
             default:
         }
@@ -95,8 +119,8 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
 
 // 采用multForm组件初始化黑白名单多用途表单
 var multForm = $('#multForm').MultForm({
-    addUrl: '/p/org/uploadPolicy',
-    editUrl: '/p/org/updatePolicy',
+    addUrl: '/p/policy/comPolicyMan',
+    editUrl: '/p/policy/comPolicyMan',
     editBtnTxt: '保存并下发',
     afterReset: function () {  //表单重置之后紧接着的回调
         //控制禁用客户端权限样式和行为
@@ -185,6 +209,7 @@ var multForm = $('#multForm').MultForm({
                 email = eleEmail.prop('checked');
             violation_limit["alarm"] = (mesg && email) ? 3 : (mesg ? 1 : (email ? 2 : 0));
             var postData = {
+                url:'/p/policy/comPolicyMan',
                 name: $('input[name=name]').val(),
                 delay: $('input[name=delay]').val(),
                 violation_limit: JSON.stringify(violation_limit),
@@ -193,16 +218,16 @@ var multForm = $('#multForm').MultForm({
             };
             switch (act) {
                 case 'add':
-                    url = '/man/complicance/add_policy';
+                    url = '/common/org_add';
                     actInfo = '添加';
                     break;
                 case 'edit':
-                    url = '/man/complicance/updatePolicy';
+                    url = '/common/mod';
                     actInfo = '修改并下发'
                     postData['id'] = ~~$('input[name=id]').val();
                     break;
                 default:
-                    url = '/man/complicance/add_policy';
+                    url = '/common/org_add';
             }
             if (postData.name == '') {
                 warningOpen('请输入名称！', 'danger', 'fa-bolt');
@@ -238,23 +263,25 @@ var panel = $('#panel').Panel({
     objTargetTable: pagingTable,
     objTargetForm: multForm,
     objTargetCaption: subCaption,
-    policy_type: 'complicance',
-    deleteJson: {
-        url: '/p/org/deleteComPolicy',
-        policy_type: 'complicance',
-        id: []
-    },
-    updateStatusUrl: '/p/org/changeComPolicyStatus',
-    updateStatusJson: {
-        url: '/p/org/changeComPolicyStatus',
-        policy_type: 'complicance'
-    }
+    policy_type:'compliance',
+    updateStatusUrl: '/p/policy/chComPolicySta'
 })
 
 var issuePane = $('#issuePane').IssuePane({
     objTargetTable: pagingTable,
     objTargetCaption: subCaption
 })
+var issueSubsPane = $('#issueSubsPane').IssuePane({
+    objTargetTable: pagingTable,
+    objTargetCaption: subCaption,
+    hasIssueBtn: 0,
+    hasUnissueBtn: 0,
+    hasIssSubBtn:1,
+    hasPubSubBtn:1,
+    hasBackBtn: 1,
+    hasSearchIpt: 0
+})
+
 
 
 
@@ -371,3 +398,4 @@ function fnSpecialInit() {
     });
 
 }
+

@@ -86,7 +86,7 @@ function addTotag() {
             + '</div>';
         alertOpen(cont);
         var str = '';
-        $.silentGet('/man/appTag/getAppTagList', { start: 1, length: 1000 }, function (data) {  // 获取标签列表
+        $.silentGet('/man/appTag/getAppTagList', { start_page: 1, page_length: 1000 }, function (data) {  // 获取标签列表
             if (data.rt == '0000') {
                 var select = $('#usertag ul[name=taglist]');
                 for (var i = 0; i < data.apptag_list.length; i++) {
@@ -146,30 +146,6 @@ function tag_add() {
 
 
 
-
-function searchtaglist() {
-    var str = '';
-    $.silentGet('/man/tag/getTagList', { start: 1, length: 1000 }, function (data) {  // 获取标签列表
-        if (data.rt == '0000') {
-            var select = $('#usertaglist');
-            for (var i = 0; i < data.tag_list.length; i++) {
-                str += '<li class="list-group-item">'
-                    + '<div class ="tree-item-name">'
-                    + '<i class="fa fa-check-square-o treechildh cursor" style="display:none;width:30px;" onclick="_selectbytag(this)">'
-                    + '<input type="text" name="tree_id" value="' + data.tag_list[i].id + '" style="display:none;"/></i>'
-                    + '<i class="fa fa-square-o treechilds cursor" onclick="_cancelbytag(this)" style="width:30px;"></i>'
-                    + data.tag_list[i].name
-                    + '</div>'
-                    + '</li>';
-            }
-            select.html(str);
-        } else {
-            warningOpen('获取标签失败！', 'danger', 'fa-bolt');
-        }
-    });
-}
-
-
 // 策略下发获取用户组
 function searchuserlist1() {
     var str2 = '<ul style="padding-left:0px;">';
@@ -191,7 +167,10 @@ function searchuserlist1() {
 function searchuserlist() {
     var str2 = '';
     var folder = '';
-    $.silentGet('/man/users/getUsersList?depart_id=' + 0, function (data) {
+    $.silentGet('/common/org/list' + 0,{
+        departId: 0,
+        url:'/p/depart/manage'
+    }, function (data) {
         if (data.rt == '0000') {
             for (var i = 0; i < data.depart_list.length; i++) {
                 folder = data.depart_list[i].child_node != 0 ?

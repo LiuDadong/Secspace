@@ -1,0 +1,423 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget">
+            <div class="widget-header bg-primary">
+                <span id="subCaption" class="widget-caption"></span>
+            </div>
+            <!-- section:分页列表 -->
+            <div class="widget-body section">
+                <form id="panel">
+                    <div class="buttons-preview pull-left">
+                        <button class="btnAdd btn btn-primary">
+                            <i class="fa fa-plus">添加</i>
+                        </button>
+
+                        <button class="btnAct btn btn-default btn-sm">
+                            <i class="fa fa-check-circle">启用</i>
+                        </button>
+                        <button class="btnUnact btn btn-default btn-sm">
+                            <i class="fa fa-times-circle">禁用</i>
+                        </button>
+                        <button class="btnDel btn btn-default btn-sm">
+                            <i class="fa fa-plus-square">删除</i>
+                        </button>
+                        <button class="btnRefresh btn btn-default btn-sm">
+                            <i class="fa fa-refresh">刷新</i>
+                        </button>
+                    </div>
+                    <div class="pull-right"></div>
+                </form>
+                <table id="pagingTable">
+                </table>
+            </div>
+            <!-- section:添加、修改、查看多用途表单 -->
+            <div style="overflow:hidden;display: none;" class="widget-body section">
+                <div class="row col-md-7 col-md-offset-2">
+                    <form id="multForm" class="form-horizontal" role="form" method="post" action="#" style="padding-top:100px;">
+                        <input type="hidden" name="id" />
+                        <div class="form-group">
+                            <!-- 角色名称 -->
+                            <label class="col-md-3 control-label no-padding-right">
+                                <span>名称</span>
+                            </label>
+                            <div class="col-md-9">
+                                <input type="text" name="name" class="require form-control" autocomplete="off"
+                                    placeholder="请输入角色名称" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <!-- 角色功能点 -->
+                            <label class="col-md-3 control-label no-padding-right">
+                                <span>功能点</span>
+                            </label>
+                            <div class="col-md-9">
+                                <div class="buttons-preview" style="position:absolute;right:2em;top:0;z-index: 999;">
+                                    <div class="btn-group">
+                                        <button id="allcheck" type="button" class="btn btn-default btn-sm" title="全选"><i class="iconfont icon-quanxuan"></i></button>
+                                        <button id="tgltree" type="button" class="btn btn-default btn-sm" title="开合"><i class="iconfont icon-shouqi"></i></button>
+                                        <!-- <button type="button" class="btn btn-default btn-sm"><i class="iconfont icon-shouqi"></i></button> -->
+                                    </div>
+                                </div>
+                                <div id="fnTree">
+                                    <input type="hidden" name="function" />
+                                    <!-- <li><label><input mdl-key="p01" value="1" type="checkbox" /><span>首页</span></label></li> -->
+                                    <div>
+
+                                    </div>
+                                    <li><label><input type="checkbox" /><span>用户</span></label><i class="fa fa-plus"></i></li>
+                                    <ul>
+                                        <li><label><input type="checkbox" /><span>用户管理</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0201" all-fns="acc-add-del-mod-ena-grp-tag-ie-rmv" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看用户</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>添加用户</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除用户</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>修改用户</span></label></li>
+                                            <li><label><input value="ena" type="checkbox" /><span>激活用户</span></label></li>
+                                            <li><label><input value="grp" type="checkbox" /><span>移动用户至用户组</span></label></li>
+                                            <li><label><input value="tag" type="checkbox" /><span>给用户添加标签</span></label></li>
+                                            <li><label><input value="ie" type="checkbox" /><span>用户数据导入导出</span></label></li>
+                                            <li><label><input value="rmv" type="checkbox" /><span>用户策略移除</span></label></li>
+                                        </ul>
+                                        <li><label><input type="checkbox" /><span>用户组</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0202" all-fns="acc-add-del-mod-iog" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看用户组</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>添加用户组</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除用户组</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>修改用户组</span></label></li>
+                                            <li><label><input value="iog" type="checkbox" /><span>移入/移出用户组</span></label></li>
+                                        </ul>
+                                        <li><label><input type="checkbox" /><span>用户标签</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0203" all-fns="acc-add-del-mod-iot" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看用户标签</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>添加用户标签</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除用户标签</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>修改用户标签</span></label></li>
+                                            <li><label><input value="iot" type="checkbox" /><span>移入/移出用户标签</span></label></li>
+                                        </ul>
+                                    </ul>
+
+
+                                    <li><label><input type="checkbox" /><span>设备</span></label><i class="fa fa-plus"></i></li>
+                                    <ul>
+                                        <li><label><input type="checkbox" /><span>设备管理</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0301" all-fns="acc-map-ls-spw-ed-rst-bell-unb-eli" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看设备信息</span></label></li>
+                                            <li><label><input value="map" type="checkbox" /><span>查找设备位置</span></label></li>
+                                            <li><label><input value="ls" type="checkbox" /><span>远程锁屏</span></label></li>
+                                            <li><label><input value="spw" type="checkbox" /><span>设置锁屏密码</span></label></li>
+                                            <li><label><input value="ed" type="checkbox" /><span>擦除企业数据</span></label></li>
+                                            <li><label><input value="rst" type="checkbox" /><span>恢复出厂设置</span></label></li>
+                                            <li><label><input value="bell" type="checkbox" /><span>响铃追踪</span></label></li>
+                                            <li><label><input value="unb" type="checkbox" /><span>解绑</span></label></li>
+                                            <li><label><input value="eli" type="checkbox" /><span>淘汰</span></label></li>
+                                        </ul>
+                                    </ul>
+
+
+                                    <li><label><input type="checkbox" /><span>策略</span></label><i class="fa fa-plus"></i></li>
+                                    <ul>
+                                        <li><label><input type="checkbox" /><span>设备策略</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0401" all-fns="acc-add-del-mod-iio-ioo-pub-act-rop" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看策略</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>新建策略</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除策略</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>编辑策略</span></label></li>
+                                            <li><label><input value="iio" type="checkbox" /><span>机构内下发策略</span></label></li>
+                                            <li><label><input value="ioo" type="checkbox" /><span>策略下发至下级机构</span></label></li>
+                                            <li><label><input value="pub" type="checkbox" /><span>策略发布至下级机构</span></label></li>
+                                            <li><label><input value="act" type="checkbox" /><span>启用/禁用策略</span></label></li>
+                                            <li><label><input value="rop" type="checkbox" /><span>移除生效的策略</span></label></li>
+                                        </ul>
+                                        <li><label><input type="checkbox" /><span>合规策略</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0402" all-fns="acc-add-del-mod-iio-ioo-pub-act-rop" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看策略</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>新建策略</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除策略</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>编辑策略</span></label></li>
+                                            <li><label><input value="iio" type="checkbox" /><span>机构内下发策略</span></label></li>
+                                            <li><label><input value="ioo" type="checkbox" /><span>策略下发至下级机构</span></label></li>
+                                            <li><label><input value="pub" type="checkbox" /><span>策略发布至下级机构</span></label></li>
+                                            <li><label><input value="act" type="checkbox" /><span>启用/禁用策略</span></label></li>
+                                            <li><label><input value="rop" type="checkbox" /><span>移除生效的策略</span></label></li>
+                                        </ul>
+                                        <li><label><input type="checkbox" /><span>围栏策略</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0403" all-fns="acc-add-del-mod-iio-ioo-pub-act-rop" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看策略</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>新建策略</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除策略</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>编辑策略</span></label></li>
+                                            <li><label><input value="iio" type="checkbox" /><span>机构内下发策略</span></label></li>
+                                            <li><label><input value="ioo" type="checkbox" /><span>策略下发至下级机构</span></label></li>
+                                            <li><label><input value="pub" type="checkbox" /><span>策略发布至下级机构</span></label></li>
+                                            <li><label><input value="act" type="checkbox" /><span>启用/禁用策略</span></label></li>
+                                            <li><label><input value="rop" type="checkbox" /><span>移除生效的策略</span></label></li>
+                                        </ul>
+                                        <li><label><input type="checkbox" /><span>应用策略</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0404" all-fns="acc-add-del-mod-iio-ioo-pub-act-rop" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看策略</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>新建策略</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除策略</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>编辑策略</span></label></li>
+                                            <li><label><input value="iio" type="checkbox" /><span>机构内下发策略</span></label></li>
+                                            <li><label><input value="ioo" type="checkbox" /><span>策略下发至下级机构</span></label></li>
+                                            <li><label><input value="pub" type="checkbox" /><span>策略发布至下级机构</span></label></li>
+                                            <li><label><input value="act" type="checkbox" /><span>启用/禁用策略</span></label></li>
+                                            <li><label><input value="rop" type="checkbox" /><span>移除生效的策略</span></label></li>
+                                        </ul>
+                                        <li><label><input type="checkbox" /><span>客服端策略</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0405" all-fns="acc-add-del-mod-iio-ioo-pub-act-rop" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看策略</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>新建策略</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除策略</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>编辑策略</span></label></li>
+                                            <li><label><input value="iio" type="checkbox" /><span>机构内下发策略</span></label></li>
+                                            <li><label><input value="ioo" type="checkbox" /><span>策略下发至下级机构</span></label></li>
+                                            <li><label><input value="pub" type="checkbox" /><span>策略发布至下级机构</span></label></li>
+                                            <li><label><input value="act" type="checkbox" /><span>启用/禁用策略</span></label></li>
+                                            <li><label><input value="rop" type="checkbox" /><span>移除生效的策略</span></label></li>
+                                        </ul>
+                                    </ul>
+
+
+                                    <li><label><input type="checkbox" /><span>文件</span></label><i class="fa fa-plus"></i></li>
+                                    <ul>
+                                        <li><label><input type="checkbox" /><span>文件管理</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0501" all-fns="acc-add-del-mod-iss" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看文件</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>上传文件</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除文件</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>编辑文件</span></label></li>
+                                            <li><label><input value="iss" type="checkbox" /><span>文件授权</span></label></li>
+                                        </ul>
+                                    </ul>
+
+                                    <li><label><input type="checkbox" /><span>应用</span></label><i class="fa fa-plus"></i></li>
+                                    <ul>
+                                        <li><label><input type="checkbox" /><span>应用商店</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0601" all-fns="acc-add-del-mod-iss" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看应用</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>上传应用</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除应用</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>编辑应用</span></label></li>
+                                            <li><label><input value="iss" type="checkbox" /><span>应用授权</span></label></li>
+                                        </ul>
+
+                                        <li><label><input type="checkbox" /><span>黑白名单</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0602" all-fns="acc-add-del-mod-act" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看名单</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>新建名单</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除名单</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>编辑名单</span></label></li>
+                                            <li><label><input value="act" type="checkbox" /><span>启用/禁用名单</span></label></li>
+                                        </ul>
+
+                                        <li><label><input type="checkbox" /><span>黑白名单</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0603" all-fns="acc-add-del-mod" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看应用标签</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>新建应用标签</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除应用标签</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>编辑应用标签</span></label></li>
+                                        </ul>
+                                    </ul>
+
+                                    <li><label><input type="checkbox" /><span>日志</span></label><i class="fa fa-plus"></i></li>
+                                    <ul>
+
+                                        <li><label><input type="checkbox" /><span>客户端日志</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0701" all-fns="acc-exp" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看日志</span></label></li>
+                                            <li><label><input value="exp" type="checkbox" /><span>导出日志</span></label></li>
+                                        </ul>
+
+                                        <li><label><input type="checkbox" /><span>应用日志</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0702" all-fns="acc-exp" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看日志</span></label></li>
+                                            <li><label><input value="exp" type="checkbox" /><span>导出日志</span></label></li>
+                                        </ul>
+
+                                        <li><label><input type="checkbox" /><span>用户管理日志</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0703" all-fns="acc-exp" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看日志</span></label></li>
+                                            <li><label><input value="exp" type="checkbox" /><span>导出日志</span></label></li>
+                                        </ul>
+
+                                        <li><label><input type="checkbox" /><span>设备管理日志</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0704" all-fns="acc-exp" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看日志</span></label></li>
+                                            <li><label><input value="exp" type="checkbox" /><span>导出日志</span></label></li>
+                                        </ul>
+
+                                        <li><label><input type="checkbox" /><span>文件管理日志</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0705" all-fns="acc-exp" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看日志</span></label></li>
+                                            <li><label><input value="exp" type="checkbox" /><span>导出日志</span></label></li>
+                                        </ul>
+
+                                        <li><label><input type="checkbox" /><span>应用管理日志</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0706" all-fns="acc-exp" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看日志</span></label></li>
+                                            <li><label><input value="exp" type="checkbox" /><span>导出日志</span></label></li>
+                                        </ul>
+
+                                        <li><label><input type="checkbox" /><span>策略管理日志</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0707" all-fns="acc-exp" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看日志</span></label></li>
+                                            <li><label><input value="exp" type="checkbox" /><span>导出日志</span></label></li>
+                                        </ul>
+
+                                        <li><label><input type="checkbox" /><span>管理员日志</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0708" all-fns="acc-exp" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看日志</span></label></li>
+                                            <li><label><input value="exp" type="checkbox" /><span>导出日志</span></label></li>
+                                        </ul>
+
+                                        <li><label><input type="checkbox" /><span>违规情况日志</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0709" all-fns="acc-exp" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看日志</span></label></li>
+                                            <li><label><input value="exp" type="checkbox" /><span>导出日志</span></label></li>
+                                        </ul>
+                                        <li><label><input type="checkbox" /><span>机构管理日志</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0710" all-fns="acc-exp" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看日志</span></label></li>
+                                            <li><label><input value="exp" type="checkbox" /><span>导出日志</span></label></li>
+                                        </ul>
+                                        <!-- <li><label><input type="checkbox" /><span>角色管理日志</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0711" all-fns="acc-exp" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看日志</span></label></li>
+                                            <li><label><input value="exp" type="checkbox" /><span>导出日志</span></label></li>
+                                        </ul> -->
+                                    </ul>
+
+
+                                    <li><label><input type="checkbox" /><span>机构</span></label><i class="fa fa-plus"></i></li>
+                                    <ul>
+                                        <li><label><input type="checkbox" /><span>机构树</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0801" all-fns="acc-add-del-mod-ie" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看机构</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>新建机构</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除机构</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>编辑机构</span></label></li>
+                                            <li><label><input value="ie" type="checkbox" /><span>导入/导出机构数据</span></label></li>
+                                        </ul>
+                                        <li><label><input type="checkbox" /><span>管理员</span></label><i class="fa fa-plus"></i></li>
+                                        <ul>
+                                            <input type="hidden" mdl-key="p0802" all-fns="acc-add-del-mod-act" value="">
+                                            <li><label><input value="acc" type="checkbox" /><span>查看管理员</span></label></li>
+                                            <li><label><input value="add" type="checkbox" /><span>新建管理员</span></label></li>
+                                            <li><label><input value="del" type="checkbox" /><span>删除管理员</span></label></li>
+                                            <li><label><input value="mod" type="checkbox" /><span>编辑管理员</span></label></li>
+                                            <li><label><input value="act" type="checkbox" /><span>启用/禁用管理员</span></label></li>
+                                        </ul>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="wide" />
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div class="col-sm-6">
+                                    <button type="button" class="btnBack btn btn-default">返回
+                                    </button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="submit" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+            <!-- section:角色下发 -->
+            <div style="overflow:hidden;display: none;" class="widget-body section">
+                <div id="issuePane" style="height:50px;">
+                    <form>
+                        <div class="buttons-preview pull-left">
+                            <button class="btnIssue btn btn-primary">
+                                <i class="fa fa-magic">下发</i>
+                            </button>
+                            <button class="btnBack btn btn-default">
+                                <i class="fa fa-check-circle">返回</i>
+                            </button>
+                        </div>
+                        <div class="pull-right"></div>
+                    </form>
+                </div>
+
+                <div id="tabForIssue" class="tabbable">
+                    <ul class="nav nav-tabs tabs-flat">
+                        <li class="active">
+                            <a data-toggle="tab" href="#paneGroup">
+                                基于用户组下发
+                            </a>
+                        </li>
+                        <li class="tab-red">
+                            <a data-toggle="tab" href="#paneTag">
+                                基于标签下发
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content tabBody">
+                        <div id="paneGroup" class="tab-pane active">
+                            <div class="classify row col-md-2">
+                                <div class="well">
+                                    <div id="treeUserGroup" class="relFilter"></div>
+                                </div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserGroupTree"></table>
+                            </div>
+                        </div>
+
+                        <div id="paneTag" class="tab-pane">
+                            <div class="classify row col-md-2">
+                                <div class="well">
+                                    <div id="treeUserTag" class="relFilter"></div>
+                                </div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserTagList">
+                                    <tr>
+                                        <td>标签用户</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-src="/subpage/super_role.js"></script>

@@ -1,0 +1,81 @@
+.disabled {
+    position: relative;
+    pointer-events: none;
+    cursor: auto;
+    overflow: hidden;
+}
+
+.disabled::after {
+    display: block;
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+
+/* 角色功能点树形 */
+
+#fnTree {
+    padding: 30px;
+    overflow: auto;
+    max-height: 400px;
+    position: relative;
+    box-shadow: 0 0 2px #888
+}
+
+#fnTree li>label {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+}
+
+#fnTree li {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: none;
+    min-height: 24px;
+    line-height: 20px;
+    font-size: 14px;
+}
+
+#fnTree input[type=checkbox] {
+    opacity: 1;
+    position: static;
+    padding: 0;
+    margin: 0 6px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#fnTree li>i.fa {
+    cursor: pointer;
+    padding: 0;
+    margin: 0 10px;
+}
+
+#fnTree li+ul {
+    display: none;
+    padding-left: 1.5em;
+}
+
+#fnTree li.open+ul {
+    display: block;
+}
+
+#fnTree ul, #fnTree li {
+    position: relative;
+    list-style: none;
+}
