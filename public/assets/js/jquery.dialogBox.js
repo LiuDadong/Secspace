@@ -390,7 +390,7 @@
 			}
 
 			if ($.isFunction(that.settings.cancel)) {
-				$('.dialog-btn-cancel').on('click', function () {
+				$('.dialog-box-close,.dialog-btn-cancel').on('click', function () {
 					that.settings.cancel();
 				})
 			}

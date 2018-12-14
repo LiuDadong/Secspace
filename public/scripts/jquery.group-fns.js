@@ -611,7 +611,7 @@ $.fn.fnShowData = function () {
 
 }
 
-$.dialogClose= function() {
+$.dialogClose= function(cb) {
     $('.dialog-box-title span.dialog-box-close').click();
 }
 $.dialog = function (type, opts) {
