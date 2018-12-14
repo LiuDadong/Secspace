@@ -1,0 +1,536 @@
+.page-sidebar {
+    box-shadow: 2px 0 4px rgba(0, 0, 0, .15);
+}
+
+.page-header.page-header-fixed {
+    top: 46px;
+}
+
+.breadcrumb {
+    line-height: 34px;
+    font-size: 18px;
+}
+
+.page-header.page-header-fixed+.page-body {
+    margin-top: 32px;
+}
+
+.navbar .navbar-inner .navbar-header .navbar-account .account-area>li .dropdown-menu.dropdown-login-area>li.email, .navbar .navbar-inner .navbar-header .navbar-account .account-area>li .dropdown-menu.dropdown-login-area>li.email a {
+    color: inherit;
+}
+
+.widget-body {
+    box-shadow: 0 0 4px rgba(0, 0, 0, .3);
+}
+
+input[type=radio]+.text:before {
+    line-height: 10px;
+    min-height: 10px;
+    min-width: 10px;
+    border-color: #fff;
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, .5);
+    height: 10px;
+    width: 10px;
+}
+
+input[type=radio]+.text:before:hover {
+    border-color: #fff;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, .6);
+}
+
+input[type=radio]:checked+.text:before {
+    border-color: #fff;
+    content: '';
+    background-color: rgba(0, 0, 0, .7);
+}
+
+input:checked[type=checkbox].checkbox-slider.slider-icon+.text::before {
+    content: 'ON';
+    text-indent: 9px;
+}
+
+input[type=checkbox].checkbox-slider+.text:before {
+    text-indent: -30px;
+}
+
+.table-loading {
+    top: 124px;
+    left: 224px;
+}
+
+.table-loading .loading-progress {
+    top: 124px;
+    left: 224px;
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+thead tr {
+    border-bottom: 1px solid #bbb;
+}
+
+td .btn {
+    margin: 0 6px;
+}
+
+.table-above-btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-inline {
+    overflow: hidden;
+}
+
+/* 设置用户管理激活设备类型图标样式 */
+
+.userlist .table tr td a[href]:has(img[src]) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.userlist .table tr td a[href] span {
+    color: #666;
+    font-size: 1.3em;
+}
+
+.userlist .table tr td a[href] img[src] {
+    width: 1.2em;
+    vertical-align: middle;
+}
+
+/* 设置安卓和苹果图标字体样式 */
+
+.iconfont.icon-android, .iconfont.icon-IOS {
+    opacity: 0.8;
+    margin: 0 0.3em;
+}
+
+.iconfont.icon-android {
+    color: #A4C439;
+}
+
+.iconfont.icon-IOS {
+    color: #1296DB;
+}
+
+.iconfont:hover {
+    opacity: 1;
+}
+
+/* .sidebar-menu>li>ul.submenu{
+    max-height: 160px;
+    overflow: auto;
+}
+.page-sidebar .sidebar-menu>li>.submenu>li:after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    left: 23px;
+    top: 0;
+    bottom: 0px;
+    border-left: 1px solid #e2e2e2;
+}
+.page-sidebar .sidebar-menu>li>.submenu>li:last-of-type:after {
+    bottom: 19px;
+} */
+
+.radio, .checkbox {
+    margin: 0;
+}
+
+.uploadImg {
+    position: relative;
+    width: 4em;
+    height: 4em;
+}
+
+.uploadImg>input[type='file'] {
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    z-index: 1;
+}
+
+.uploadImg>img {
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 3px #1296DB;
+}
+
+.uploadFile {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.uploadFile>input[type='file'] {
+    opacity: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.uploadFile>p {
+    position: absolute;
+    text-indent: 1em;
+    top: 0;
+}
+
+.tab-content {
+    overflow: hidden;
+}
+
+.searchmesg {
+    display: none!important;
+}
+
+form .widget-header {
+    text-align: left;
+}
+
+form .widget-body {
+    overflow: hidden;
+}
+
+.checkbox .help {
+    margin-left: 2em;
+}
+
+label {
+    white-space: nowrap;
+}
+
+.wifiList>.wifiItem {
+    position: relative;
+}
+
+.wifiList>.wifiItem>a {
+    position: absolute;
+    font-size: 2em;
+    top: 1em;
+    right: -1.5em;
+    z-index: 2;
+}
+
+.append-box {
+    text-align: center;
+}
+
+.append-box>.item {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.append-box>.item:after {
+    display: block;
+    content: '';
+    clear: both;
+    height: 0;
+}
+
+.append-box>.item>i {
+    position: absolute;
+    top: 50%;
+    right: -1.5em;
+    margin-top: -0.5em;
+    z-index: 2;
+}
+
+.ssids .ssid {
+    position: relative;
+    margin: 0.2em 0
+}
+
+.ssids .ssid>a {
+    position: absolute;
+    top: 0.5em;
+    right: -1.5em;
+    cursor: pointer;
+    z-index: 2;
+}
+
+table tr>th.sel {
+    width: 6em;
+}
+
+table tr>th:first-child label, table tr>td:first-child label {
+    padding: 0;
+}
+
+.mdlTree li {
+    list-style: none;
+}
+
+.mdlTree i.fa+label {
+    padding-left: 10px;
+}
+
+.map-box-dev_site {
+    box-shadow: none;
+    height: 365px;
+    background: #f9f9f9;
+}
+
+td.dev-list i {
+    cursor: pointer;
+}
+
+.widget.collapsed {
+    margin-bottom: 0;
+}
+
+.widget.collapsed .widget-header {
+    box-shadow: none;
+}
+
+/* .jedatebox,
+.jedatebox .arthead{
+    background-color: #aaa;
+}
+
+.jedatebox span,
+.jedatebox p{
+    cursor: pointer;
+}
+
+.jedateblue .daysul td.actdate, .jedateblue .daysul td.actdate:hover, .jedateblue .daysul td.actdate .lunar {
+    color: #aaa;
+} */
+
+.form-control[readonly].jedate {
+    cursor: pointer;
+}
+
+.append-box .item {
+    position: relative;
+}
+
+.append-box .item>a {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.append-box.disabled>button, .append-box.disabled .item>i {
+    display: none;
+}
+
+.appList_more_table {
+    margin: 10px 0;
+    max-height: 270px;
+    overflow: auto;
+}
+
+.white-option {
+    color: #333;
+    background-color: #ddd;
+}
+
+.black-option {
+    color: black;
+    background-color: #888;
+}
+
+.sidebar-menu .expired {
+    background-color: rgba(0, 0, 0, 0.1)!important;
+}
+
+.sidebar-menu .expired span {
+    color: rgba(0, 0, 0, 0.3)!important;
+}
+
+#address {
+    height: 600px;
+}
+
+/* 客户端策略-权限策略：未购买客户端设置项样式 */
+
+.forbidden.form-group label {
+    opacity: 0.6;
+}
+
+.forbidden.form-group {
+    position: relative;
+    overflow: hidden;
+}
+
+.forbidden.form-group:after {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 65%;
+    bottom: 5px;
+    content: 'Licence未购买！';
+    font-weight: bold;
+    color: red;
+}
+
+table {
+    table-layout: fixed;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 树形组件样式 */
+
+.tab-pane .relFilter input[type=checkbox] {
+    opacity: 1;
+    position: static;
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.tab-pane .relFilter .dd-handle, .tab-pane .xtree li {
+    display: flex!important;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: none;
+    min-height: 24px;
+}
+.tab-pane .relFilter .dd-handle span,
+.tab-pane .xtree li span{
+    padding: 4px;
+}
+
+
+.tab-pane .relFilter li span {
+    cursor: pointer;
+    line-height: 16px;
+}
+
+.tab-pane .relFilter li span:hover {
+    color: rgba(40, 110, 240, 0.8)
+}
+
+.tab-pane .relFilter li.active span {
+    font-weight: bold;
+    color: rgb(40, 110, 240);
+}
+
+.xtree li>i.tIcon {
+    margin-left: 0.5em;
+    cursor: pointer;
+}
+
+.xtree li+ul {
+    display: none;
+    margin-left: -20px;
+}
+
+.xtree li.open+ul {
+    display: block;
+}
+
+/* 滚动列表组件样式 */
+
+.dialog-box-title>h3{
+    font-size: 1.2em;
+}
+
+
+.scrollList dl, .scrollList dt, .scrollList dd, .scrollList ul, .scrollList li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.scrollList ul{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.scrollList li{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ddd;
+    padding: 6px 0;
+    box-shadow: 0 0 0 1px #fff inset;
+}
+.scrollList dd.ddHas{
+    overflow: auto;
+}
+
+.scrollList dt>ul>li{
+    background: #bbb;
+}
+.scrollList dd.ddHas ul:nth-child(even) li{
+    background: #ccc;
+}
+.scrollList dd>ul>li:only-child{
+    width:100%;
+    text-align: center;
+}
+
+.scrollList .btnUnbind {
+    cursor: pointer;
+    color: #427fed;
+    padding: 0 4px;
+}
+
+.scrollList .btnUnbind:hover {
+    color: #134fbe;
+}
+
+.loading-mask{
+    position: relative;
+}
+.loading-mask::before{
+    display: block;
+    content:'';
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:999999;
+}
+
+.tact.appact{
+    text-align: left;
+}
+
+.ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.has-unit{
+    position: relative;
+}
+.has-unit>span{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: auto;
+    right: 34px;
+    line-height: 34px;
+    color: #555;
+    font-size: 12px;
+    filter: alpha(opacity=70);
+    -webkit-opacity: .7;
+    -moz-opacity: .7;
+    opacity: .7;
+}

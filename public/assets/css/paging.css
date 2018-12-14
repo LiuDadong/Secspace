@@ -1,0 +1,60 @@
+.box * {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.box {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    line-height: 30px;
+    font-size: 16px;
+}
+
+.box p {
+    margin-right: 20px;
+}
+
+.box button {
+    padding: 0 10px;
+    margin: 0 1px;
+    cursor: pointer;
+    border: 1px solid #ebebeb;
+    background-color: #ffffff;
+}
+
+.box button[disabled='disabled'] {
+    color: #ccc;
+    cursor: auto;
+}
+
+.box .pageWrap {
+    overflow: hidden;
+}
+
+.box .pageWrap ul {
+    width: 100000px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.box .pageWrap ul li {
+    width: 40px;
+    border: 1px solid #ebebeb;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.box .pageWrap ul .sel-page {
+    background-color: #001940;
+    color: #ebebeb;
+}
+
+.box .jump-text {
+    width: 60px;
+    box-sizing: border-box;
+    text-align: center;
+    margin: 0 5px;
+}

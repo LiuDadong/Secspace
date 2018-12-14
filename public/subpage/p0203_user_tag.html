@@ -1,0 +1,91 @@
+<div class="row">
+    <div class="taglist col-xs-12 col-md-12">
+        <div class="widget">
+            <div class="widget-btn">
+                <a href="javascript:add()" class="btn btn-primary">
+                    <i class="fa fa-plus">添加</i>
+                </a>
+                <a href="javascript:refresh()" style="cursor:pointer;opacity:1;text-align:center;">
+                    <i style="font-size:20px;" class="fa fa-refresh"></i>
+                    <p style="font-size:10px;margin:0;">刷新</p>
+                </a>
+                <a href="javascript:issuePolicy()" class="hrefactive">
+                    <i style="font-size:20px;" class="fa fa-lightbulb-o"></i>
+                    <p style="font-size:10px;margin:0;">下发策略</p>
+                </a>
+                <a href="javascript:deletes()" class="hrefactive">
+                    <i style="font-size:20px;" class="fa fa-minus-square"></i>
+                    <p style="font-size:10px;margin:0;">删除</p>
+                </a>
+                <div class="input-group input-group-sm">
+                    <input type="text" style="float:right;max-width:200px;" placeholder="名称" onfocus="this.placeholder=''" class="form-control" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default btn-primary">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div style="box-shadow:none;padding:0;" class="tagtable widget-body"></div>
+            <div class="page1"></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div style="display:none;" class="user col-lg-12 col-sm-12 col-xs-12">
+        <div style="margin-left:0;" class="row">
+            <div class="widget-btn">
+                <a href="javascript:taglist()" class="btn btn-primary">
+                    <i class="fa fa-times">取消</i>
+                </a>
+                <a href="javascript:save()" class="btn btn-primary">
+                    <i class="fa fa-plus">保存</i>
+                </a>
+            </div>
+        </div>
+        <h5 class="row-title befor-magenta">选定添加用户</h5>
+        <input name="tag_id" style="display:none;" />
+        <div class="row">
+            <div class="col-lg-5 col-sm-5 col-xs-5">
+                <div class="widget">
+                    <div class="widget-header bordered-bottom bordered-blue">
+                        <span style="line-height:30px;" class="widget-caption">标签外用户</span>
+                    </div>
+                    <div class="widget-body">
+                        <div class="input-group">
+                            <span class="input-icon">
+                                <input type="text" id="freeusers" name="freeusers" oninput="sfreeusers()" class="form-control input-sm" />
+                                <i class="glyphicon glyphicon-search primary"></i>
+                            </span>
+                        </div>
+                        <div style="height:200px;overflow-y:auto;" class="freeuser"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="height:326px;background:url(../imgs/arrow.png) center no-repeat;" class="col-lg-2 col-sm-2 col-xs-2"></div>
+            <div class="col-lg-5 col-sm-5 col-xs-5">
+                <div class="widget">
+                    <div class="widget-header bordered-bottom bordered-blue">
+                        <span style="line-height:30px;" class="widget-caption">标签内用户</span>
+                    </div>
+                    <div class="widget-body">
+                        <div class="input-group">
+                            <span class="input-icon">
+                                <input type="text" id="users" name="users" oninput="searchusers()" class="form-control input-sm" />
+                                <i class="glyphicon glyphicon-search primary"></i>
+                            </span>
+                        </div>
+                        <div style="height:200px;overflow-y:auto;" class="member"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div tabindex="-1" role="dialog" style="display:none;" aria-hidden="false" class="bootbox modal fade bootbox-confirm in modal-primary">
+    <div style="width:500px;" class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<div class="background"> </div>
+<script data-src="/subpage/p0203_user_tag.js"></script>

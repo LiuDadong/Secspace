@@ -1,0 +1,421 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span id="subCaption" class="widget-caption"></span>
+            </div>
+            <!-- section:分页列表 -->
+            <div class="widget-body section">
+                <form id="panel">
+                    <div class="buttons-preview pull-left">
+                        <button class="btnAdd btn btn-primary">
+                            <i class="fa fa-plus">添加</i>
+                        </button>
+                        <button class="btnToIssue btn btn-primary">
+                            <i class="fa fa-magic">下发</i>
+                        </button>
+                        <button class="btnRefresh btn btn-default btn-sm">
+                            <i class="fa fa-refresh">刷新</i>
+                        </button>
+                        <button class="btnAct btn btn-default btn-sm">
+                            <i class="fa fa-check-circle">启用</i>
+                        </button>
+                        <button class="btnUnact btn btn-default btn-sm">
+                            <i class="fa fa-times-circle">禁用</i>
+                        </button>
+                        <button class="btnDel btn btn-default btn-sm">
+                            <i class="fa fa-minus-square">删除</i>
+                        </button>
+                        <button type="button" class="btnDefPcy btn btn-sm btn-primary">默认设备策略</button>
+                    </div>
+                    <div class="pull-right"></div>
+                </form>
+                <table id="pagingTable">
+                </table>
+            </div>
+            <!-- section:添加、修改、查看多用途表单 -->
+            <div style="overflow:hidden;display: none;" class="widget-body section">
+                <div class="row col-md-7 col-md-offset-2">
+                    <form id="multForm" class="form-horizontal" role="form" method="post" action="#">
+                        <input type="hidden" name="id" />
+                        <input type="hidden" name="policy_type" value="device" />
+
+                        <div class="form-title">
+                            <b>基本信息 </b>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-md-4 control-label no-padding-right">名称</label>
+                            <div class="col-md-5">
+                                <input type="text" id="name" name="name" class="form-control require" />
+                                <input type="text" name="policyid" style="display:none;" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="position_strategy" class="col-md-4 control-label no-padding-right">定位策略</label>
+                            <div class="col-md-5">
+                                <select name="position_strategy" id="position_strategy" class="form-control">
+                                    <option value="1" class="option">正常定位模式</option>
+                                    <option value="2" class="option">工作日定位模式</option>
+                                    <option value="3" class="option">不允许定位 </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-title">
+                            <b>锁屏策略</b>
+                        </div>
+                        <div class="form-group">
+                            <label for="pw_min_len" class="col-md-4 control-label no-padding-right">密码最小长度</label>
+                            <div class="col-md-5">
+                                <select name="pw_min_len" id="pw_min_len" class="form-control">
+                                    <option value="4" class="option">4</option>
+                                    <option value="5" class="option">5</option>
+                                    <option value="6" class="option">6</option>
+                                    <option value="7" class="option">7</option>
+                                    <option value="8" class="option">8</option>
+                                    <option value="9" class="option">9</option>
+                                    <option value="10" class="option">10</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="passwd_type" class="col-md-4 control-label no-padding-right">复杂度要求</label>
+                            <div class="col-md-5">
+                                <select name="passwd_type" id="passwd_type" class="form-control">
+                                    <option value="1" class="option">数字密码</option>
+                                    <option value="2" class="option">数字字母密码</option>
+                                    <option value="3" class="option">数字字母(含大写小写)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pw_fail_count" class="col-md-4 control-label no-padding-right">最大尝试次数</label>
+                            <div class="col-md-5">
+                                <select name="pw_fail_count" id="pw_fail_count" class="form-control">
+                                    <option value="0" class="option">无限制</option>
+                                    <option value="3" class="option">3 次</option>
+                                    <option value="5" class="option">5 次</option>
+                                    <option value="10" class="option">10 次</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="available_time" class="col-md-4 control-label no-padding-right">密码有效期</label>
+                            <div class="col-md-5">
+                                <select name="available_time" id="available_time" class="form-control">
+                                    <option value="0" class="option">永久</option>
+                                    <option value="15" class="option">15 天</option>
+                                    <option value="30" class="option">30 天</option>
+                                    <option value="90" class="option">90 天</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-title">
+                            <b>限制策略</b>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="camera" class="col-md-4 control-label no-padding-right">禁止使用相机</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="camera" name="camera" />
+                                        <span class="text">禁止</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="camera_control" class="col-md-4 control-label no-padding-right">禁用应用摄像头</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="camera_control" name="camera_control" />
+                                        <span class="text">禁止</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="wifi" class="col-md-4 control-label no-padding-right">禁止使用Wifi</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" onclick="checkwifi(this)" id="wifi" name="wifi" />
+                                        <span class="text">禁止</span>
+                                        <span class="help">不能和禁止移动数据同时开启</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobile_data" class="col-md-4 control-label no-padding-right">禁止移动数据</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" onclick="checkmobile(this)" id="mobile_data" name="mobile_data" />
+                                        <span class="text">禁止</span>
+                                        <span class="help">仅支持5.0以上系统，需获得系统权限签名</span>
+                                        <span class="help"> </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bluetooth" class="col-md-4 control-label no-padding-right">禁止使用蓝牙</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="bluetooth" name="bluetooth" />
+                                        <span class="text">禁止</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gps1" class="col-md-4 control-label no-padding-right">强制开启GPS</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" onclick="checkgps1(this)" id="gps1" name="gps1" />
+                                        <span class="text">开启</span>
+                                        <span class="help">需获得系统权限签名</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gps2" class="col-md-4 control-label no-padding-right">强制关闭GPS</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" onclick="checkgps2(this)" id="gps2" name="gps2" />
+                                        <span class="text">关闭</span>
+                                        <span class="help">需获得系统权限签名</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="recording" class="col-md-4 control-label no-padding-right">禁止录音</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="recording" name="recording" />
+                                        <span class="text">禁止</span>
+                                        <span class="help">仅支持6.0以上系统，需获得系统权限签名</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="setfactory" class="col-md-4 control-label no-padding-right">禁止恢复出厂</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="setfactory" name="setfactory" />
+                                        <span class="text">禁止</span>
+                                        <span class="help">仅支持5.0以上系统，需获得系统权限签名</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" class="col-md-4 control-label no-padding-right">禁止使用短信</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="message" name="message" />
+                                        <span class="text">禁止</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="col-md-4 control-label no-padding-right">禁止收听电话</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="phone" name="phone" />
+                                        <span class="text">禁止</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="space_only" class="col-md-4 control-label no-padding-right">强制使用空间</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="space_only" name="space_only" />
+                                        <span class="text">开启</span>
+                                        <span class="help">开启后仅允许使用安全空间及空间内应用</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-title">
+                            <b>网络限制</b>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label no-padding-right">限制安全空间外网络</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="control" />
+                                        <span class="text">开启</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label no-padding-right">白名单应用</label>
+                            <div class="col-md-5 need-init limit_apps append-box">
+                                <input type="hidden" name="limit_apps" />
+                                <div class="item">
+                                    <input type="text" name="white_app" placeholder="请输入程序包名，例：com.taobao.taobao" class="form-control no-repeat" />
+                                    <i class="fa fa-minus-circle primary"></i>
+                                </div>
+                                <button class="btn btn-primary">继续添加白名单应用</button>
+                            </div>
+                        </div>
+
+                        <div class="form-title">
+                            <b>Wifi策略</b>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label no-padding-right">下发热点</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="status" name="status" />
+                                        <span class="text">开启</span>
+                                        <span class="help">仅允许使用下发的热点,不勾选此项仅作为wifi密码推送功能</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
+                            <div class="need-init wifi append-box">
+                                <input type="hidden" name="wifi" />
+                                <div class="item">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label no-padding-right">SSID</label>
+                                        <div class="col-md-5">
+                                            <input type="text" name="ssid" class="form-control no-repeat" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label no-padding-right">密码</label>
+                                        <div class="col-md-5">
+                                            <input type="text" name="password" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <i class="fa fa-minus-circle primary"></i>
+                                </div>
+                                <button class="btn btn-primary">继续添加WiFi热点</button>
+                            </div>
+                        </div> -->
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label no-padding-right">wifi热点</label>
+                            <div class="col-md-5 need-init wifi append-box">
+                                <input type="hidden" name="wifi" />
+                                <div class="item">
+
+                                    <input type="text" name="ssid" class="form-control no-repeat" placeholder="SSID" />
+
+
+                                    <input type="text" name="password" class="form-control" placeholder="密码" />
+
+                                    <i class="fa fa-minus-circle primary"></i>
+                                </div>
+                                <button class="btn btn-primary">继续添加WiFi热点</button>
+                            </div>
+                        </div>
+
+                        <hr class="wide" />
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div class="col-sm-6">
+                                    <button type="button" class="btnBack btn btn-default">返回
+                                    </button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="submit" class="btn btn-primary" value="" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <!-- section:策略下发 -->
+            <div style="overflow:hidden;display: none;" class="widget-body section">
+                <div id="issuePane">
+                    <form>
+                        <div class="buttons-preview pull-left">
+                            <button class="btnIssue btn btn-primary">
+                                <i class="fa fa-magic">下发</i>
+                            </button>
+                            <button class="btnBack btn btn-default">
+                                <i class="fa fa-check-circle">返回</i>
+                            </button>
+                        </div>
+                        <div class="pull-right"></div>
+                    </form>
+                </div>
+
+                <div id="tabForIssue" class="tabbable">
+                    <ul class="nav nav-tabs tabs-flat">
+                        <li class="active">
+                            <a data-toggle="tab" href="#paneGroup">
+                                基于用户组下发
+                            </a>
+                        </li>
+                        <li class="tab-red">
+                            <a data-toggle="tab" href="#paneTag">
+                                基于标签下发
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content tabBody">
+                        <div id="paneGroup" class="tab-pane active">
+                            <div class="classify row col-md-2">
+                                <div class="well">
+                                    <div id="treeUserGroup" class="relFilter"></div>
+                                </div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserGroupTree"></table>
+                            </div>
+                        </div>
+
+                        <div id="paneTag" class="tab-pane">
+                            <div class="classify row col-md-2">
+                                <div class="well">
+                                    <div id="treeUserTag" class="relFilter"></div>
+                                </div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserTagList">
+                                    <tr>
+                                        <td>标签用户</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script data-src="/subpage/p0401_pcy_device.js"></script>

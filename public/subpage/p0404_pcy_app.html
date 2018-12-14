@@ -1,0 +1,259 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span id="subCaption" class="widget-caption"></span>
+            </div>
+            <!-- section:分页列表 -->
+            <div class="widget-body section">
+                <form id="panel">
+                    <div class="buttons-preview pull-left">
+                        <button class="btnAdd btn btn-primary">
+                            <i class="fa fa-plus">添加</i>
+                        </button>
+                        <button class="btnToIssue btn btn-primary">
+                            <i class="fa fa-magic">下发</i>
+                        </button>
+                        <button class="btnRefresh btn btn-default btn-sm">
+                            <i class="fa fa-refresh">刷新</i>
+                        </button>
+                        <button class="btnAct btn btn-default btn-sm">
+                            <i class="fa fa-check-circle">启用</i>
+                        </button>
+                        <button class="btnUnact btn btn-default btn-sm">
+                            <i class="fa fa-times-circle">禁用</i>
+                        </button>
+                        <button class="btnDel btn btn-default btn-sm">
+                            <i class="fa fa-minus-square">删除</i>
+                        </button>
+                    </div>
+                    <div class="pull-right"></div>
+                </form>
+                <table id="pagingTable">
+                </table>
+            </div>
+            <!-- section:添加、修改、查看多用途表单 -->
+            <div style="overflow:hidden;display: none;" class="widget-body section">
+                <div class="row col-md-10 col-md-offset-1">
+                    <form id="multForm" class="form-horizontal" role="form" method="post" action="#">
+                        <input type="hidden" name="id" />
+                        <div class="form-title">
+                            <b>基本信息 </b>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-md-3 control-label no-padding-right">名称</label>
+                            <div class="col-md-6">
+                                <input type="text" id="name" name="name" class="form-control require" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="policy_type" class="col-md-3 control-label no-padding-right">策略类型</label>
+                            <div class="col-md-6">
+                                <select id="policy_type" name="policy_type" class="form-control">
+                                    <option value="limitaccess">限制访问策略</option>
+                                    <option value="blackapp" selected="selected">黑名单策略</option>
+                                    <option value="whiteapp">白名单策略</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="wrapLimitAccess" class="itemSiteLimit">
+
+
+                            <div class="form-title">
+                                <b>限制设置</b>
+                            </div>
+                            <div class="form-group ">
+                                <label for="addrpolicy" class="col-md-3 control-label no-padding-right">限制类型</label>
+                                <div class="col-md-6">
+                                    <div class="checkbox col-md-4  col-md-offset-4">
+                                        <label>
+                                            <input type="checkbox" id="addrpolicy" name="addrpolicy" />
+                                            <span class="text">地理限制</span>
+                                        </label>
+                                    </div>
+                                    <div class="checkbox col-md-4">
+                                        <label>
+                                            <input type="checkbox" id="timepolicy" name="timepolicy" />
+                                            <span class="text">时间限制</span>
+                                        </label>
+                                    </div>
+                                    <p class="help-block col-md-12 ">当所有限制项均满足时指定应用才能启动</p>
+                                </div>
+                            </div>
+                            <div id="itemSiteLimit">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label no-padding-right">地点范围</label>
+                                    <label class="col-md-3 control-label">坐标(
+                                        <span class="pointer lnglat">323232,3323323</span>)</label>
+                                    <label class="col-md-2 control-label">半径 (
+                                        <span class="radius">333</span>) 米</label>
+                                </div>
+                                <div class="form-group">
+                                    <div id="amapwrap"></div>
+                                </div>
+                            </div>
+                            <div id="itemTimeLimit">
+                                <div class="form-group">
+                                    <label for="repeat_type" class="col-md-3 control-label no-padding-right">重复类型</label>
+                                    <div class="col-md-4">
+                                        <select name="repeat_type" id="repeat_type" class="form-control">
+                                            <option value="1" class="option">每周</option>
+                                            <option value="2" class="option">每日</option>
+                                            <option value="3" class="option">工作日</option>
+                                            <option value="4" class="option">特定日期</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 everyweek">
+                                        <select name="weekday" id="weekday" class="form-control">
+                                            <option value="1" class="option">星期一</option>
+                                            <option value="2" class="option">星期二</option>
+                                            <option value="3" class="option">星期三</option>
+                                            <option value="4" class="option">星期四</option>
+                                            <option value="5" class="option">星期五</option>
+                                            <option value="6" class="option">星期六</option>
+                                            <option value="7" class="option">星期日</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="start_date" class="col-md-3 control-label no-padding-right">起止日期</label>
+                                    <div class="col-md-3">
+                                        <input id="start_date" readonly="readonly" type="text" name="start_date" class="col-md-3 require jedate start_date mindate form-control cursor" />
+                                    </div>
+                                    <label class="col-md-1 control-label text-align-center">至</label>
+                                    <div class="col-md-3">
+                                        <input id="stop_date" readonly="readonly" type="text" name="stop_date" class="col-md-3 require jedate stop_date mindate form-control cursor" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="start_date" class="col-md-3 control-label no-padding-right">起止时间</label>
+                                    <div class="col-md-3">
+                                        <input id="start_time" readonly="readonly" type="text" name="start_time" class="col-md-3 require jedate jetime start_time form-control cursor" />
+                                    </div>
+                                    <label class="col-md-1 control-label text-align-center">至</label>
+                                    <div class="col-md-3">
+                                        <input id="stop_time" readonly="readonly" type="text" name="stop_time" class="col-md-3 require jedate jetime stop_time form-control cursor" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-title">
+                                <b>限制应用</b>
+                            </div>
+                            <div class="form-group">
+                                <label for="selAppList" class="col-md-3 control-label no-padding-right">选择引用</label>
+                                <div class="col-md-6">
+                                    <select name="app_list" multiple="multiple" id="selAppList" class="require form-control">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="wrapBlackList">
+                            <div class="form-title">
+                                <b>黑名单</b>
+                            </div>
+                            <div class="form-group">
+                                <label for="black_id" class="col-md-3 control-label no-padding-right">选择黑名单</label>
+                                <div class="col-md-6">
+                                    <select id="black_id" name="black_id" multiple="multiple" class="require form-control"></select>
+                                    <p class="help-block">禁止黑名单系统应用访问</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="wrapWhiteList">
+                            <div class="form-title">
+                                <b>白名单</b>
+                            </div>
+                            <div class="form-group">
+                                <label for="white_id" class="col-md-3 control-label no-padding-right">选择白名单</label>
+                                <div class="col-md-6">
+                                    <select id="white_id" name="white_id" multiple="multiple" class="require form-control"></select>
+                                    <p class="help-block">禁止白名单之外的系统应用访问</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="wide" />
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div class="col-sm-6">
+                                    <button type="button" class="btnBack btn btn-default">返回
+                                    </button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="submit" class="btn btn-primary" value="" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <!-- section:策略下发 -->
+            <div style="overflow:hidden;display: none;" class="widget-body section">
+                <div id="issuePane">
+                    <form>
+                        <div class="buttons-preview pull-left">
+                            <button class="btnIssue btn btn-primary">
+                                <i class="fa fa-magic">下发</i>
+                            </button>
+                            <button class="btnBack btn btn-default">
+                                <i class="fa fa-check-circle">返回</i>
+                            </button>
+                        </div>
+                        <div class="pull-right"></div>
+                    </form>
+                </div>
+
+                <div id="tabForIssue" class="tabbable">
+                    <ul class="nav nav-tabs tabs-flat">
+                        <li class="active">
+                            <a data-toggle="tab" href="#paneGroup">
+                                基于用户组下发
+                            </a>
+                        </li>
+                        <li class="tab-red">
+                            <a data-toggle="tab" href="#paneTag">
+                                基于标签下发
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content tabBody">
+                        <div id="paneGroup" class="tab-pane active">
+                            <div class="classify row col-md-2">
+                                <div class="well">
+                                    <div id="treeUserGroup" class="relFilter"></div>
+                                </div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserGroupTree"></table>
+                            </div>
+                        </div>
+
+                        <div id="paneTag" class="tab-pane">
+                            <div class="classify row col-md-2">
+                                <div class="well">
+                                    <div id="treeUserTag" class="relFilter"></div>
+                                </div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserTagList">
+                                    <tr>
+                                        <td>标签用户</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script data-src="/scripts/oMap.js"></script>
+<script data-src="/subpage/p0404_pcy_app.js"></script>

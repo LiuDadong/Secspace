@@ -1,0 +1,146 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span id="subCaption" class="widget-caption"></span>
+            </div>
+            <!-- section:分页列表 -->
+            <div class="widget-body section">
+                <form id="panel">
+                    <div class="buttons-preview pull-left">
+                        <button class="btnUpload btn btn-primary">
+                            <i class="fa fa-plus">上传</i>
+                        </button>
+                        <button class="btnToIssue btn btn-primary">
+                            <i class="fa fa-magic">下发</i>
+                        </button>
+                        <button class="btnRefresh btn btn-default btn-sm">
+                            <i class="fa fa-refresh">刷新</i>
+                        </button>
+                        <button class="btnDel btn btn-default btn-sm">
+                            <i class="fa fa-minus-square">删除</i>
+                        </button>
+                    </div>
+                    <div class="pull-right"></div>
+                </form>
+                <table id="pagingTable"></table>
+            </div>
+            <!-- section:添加、修改、查看多用途表单 -->
+            <div style="overflow:hidden;display: none;" class="widget-body section">
+                <div class="row col-md-7 col-md-offset-2">
+                    <form id="multForm" class="form-horizontal" role="form" method="post" action="/man/appList/add">
+
+                        <input type="hidden" name="id" />
+                        <input type="hidden" name="policy_type" value="customer" />
+
+                        <div class="form-group"><!-- 文件导入 -->
+                            <label class="col-md-3 control-label no-padding-right">
+                                <span>选择文件</span>
+                            </label>
+                            <div class="col-md-7">
+                                <input type="file" name="file_data" class="require form-control" autocomplete="off" />
+                                <div class="progress progress-xxs">
+                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0">
+                                        <span class="sr-only">
+                                            0% Complete
+                                        </span>
+                                    </div>
+                                </div>
+                                <p class="help-block file-help">只支持.txt、.doc、.docx、.xls、.xlsx、.pptx、.ppt、.pdf文件上传，且大小不超过150M。</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><!-- 文件名 -->
+                            <label class="col-md-3 control-label no-padding-right">
+                                <span>文件名</span>
+                            </label>
+                            <div class="col-md-7">
+                                <input type="text" name="filename" class="form-control" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="form-group"><!-- 文件描述 -->
+                            <label class="col-md-3 control-label no-padding-right">
+                                <span>文件描述</span>
+                            </label>
+                            <div class="col-md-7">
+                                <input type="text" name="describe" class="form-control" placeholder="请输入文件相关描述" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="form-group"><!-- 版本号 -->
+                            <label class="col-md-3 control-label no-padding-right">
+                                <span>版本号</span>
+                            </label>
+                            <div class="col-md-7">
+                                <input type="text" name="version" class="require form-control" placeholder="示例: V0.0.1" autocomplete="off" />
+                            </div>
+                        </div>
+
+
+
+                        <hr class="wide" />
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div class="col-sm-6">
+                                    <button type="button" class="btnBack btn btn-default">返回
+                                    </button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="submit" class="btn btn-primary" value="" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+            <!-- section:策略下发 -->
+            <div style="overflow:hidden;display: none;" class="widget-body section">
+                <div id="issuePane"></div>
+                <div id="tabForIssue" class="tabbable">
+                    <ul class="nav nav-tabs tabs-flat">
+                        <li class="active">
+                            <a data-toggle="tab" href="#paneGroup">
+                                基于用户组下发
+                            </a>
+                        </li>
+                        <li class="tab-red">
+                            <a data-toggle="tab" href="#paneTag">
+                                基于标签下发
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content tabBody">
+                        <div id="paneGroup" class="tab-pane active">
+                            <div class="classify row col-md-2">
+                                <div id="treeUserGroup" class="relFilter"></div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserGroupTree"></table>
+                            </div>
+                        </div>
+
+                        <div id="paneTag" class="tab-pane">
+                            <div class="classify row col-md-2">
+                                <div id="treeUserTag" class="relFilter">tags</div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserTagList">
+                                    <tr>
+                                        <td>标签用户</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-src="/subpage/p0501_file_manage.js"></script>

@@ -1,0 +1,273 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span id="subCaption" class="widget-caption"></span>
+            </div>
+            <!-- section:分页列表 -->
+            <div class="widget-body section">
+                <form id="panel">
+                    <div class="buttons-preview pull-left">
+                        <button class="btnAdd btn btn-primary">
+                            <i class="fa fa-plus">添加</i>
+                        </button>
+                        <button class="btnToIssue btn btn-primary">
+                            <i class="fa fa-magic">下发</i>
+                        </button>
+                        <button class="btnRefresh btn btn-default btn-sm">
+                            <i class="fa fa-refresh">刷新</i>
+                        </button>
+                        <button class="btnAct btn btn-default btn-sm">
+                            <i class="fa fa-check-circle">启用</i>
+                        </button>
+                        <button class="btnUnact btn btn-default btn-sm">
+                            <i class="fa fa-times-circle">禁用</i>
+                        </button>
+                        <button class="btnDel btn btn-default btn-sm">
+                            <i class="fa fa-minus-square">删除</i>
+                        </button>
+                    </div>
+                    <div class="pull-right"></div>
+                </form>
+                <table id="pagingTable">
+                </table>
+            </div>
+            <!-- section:添加、修改、查看多用途表单 -->
+            <div style="overflow:hidden;display: none;" class="widget-body section">
+                <div class="row col-md-7 col-md-offset-2">
+                    <form id="multForm" class="form-horizontal" role="form" method="post" action="#">
+                        <input type="hidden" name="id" />
+                        <input type="hidden" name="policy_type" value="complicance" />
+
+                        <div class="form-title">
+                            <b>基本信息 </b>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-md-4 control-label no-padding-right">名称</label>
+                            <div class="col-md-6">
+                                <input type="text" id="name" name="name" class="require form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="delay" class="col-md-4 control-label no-padding-right">延迟</label>
+                            <div class="col-md-6">
+                                <div class="has-unit">
+                                    <input type="number" id="delay" name="delay" class="require form-control" min="1" max="72" placeholder="1-72" />
+                                    <span>小时</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-title">
+                            <b>合规项</b>
+                        </div>
+                        <div class="form-group">
+                            <label for="item_0" class="col-md-4 control-label no-padding-right">合规项</label>
+                            <div class="col-md-3">
+                                <select name="compliance_type" id="item_0" class="form-control">
+                                    <option value="sys_low" class="option">系统版本过低</option>
+                                    <option value="sim" class="option">SIM卡变更</option>
+                                    <option value="rooted" class="option">Rooted</option>
+                                    <option value="lost_contact" class="option">失联</option>
+                                    <option value="power_low" class="option">电量不足</option>
+                                    <option value="storage_lack" class="option">存储空间不足</option>
+                                    <option value="strategy" class="option">策略未生效</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select name="os_version" id="os_version" class="form-control">
+                                    <option value="19" class="option">Android 4.4 (API 19)</option>
+                                    <option value="21" class="option">Android 5.0 (API 21)</option>
+                                    <option value="22" class="option">Android 5.1 (API 22)</option>
+                                    <option value="23" class="option">Android 6.0 (API 23)</option>
+                                    <option value="24" class="option">Android 7.0 (API 24)</option>
+                                    <option value="25" class="option">Android 7.1.1 (API 25)</option>
+                                </select>
+                                <input type="number" style="display: none;" min="1" max="365" name="lost_day"
+                                    placeholder="请输入失联天数（1~365天）" class="form-control" />
+                            </div>
+                        </div>
+
+
+                        <div class="form-title valid_title">
+                            <b>违规限制</b>
+                        </div>
+
+                        <div class="form-group valid_item">
+                            <label for="mesg" class="col-md-4 control-label no-padding-right">违规告警</label>
+                            <div class="col-md-6">
+                                <div class="checkbox col-md-3">
+                                    <label>
+                                        <input type="checkbox" id="mesg" name="mesg" />
+                                        <span class="text">通知</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox col-md-3">
+                                    <label>
+                                        <input type="checkbox" id="email" name="email" />
+                                        <span class="text">邮件</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group valid_item">
+                            <label for="camera" class="col-md-4 control-label no-padding-right">禁止使用相机</label>
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="camera" name="camera" />
+                                        <span class="text">禁止</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group valid_item">
+                            <label for="access_secspace" class="col-md-4 control-label no-padding-right">禁止访问安全空间</label>
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="access_secspace" name="access_secspace" />
+                                        <span class="text">禁止</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group valid_item">
+                            <label for="enterprise_data" class="col-md-4 control-label no-padding-right">擦除企业数据</label>
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="enterprise_data" name="enterprise_data" />
+                                        <span class="text">开启</span>
+                                        <span class="help">仅支持5.0以上系统，需获得系统权限签名</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group valid_item">
+                            <label for="all_data" class="col-md-4 control-label no-padding-right">擦除全部数据</label>
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="all_data" name="all_data" />
+                                        <span class="text">开启</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group valid_item">
+                            <label for="sd" class="col-md-4 control-label no-padding-right">禁用SD卡</label>
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="sd" name="sd" />
+                                        <span class="text">开启</span>
+                                        <span class="help">需获得系统权限签名</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group valid_item">
+                            <label for="message" class="col-md-4 control-label no-padding-right">禁止使用短信</label>
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="message" name="message" />
+                                        <span class="text">关闭</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group valid_item">
+                            <label for="phone" class="col-md-4 control-label no-padding-right">禁止收听电话</label>
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="phone" name="phone" />
+                                        <span class="text">禁止</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="wide" />
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div class="col-sm-6">
+                                    <button type="button" class="btnBack btn btn-default">返回
+                                    </button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="submit" class="btn btn-primary" value="" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <!-- section:策略下发 -->
+            <div style="overflow:hidden;display: none;" class="widget-body section">
+                <div id="issuePane">
+                    <form>
+                        <div class="buttons-preview pull-left">
+                            <button class="btnIssue btn btn-primary">
+                                <i class="fa fa-magic">下发</i>
+                            </button>
+                            <button class="btnBack btn btn-default">
+                                <i class="fa fa-check-circle">返回</i>
+                            </button>
+                        </div>
+                        <div class="pull-right"></div>
+                    </form>
+                </div>
+
+                <div id="tabForIssue" class="tabbable">
+                    <ul class="nav nav-tabs tabs-flat">
+                        <li class="active">
+                            <a data-toggle="tab" href="#paneGroup">
+                                基于用户组下发
+                            </a>
+                        </li>
+                        <li class="tab-red">
+                            <a data-toggle="tab" href="#paneTag">
+                                基于标签下发
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content tabBody">
+                        <div id="paneGroup" class="tab-pane active">
+                            <div class="classify row col-md-2">
+                                <div class="well">
+                                    <div id="treeUserGroup" class="relFilter"></div>
+                                </div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserGroupTree"></table>
+                            </div>
+                        </div>
+
+                        <div id="paneTag" class="tab-pane">
+                            <div class="classify row col-md-2">
+                                <div class="well">
+                                    <div id="treeUserTag" class="relFilter"></div>
+                                </div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserTagList">
+                                    <tr>
+                                        <td>标签用户</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-src="/subpage/p0402_pcy_compliance.js"></script>

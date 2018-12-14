@@ -1,0 +1,378 @@
+<div class="row">
+    <div class="userlist col-xs-12 col-md-12">
+        <div class="widget">
+            <div class="widget-btn">
+                <a href="javascript:add()" class="btn btn-primary">
+                    <i class="fa fa-plus">添加</i>
+                </a>
+                <a href="javascript:invent()" class="btn btn-primary">
+                    <i class="fa fa-magic">激活</i>
+                </a>
+                <a href="javascript:refresh()" style="cursor:pointer;opacity:1;text-align:center;">
+                    <i style="font-size:20px;" class="fa fa-refresh"></i>
+                    <p style="font-size:10px;margin:0;">刷新</p>
+                </a>
+                <a href="javascript:issuePolicy()" class="hrefactive">
+                    <i style="font-size:20px;" class="fa fa-lightbulb-o"></i>
+                    <p style="font-size:10px;margin:0;">下发策略</p>
+                </a>
+                <a href="javascript:addTousers()" class="hrefactive">
+                    <i style="font-size:20px;" class="fa fa-arrows"></i>
+                    <p style="font-size:10px;margin:0;">移动至组</p>
+                </a>
+                <a href="javascript:addTotag()" class="hrefactive">
+                    <i style="font-size:20px;" class="fa fa-plus-square"></i>
+                    <p style="font-size:10px;margin:0;">添加标签</p>
+                </a>
+                <a href="javascript:deletes()" class="hrefactive">
+                    <i style="font-size:20px;" class="fa fa-minus-square"></i>
+                    <p style="font-size:10px;margin:0;">删除</p>
+                </a>
+                <div class="input-group input-group-sm">
+                    <input type="text" name="searchval" style="float:right;max-width:200px;" placeholder="账号" onfocus="this.placeholder=''" class="form-control" />
+                    <span class="input-group-btn">
+                        <button type="button" onclick="searchlist()" class="btn btn-default btn-primary">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div style="padding:0;display:none;" class="search col-lg-12 col-sm-12 col-xs-12">
+                <div style="margin-bottom:10px;" class="widget collapsed">
+                    <div style="box-shadow:none;padding-left:0;margin-bottom:10px;" class="widget-header">
+                        <span class="widget-caption">
+                            <div class="input-group input-group-sm">
+                                <span class="input-icon">
+                                    <input type="text" class="form-control" />
+                                    <i class="glyphicon glyphicon-search primary"></i>
+                                </span>
+                            </div>
+                        </span>
+                        <div class="widget-buttons">
+                            <a href="#" data-toggle="collapse">高级搜索</a>
+                        </div>
+                    </div>
+                    <div style="box-shadow:none;padding:0;" class="widget-body">
+                        <div style="padding-left:0px;" class="form-group col-lg-4 col-sm-4 col-xs-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-user darkorange"></i>
+                                </span>
+                                <input placeholder="姓名" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-4 col-sm-4 col-xs-4 has-error has-feedback">
+                            <div class="input-group">
+                                <span class="input-group-addon bg-blue bordered-blue">
+                                    <i class="fa fa-envelope-o"></i>
+                                </span>
+                                <input type="email" id="inputEmail" placeholder="Email Address" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-4 col-sm-4 col-xs-4">
+                            <label style="line-height:34px;margin-right:10px;">性别</label>
+                            <label style="margin-right:10px;">
+                                <input name="form-filed-radio" checked="true" type="radio" />
+                                <span class="text">男</span>
+                            </label>
+                            <label>
+                                <input name="form-filed-radio" type="radio" />
+                                <span class="text">女</span>
+                            </label>
+                        </div>
+                        <div style="padding-left:0px;" class="form-group col-lg-4 col-sm-4 col-xs-4">
+                            <div class="input-group">
+                                <span class="input-group-addon bg-blue bordered-blue">
+                                    <i class="fa fa-code-fork"></i>
+                                </span>
+                                <select class="form-control selectpicker">
+                                    <option value="1">bumen1</option>
+                                    <option value="0">bumen12</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-4 col-sm-4 col-xs-4">
+                            <div class="input-group">
+                                <span class="input-group-addon bg-blue bordered-blue">
+                                    <i class="fa fa-fax"></i>
+                                </span>
+                                <input placeholder="电话" class="form-control" />
+                            </div>
+                        </div>
+                        <div style="margin-bottom:20px;margin-top:6px;" class="searchinfo col-lg-8 col-sm-8 col-xs-8 col-lg-offset-4 col-sm-offset-4 col-xs-offset-4">
+                            <a href="javascript:secrhinfo()" class="btn btn-primary">搜索账号</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="box-shadow:none;padding:0;" class="usertable widget-body"></div>
+            <div class="page1"></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div style="display:none;" class="tab col-lg-12 col-sm-12 col-xs-12">
+        <div class="widget-main">
+            <div class="tabbable">
+                <input name="email" style="display:none;" />
+                <ul id="myTab11" class="nav nav-tabs tabs-flat">
+                    <li class="active">
+                        <a data-toggle="tab" href="#authapp1">已授权</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#unauthapp1">未授权</a>
+                    </li>
+                </ul>
+                <div class="tab-content tabs-flat">
+                    <div id="authapp1" class="tab-pane in active">
+                        <div style="box-shadow:none;padding:0;" class="apptable"></div>
+                        <div class="page2"> </div>
+                    </div>
+                    <div id="unauthapp1" class="tab-pane">
+                        <div style="box-shadow:none;padding:0;" class="apptable"></div>
+                        <div class="page3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div style="display:none;" class="user_add col-xs-12 col-md-12 setting">
+        <div style="border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;" class="widget">
+            <div style="height:40px;" class="widget-header">
+                <p style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;">基本信息</p>
+            </div>
+            <div style="height:300px;" class="widget-body">
+                <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
+                    <div class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <label for="username" style="width:110px;" class="control-label">
+                                <i style="color:red; font-size:12px;margin-right:10px;" class="icon glyphicon glyphicon-asterisk"></i>
+                                <label>姓名</label>
+                            </label>
+                            <div class="adddiv">
+                                <input type="text" id="username" name="username" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
+                    <div class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <label for="email" style="width:110px;" class="control-label">
+                                <i style="color:red; font-size:12px;margin-right:10px;" class="icon glyphicon glyphicon-asterisk"></i>
+                                <label>邮箱</label>
+                            </label>
+                            <div class="adddiv">
+                                <input type="text" id="email" name="email" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
+                    <div class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <label for="phone" style="width:110px; padding-left:22px;" class="control-label">手机号码</label>
+                            <div style="position: absolute;top: 0px;left: 110px;right: 0px;" class="adddiv">
+                                <input type="text" id="phone" name="phone" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-xs-12 col-md-12 devicesys">
+                    <div class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <label for="usergroup" style="width:110px;" class="control-label">
+                                <i style="color:red; font-size:12px;margin-right:10px;" class="icon glyphicon glyphicon-asterisk"></i>
+                                <label>所属组</label>
+                            </label>
+                            <div class="adddiv">
+                                <div class="selectusers">
+                                    <ul name="usergroup" style="padding-left:0;" class="list-group mdlTree"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height:40px;border-top:1px solid #ccc;" class="widget-header">
+                <p style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;">账号信息</p>
+            </div>
+            <div style="overflow:hidden;" class="widget-body">
+                <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
+                    <div class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <label for="account" style="width:110px;" class="control-label">
+                                <i style="color:red; font-size:12px;margin-right:10px;" class="icon glyphicon glyphicon-asterisk"></i>
+                                <label>账号</label>
+                            </label>
+                            <div class="adddiv">
+                                <input type="text" id="account" name="account" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <label for="activation_pwd" style="width:110px;" class="control-label">
+                                <i style="color:red; font-size:12px;margin-right:10px;" class="icon glyphicon glyphicon-asterisk"></i>
+                                <label>激活密码</label>
+                            </label>
+                            <div class="adddiv">
+                                <input type="text" id="activation_pwd" name="activation_pwd" placeholder="请输入6位数激活密码" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-xs-3 col-sm-3">
+                            <a href="javascript:activationpwd()" class="btn btn-primary">随机生成</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <label for="valid_time" style="width:110px;" class="control-label">
+                                <i style="color:red; font-size:12px;margin-right:10px;" class="icon glyphicon glyphicon-asterisk"></i>
+                                <label>有效期</label>
+                            </label>
+                            <div class="adddiv">
+                                <input type="number" id="valid_time" name="valid_time" value="15" min="1" max="30" class="form-control" />
+                            </div>
+                        </div>
+                        <label class="col-lg-2 col-xs-3 col-sm-3">请输入1-30(天)</label>
+                    </div>
+                </div>
+            </div>
+            <div style="height:40px;border-top:1px solid #ccc;" class="widget-header">
+                <p style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;">其他信息</p>
+            </div>
+            <div style="overflow:hidden;" class="widget-body">
+                <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
+                    <div style="height:100px;margin-bottom:5px;" class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <label for="tag" style="width:110px;" class="control-label">
+                                <label>标签</label>
+                            </label>
+                            <div class="tag adddiv">
+                                <div class="selectdiv">
+                                    <ul name="taglist" style="padding-left:0;margin-bottom:0px;" class="list-group"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-xs-12 col-md-12">
+                    <div class="form-group">
+                        <div class="col-lg-9 col-xs-10 col-sm-10 col-lg-offset-3 col-xs-offset-2 col-sm-offset-2">
+                            <div style="padding-top:10px;" class="widget-btn col-lg-12 col-xs-12 col-sm-12">
+                                <a href="javascript:userlist()" class="btn">取消</a>
+                                <a href="javascript:user_add(0)" class="btn btn-primary">保存</a>
+                                <a href="javascript:user_add(1)" style="width:auto;" class="btn btn-primary">保存并发送激活邮件</a>
+                                <a href="javascript:compliancesave()" style="width:auto;" disabled="disabled"
+                                    class="btn btn-primary">保存并发送激活短信</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div style="display:none;" class="user_mod col-xs-12 col-md-12 setting">
+        <div style="border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;" class="widget">
+            <div style="height:40px;" class="widget-header">
+                <p style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;">基本信息</p>
+            </div>
+            <div style="height:300px;" class="widget-body">
+                <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
+                    <div class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <label for="uname" style="width:110px;" class="control-label">
+                                <i style="color:red; font-size:12px;margin-right:10px;" class="icon glyphicon glyphicon-asterisk"></i>
+                                <label>姓名</label>
+                            </label>
+                            <div class="adddiv">
+                                <input type="text" style="display:none;" name="uid" />
+                                <input type="text" id="uname" name="uname" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
+                    <div class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <label for="uemail" style="width:110px;" class="control-label">
+                                <i style="color:red; font-size:12px;margin-right:10px;" class="icon glyphicon glyphicon-asterisk"></i>
+                                <label>邮箱</label>
+                            </label>
+                            <div class="adddiv">
+                                <input type="text" id="uemail" name="uemail" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
+                    <div class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <label for="uphone" style="width:110px; padding-left:22px;" class="control-label">手机号码</label>
+                            <div style="position: absolute;top: 0px;left: 110px;right: 0px;" class="adddiv">
+                                <input type="text" id="uphone" name="uphone" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-xs-12 col-md-12 devicesys">
+                    <div class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <label for="ugroup" style="width:110px;" class="control-label">
+                                <i style="color:red; font-size:12px;margin-right:10px;" class="icon glyphicon glyphicon-asterisk"></i>
+                                <label>所属组</label>
+                            </label>
+                            <div class="adddiv">
+                                <input type="text" style="display:none;" name="groupid" />
+                                <div class="selectusers">
+                                    <ul name="ugroup" style="padding-left:0;" class="list-group mdlTree"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height:40px;border-top:1px solid #ccc;" class="widget-header">
+                <p style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;">其他信息</p>
+            </div>
+            <div style="overflow:hidden;" class="widget-body">
+                <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
+                    <div style="height:100px;margin-bottom:5px;" class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <label for="tag" style="width:110px;" class="control-label">
+                                <label>标签</label>
+                            </label>
+                            <div class="tag adddiv">
+                                <div class="selectdiv">
+                                    <ul name="utag" style="padding-left:0;margin-bottom:0px;" class="list-group"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-xs-12 col-md-12">
+                    <div class="form-group">
+                        <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
+                            <div style="padding-top:10px;text-align:right;" class="div col-lg-6 col-xs-6 col-sm-6">
+                                <a href="javascript:userlist()" style="width:78px;" class="btn">取消</a>
+                            </div>
+                            <div style="padding-top:10px;text-align:center;" class="div col-lg-6 col-xs-6 col-sm-6">
+                                <a href="javascript:user_mod()" style="width:78px;" class="btn btn-primary">保存</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div tabindex="-1" role="dialog" style="display:none;" aria-hidden="false" class="bootbox modal fade bootbox-confirm in modal-primary">
+    <div style="max-width:800px;" class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<script data-src="/subpage/p0201_user_manage.js"></script>

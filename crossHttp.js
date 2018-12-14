@@ -1,36 +1,41 @@
-/*配置测试网络环境http*/
+﻿/*配置测试网络环境http*/
 var logSettings = {
-    crossGet: false,//控制跨域cget请求的日志输出
+    crossGet: false, //控制跨域cget请求的日志输出
     crossPost: false //控制跨域cpost请求的日志输出
 }
 var PDP,
-    v= 3;
-    // 1: 内网基础测试
-    // 2: 正式：本地测试上线部署
-    // 3: 上线部署
-switch (v){
-    case 1://内网基础测试
-        PDP={protocol: 'https', domain: '192.168.1.25', port: 1443};
+    v = 1;
+// 1: 上线部署
+// 2: 内网基础测试
+// 3: 正式：本地测试上线部署
+// 4: 本地测试惠讯
+switch (v) {
+    case 1: //上线部署
+        PDP = { protocol: 'http', domain: '127.0.0.1', port: 7770 };
         break;
-    case 2://正式：本地测试上线部署
-        PDP={protocol: 'http', domain: 'tpos.appssec.cn'};
+    case 2: //内网基础测试
+        PDP = { protocol: 'https', domain: '192.168.1.25', port: 1443 };
         break;
-    case 3://上线部署
-        PDP={protocol: 'http', domain: '127.0.0.1', port: 7770};
+    case 3: //本地测试上线
+        PDP = { protocol: 'http', domain: 'tpos.appssec.cn' };
         break;
+    case 4: //本地测试惠讯
+        PDP = { protocol: 'https', domain: '124.207.66.125', port: 8002 };
+        break;
+    default:
 }
 /*
  * 配置网络参数PDP（protocol,domain,port）
  */
-var protocol=PDP.protocol,
-    domain=PDP.domain,
-    port= PDP.port?PDP.port:'';
-var baseUrl = port
-    ? protocol + '://' + domain + ':'+ port
-    : protocol + '://' + domain;
+var protocol = PDP.protocol,
+    domain = PDP.domain,
+    port = PDP.port ? PDP.port : '';
+var baseUrl = port ?
+    protocol + '://' + domain + ':' + port :
+    protocol + '://' + domain;
 
 //引入所需模块
-var http = (protocol==='https')?require('https'):require('http');
+var http = (protocol === 'https') ? require('https') : require('http');
 var util = require('util');
 var querystring = require('querystring');
 
@@ -44,7 +49,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 exports.cget = function (url, fun) {
     var cont = '';
     url = baseUrl + url;
-    if (logSettings.crossGet) {   //根据设置输出log
+    if (logSettings.crossGet) { //根据设置输出log
         console.info('跨域cget请求的url:');
         console.info(url);
     }
@@ -62,7 +67,7 @@ exports.cget = function (url, fun) {
         });
     }).on('error', function (err) {
         console.info("跨越cget报错:");
-        console.info(err.message)
+        console.info(err);
     });
 };
 /*
@@ -78,9 +83,6 @@ exports.cget = function (url, fun) {
  *      function(cont),cont返回的数据
  */
 exports.cpost = function (postData, url, fun) {
-    if(port==7770){
-        port=7771
-    }
     postData = querystring.stringify(postData);
     if (logSettings.crossPost) {
         console.info('跨域cpost请求的url:');
@@ -88,9 +90,9 @@ exports.cpost = function (postData, url, fun) {
     }
     var cont = '',
         options = {
-            hostname:domain,
+            hostname: domain,
             path: url,
-            port: parseInt(port?port:80),
+            port: parseInt(port ? port : 80),
             method: 'POST',
             headers: {
                 'Content-Length': postData.length,
@@ -98,6 +100,7 @@ exports.cpost = function (postData, url, fun) {
             }
         },
         req = http.request(options, function (res) {
+            res.setEncoding('utf8');
             res.on('data', function (chunk) {
                 cont += chunk;
             });
@@ -108,10 +111,10 @@ exports.cpost = function (postData, url, fun) {
                         console.info('跨域cpost响应的cont：')
                         console.info(cont)
                     }
-                    fun(cont);
                 } catch (e) {
-                    fun(cont);
+                    console.error(e)
                 }
+                fun(cont);
             });
         });
     req.on('error', function (e) {

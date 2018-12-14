@@ -1,0 +1,378 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span id="subCaption" class="widget-caption"></span>
+            </div>
+            <!-- section:分页列表 -->
+            <div class="widget-body section">
+                <form id="panel">
+                    <div class="buttons-preview pull-left">
+                        <button class="btnAdd btn btn-primary">
+                            <i class="fa fa-plus">添加</i>
+                        </button>
+                        <button class="btnToIssue btn btn-primary">
+                            <i class="fa fa-magic">下发</i>
+                        </button>
+                        <button class="btnRefresh btn btn-default btn-sm">
+                            <i class="fa fa-refresh">刷新</i>
+                        </button>
+                        <button class="btnAct btn btn-default btn-sm">
+                            <i class="fa fa-check-circle">启用</i>
+                        </button>
+                        <button class="btnUnact btn btn-default btn-sm">
+                            <i class="fa fa-times-circle">禁用</i>
+                        </button>
+                        <button class="btnDel btn btn-default btn-sm">
+                            <i class="fa fa-minus-square">删除</i>
+                        </button>
+                        <button type="button" class="btnDefPcy btn btn-sm btn-primary">默认客户端策略</button>
+                    </div>
+                    <div class="pull-right"></div>
+                </form>
+                <table id="pagingTable">
+                </table>
+            </div>
+            <!-- section:添加、修改、查看多用途表单 -->
+            <div style="overflow:hidden;display: none;" class="widget-body section">
+                <div class="row col-md-7 col-md-offset-2">
+                    <form id="multForm" class="form-horizontal" role="form" method="post" action="#">
+
+                        <input type="hidden" name="id" />
+                        <input type="hidden" name="policy_type" value="customer" />
+
+                        <!--  基本信息-->
+                        <div class="form-title">
+                            <b>基本信息</b>
+                        </div>
+                        <div class="form-group">
+                            <!-- 策略名称 -->
+                            <label class="col-md-5 control-label no-padding-right">
+                                <span>名称</span>
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" name="name" class="require form-control" autocomplete="off" placeholder="请输入策略名称" />
+                            </div>
+                        </div>
+
+                        <!--  水印策略-->
+                        <div class="form-title">
+                            <b>水印策略</b>
+                        </div>
+                        <input type="hidden" name="watermark" />
+                        <div class="form-group">
+                            <label for="watermarkControl" class="col-md-5 control-label no-padding-right">
+                                <span>安全空间内开启水印</span>
+                            </label>
+                            <div class="checkbox col-md-1">
+                                <label>
+                                    <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="watermark" id="watermarkControl" name="control" />
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="font_type" class="col-md-5 control-label no-padding-right">
+                                <span>水印显示类型</span>
+                            </label>
+                            <div class="col-md-4">
+                                <select data-for="watermark" name="font_type" class="form-control">
+                                    <option value="user_name">姓名</option>
+                                    <option value="company_name">企业名称</option>
+                                    <option value="phone">用户手机号</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="font_size" class="col-md-5 control-label no-padding-right">
+                                <span>文字大小</span>
+                            </label>
+                            <div class="col-md-4">
+                                <select data-for="watermark" name="font_size" class="form-control">
+                                    <option value="1">小</option>
+                                    <option value="2">标准</option>
+                                    <option value="3">大</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="font_color" class="col-md-5 control-label no-padding-right">
+                                <span>字体颜色</span>
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" data-for="watermark" id="font_color" name="font_color" value="00ff00" autocomplete="off" class="form-control"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="font_opacity" class="col-md-5 control-label no-padding-right">
+                                <span>文字透明度</span>
+                            </label>
+                            <div class="col-md-4">
+                                <select data-for="watermark" name="font_opacity" class="form-control">
+                                    <option value="25%">25%</option>
+                                    <option value="50%">50%</option>
+                                    <option value="75%">75%</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--  限制策略-->
+                        <div class="form-title">
+                            <b>限制策略</b>
+                        </div>
+                        <input type="hidden" name="clientlimit" />
+                        <div class="form-group">
+                            <label class="col-md-5 control-label no-padding-right">
+                                <span>安全空间内禁止截屏</span>
+                            </label>
+                            <div class="checkbox col-md-1">
+                                <label>
+                                    <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="clientlimit" name="screenshot" />
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label no-padding-right">
+                                <span>安全空间剪切板</span>
+                            </label>
+                            <div class="checkbox col-md-1">
+                                <label>
+                                    <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="clientlimit" name="clipboard" />
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label no-padding-right">
+                                <span>安全空间保活</span>
+                            </label>
+                            <div class="checkbox col-md-1">
+                                <label>
+                                    <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="clientlimit" name="app_keep_alive" on-on="floatWindow launcher autoStart screenLock"
+                                        off-off="forbid_unload">
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                            <div class="col-md-1 col-md-offset-1">
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg"  title="开启本项需要开启权限策略中的以下权限：悬浮窗、设置为默认桌面、开机自启动、锁屏不清理。"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label no-padding-right">
+                                <span>安全空间防卸载</span>
+                            </label>
+                            <div class="checkbox col-md-1">
+                                <label>
+                                    <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="clientlimit" name="forbid_unload" on-on="app_keep_alive floatWindow launcher access autoStart screenLock" />
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                            <div class="col-md-1 col-md-offset-1">
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="开启本项还需要开启安全空间保活以及客户端权限中的以下权限：悬浮窗、设置为默认桌面、辅助功能、开机自启动、锁屏不清理。"></p>
+                            </div>
+                        </div>
+
+                        <!--  权限策略-->
+                        <div class="form-title">
+                            <b>权限策略</b>
+                        </div>
+                        <input type="hidden" name="permissionItems" />
+                        <div class="form-group">
+                            <label class="col-md-5 control-label no-padding-right">
+                                <span>基础权限</span>
+                            </label>
+                            <div class="checkbox col-md-1">
+                                <label>
+                                    <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="permissionItems" name="basic" />
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                            <div class="col-md-1 col-md-offset-1">
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="提供安全空间内应用正常使用的基础权限，禁用此项后安全空间将无法正常使用"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label no-padding-right">
+                                <span>设备管理器</span>
+                            </label>
+                            <div class="checkbox col-md-1">
+                                <label>
+                                    <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="permissionItems" name="deviceManager" />
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                            <div class="col-md-1 col-md-offset-1">
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="提供安全空间设备管控功能，禁用此项后终端将无法执行擦除企业数据、恢复出厂设置等操作"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label no-padding-right">
+                                <span>查看应用使用情况</span>
+                            </label>
+                            <div class="checkbox col-md-1">
+                                <label>
+                                    <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="permissionItems" name="usageState" />
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                            <div class="col-md-1 col-md-offset-1">
+                                <p class="help-block blue" title="提供对Android系统中应用管控功能，禁用此项后终端将无法执行禁用短信、应用策略等操作"><img width="18" src="/imgs/help.jpg"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label no-padding-right">
+                                <span>悬浮窗</span>
+                            </label>
+                            <div class="checkbox col-md-1">
+                                <label>
+                                    <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="permissionItems" name="floatWindow" off-off="app_keep_alive forbid_unload" />
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                            <div class="col-md-1 col-md-offset-1">
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="增强安全空间防卸载功能和对Android系统中应用的管控，禁用此项后防卸载功能将失效，同时应用策略将无法执行"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label no-padding-right">
+                                <span>设置为默认桌面</span>
+                            </label>
+                            <div class="checkbox col-md-1">
+                                <label>
+                                    <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="permissionItems" name="launcher" off-off="app_keep_alive forbid_unload" />
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                            <div class="col-md-1 col-md-offset-1">
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="提供安全空间保活功能，禁用此项后安全空间进程可被杀死，设备重启或进程被关闭时将无法接收并执行策略"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label no-padding-right">
+                                <span>辅助功能</span>
+                            </label>
+                            <div class="checkbox col-md-1">
+                                <label>
+                                    <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="permissionItems" name="access" off-off="forbid_unload" />
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                            <div class="col-md-1 col-md-offset-1">
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="提供安全空间防卸载功能，禁用此项后防卸载功能将失效"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label no-padding-right">
+                                <span>开机自启动</span>
+                            </label>
+                            <div class="checkbox col-md-1">
+                                <label>
+                                    <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="permissionItems" name="autoStart" off-off="app_keep_alive forbid_unload" />
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                            <div class="col-md-1 col-md-offset-1">
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="增强安全空间保活功能，禁用此项后安全空间进程可被杀死，设备重启或进程被关闭时将无法接收并执行策略"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label no-padding-right">
+                                <span>锁屏不清理</span>
+                            </label>
+                            <div class="checkbox col-md-1">
+                                <label>
+                                    <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="permissionItems" name="screenLock" off-off="app_keep_alive forbid_unload" />
+                                    <span class="text"></span>
+                                </label>
+                            </div>
+                            <div class="col-md-1 col-md-offset-1">
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="增强安全空间保活功能，禁用此项后安全空间进程可被杀死，设备重启或进程被关闭时将无法接收并执行策略"></p>
+                            </div>
+                        </div>
+
+                        <hr class="wide" />
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div class="col-sm-6">
+                                    <button type="button" class="btnBack btn btn-default">返回
+                                    </button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="submit" class="btn btn-primary" value="" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+            <!-- section:策略下发 -->
+            <div style="overflow:hidden;display: none;" class="widget-body section">
+                <div id="issuePane">
+                    <form>
+                        <div class="buttons-preview pull-left">
+                            <button class="btnIssue btn btn-primary">
+                                <i class="fa fa-magic">下发</i>
+                            </button>
+                            <button class="btnBack btn btn-default">
+                                <i class="fa fa-check-circle">返回</i>
+                            </button>
+                        </div>
+                        <div class="pull-right"></div>
+                    </form>
+                </div>
+
+                <div id="tabForIssue" class="tabbable">
+                    <ul class="nav nav-tabs tabs-flat">
+                        <li class="active">
+                            <a data-toggle="tab" href="#paneGroup">
+                                基于用户组下发
+                            </a>
+                        </li>
+                        <li class="tab-red">
+                            <a data-toggle="tab" href="#paneTag">
+                                基于标签下发
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content tabBody">
+                        <div id="paneGroup" class="tab-pane active">
+                            <div class="classify row col-md-2">
+                                <div class="well">
+                                    <div id="treeUserGroup" class="relFilter"></div>
+                                </div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserGroupTree"></table>
+                            </div>
+                        </div>
+
+                        <div id="paneTag" class="tab-pane">
+                            <div class="classify row col-md-2">
+                                <div class="well">
+                                    <div id="treeUserTag" class="relFilter"></div>
+                                </div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserTagList">
+                                    <tr>
+                                        <td>标签用户</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-src="/assets/js/colpick.js"></script>
+<script data-src="/subpage/p0405_pcy_client.js"></script>

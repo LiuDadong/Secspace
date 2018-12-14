@@ -1,0 +1,650 @@
+<!-- 应用该表格展示及表格操作 -->
+<div class="row part partTable hidden">
+    <div class="col-xs-12 col-md-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span class="widget-caption">应用列表</span>
+                <div class="searchmesg">
+                    <div class="searchicon">
+                        <i class="fa fa-filter">筛选</i>
+                    </div>
+                    <div class="searchcontent">
+                        <div class="div">
+                            <div class="treehead">
+                                <i class="fa fa-chevron-circle-right cursor"></i>
+                                <i class="fa fa-filter">筛选</i>
+                            </div>
+                            <div class="tag">
+                                <i style="margin-right: 4px;" class="fa fa-tags openfile"></i>
+                                <label style="margin-bottom:0px;">标签</label>
+                                <ul style="margin-bottom:0;" class="list-group"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-body">
+                <form class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
+                    <div class="buttons-preview pull-left">
+                        <button type="button" id="btnUpload" class="btn btn-primary">
+                            <i class="fa fa-plus"></i>上传
+                        </button>
+                        <button type="button" id="btnIssue" class="btn btn-primary">
+                            <i class="fa fa-magic"></i>授权
+                        </button>
+                        <button type="button" id="btnRefresh" class="btn btn-default btn-sm">
+                            <i class="fa fa-refresh"></i>刷新
+                        </button>
+                        <button type="button" id="btnUpdate" class="btn btn-default btn-sm">
+                            <i class="fa fa-exchange"></i>应用更新
+                        </button>
+                        <button type="button" id="btnDelete" class="btn btn-default btn-sm">
+                            <i class="fa fa-minus-square"></i>删除
+                        </button>
+                    </div>
+                    <div class="pull-right">
+                        <div class="input-group">
+                            <select id="selPlatform" class="form-control input-sm">
+                                <option value="all" selected="selected">显示所有应用</option>
+                                <option value="android">仅显示Android应用</option>
+                                <option value="ios">仅显示iOS应用</option>
+                                <!-- <option value="web">仅显示Web应用</option> -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <select id="selLength" class="form-control input-sm">
+                                <option value="1">1</option>
+                                <option value="5">5</option>
+                                <option value="10" selected="selected">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon input-sm">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </span>
+                            <input type="text" autocomplete="off" id="iptSearch" class="form-control input-sm" placeholder="请输入应用名称关键字" />
+                        </div>
+                    </div>
+                </form>
+                <div class="table-box table-scrollable">
+                    <table id="multTable" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="sel">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" />
+                                            <span class="text">全选</span>
+                                        </label>
+                                    </div>
+                                </th>
+                                <th>应用显示名称</th>
+                                <th class="ellipsis">应用包名或地址</th>
+                                <th>版本</th>
+                                <th>类型</th>
+                                <th>分类</th>
+                                <th>标签</th>
+                                <th>已安装/已授权</th>
+                                <th>创建者</th>
+                                <th width="180">更新时间</th>
+                                <th width="200">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbHas">
+
+                        </tbody>
+                        <tbody id="tbDemo" class="demo hidden">
+                            <tr>
+                                <td class="sel">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" />
+                                            <span class="text"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td viewkey="name">null</td>
+                                <td viewkey="app_name url">null</td>
+                                <td viewkey="version">null</td>
+                                <td viewkey="platform">null</td>
+                                <td viewkey="visit_type">null</td>
+                                <td viewkey="tag_name">null</td>
+                                <td>
+                                    <a href="#" class="more-info">
+                                        <span viewkey="install_num">0</span> /
+                                        <span viewkey="issued">0</span>
+                                    </a>
+                                </td>
+                                <td viewkey="operator">null</td>
+                                <td viewkey="modified">null</td>
+                                <td class="tact appact">
+                                    <button class="btnModify btn btn-primary btn-xs">修改</button>
+                                    <button class="btnView btn btn-primary btn-xs">查看</button>
+                                    <button class="btnVersion  btn btn-default btn-xs">历史版本</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <div id="divEmpty" class="empty hidden" style="display:flex;justify-content:center;line-height:50px;">
+                            <span>暂无文件，请上传……</span>
+                        </div>
+                    </table>
+                </div>
+                <div class="page1"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- /应用表格展示及表格操作 -->
+
+<!-- 表单：新增add、修改modify、查看view操作 -->
+<div class="row part partForm hidden">
+    <div class="col-lg-8 col-lg-offset-2 col-sm-6 col-sm-offset-3 col-xs-12">
+        <div class="widget">
+            <div class="widget-header bordered-bottom bordered-blue">
+                <span class="widget-caption">应用上传</span>
+            </div>
+            <div class="widget-body">
+                <div id="horizontal-form">
+                    <iframe name="upFileIframe" width="0" height="0" style="display:none;"></iframe>
+                    <form id="multForm" class="form-horizontal xxx" role="form" method="post" action="/app/upload" enctype="multipart/form-data"
+                        target="upFileIframe">
+                        <div id="iptsHidden" class="hidden">
+                            <!-- 后端中转接口 -->
+                            <input type="hidden" name="identify" value="" />
+                            <input type="hidden" name="id" value="" />
+                        </div>
+                        <div class="form-title">
+                            <b>基本信息</b>
+                        </div>
+                        <!-- 应用包名:app_name -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">
+                                应用包名
+                            </label>
+                            <div class="col-sm-7">
+                                <input style="border:none;outline:none;background:none;cursor: auto;" type="text" class="form-control" name="app_name" />
+                            </div>
+                        </div>
+                        <!-- 应用类型 -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">
+                                应用类型
+                            </label>
+                            <div class="col-sm-7">
+                                <!-- <div class="control-group">
+                                    <div class="radio col-sm-5">
+                                        <label>
+                                            <input class="radToggle" name="app_type" value=1 type="radio" checked="checked" />
+                                            <span class="text">移动应用</span>
+                                        </label>
+                                    </div>
+                                    <div class="radio col-sm-5">
+                                        <label>
+                                            <input class="radToggle" name="app_type" value=0 type="radio" />
+                                            <span class="text">web应用</span>
+                                        </label>
+                                    </div>
+                                </div> -->
+                                <select class="form-control" name="app_type">
+                                    <option value="plugin">移动应用</option>
+                                    <option value="wrap">wrapping应用</option>
+                                    <option value="web">web应用</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- 移动应用 -->
+                        <div class="appbox mob">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">
+                                    系统类型
+                                </label>
+                                <div class="col-sm-7">
+                                    <select class="form-control" name="platform">
+                                        <option value="android">Android</option>
+                                        <option value="ios">IOS</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- 设备类型 dev_type-->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">
+                                    设备类型
+                                </label>
+                                <div class="col-sm-7">
+                                    <select class="form-control" name="dev_type">
+                                        <option value="phone&pad" selected="selected">Phone&Pad</option>
+                                        <option value="phone">Phone</option>
+                                        <option value="pad">Pad</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- 系统要求 sysRequest android-->
+                            <div class="android form-group">
+                                <label class="col-sm-3 control-label no-padding-right">系统要求</label>
+                                <div class="col-sm-7">
+                                    <select name="sysRequest" class="form-control">
+                                        <option value="19">Android 4.4 (API 19)</option>
+                                        <option value="21">Android 5.0 (API 21)</option>
+                                        <option value="22">Android 5.1 (API 22)</option>
+                                        <option value="23">Android 6.0 (API 23)</option>
+                                        <option value="24">Android 7.0 (API 24)</option>
+                                        <option value="25">Android 7.1.1 (API 25) </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- 系统要求 sysRequest ios-->
+                            <div class="ios form-group">
+                                <label class="col-sm-3 control-label no-padding-right">系统要求</label>
+                                <div class="col-sm-7">
+                                    <select name="sysRequest" class="form-control">
+                                        <option value="1">IOS 6</option>
+                                        <option value="2">IOS 7</option>
+                                        <option value="3">IOS 8</option>
+                                        <option value="4">IOS 9</option>
+                                        <option value="5">IOS 10</option>
+                                        <option value="6">IOS 11</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- 应用上传:app_file -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">
+                                    <b class="danger">*</b>选择应用
+                                </label>
+                                <div class="col-sm-7">
+                                    <div class="uploadFile">
+                                        <input class="form-control" type="file" name="app_file" />
+                                        <p class="help-block file-help">请选择小于300M的
+                                            <span class="android">.apk</span>
+                                            <span class="ios hidden">.ipa</span>应用上传</p>
+                                        <p class="help-block file-name"></p>
+                                    </div>
+                                    <div class="progress progress-xxs" style="margin-bottom:0;">
+                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0">
+                                            <span class="sr-only">
+                                                0% Complete
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- 应用显示名称:name -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">
+                                    应用显示名称
+                                </label>
+                                <div class="col-sm-7">
+                                    <input type="text" txt-reg="^[\u4e00-\u9fa5_a-zA-Z0-9]{0,15}$" autocomplete="off" class="form-control" name="name" placeholder="字符长度不超过15" />
+                                </div>
+                            </div>
+
+
+                            <!-- 应用描述；describe -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">应用描述</label>
+                                <div class="col-sm-7">
+                                    <input type="text" autocomplete="off" class="form-control" name="describe" />
+                                </div>
+                            </div>
+
+
+
+                            <!-- 是否自启动 auto_start-->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">
+                                    是否自启动
+                                </label>
+                                <div class="col-sm-7">
+                                    <div class="control-group">
+                                        <div class="radio col-sm-5">
+                                            <label>
+                                                <input name="auto_start" value='1' type="radio" checked="checked" />
+                                                <span class="text">自启动应用</span>
+                                            </label>
+                                        </div>
+                                        <div class="radio col-sm-5">
+                                            <label>
+                                                <input name="auto_start" value='0' type="radio" />
+                                                <span class="text">禁止自启动</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- web应用 -->
+                        <div class="appbox web hidden">
+                            <!-- 应用图标:icon -->
+                            <div class="form-group">
+                                <label for="iptUpFile" class="col-sm-3 control-label no-padding-right">
+                                    <b class="danger">*</b> 应用图标
+                                </label>
+                                <div class="col-sm-1">
+                                    <div class="uploadImg">
+                                        <input class="form-control" type="file" name="icon" />
+                                        <img data-src="/imgs/add.png" src="/imgs/add.png" alt="默认应用图标">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="help-block">推荐导入50×50像素的png图标</p>
+                                </div>
+                            </div>
+
+                            <!-- url -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">
+                                    <b class="danger">*</b>Url地址
+                                </label>
+                                <div class="col-sm-7">
+                                    <input type="text" txt-reg="(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?"
+                                        autocomplete="off" class="form-control" name="url" placeholder="请输入完整的web应用地址，例:https://www.baidu.com">
+                                </div>
+                            </div>
+
+                            <!-- 应用显示名称:name -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">
+                                    <b class="danger">*</b>应用显示名称
+                                </label>
+                                <div class="col-sm-7">
+                                    <input type="text" txt-reg="^[\u4e00-\u9fa5_a-zA-Z0-9]{1,15}$" autocomplete="off" class="form-control" name="name" placeholder="请输入web应用在手机上的显示名称" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 应用权限 visit_type -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">
+                                应用权限
+                            </label>
+                            <div class="col-sm-7">
+                                <div class="control-group">
+                                    <div class="radio col-sm-5">
+                                        <label>
+                                            <input name="visit_type" value='1' type="radio" checked="checked" />
+                                            <span class="text">公开应用</span>
+                                        </label>
+                                    </div>
+                                    <div class="radio col-sm-5">
+                                        <label>
+                                            <input name="visit_type" value='0' type="radio" />
+                                            <span class="text">授权应用</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 是否必装 install_type-->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">
+                                是否必装
+                            </label>
+                            <div class="col-sm-7">
+                                <div class="control-group">
+                                    <div class="radio col-sm-5">
+                                        <label>
+                                            <input name="install_type" value='1' type="radio" checked="checked" />
+                                            <span class="text">可选应用</span>
+                                        </label>
+                                    </div>
+                                    <div class="radio col-sm-5">
+                                        <label>
+                                            <input name="install_type" value='0' type="radio" />
+                                            <span class="text">必装应用</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-title">
+                            <b>其他信息</b>
+                        </div>
+
+                        <!-- 标签 -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">
+                                标签
+                            </label>
+                            <div class="col-sm-7">
+                                <select id="apptag" class="form-control" name="apptag"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-1 col-sm-offset-5">
+                                <button class="btnBack  btn btn-default" type="button">返回</button>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="submit" class="btn btn-primary">保存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /表单：新增add、修改modify、查看view操作 -->
+
+<!-- 应用授权 -->
+<div class="row part partIssue hidden">
+    <div class="col-xs-12 col-md-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span class="widget-caption">应用授权</span>
+            </div>
+            <div class="widget-body">
+                <div id="issuePane">
+                    <form class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
+                        <div class="buttons-preview pull-left">
+                            <button class="btnIssue btn btn-primary" type="button">
+                                <i class="fa fa-magic">授权</i>
+                            </button>
+                            <button class="btnUnissue btn btn-primary" type="button">
+                                <i class="fa fa-check-circle">取消授权</i>
+                            </button>
+                            <button class="btnBack btn btn-default" type="button">
+                                <i class="fa fa-check-circle">返回</i>
+                            </button>
+                        </div>
+                        <div class="pull-right"></div>
+                    </form>
+                </div>
+                <div id="tabForIssue" class="tabbable">
+                    <ul class="nav nav-tabs tabs-flat">
+                        <li class="active">
+                            <a data-toggle="tab" href="#paneGroup">
+                                基于用户组下发
+                            </a>
+                        </li>
+                        <li class="tab-red">
+                            <a data-toggle="tab" href="#paneTag">
+                                基于标签下发
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content tabBody">
+                        <div id="paneGroup" class="tab-pane active">
+                            <div class="classify row col-md-2">
+                                <div id="treeUserGroup" class="relFilter"></div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserGroupTree"></table>
+                            </div>
+                        </div>
+
+                        <div id="paneTag" class="tab-pane">
+                            <div class="classify row col-md-2">
+                                <div id="treeUserTag" class="relFilter">tags</div>
+                            </div>
+                            <div class="row col-md-8">
+                                <table id="tblForUserTagList">
+                                    <tr>
+                                        <td>标签用户</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- /应用授权 -->
+
+
+
+
+
+
+
+
+<!-- 删除模态框（Modal） -->
+<div class="modal fade modal-darkorange" id="modalDel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button onclick="" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">提示</h4>
+            </div>
+            <div class="modal-body">
+                <p style="text-align:center;word-wrap: break-word;word-break:normal;font-size:18px; ">确认删除选中的文件吗？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" data-dismiss="modal" class="btnOK btn btn-warning">确认</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- 应用更新模态框（Modal） -->
+<div class="modal fade modal-darkorange" id="modalUpdate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="updateForm" class="form-horizontal" role="form" method="post" action="/man/app/upgrade" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <button onclick="" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">应用更新</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="identify" value="" />
+                    <!-- 应用上传:app_file -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">
+                            <b class="danger">*</b>选择应用
+                        </label>
+                        <div class="col-sm-7">
+                            <div class="uploadFile">
+                                <input class="form-control" type="file" name="apk" />
+                                <p class="help-block file-help">请选择小于300M的应用更新包</p>
+                                <p class="help-block file-name"></p>
+                            </div>
+                            <div class="progress progress-xxs" style="margin-bottom:0;">
+                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0">
+                                    <span class="sr-only">
+                                        0% Complete
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                    <button type="submit" disabled="disabled" class="btnOK btn btn-primary">更新应用包</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<!-- 应用历史版本模态框（Modal） -->
+<div class="modal fade modal-darkorange" id="modalVersion">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button onclick="" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">应用历史版本</h4>
+            </div>
+            <div class="modal-body">
+                <table id="versionTable" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="sel">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" />
+                                        <span class="text">全选</span>
+                                    </label>
+                                </div>
+                            </th>
+                            <th>应用显示名称</th>
+                            <th>应用包名</th>
+                            <th>版本</th>
+                            <th>创建者</th>
+                            <th>上传时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbHas">
+
+                    </tbody>
+                    <tbody id="tbDemo" class="demo hidden">
+                        <tr>
+                            <td class="sel">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" />
+                                        <span class="text"></span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td viewkey="name">null</td>
+                            <td viewkey="app_name">null</td>
+                            <td viewkey="version">null</td>
+                            <td viewkey="operator">null</td>
+                            <td viewkey="uploadtime">null</td>
+                            <td class="tact">
+                                <button class="btnDelVersion btn btn-primary btn-xs">删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody id="tbEmpty" class="hidden">
+                        <td colspan="2">该文件暂无历史版本</td>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<script data-src="/subpage/p0601_app_store.js" charset="UTF-8"></script>
