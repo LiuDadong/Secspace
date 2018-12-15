@@ -1,26 +1,46 @@
 
-    var jm = new orgMind('admin', {
-        container: 'jsmind_container',   // id of the container
-        editable: false, // you can change it in your opts
-        view: {
-            hmargin: 20,
-            vmargin: 10,
-            line_width: 1,
-            line_color: '#000'
-        },
-        layout: {
-            hspace: 20,
-            vspace: 10,
-            pspace: 12
-        }
-    });
 
-    $('#jsmind_container').find('jmnodes').click();
+
     /*
      * ==================================================================
      *                          机构管理员
      * ==================================================================
      */
+    var omAdmin = new OrgMind({
+        container: 'om_admin',          //'om_admin'-- id of the container   
+        multiple: false,     //支持多选
+        allowUnsel: true,    //允许不选
+        disableRoot: true,
+        editable: true,
+        expandToDepth:1,
+        view: {
+            hmargin: 40,
+            vmargin: 10,
+            line_width: 1,
+            line_color: '#000'
+        },
+        layout: {
+            hspace: 40,
+            vspace: 12,
+            pspace: 14
+        },
+        jmnodeClick: function (om) {  //标签元素jmnode
+            $('#panel .btnAdd').prop('disabled',false);
+            $('#panel button.btnRefresh').click(); //选中任意机构都会刷新表格，显示对应机构的管理员
+        },
+        jmnodesClick:function(om){
+            console.log('5555555555555555555555')
+            var jm=om.jm;
+            jm.select_clear();
+            om['selected']=null;
+            $('#panel .btnAdd').prop('disabled',true);
+            var nd = jm.get_selected_node();
+            console.log(nd);
+            $('#panel button.btnRefresh').click(); //选中任意机构都会刷新表格，显示对应机构的管理员
+        }
+    });
+    $('#om_admin').find('jmnodes').click();
+
 
     //用于交互时改变标题显示
     var subCaption = $('#subCaption').data('itemText', '业务管理员').text('业务管理员列表');
@@ -41,6 +61,7 @@
                     <th>创建时间</th>\
                     <th style="width:18%;">操作</th>\
                 </tr > ',
+        tbodyEmptyHtml: '<tr><td>暂无管理员</td><tr>',
         // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
         // to-edit、to-view表示要跳转的目标表单
         tbodyDemoHtml: '<tr>\
@@ -56,7 +77,9 @@
                     </tr>',
         //因不同需求需要个性控制组件表现的修正函数和增强函数
         fnGetItems: function (data) {  //必需   需要要显示的成员
-            var nd = jm.get_selected_node();
+            console.log(data);
+            var nd = omAdmin.jm.get_selected_node();
+            console.log(nd)
             return nd === null
                 ? data.adminInfo
                 : data.adminInfo.filter(function (item) {
@@ -111,7 +134,7 @@
                     $('input.same').prop('disabled', false).closest('.form-group').show();
                     $('input[name=account]').prop('readonly', false);
                     $('.form-group:has(input[type=password])').removeClass('hidden');
-                    $('input[name=org_id]').val($('#jsmind_container jmnode.selected').attr('nodeid'));
+                    $('input[name=org_id]').val($('#om_admin jmnode.selected').attr('nodeid'));
                     break;
                 case "edit":
                 case "view":

@@ -266,9 +266,8 @@
             });
 
             pnlLeft.find('.btnToggleOrg').on('click', function () {
-                var btnToggleOrg=$(this).prop('disabled',true),
-                    jsmind=btnToggleOrg.closest('.section').find('.jsmind');
-                jsmind.toggle(300,function(){
+                var btnToggleOrg=$(this).prop('disabled',true);
+                btnToggleOrg.closest('.section').find('.orgmind').toggle(20,function(){
                     btnToggleOrg.prop('disabled',false);
                 });
             }); 

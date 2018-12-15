@@ -5,6 +5,8 @@
         multiple: false,     //支持多选
         allowUnsel: false,    //允许不选
         disableRoot: false,
+        editable: true,
+        expandToDepth:1,
         view: {
             hmargin: 40,
             vmargin: 10,
@@ -14,9 +16,9 @@
         layout: {
             hspace: 40,
             vspace: 12,
-            pspace: 12
+            pspace: 14
         },
-        nodeClick: function (that) {
+        jmnodeClick: function (that) {
             console.log(this);
         }
     });

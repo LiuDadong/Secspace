@@ -485,7 +485,7 @@
         });
     }
     function showjsmind(jm, cb) {  //获取机构树mind数据刷新至页面，cb支持回调
-        $.silentGet('/common/orgtree/mind', {}, function (data) {
+        $.silentGet('/common/orgtree/nodes', {}, function (data) {
             if (data.rt === '0000') {
                 if (data.data.length === 0) {
                     $.silentPost('/common/orgtree/add', {
