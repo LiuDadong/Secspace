@@ -28,7 +28,7 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
                         <td><span item-key="status"></span></td>\
                         <td><span item-key="creator"></span></td>\
                         <td><span item-key="create_time"></span></td>\
-                        <td><a toForm="edit">编辑</a><a toForm="view">查看</a></td>\
+                        <td><a todo="edit">编辑</a><a todo="view">查看</a></td>\
                     </tr>',
     //因不同需求需要个性控制组件表现的修正函数和增强函数
     fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -70,6 +70,20 @@ var multForm = $('#multForm').MultForm({
         })
         fnTree.find('i.fa.fa-minus').click();
     },
+    afterUsed:function (act) {  //表单重置之后紧接着的回调
+        //控制禁用客户端权限样式和行为
+        // 获取客户端设置授权项
+        switch (act) {
+            case 'add':
+                fnTree.find('input[name=function]').val('{}');
+                break;
+            case 'edit':
+                
+                break;
+            default:
+                
+        }
+    },
     cbSubmit: function (act) {  //提交编辑成功之后的回调
         switch (act) {
             case 'add':
@@ -99,17 +113,6 @@ var panel = $('#panel').Panel({
 
 
 //模块特别情况处理
-//console.log('licPath:');
-//console.log(JSON.parse($.cookie('licPath')));
-// 获取客户端设置授权项
-// $.silentGet('/getFunctions', { url: '/p/org/getRoleFunctions' }, function (data) {
-//     if(data.rt==='0000'){
-//         var jsonFunctions = data.RoleFunctionJson;
-//         multForm.data('jsonFunctions', jsonFunctions);
-//     }
-
-// })
-
 
 //fnTree事件绑定
 fnTree.find('li input').on('input propertychange change', function () {
@@ -206,14 +209,11 @@ renderLicToRolefns();
 //根据授权licence控制角色功能点备选项显示或隐藏
 function renderLicToRolefns(){
     var  rolesFns= getLicPath('',JSON.parse(localStorage.getItem('lic')),{});
-    console.log(rolesFns);
-
     for(k in rolesFns){
         if(typeof rolesFns[k] == "string"){
             rolesFns[k]=rolesFns[k].split('-');
         }
     }
-    console.log(rolesFns);
     applyLicFns(rolesFns);
     function applyLicFns(rolesFns){
         fnTree.find('input:hidden[mdl-key]').each(function(){
@@ -229,7 +229,6 @@ function renderLicToRolefns(){
                     if(fns[0]=='acc'){
                         ipt.nextAll('li').each(function(){
                             if(fns.indexOf($(this).find('input').attr('value'))===-1){
-                                console.log($(this).find('input').attr('value'))
                                 $(this).remove();
                             }
                         });

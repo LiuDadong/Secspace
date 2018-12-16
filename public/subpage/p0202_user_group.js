@@ -60,12 +60,12 @@ function getUsersList(departId) {
                 tri = $('<tr></tr>').data('item', item);
                 tri.data('item')['parent_id'] = 0;
                 tdCkb = item.name === "未分组" ? '<td></td>' : '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" /><span class="text"></span></label></div></td>';
-                tdAct = item.name === "未分组" ? '<td></td>' : '<td class="other"><a class="btn btn-primary btn-xs' + (hasFn('mod') ? '" onclick="edit(this)"' : ' unable"') + '>编辑</a></td>';
+                tdAct = item.name === "未分组" ? '<td></td>' : '<td class="other"><a class="btn btn-primary btn-xs' + (hasFn('mod') ? '" onclick="edit(this)"' : ' disabled"') + '>编辑</a></td>';
                 tdUsersInfo = item.name == '未分组'
                     ? '<td><span>' + item.current_num + '</span></td>'
                     : '<td><span onclick="dialogForMoveUser(this)" class="cursor"><a>' + item.current_num + '</a></span></td>';
 
-                status = item.status == 1 ? '正常' : '禁止';
+                status = item.status == 1 ? '正常' : '禁用';
                 tdName = item.child_node != 0 ?
                     '<td class="tdGrpName" onclick="toggleChild(this)" class="cursor"><i class="fa fa-plus"></i>' + item.name + '</td>' :
                     '<td class="tdGrpName">' + item.name + '</td>';
@@ -105,7 +105,7 @@ function toggleChild(td) {
             if (data.rt == '0000') {
                 for (var i in data.depart_list) {
                     var cItem = data.depart_list[i];
-                    var status = cItem.status == 1 ? '正常' : '禁止';
+                    var status = cItem.status == 1 ? '正常' : '禁用';
                     var str2 = cItem.child_node != 0
                         ? '<td onclick="toggleChild(this)" class="cursor" style="padding-left:'
                         + ((cItem.layer * 1 - 1) * 40) + 'px;background:url(../imgs/fold_line.png) no-repeat '
@@ -129,7 +129,7 @@ function toggleChild(td) {
                             + '<td style="display:none;">' + cItem.name + '</td>'
                             + '<td style="display:none;">' + cItem.status + '</td>'
                             + '<td style="display:none;">' + cItem.departId + '</td>'
-                            + '<td class="other"><a class="btn btn-primary btn-xs' + (hasFn('mod') && item.name !== "未分组" ? '" onclick="edit(this)"' : ' unable"') + '>编辑</a><td>')
+                            + '<td class="other"><a class="btn btn-primary btn-xs' + (hasFn('mod') && item.name !== "未分组" ? '" onclick="edit(this)"' : ' disabled"') + '>编辑</a><td>')
                     if (cTr.find('td:last').html() == '') {
                         cTr.find('td:last').remove();
                     }
@@ -322,7 +322,7 @@ function modify(e) {
         + '<span class="text">正常</span></label>'
         + '<label class="col-xs-6" style="margin-top:6px;">'
         + '<input name="status" type="radio" value="0" />'
-        + '<span class="text">禁止</span></label>'
+        + '<span class="text">禁用</span></label>'
         + '</div></div>'
         + '<div class = "form-group">'
         + '<label class="col-sm-3 control-label" for = "name">上级用户组</label>'
@@ -427,7 +427,7 @@ function grpFormFor(use, ele) {
             <div class="form-group">\
                 <label for="name" class="col-sm-3 control-label no-padding-right">用户组名</label>\
                 <div class="col-sm-9">\
-                    <input type="text" class="form-control require" id="name" name="name" ctrl-regex="groupname" placeholder="请输入用户组名">\
+                    <input type="text" class="form-control require" id="name" name="name" ctrl-regex="name_mix" placeholder="请输入用户组名">\
                 </div>\
             </div>\
             <div class="form-group">\
@@ -443,7 +443,7 @@ function grpFormFor(use, ele) {
                         <div class="radio col-sm-5">\
                             <label>\
                                 <input name="status" value="0" type="radio" />\
-                                <span class="text">禁止</span>\
+                                <span class="text">禁用</span>\
                             </label>\
                         </div>\
                     </div>\
@@ -791,6 +791,7 @@ function tblCoupleRefresh(departId) {
     tblCouple(departId, function () {
         getUsersList(0);
         $('.arrows').removeClass('antiCursor');
+        $('.dialog-box-content input').val('');
     });
 }
 

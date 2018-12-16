@@ -55,7 +55,7 @@
                             </li>\
                         </ul>\
                     </th>\
-                    <th>更新时间</th>\
+                    <th style="width:14%;">更新时间</th>\
                     <th>创建者</th>\
                     <th>管理者</th>\
                     <th>操作</th>\
@@ -76,7 +76,7 @@
                         <td><span item-key="update_time"></span></td>\
                         <td><span item-key="creator"></span></td>\
                         <td><span item-key="manager"></span></td>\
-                        <td><a toForm="edit">编辑</a><a toForm="view">查看</a></td>\
+                        <td><a todo="edit">编辑</a><a todo="view">查看</a></td>\
                     </tr>',
         //因不同需求需要个性控制组件表现的修正函数和增强函数
         fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -200,6 +200,7 @@
                     });
                 }
             });
+
             $('input:checkbox[off-off]').off().on("click", function (e) {
                 var aName = $(this).attr('off-off').split(' '),
                     aN = [],

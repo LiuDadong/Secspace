@@ -400,13 +400,6 @@
 	};
 
 	$.fn[pluginName] = function (options) {
-		// this.each(function () {
-		// 	console.log('333this');
-		// 	console.log(this);
-		// 	if (!$.data(this, "plugin_" + pluginName)) {
-		// 		$.data(this, "plugin_" + pluginName, new DialogBox(this, options));
-		// 	}
-		// });
 		if (!this.data("plugin_" + pluginName)) {
 			this.data("plugin_" + pluginName, new DialogBox(this, options))
 		}

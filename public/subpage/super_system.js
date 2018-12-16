@@ -23,57 +23,33 @@ $('button.btnFormAjax').click(function () {
 })
 hosturl = localStorage.getItem("appssec_url") + '/';
 var acturl = hosturl + 'p/org/orgUpdateSettings';
-document.getElementById("addimg").action = acturl;
+document.getElementById("updateLogo").action = acturl;
 $("span[id^='identify_method']").removeClass('txt');
 $("input:checkbox[name^='identify_method']").prop("checked", false);
 $("input:checkbox[name^='identify_method']").prop("disabled", false);
 
-// 上传头像
-var img_area = $(".img_area");
-var img_adm = $(".img_adm");
-var adm_logo = $('.navbar-header .navbar-account .avatar');
-var avatar_area = $('.navbar-header .navbar-account .avatar-area');
-var admpic = '';
-var company_icon = '';
+// 更新logo
+var imgLogo = $("#wrapLogo img");
+var logoIcon = '';
 var sid = $.cookie("sid");
-var picturefile = document.getElementById("picturefile");
-var admpicfile = document.getElementById("admpicfile");
+var iptLogo = $("#wrapLogo input[type=file]");
 if (typeof (FileReader) === 'undefined') {
-    picturefile.setAttribute('disabled', 'disabled');
-    admpicfile.setAttribute('disabled', 'disabled');
+    iptLogo.prop('disabled', true);
 } else {
-    picturefile.addEventListener('change', readFile, false);
-    admpicfile.addEventListener('change', readadmfile, false);
+    iptLogo.on('change input', function () {
+        var file = this.files[0];
+        if (!/image\/\w+/.test(file.type)) {
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+            $('input[name=sid]').val(sid);
+            imgLogo.attr('src', this.result);
+            logoIcon = this.result;
+        }
+    });
 }
-
-function readFile() {
-    var file = this.files[0];
-    if (!/image\/\w+/.test(file.type)) {
-        return false;
-    }
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function (e) {
-        $('input[name=sid]').val(sid);
-        img_area.html('<img class="avatar imge-thumbnail" width="194.7px;" height="44px;" src="' + this.result + '" style="background:#ccc;"></img>');
-        company_icon = this.result;
-    }
-}
-
-function readadmfile() {
-    var file = this.files[0];
-    if (!/image\/\w+/.test(file.type)) {
-        return false;
-    }
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function (e) {
-        $('input[name=sid]').val(sid);
-        img_adm.html('<img src="' + this.result + '" width="99px;" height="99px;"  class="avatar imge-thumbnail"></img>');
-        admpic = this.result;
-    }
-}
-
 
 
 // 从服务端接口获取公司详细信息
@@ -144,11 +120,11 @@ $.silentGet('/super/setting/getSettings', {}, function (data) {
 });
 
 // 提交修改公司图标
-$('#addimg').submit(function () {
+$('#updateLogo').submit(function () {
     var product_name = $('input[name=product_name]').val();
     var company_name = $('input[name=company_name]').val();
     var company_domain = $('input[name=company_domain]').val();
-    if (company_icon && product_name && company_name && company_domain) {
+    if (logoIcon && product_name && company_name && company_domain) {
         $(this).ajaxSubmit({
             resetForm: true,
             beforeSubmit: function () {
@@ -166,7 +142,7 @@ $('#addimg').submit(function () {
                     $('input[name=product_name]').val(product_name);
                     $('input[name=company_name]').val(company_name);
                     $('input[name=company_domain]').val(company_domain);
-                    company_icon = '';
+                    logoIcon = '';
                     warningOpen('修改成功！', 'primary', 'fa-check');
                 }else {
                     warningOpen('操作失败！', 'danger', 'fa-bolt');
@@ -178,7 +154,7 @@ $('#addimg').submit(function () {
                 console.error(err)
             }
         });
-    } else if (product_name && company_name && company_domain && !company_icon) {
+    } else if (product_name && company_name && company_domain && !logoIcon) {
         modifycompany();
     } else {
         warningOpen('参数不能为空！', 'danger', 'fa-bolt');

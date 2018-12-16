@@ -17,17 +17,17 @@
         },
         // theadHtml为表头类元素，第一个th用于存放全选复选框
         theadHtml: '<tr>\
-                        <th></th>\
-                        <th>姓名</th>\
-                        <th>账号</th>\
-                        <th>邮箱</th>\
-                        <th>手机号</th>\
-                        <th>状态</th>\
-                        <th>激活设备</th>\
-                        <th>策略</th>\
-                        <th>用户组</th>\
-                        <th>标签</th>\
-                        <th style="width:10em">操作</th>\
+                        <th style="width:5%;"></th>\
+                        <th style="width:10%;">姓名</th>\
+                        <th style="width:10%;">账号</th>\
+                        <th style="width:12%;">邮箱</th>\
+                        <th style="width:10%;">手机号</th>\
+                        <th style="width:8%;">状态</th>\
+                        <th style="width:10%;">激活设备</th>\
+                        <th style="width:5%;">策略</th>\
+                        <th style="width:10%;">用户组</th>\
+                        <th style="width:5%;">标签</th>\
+                        <th style="width:15%;">操作</th>\
                     </tr>',
         // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
         // to-edit、to-view表示要跳转的目标表单
@@ -57,7 +57,7 @@
                                     <span item-key="tag"></span>\
                                 </a>\
                             </td>\
-                            <td><a toForm="edit">编辑</a><a toForm="view">查看</a><a onclick="resetUserPW(this)">重置密码</a></td>\
+                            <td><a todo="edit">编辑</a><a todo="view">查看</a><a todo="resetpw">重置密码</a></td>\
                         </tr>',
         //因不同需求需要个性控制组件表现的修正函数和增强函数
         fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -150,7 +150,6 @@
             if ($frm.data('use') == 'add') {
                 arrKeyVal.push({ name: 'flag', value: ~~$('#ckbSendEmail').prop('checked') });
             }
-            console.log(arrKeyVal);
             function delKeyVal(key) {  //删掉不需要提交的数据
                 switch (key) {
                     case 'depart':

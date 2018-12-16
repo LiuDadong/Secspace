@@ -28,8 +28,6 @@
             jm.select_clear();
             om['selected']=null;
             $('#panel .btnAdd').prop('disabled',true);
-            var nd = jm.get_selected_node();
-            console.log(nd);
             $('#panel button.btnRefresh').click(); //选中任意机构都会刷新表格，显示对应机构的管理员
         }
     });
@@ -49,15 +47,15 @@
         jsonData: { 'url': '/p/org/adminMan' },
         // theadHtml为表头类元素，第一个th用于存放全选复选框
         theadHtml: '<tr>\
-                    <th></th>\
-                    <th>账号</th>\
+                    <th style="width:6%"></th>\
+                    <th style="width:14%">账号</th>\
                     <th>名称</th>\
-                    <th>状态</th>\
+                    <th style="width:6%">状态</th>\
                     <th>责任机构</th>\
-                    <th>手机号</th>\
+                    <th style="width:14%">手机号</th>\
                     <th>创建者</th>\
-                    <th>创建时间</th>\
-                    <th style="width:18%;">操作</th>\
+                    <th style="width:16%">创建时间</th>\
+                    <th style="width:20%;">操作</th>\
                 </tr > ',
         tbodyEmptyHtml: '<tr><td>暂无管理员</td><tr>',
         // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
@@ -71,7 +69,7 @@
                         <td class="ellipsis" item-key="phone"></td>\
                         <td class="ellipsis" item-key="creator"></td>\
                         <td class="ellipsis" item-key="created_time"></td>\
-                        <td class="ellipsis"><a toForm="edit">编辑</a><a toForm="view">查看</a><a onclick="resetAdminPW(this)">重置密码</a></td>\
+                        <td class="ellipsis"><a todo="edit">编辑</a><a todo="view">查看</a><a todo="resetpw">重置密码</a></td>\
                     </tr>',
         //因不同需求需要个性控制组件表现的修正函数和增强函数
         fnGetItems: function (data) {  //必需   需要要显示的成员

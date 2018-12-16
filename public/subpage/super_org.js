@@ -19,7 +19,7 @@
             pspace: 14
         },
         jmnodeClick: function (that) {
-            console.log(this);
+            console.info(that['selected']);
         }
     });
 })()

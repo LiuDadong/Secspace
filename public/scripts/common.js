@@ -59,8 +59,12 @@ function homeJadeInit() {  //初始化登录的管理员信息
         manager=localStorage.getItem('manager'),
         email=localStorage.getItem('email'),
         firLogin=localStorage.getItem('firLogin');
-    $('.navbar-inner .navbar-brand small img').attr('src',appssec_url+'/'+icon);
-    $('.account-area img').attr('src',appssec_url+'/'+avatar);
+    if(icon){
+        $('img.log').attr('src',appssec_url+'/'+icon);
+    }
+    if(avatar){
+        $('.account-area img').attr('src',appssec_url+'/'+avatar);
+    }
     $('.managerName').text(managerName);
     $('li.manager>a').text(manager);
     $('li.email>a').text(email);
@@ -333,27 +337,12 @@ function createFooter(page, length, total, footerNum) {
 }
 
 function issuePolicy() {
-    console.log(1111)
-    var i = 0;
-    var tab = $('table');
-    tab.find('td span').each(function () {
-        if ($(this).hasClass('txt')) {
-            i = i + 1;
-        }
-    });
-    if (i > 0) {
-        var cont = '';
-        cont += '<div class="modal-header">' +
-            '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>' +
-            '<h4 class="modal-title">下发策略</h4>' +
-            '</div>' +
-            '<div class="modal-body">' +
-            '<form role = "form" class="form-horizontal issuePolicy">' +
+    var cont ='<form role = "form" class="form-horizontal issuePolicy">' +
             '<div class = "form-group" style="text-align:center;margin-top:15px;">' +
             '<div class="col-sm-4 col-sm-offset-2">' +
             '<a href="javascript:pjaxClick(\'/sub?pg=p0401_pcy_device\')" class="btn btn-primary">设备策略</a>' +
             '</div>' +
-            '<div class="col-sm-4">' +
+            '<div class="col-sm-4 col-sm-offset-1">' +
             '<a href="javascript:pjaxClick(\'/sub?pg=p0402_pcy_compliance\')" class="btn btn-primary">合规策略</a>' +
             '</div>' +
             '</div>' +
@@ -363,20 +352,19 @@ function issuePolicy() {
             '围栏策略' +
             '</a>' +
             '</div>' +
-            '<div class="col-sm-4">' +
+            '<div class="col-sm-4 col-sm-offset-1">' +
             '<a href="javascript:pjaxClick(\'/sub?pg=p0404_pcy_app\')" class="btn btn-primary btn-large">' +
             '应用策略' +
             '</a>' +
-            '</div>' +
-            '</div>' +
-            '</form>' +
-            '</div>' +
-            '<div class="modal-footer">' +
-            '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>' +
             '</div>';
-        alertOpen(cont);
-    }
-
+    $.dialog('info',{
+        title:'下发策略',
+        width:400,
+        content:cont
+    })
+    $('form.issuePolicy').on('click',function(){
+        $.dialogClose();
+    })
 }
 
 
@@ -559,7 +547,6 @@ function noSamePush(arr1,arr2){
 function renderRolesfns(){   //根据角色权限渲染控制左侧菜单栏
     applyRolesFns(mergeRolesFns())
     function applyRolesFns(rolesFns){
-        console.log(rolesFns);
         $('ul.nav.sidebar-menu a[data-pjax][href^="/sub?pg="]').each(function () {  //遍历所有权限功能点的点击可以触发pjax跳转的a元素
             var fns=rolesFns[$(this).attr('href').split('=')[1].split('_')[0]];  //获取对应模块的权限功能表征             
             if(fns!==undefined){
@@ -583,7 +570,7 @@ function applyFnsToSubpage(){
 function toggleFn(ele,has){  //根据has判定元素ele是否具有访问权限，如果没有访问权限，渲染禁止访问样式
     if(!has){  //清楚所有事件并且阻止冒泡
         $(ele)
-        .addClass('unable')
+        .addClass('disabled')
         .prop('disabled',true)
         .removeAttr('onclick')
         .removeClass('hrefactive')
@@ -667,6 +654,10 @@ function getItemType(m){   //根据成员item拥有的属性，自动判断其�
 
 
 function accountInfo(e) {  //修改密码
+        var srcAvatar='/imgs/admin.png';
+        if(localStorage.getItem("avatar")){
+            srcAvatar=localStorage.getItem("appssec_url")+'/'+localStorage.getItem("avatar");
+        }
         $.dialog('confirm', {
             width: 500,
             height: null,
@@ -680,7 +671,7 @@ function accountInfo(e) {  //修改密码
                                 <div id="wrapAccountAvatar">\
                                     <div class="wrap-img">\
                                         <input class="ipt-img" type="file" name="avatar" title="点击更换头像" size="10">\
-                                        <img src="'+ localStorage.getItem("appssec_url")+'/'+localStorage.getItem("avatar") +'" />\
+                                        <img src="'+ srcAvatar +'" />\
                                     </div>\
                                 </div>\
                             </div>\
@@ -694,7 +685,7 @@ function accountInfo(e) {  //修改密码
                         <div class="form-group">\
                             <label for="name" class="col-sm-2 control-label no-padding-right">昵称</label>\
                             <div class="col-sm-10">\
-                                <input type="text" class="form-control require" id="name" name="name" ctrl-regex="netname" placeholder="请输入账号昵称">\
+                                <input type="text" class="form-control require" id="name" name="name" ctrl-regex="name_mix" placeholder="请输入账号昵称">\
                             </div>\
                         </div>\
                         <div class="form-group">\
@@ -755,7 +746,7 @@ function accountInfo(e) {  //修改密码
         function accountFormInit(frm) {
             var ajaxFormOptions = {
                     success: function (data) {
-                        $.handleECode(true, data, $(frm[0]).data('infoTxt'));
+                        $.handleECode(false, data, $(frm[0]).data('infoTxt'));
                         switch (data.rt) {
                             case '0000':
                                 if(data.avatar){
@@ -779,26 +770,6 @@ function accountInfo(e) {  //修改密码
 
 }
 
-
-function bindImgHandle(){
-    // 上传头像
-    var img_area = $(".img_area");
-    var img_adm = $(".img_adm");
-    var adm_logo = $('.navbar-header .navbar-account .avatar');
-    var avatar_area = $('.navbar-header .navbar-account .avatar-area');
-    var admpic = '';
-    var company_icon = '';
-    var sid = $.cookie("sid");
-    var picturefile = document.getElementById("picturefile");
-    var admpicfile = document.getElementById("admpicfile");
-    if (typeof (FileReader) === 'undefined') {
-        picturefile.setAttribute('disabled', 'disabled');
-        admpicfile.setAttribute('disabled', 'disabled');
-    } else {
-        picturefile.addEventListener('change', readFile, false);
-        admpicfile.addEventListener('change', readadmfile, false);
-    }
-}
 
 
 function updatePW(e) {  //修改密码
@@ -857,68 +828,5 @@ function updatePW(e) {  //修改密码
     $('#frmModPW').parent().css({
         display:'block'
     })
-
-}
-function resetUserPW(e) {
-    var item=$(e).closest('tr').data('item');
-    console.log(item);
-    if(item.status==0){
-        warningOpen('请先激活该用户！', 'danger', 'fa-bolt');
-    }else{
-        $.dialog('confirm', {
-            width: 500,
-            height: null,
-            autoSize:true,
-            maskClickHide: true,
-            title: "修改用户密码",
-            content: '<form id="frmModPW" class="form-horizontal form-bordered" role="form" method="post" style="margin-right:-40px;">\
-                        <input type="hidden" name="userId" />\
-                        <div class="form-group">\
-                            <label for="pw" class="col-sm-2 control-label no-padding-right">新密码</label>\
-                            <div class="col-sm-10">\
-                                <input type="password" class="form-control require" id="pw" name="pw" ctrl-regex="password" placeholder="请输入新密码">\
-                            </div>\
-                        </div>\
-                        <div class="form-group">\
-                            <label for="confirmpw" class="col-sm-2 control-label no-padding-right">确认密码</label>\
-                            <div class="col-sm-10">\
-                                <input type="password" class="form-control" id="confirmpw" same-with="pw" autocomplete="off" placeholder="请再次输入密码">\
-                            </div>\
-                        </div>\
-                        <div class="form-group">\
-                            <div class="col-sm-2  col-sm-offset-4">\
-                                <button type="button" class="btnBack btn btn-default">返回</button>\
-                            </div>\
-                            <div class="col-sm-2 col-sm-offset-1">\
-                                <input type="submit" class="btn btn-primary" disabled="">\
-                            </div>\
-                        </div>\
-                    </form>',
-            hasBtn: false,
-            hasClose: true,
-            hasMask: true,
-            confirmValue: '确认',
-            confirm: function () {
-                frmModPW.submit();
-            },
-            confirmHide: false,
-            cancelValue: '取消'
-        });
-        $('#frmModPW').data('item',{userId:item.userId});
-        var frmModPW =$('#frmModPW').MultForm({
-            editBtnTxt: '确认',
-            editAct:'/common/pw/reset',
-            afterUsed:function(use){
-                frmModPW.find('input[name=url]').remove();
-            },
-            cbSubmit:function(use){
-                $.dialogClose();
-            }
-        });
-        frmModPW.usedAs('edit');
-        $('#frmModPW').parent().css({
-            display:'block'
-        })
-    }
 
 }

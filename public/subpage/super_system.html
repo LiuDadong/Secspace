@@ -264,16 +264,16 @@
             </div>
             <div class="widget-body">
                 <iframe name="ifme" width="0" height="0" style="display:none;"></iframe>
-                <form class="form-horizontal" id="addimg" method="post" action="/p/org/orgUpdateSettings" enctype="multipart/form-data"
+                <form class="form-horizontal" id="updateLogo" method="post" action="/p/org/orgUpdateSettings" enctype="multipart/form-data"
                     target="ifme">
                     <div class="row">
                         <div class="form-group">
-                            <label for="picturefile" class="col-lg-3 control-label no-padding-right">产品LOGO</label>
+                            <label for="iptLogo" class="col-lg-3 control-label no-padding-right">产品LOGO</label>
                             <div class="col-lg-3">
-                                <div style="width:177px;height:40px;" class="img">
-                                    <input name="sid" type="text" style="display:none;" />
-                                    <input type="file" id="picturefile" name="icon" size="10" style="width:177px;height:40px;opacity:0;" />
-                                    <div style="width:187px;height:50px;margin-top:-45px;margin-left:-5px;" class="img_area avatar-area"></div>
+                                <div id="wrapLogo" class="wrap-img">
+                                    <input name="sid" type="hidden" />
+                                    <img src="/imgs/logo.png" alt="logo">
+                                    <input type="file" id="iptLogo" name="icon" size="10" />
                                 </div>
                             </div>
                             <label class="col-lg-6 col-xs-4 col-lg-4 control-label"></label>

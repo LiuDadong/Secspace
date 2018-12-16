@@ -8,18 +8,18 @@
             <div class="widget-body section table clearfix" style="overflow:hidden;">
                 <form id="panel" class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}" style="height:80px">
                     <div id="btn_cnter" class="buttons-preview pull-left">
-                        <button class="btnAdd btn btn-primary btn-sm" type="button"><i class="fa fa-plus">添加</i></button>
-                        <button class="btnEdit btn btn-default btn-sm" type="button"><i class="fa fa-pencil-square-o">编辑</i></button>
-                        <button class="btnDel btn btn-default btn-sm" type="button"><i class="fa fa-minus-square">删除</i></button>
+                        <button rolefn="add" class="btnAdd btn btn-primary btn-sm" type="button"><i class="fa fa-plus">添加</i></button>
+                        <button rolefn="mod" class="btnEdit btn btn-default btn-sm" type="button"><i class="fa fa-pencil-square-o">编辑</i></button>
+                        <button rolefn="del" class="btnDel btn btn-default btn-sm" type="button"><i class="fa fa-minus-square">删除</i></button>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm dropdown-toggle btnExport"
+                            <button rolefn="exp" type="button" class="btn btn-default btn-sm dropdown-toggle btnExport"
                                 data-toggle="dropdown">导出<i class="fa fa-angle-down"></i></button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop1" onclick="event.stopPropagation();">
                                 <li><a href="#">选定机构</a></li>
                                 <li><a href="#">选定机构及下级机构</a></li>
                             </ul>
                         </div>
-                        <button class="btnImport btnRefresh btn btn-default btn-sm" type="button">导入</button>
+                        <button rolefn="imp"  class="btnImport btnRefresh btn btn-default btn-sm" type="button">导入</button>
                         <button class="btnRefresh btn btn-default btn-sm" type="button">刷新</button>
                     </div>
                 </form>

@@ -36,8 +36,7 @@
                     </div>
                     <div class="pull-right"></div>
                 </form>
-                <table id="pagingTable">
-                </table>
+                <div><table id="pagingTable"></table></div>
             </div>
             <!-- section:添加、修改、查看多用途表单 -->
             <div style="overflow:hidden;display: none;" class="widget-body section">
@@ -52,7 +51,7 @@
                         <div class="form-group">
                             <label for="name" class="col-md-4 control-label no-padding-right">名称</label>
                             <div class="col-md-5">
-                                <input type="text" id="name" name="name" class="form-control require" />
+                                <input type="text" id="name" name="name" class="form-control require" ctrl-regex="name_mix"/>
                                 <input type="text" name="policyid" style="display:none;" />
                             </div>
                         </div>
@@ -283,7 +282,7 @@
                             <div class="col-md-5 need-init limit_apps append-box">
                                 <input type="hidden" name="limit_apps" />
                                 <div class="item">
-                                    <input type="text" name="white_app" placeholder="请输入程序包名，例：com.taobao.taobao" class="form-control no-repeat" />
+                                    <input type="text" name="white_app" ctrl-regex="appname" placeholder="请输入程序包名，例：com.taobao.taobao" class="form-control no-repeat" />
                                     <i class="fa fa-minus-circle primary"></i>
                                 </div>
                                 <button class="btn btn-primary">继续添加白名单应用</button>
@@ -306,37 +305,13 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="form-group">
-                            <div class="need-init wifi append-box">
-                                <input type="hidden" name="wifi" />
-                                <div class="item">
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label no-padding-right">SSID</label>
-                                        <div class="col-md-5">
-                                            <input type="text" name="ssid" class="form-control no-repeat" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label no-padding-right">密码</label>
-                                        <div class="col-md-5">
-                                            <input type="text" name="password" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <i class="fa fa-minus-circle primary"></i>
-                                </div>
-                                <button class="btn btn-primary">继续添加WiFi热点</button>
-                            </div>
-                        </div> -->
 
                         <div class="form-group">
                             <label class="col-md-4 control-label no-padding-right">wifi热点</label>
                             <div class="col-md-5 need-init wifi append-box">
                                 <input type="hidden" name="wifi" />
                                 <div class="item">
-
-                                    <input type="text" name="ssid" class="form-control no-repeat" placeholder="SSID" />
-
-
+                                    <input type="text" name="ssid" ctrl-regex="wifi" class="form-control no-repeat" placeholder="SSID" />
                                     <input type="text" name="password" class="form-control" placeholder="密码" />
 
                                     <i class="fa fa-minus-circle primary"></i>

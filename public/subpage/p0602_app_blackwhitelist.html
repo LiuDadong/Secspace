@@ -26,7 +26,7 @@
                     </div>
                     <div class="pull-right"></div>
                 </form>
-                <table id="pagingTable">
+                <div><table id="pagingTable"></table></div>
                 </table>
             </div>
             <!-- section:名单添加、修改、查看多用途表单 -->
@@ -40,7 +40,7 @@
                                 <span>名单名称</span>
                             </label>
                             <div class="col-sm-7">
-                                <input type="text" name="name" class="require form-control" autocomplete="off" placeholder="请输入名单名称" />
+                                <input type="text" name="name" ctrl-regex="name_mix" class="require form-control" autocomplete="off" placeholder="请输入名单名称" />
                                 <p class="help-block">限制安全空间外除白名单应用外的应用启动</p>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                                 <span>描述</span>
                             </label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="describe" autocomplete="off" placeholder="请输入名单说明" />
+                                <input type="text" class="form-control" ctrl-regex="description" name="describe" autocomplete="off" placeholder="请输入名单说明" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -232,7 +232,7 @@
                             <div class="col-sm-7 need-init append-box">
                                 <input type="hidden" name="package_name" class="require" />
                                 <div class="item">
-                                    <input type="text" name="package" class="form-control no-repeat" autocomplete="off" placeholder="请输入应用包名，例：com.taobao.taobao" />
+                                    <input type="text" name="package" ctrl-regex="package" class="form-control no-repeat" autocomplete="off" placeholder="请输入应用包名，例：com.taobao.taobao" />
                                     <i></i>
                                 </div>
                                 <button>继续添加</button>

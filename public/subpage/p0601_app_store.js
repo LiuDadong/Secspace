@@ -217,8 +217,6 @@
                                             btnSmt.prop('disabled', true);
                                             btnBack.prop('disabled', false);
                                             btnBack.click();
-                                            ipts.iptsReset();
-
 
                                             pgrBar.css('width', '0');
                                             switch (data.rt) {
@@ -939,7 +937,7 @@
                                                     ipts.prop('disabled', false);
                                                     btnSmt.prop('disabled', true);
                                                     setTimeout(function () {
-                                                        ipts.iptsReset();
+                                                        frm[0].reset();
                                                         pgrBar.css('width', '0');
                                                     }, 100);
                                             }
@@ -989,7 +987,7 @@
                                                     ipts.prop('disabled', false);
                                                     btnSmt.prop('disabled', true);
                                                     setTimeout(function () {
-                                                        ipts.iptsReset();
+                                                        frm[0].reset();
                                                         pgrBar.css('width', '0')
                                                     }, 100);
                                             }
@@ -1013,7 +1011,7 @@
                                                     ipts.prop('disabled', false);
                                                     btnSmt.prop('disabled', true);
                                                     setTimeout(function () {
-                                                        ipts.iptsReset();
+                                                        frm[0].reset();
                                                         pgrBar.css('width', '0')
                                                     }, 100);
                                             }
@@ -1193,15 +1191,12 @@
                 },
                 iptsReg: {
                     dom: null,
-                    selector: 'input[name][type=text][txt-reg]',
+                    selector: 'input[ctrl-regex]',
                     events: [{
                         type: 'change input propertychange',
                         fn: function () {
-                            var lab = $(this).parents('.form-group').find('label>b'),
-                                val = $(this).val(),
-                                reg = new RegExp($(this).attr('txt-reg'));
-                            lab.toggleClass('danger', !reg.test(val));
-                            $(this).toggleClass('danger', !reg.test(val));
+                            $(this).toggleClass('danger', !$.iptRegExpCtrl(this));
+                            $(this).parents('.form-group').find('label>b').toggleClass('danger', !$.iptRegExpCtrl(this));
                             oSubPage.partForm.fnCheckAll();
                         }
                     }]
@@ -1247,7 +1242,6 @@
                 }
                 var item = this.oItem;
                 frm[0].reset();
-                frm.find(':input').iptsReset();
                 frm.find('.uploadFile .file-help').removeClass('hidden');
                 frm.find('.uploadFile .file-name').addClass('hidden').text('');
                 this.setting.fnAheadItem(item);

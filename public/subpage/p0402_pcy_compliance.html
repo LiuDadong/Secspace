@@ -35,8 +35,7 @@
                     </div>
                     <div class="pull-right"></div>
                 </form>
-                <table id="pagingTable">
-                </table>
+                <div><table id="pagingTable"></table></div>
             </div>
             <!-- section:添加、修改、查看多用途表单 -->
             <div style="overflow:hidden;display: none;" class="widget-body section">
@@ -51,7 +50,7 @@
                         <div class="form-group">
                             <label for="name" class="col-md-4 control-label no-padding-right">名称</label>
                             <div class="col-md-6">
-                                <input type="text" id="name" name="name" class="require form-control" />
+                                <input type="text" id="name" name="name" ctrl-regex="name_mix" class="require form-control" />
                             </div>
                         </div>
                         <div class="form-group">

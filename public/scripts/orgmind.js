@@ -86,17 +86,16 @@
                 }
             },
             jmnodeClick: function (om) {    //标签jmnode点击事件
-                //console.log(om);
+                //console.info(om);
             },
             jmnodesClick:function(om){      //标签jmnodes点击事件
-                //console.log(om);
+                //console.info(om);
             },
             complete:function(om){      //首次图形绘制完毕之后的回调函数
-                //console.log(om);
+                //console.info(om);
             }
         };
         this.opts = $.extend(true,{}, __def__,options);
-        console.log(this.opts);
         if (!this.opts.container) {
             logger.error('container should not be null or empty.');
             return;
@@ -145,7 +144,6 @@
                             }
                             that.synOrgInfoPanel();
                             that.opts.jmnodeClick(that);
-                            console.log(that['selected']);
                             break;
                         case 'jmnodes':
                             that.opts.jmnodesClick(that);
@@ -240,7 +238,6 @@
                         content: htmlForm,
                         confirmValue: '添加',
                         confirm: function () {
-                            console.log(that.selected);
                             that.nodeAdd({
                                 topic: $form.data('topic'),
                                 orgCode: $form.data('orgCode'),
@@ -432,7 +429,6 @@
             }
         },
         redraw: function (cb) {  //重绘、绘制图形并初始化图形事件
-            console.log('redraw')
             var that = this,
                 jm=that.jm;
             try{
@@ -445,8 +441,6 @@
                 function updateMind(oldNodeArray,newNodeArray){
                     if(newNodeArray.length>oldNodeArray.length){   //新增了节点 
                         var newNode=getNewNode(oldNodeArray,newNodeArray);
-                        console.log(newNode);
-                        //jm.add_node(parent_node, nodeid, topic, data)
                         jm.expand_node(newNode.parentid);
                         jm.add_node(newNode.parentid, newNode.id, newNode.topic, {
                             orgCode:newNode.orgCode,
@@ -471,7 +465,6 @@
                     }
                 }
             }catch(err){
-                console.error(err);
                 that.refresh(cb);
             }
         },
@@ -527,7 +520,6 @@
         },
         synOrgInfoPanel:function () {
             $(this['theBtn']).prop('disabled',false);
-            console.log(this.selected);
             $('#topic').text(this.selected.topic);
             $('#orgCode').text(this.selected.data.orgCode);
             $('#orgUser').text(this.selected.data.orgUser);

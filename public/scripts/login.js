@@ -32,7 +32,6 @@ if ($.cookie('account') && $.cookie('passwd')) {
     $('input[name=account]').val($.cookie('account')).change();
     $('input[name=passwd]').val(b64.decode($.cookie('passwd')));
 }else{
-    console.log('111111')
     $('input[name=account]').val(' ')
     setTimeout(function(){
         $('input[name=account]').val('').change().focus();

@@ -357,11 +357,9 @@
                         jmnodes.on('click', function (e) {
                             var btnAdd = $('#panel .btnAdd');
                             if (e.target.tagName.toLowerCase() !== 'jmnode') {
-                                console.log('clear')
                                 jm.select_clear();
                             }
                             var nd = jm.get_selected_node();
-                            console.log(nd);
                             if(nd&&(nd.id===jm.get_root().id)){
                                 return;
                             }
@@ -427,7 +425,6 @@
                                         $(this).data('orgs').splice(i, 1);
                                     }
                                 }
-                                console.log($(this).data('orgs'));
                             }
                         });
                     });
@@ -499,9 +496,6 @@
                     }, '添加', '机构')
                 } else {
                     data.data[0]['isroot'] = true;
-                    console.log('jm');
-                    console.log(jm);
-                    console.log(data.data);
                     jm.show({
                         /* 元数据，定义思维导图的名称、作者、版本等信息 */
                         "meta": {

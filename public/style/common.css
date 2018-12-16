@@ -1,44 +1,24 @@
 td{
     white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* IE/Safari */
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
 }
 .antiCursor{
     pointer-events:none;
     cursor: auto;
 }
-.unable{
-    position: relative;
-    pointer-events:none;
-    cursor: auto;
-    position: relative;
-}
-.unable::after{
-    display: block;
-    content: '';
-    position: absolute;
-    background-color: rgba(255,255,255,0.5);
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
 .disabled{
-    position: relative;
     pointer-events:none;
     cursor: auto;
-    overflow: hidden;
 }
-.disabled::after{
-    display: block;
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+
+.dropdown-menu a.disabled{
+    opacity: 0.6;
 }
-.disabled.mask::after{
-    background-color: rgba(255,255,255,0.3);
-}
+
 
 
 
@@ -612,11 +592,6 @@ table {
     text-align: left;
 }
 
-.ellipsis{
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
 
 .has-unit{
     position: relative;
@@ -737,6 +712,12 @@ th.filter>ul.dropdown-menu{
 #wrapAccountAvatar{
     font-size: 100px;
 }
+
+#wrapLogo{
+    font-size: 100px;
+    width: 2.5em;
+    height: 0.5em;
+}
 .wrap-img{
     position: relative;
     width: 1em;
@@ -747,17 +728,22 @@ th.filter>ul.dropdown-menu{
     overflow: hidden;
 }
 .wrap-img>img{
+    float: left;
     width: 100%;
     height: 100%;
 }
 .wrap-img>input[type=file]{
     position: absolute;
+    width: 100%;
+    height: 100%;
+    font-size:0;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     opacity: 0;
     cursor: pointer;
+    z-index: 9999;
 }
 
 
@@ -773,4 +759,18 @@ th.filter>ul.dropdown-menu{
 .jsmind.orgManage{
     height: 60vh;
     max-height: 500px;
+}
+
+
+
+textarea.danger,
+input.danger{
+    border-color: rgba(255, 0, 0 ,0.7) !important;
+    box-shadow: 0 0 2px rgba(255, 0, 0 ,0.7) !important;
+    color: inherit !important;
+}
+textarea:focus,
+input:focus{
+    border-color: #000 !important;
+    color: #000 !important;
 }

@@ -23,7 +23,7 @@
                     </div>
                     <div class="pull-right"></div>
                 </form>
-                <table id="pagingTable"></table>
+                <div><table id="pagingTable"></table></div>
             </div>
             <!-- section:添加、修改、查看多用途表单 -->
             <div style="overflow:hidden;display: none;" class="widget-body section">
@@ -55,7 +55,7 @@
                                 <span>文件名</span>
                             </label>
                             <div class="col-md-7">
-                                <input type="text" name="filename" class="form-control" autocomplete="off" />
+                                <input type="text" name="filename" ctrl-regex="name_mix" class="form-control" autocomplete="off" />
                             </div>
                         </div>
 
@@ -73,7 +73,7 @@
                                 <span>版本号</span>
                             </label>
                             <div class="col-md-7">
-                                <input type="text" name="version" class="require form-control" placeholder="示例: V0.0.1" autocomplete="off" />
+                                <input type="text" name="version" ctrl-regex="version" class="require form-control" placeholder="示例: v0.0.1" autocomplete="off" />
                             </div>
                         </div>
 

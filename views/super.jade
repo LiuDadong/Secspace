@@ -81,7 +81,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                     .navbar-header.pull-left(style="width:177px;")
                         a.navbar-brand(href='#')
                             small
-                                img(src='/assets/img/logo.png' alt='log')
+                                img.logo(src='/imgs/logo.png' alt='logo')
                     .sidebar-collapse(id="sidebar-collapse")
                         i(class="collapse-icon fa fa-bars")
                     .product_name
@@ -91,7 +91,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                 li(style="min-width:180px;")
                                     a(class="login-area dropdown-toggle" data-toggle="dropdown" title="点击查看账户信息" style="min-width:180px;")
                                         .avatar
-                                            img(src="https://192.168.1.25:1443/images/78805a221a988e79ef3f42d7c5bfd418.jpg" alt="")
+                                            img.avatar(src="/imgs/admin.png" alt="头像")
                                         section
                                             h2
                                                 span(class="profile")
@@ -103,7 +103,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                         //-     a
                                         li
                                             .avatar-area
-                                                img.avatar(src="https://192.168.1.25:1443/images/78805a221a988e79ef3f42d7c5bfd418.jpg" alt="")
+                                                img.avatar(src="/imgs/admin.png" alt="头像")
                                         li(class="edit" style="text-align:center;")
                                             button.btn.btn-defalut.btn-sm.pull-left(onclick="accountInfo()") 账户信息
                                             button.btn.btn-defalut.btn-sm.pull-right(onclick="updatePW()") 修改密码
@@ -221,7 +221,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
         script(type="text/javascript" src="/assets/js/toastr/toastr.js")
         script(type="text/javascript" src="/assets/js/jsmind.js")
         script(type="text/javascript" src="/scripts/orgmind.js")
-        script(type="text/javascript" src="/assets/js/paging.js")
+        //- script(type="text/javascript" src="/assets/js/paging.js")
         script(type="text/javascript" src="/assets/js/validation/bootstrapValidator.js")
         script(type="text/javascript" src="/scripts/jquery.group-fns.js")
         script(type="text/javascript" src="/scripts/jquery.group-modules.js")

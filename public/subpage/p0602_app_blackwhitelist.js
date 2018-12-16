@@ -18,8 +18,8 @@
                     <th>黑/白名单</th>\
                     <th>状态</th>\
                     <th>创建者</th>\
-                    <th>更新时间</th>\
-                    <th>操作</th>\
+                    <th style="width:20%">更新时间</th>\
+                    <th style="width:18%">操作</th>\
                 </tr>',
         // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
         // to-edit、to-view表示要跳转的目标表单
@@ -30,7 +30,7 @@
                         <td><span item-key="status"></span></td>\
                         <td><span item-key="operator"></span></td>\
                         <td><span item-key="modified"></span></td>\
-                        <td><a toForm="edit">编辑</a><a toForm="view">查看</a></td>\
+                        <td><a todo="edit">编辑</a><a todo="view">查看</a></td>\
                     </tr>',
         //因不同需求需要个性控制组件表现的修正函数和增强函数
         fnGetItems: function (data) {  //必需   需要要显示的成员 

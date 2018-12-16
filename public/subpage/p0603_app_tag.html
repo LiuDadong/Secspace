@@ -46,7 +46,7 @@
                 <i style="color:red; font-size:12px;margin-right:10px;" class="icon glyphicon glyphicon-asterisk"></i>
                 名称</label>
               <div style="position: absolute;top: 0px;left: 110px;right: 0px;">
-                <input type="text" id="name" name="name" class="form-control" />
+                <input type="text" id="name" name="name" ctrl-regex="name_mix" class="form-control" />
               </div>
             </div>
           </div>
@@ -57,7 +57,7 @@
               <label for="email" style="width:110px;padding-left:22px;" class="control-label">描述</label>
               <div style="position: absolute;top: 0px;left: 110px;right: 0px;">
                 <span class="input-icon icon-right">
-                  <textarea id="describe" rows="8" name="describe" class="form-control"></textarea>
+                  <textarea id="describe" rows="8" name="describe" ctrl-regex="description" class="form-control"></textarea>
                 </span>
               </div>
             </div>

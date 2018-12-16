@@ -1,3 +1,78 @@
+$.objRegex= {  //输入控制
+    account: {   //account表示账号类参数,在输入元素上添加类“re-account”,便可实现对元素输入的正则控制
+        pattern: /^[a-zA-Z0-9]{4,16}$/,   //检测输入的值是否合法
+        info: "4-16位英文、数字"   //用户设置titile作为鼠标移入时的提示
+    },
+    name_ch: {
+        pattern: /^[\u4e00-\u9fa5]{2,16}$/,
+        info: "2-16个汉字"
+    },
+    name_mix: {
+        pattern: /^[\u4e00-\u9fa5a-zA-Z0-9_]{2,16}$/,
+        info: "2-16个中英文或数字"
+    },
+    appname: {
+        pattern: /^[a-zA-Z0-9.]{3,30}$/,
+        info: '3-30个英文、数字或"."'
+    },
+    description: {
+        pattern: /^[\s\S]{0,60}$/,
+        info: "不超过60个字符"
+    },
+    phone: {
+        pattern: /^[\d]{11}$/,
+        info: "11位数字"
+    },
+    email: {
+        pattern: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
+        info: "合法邮箱地址"
+    },
+    password: {
+        pattern: /^[a-zA-Z\d_]{6,16}$/,
+        info: "6-16位字母和数字"
+    },
+    number6: {
+        pattern: /^[\d]{6}$/,
+        info: "六位数"
+    },
+    wifi: {
+        pattern: /^[\s\S]{0,30}$/,
+        info: "不超过30个字符"
+    },
+    version: {
+        pattern: /^[a-zA-Z\d.]{2,16}$/,
+        info: "不超过16个字符,建议格式v1.01"
+    },
+    keyword: {
+        pattern: /^[a-zA-Z\d]{0,30}$/,
+        info: "请输入30位以内中英文或数字"
+    },
+    url: {
+        pattern: /^(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?$/,
+        info: "请输入合法url"
+    },
+    package: {
+        pattern: /^[a-zA-Z\d]{0,30}$/,
+        info: "请输入30位以内英文、数字和“.”"
+    },
+};
+$.iptRegExpCtrl =function (ipt){
+    var ctrlRegex = $(ipt).attr('ctrl-regex');
+    if(ctrlRegex){     //正则检查
+        var irec = $.objRegex[ctrlRegex];
+        if (irec) {
+            if (irec.info) {  //设置提示信息
+                $(ipt).attr('title', '请输入' + irec.info);
+            }
+            $(ipt).toggleClass('danger',!irec.pattern.test($(ipt).val()));
+            return irec.pattern.test($(ipt).val());
+        } else {
+            console.error('ctrl-regex="' + ctrlRegex + '"未定义');
+        }
+    }
+}
+
+
 $.isJson = function (obj) {
     return typeof (obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
 };
@@ -51,8 +126,6 @@ $.handleECode = function () {
         aim = arguments[3] ? arguments[3] : '',
         okText,
         errorText;
-    console.log('dt');
-    console.log(dt);
     switch (dt.rt) {
         case '0':
         case 0:
@@ -239,25 +312,17 @@ $.dealRt3009 = function (policy_list) {
 }
 
 $.fn.iptsReset = function () {
-    console.log('111')
     for (var i = 0; i < this.length; i++) {
         var e = $(this[i]), TT = '';
         TT = e.prop('tagName').toLowerCase();
         TT += e.prop('type') ? ':' + e.prop('type').toLowerCase() : '';
         switch (TT) {
-            case "input:radio":
-                break;
-            case "input:checkbox":
-                e.prop('checked', false);
-                break;
-            case "select:select-one":
-                $("option:first", e).prop("selected", true)
-                break;
-            case "file":
-                e[0].files[0] = null;
+            case "input:text":
+            case "input:password":
+                e.val('');
                 break;
             default:
-                e.val('');
+                
         }
         e.removeData();
     }
@@ -336,7 +401,8 @@ $.fn.plugInit = function () {
             if (!box.appendCheck) {
                 box.appendCheck = function () {
                     //只有一个全空成员时隐藏删除/清空按钮
-                    var emp = true;
+                    var yesno=true,
+                        emp = true;
                     if (box.find('.item').length === 1) {
                         box.find('.item :input[name]').each(function () {
                             if ($(this).val()) {
@@ -355,6 +421,7 @@ $.fn.plugInit = function () {
                                 if ($(noRepeatIpts[i]).val() === $(noRepeatIpts[j]).val()) {
                                     $(noRepeatIpts[i]).addClass('danger');
                                     $(noRepeatIpts[j]).addClass('danger');
+                                    yesno=false;
                                     appendBtn.prop('disabled', true);
                                 }
                             }
@@ -383,13 +450,19 @@ $.fn.plugInit = function () {
                             dt = {};
                             hasVal = false;
                             $(this).find(':input').each(function () {
-                                if ($(this).val() == '') {
-                                    box.find('button').attr('disabled', 'disabled');
-                                }
-                                if ($(this).val()) {
-                                    hasVal = true;
-                                }
-                                dt[$(this).attr('name')] = $(this).val();
+                                
+                                    if ($(this).val() == '') {
+                                        box.find('button').attr('disabled', 'disabled');
+                                    }
+                                    if ($(this).val()) {
+                                        if($.iptRegExpCtrl(this)){
+                                            hasVal = true;
+                                        }else{
+                                            yesno=false;
+                                        }
+                                    }
+                                    dt[$(this).attr('name')] = $(this).val();
+                                
                             })
                             if (hasVal) {
                                 arrData.push(dt);
@@ -398,16 +471,20 @@ $.fn.plugInit = function () {
                         
                     } else if (iptNum == 1) {
                         box.find('.item').each(function () {
-                            dt = $(this).find(':input').val();
-                            if (dt) {
-                                arrData.push(dt);
-                            }
+                            var ipt=$(this).find(':input'),
+                                dt = ipt.val();
+                                if (dt) {
+                                    if($.iptRegExpCtrl(ipt)){
+                                        arrData.push(dt);
+                                    }else{
+                                        yesno=false;
+                                    }
+                                }
                         })
                     } else {
                         console.error('.item中必须至少含有一个:input类元素。')
                     }
-                    console.log(arrData);
-                    ipdHid.val(JSON.stringify(arrData)).change();
+                    ipdHid.val(yesno?JSON.stringify(arrData):'').change();
                     if (box.closest('form').data('fns') !== undefined) {  //尝试检查可能所属的表单预先绑定的数据检查函数check
                         try {
                             box.closest('form').data('fns').check();

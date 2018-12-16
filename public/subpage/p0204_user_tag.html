@@ -1,9 +1,8 @@
-<!-- 用户组列表 -->
 <div class="row">
-    <div class="userslist col-xs-12 col-md-12">
+    <div class="taglist col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header">
-                <span id="subCaption" class="widget-caption">用户组</span>
+                <span id="subCaption" class="widget-caption">用户标签</span>
             </div>
             <div class="widget-body">
                 <form id="panel" class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
@@ -21,22 +20,22 @@
                             <i class="fa fa-refresh">刷新</i>
                         </button>
                     </div>
-                    <!-- <div class="pull-right">
+                    <div class="pull-right">
                         <div class="input-group">
                             <span class="input-icon">
                                 <input id="iptKeyword" type="text" class="form-control input-sm" autocomplete="off" placeholder="请输入搜索关键字">
                                 <i class="glyphicon glyphicon-search blue"></i>
                             </span>
                         </div>
-                    </div> -->
+                    </div>
                 </form>
-                <div class="userstable"></div>
+                <div class="tagtable"></div>
+                <div class="page1"></div>
             </div>
             
         </div>
     </div>
 </div>
-
 
 <div tabindex="-1" role="dialog" style="display:none;" aria-hidden="false" class="bootbox modal fade bootbox-confirm in modal-primary">
     <div style="width:500px;" class="modal-dialog">
@@ -44,4 +43,4 @@
     </div>
 </div>
 <div class="background"> </div>
-<script data-src="/subpage/p0202_user_group.js"></script>
+<script data-src="/subpage/p0203_user_tag.js"></script>

@@ -17,12 +17,12 @@
         jsonData: { 'url': '/p/file/listFile' },
         // theadHtml为表头类元素，第一个th用于存放全选复选框
         theadHtml: '<tr>\
-                    <th></th>\
-                    <th>文件名</th>\
-                    <th>大小</th>\
-                    <th>版本号</th>\
-                    <th>已查看/已下载/已下发</th>\
-                    <th>更新时间</th>\
+                    <th style="width:8%;"></th>\
+                    <th style="width:24%;">文件名</th>\
+                    <th style="width:8%;">大小</th>\
+                    <th style="width:8%;">版本号</th>\
+                    <th style="width:14%;">已查看/已下载/已下发</th>\
+                    <th style="width:14%;">更新时间</th>\
                     <th>创建者</th>\
                     <th>操作</th>\
                 </tr>',
@@ -48,7 +48,7 @@
                         </td>\
                         <td><span item-key="modify_time"></span></td>\
                         <td><span item-key="creator"></span></td>\
-                        <td><a toForm="edit">编辑</a><a toForm="view">查看</a></td>\
+                        <td><a todo="edit">编辑</a><a todo="view">查看</a></td>\
                     </tr>',
         //因不同需求需要个性控制组件表现的修正函数和增强函数
         fnGetItems: function (data) {  //必需   需要要显示的成员
