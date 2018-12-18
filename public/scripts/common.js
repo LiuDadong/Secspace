@@ -72,7 +72,7 @@ function homeJadeInit() {  //初始化登录的管理员信息
     if(firLogin=='0'){
         $.dialog('confirm',{
             title:'初始密码提示',
-            content:'<p>当前登录密码为初始密码，处于安全考虑，建议修改初始密码？</p>',
+            content:'<p>当前登录密码为初始密码，出于安全考虑，建议修改初始密码？</p>',
             confirmValue: '修改密码',
             confirm: function () {
                 setTimeout(function(){
@@ -336,36 +336,6 @@ function createFooter(page, length, total, footerNum) {
     }
 }
 
-function issuePolicy() {
-    var cont ='<form role = "form" class="form-horizontal issuePolicy">' +
-            '<div class = "form-group" style="text-align:center;margin-top:15px;">' +
-            '<div class="col-sm-4 col-sm-offset-2">' +
-            '<a href="javascript:pjaxClick(\'/sub?pg=p0401_pcy_device\')" class="btn btn-primary">设备策略</a>' +
-            '</div>' +
-            '<div class="col-sm-4 col-sm-offset-1">' +
-            '<a href="javascript:pjaxClick(\'/sub?pg=p0402_pcy_compliance\')" class="btn btn-primary">合规策略</a>' +
-            '</div>' +
-            '</div>' +
-            '<div class = "form-group" style="text-align:center;">' +
-            '<div class="col-sm-4 col-sm-offset-2">' +
-            '<a href="javascript:pjaxClick(\'/sub?pg=p0403_pcy_rail\')" class="btn btn-primary btn-large">' +
-            '围栏策略' +
-            '</a>' +
-            '</div>' +
-            '<div class="col-sm-4 col-sm-offset-1">' +
-            '<a href="javascript:pjaxClick(\'/sub?pg=p0404_pcy_app\')" class="btn btn-primary btn-large">' +
-            '应用策略' +
-            '</a>' +
-            '</div>';
-    $.dialog('info',{
-        title:'下发策略',
-        width:400,
-        content:cont
-    })
-    $('form.issuePolicy').on('click',function(){
-        $.dialogClose();
-    })
-}
 
 
 function searchbykeywords(s, tab) {
@@ -597,34 +567,48 @@ function hasFn(fn){   //判断功能点fn是否属于合法权限
 
 
 function hasHdlAuth(item,act,aim){
-    var mng = $.cookie('manager'),
+    if(item instanceof Array){
+        var has=true;
+        for(i in item){
+            if(!hasAuth(item[i],act,aim)){
+                has=false;
+                break;
+            }
+        }
+        return has;
+    }else{
+        return hasAuth(item,act,aim);
+    }
+    function hasAuth(item,act,aim){
+        var mng = $.cookie('manager'),
         lid = localStorage.getItem('org_id'),   //管理员责任机构id
         cid = $.cookie('org_id'),               //管理员当前管理机构id
         yesno = false;
-    if(lid=='0'){  //超级管理员具备最高权限
-        return true;
-    }
-    if(lid===cid && !item.hasOwnProperty('manager')){  //业务管理员对责任机构内没有指定管理者的成员具有完全管理权限
-        return true;
-    }
-    if(item instanceof Array){
-        yesno = item.filter(function(it){
-            return (it.manager&&it.manager!=''&&it.manager!=mng);
-        }).length===0;
-    }else{
-        switch (act){
-            case 'ioo':
-            case 'pub':
-                yesno = (item.manager==''||item.manager==mng)&&(lid===cid); 
-                break;
-            default:
+        if(lid=='0'){  //超级管理员具备最高权限
+            yesno = true;
         }
-        yesno = item.manager===undefined||(item.manager==''||item.manager==mng);
+        if(lid===cid && !item.hasOwnProperty('manager')){  //业务管理员对责任机构内没有指定管理者的成员具有完全管理权限
+            yesno = true;
+        }
+        if(item.hasOwnProperty('origin')){  //对策略的操作权限
+            switch (item.origin){
+                case 'NAV':     //本级创建的策略
+                    yesno = mng == item.manager;
+                    break;
+                case 'PUB':     //上级发布的策略
+                    yesno = (lid == cid&&act=='机构内下发');   //本级的管理员具有机构内下发权限
+                    break;
+                case 'ISS':     //上级下发的策略
+                    yesno = false;
+                    break;
+                default:
+            }
+        }
+        if(!yesno){
+            warningOpen('您暂无'+act+'此'+aim+'权限','danger','fa-bolt');
+        }
+        return yesno;
     }
-    if(!yesno){
-        warningOpen('无法'+act+'他人管理的'+ (aim?aim:'成员'),'danger','fa-bolt');
-    }
-    return yesno;
 }
 
 
@@ -830,3 +814,4 @@ function updatePW(e) {  //修改密码
     })
 
 }
+

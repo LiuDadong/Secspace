@@ -299,8 +299,10 @@
     })
 
     //颜色选择器初始化
-    $('#font_color').attr('readonly', 'readonly').css({
-        cursor: 'auto'
+    
+    $('#font_color').css({
+        cursor: 'pointer',
+        userSelect:'none'
     }).colpick({
         layout: 'rgbhex',
         submit: 0,
@@ -326,4 +328,7 @@
     $('#watermarkControl').on('change propertychange input', function () {
         $(this).closest('.form-group').nextAll('.form-group:has(:input[data-for=watermark])')
             .find(':input').prop('disabled', !$(this).prop('checked'));
+        $('#font_color').css({
+            cursor: $(this).prop('checked')?'pointer':'not-allowed'
+        })
     })

@@ -263,82 +263,14 @@
     function add() {
         var vcode = /^[0-9]+(\.+[0-9]+)+$/;
         var sid = $.cookie('sid');
-        var url = hosturl + 'p/file/uploadApp';
-        // var cont = '';
-        // cont += '<div class="modal-header">'
-        //     + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-        //     + '<h4 class="modal-title">添加版本</h4>'
-        //     + '</div>'
-        //     + '<div class="modal-body" style="padding-bottom:0px;">'
-        //     + '<p class="appupload" style="display:none;color:red;text-align:center;">正在上传......</p>'
-        //     + '<iframe name="ifm" style="display:none;"></iframe>'
-        //     + '<form id="addAppForm" method="post" action="' + url + '" enctype="multipart/form-data" target="ifm" autocomplete="off" role = "form" class="form-horizontal">'
-        //     + '<div class = "form-group">'
-        //     + '<label class="col-sm-3 control-label no-padding-right" for = "name">版本名称</label>'
-        //     + '<div class="col-sm-9">'
-        //     + '<input name="sid" value="' + sid + '" style="display:none;" />'
-        //     + '<input type = "text" class = "form-control" id = "name" name="name" placeholder = "请输入版本名称" />'
-        //     + '</div></div>'
-        //     + '<div class = "form-group">'
-        //     + '<label class="col-sm-3 control-label no-padding-right" for = "versioncode">版本编号</label>'
-        //     + '<div class="col-sm-9">'
-        //     + '<input type = "text" class = "form-control" id = "versioncode" name="versioncode" placeholder = "例：1.0.0" autocomplete="off" />'
-        //     + '</div></div>'
-        //     + '<div class = "form-group">'
-        //     + '<label class="col-sm-3 control-label no-padding-right">平台</label>'
-        //     + '<div class="col-sm-9">'
-        //     + '<select type = "text" class = "form-control" id = "platform" name="platform">'
-        //     + '<option value="android">Android</option>'
-        //     + '<option value="ios">iOS</option>'
-        //     + '</select>'
-        //     + '</div></div>'
-        //     + '<div class = "form-group">'
-        //     + '<label class="col-sm-3 control-label no-padding-right">设备类型</label>'
-        //     + '<div class="col-sm-9">'
-        //     + '<select type = "text" class = "form-control" id = "dev_type" name="dev_type">'
-        //     + '<option value="phone">phone</option>'
-        //     + '<option value="pad">pad</option>'
-        //     + '</select>'
-        //     + '</div></div>'
-        //     + '<div class = "form-group">'
-        //     + '<label class="col-sm-3 control-label no-padding-right">是否立即生效</label>'
-        //     + '<div class="col-sm-9">'
-        //     + '<label class="col-xs-6">'
-        //     + '<input name="status" type="radio" checked="true" value="0" />'
-        //     + '<span class="text">否</span></label>'
-        //     + '<label class="col-xs-6">'
-        //     + '<input name="status" type="radio" value="1" />'
-        //     + '<span class="text">是</span></label>'
-        //     + '</div></div>'
-        //     + '<div class = "form-group">'
-        //     + '<label class="col-sm-3 control-label no-padding-right" for = "file_data">文件</label>'
-        //     + '<div class="col-sm-6" style="overflow:hidden;">'
-        //     + '<input type = "file" name="file_data" id="file_data" />'
-        //     + '</div></div>'
-        //     + '<div class = "form-group">'
-        //     + '<label class="col-sm-3 control-label no-padding-right" for = "describe">更新内容</label>'
-        //     + '<div class="col-sm-9">'
-        //     + '<span class="input-icon icon-right">'
-        //     + '<textarea class="form-control" rows="3" name="describe" id="describe"></textarea>'
-        //     + '</span>'
-        //     + '</div></div>'
-        //     + '<div class="modal-footer" style="margin-left:-15px;margin-right:-15px;">'
-        //     + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-        //     + '<button type="submit" id="submit" class="btn btn-primary">确认</button>'
-        //     + '</div>'
-        //     + '</form>'
-        //     + '</div>';
-        // alertOpen(cont);
         var $dialog = $.dialog('confirm', {
             title: '添加版本',
             width: '600',
-            content: '<p class="appupload" style="display:none;color:red;text-align:center;">正在上传......</p>\
-                    <iframe name="ifm" style="display:none;"></iframe>\
-                    <form id="addAppForm" method="post" action="' + url + '" enctype="multipart/form-data" target="ifm" autocomplete="off" role = "form" class="form-horizontal">\
+            content: '<form id="addAppForm" method="post" action="' + localStorage.getItem("appssec_url") + '/p/file/uploadApp" enctype="multipart/form-data" target="ifm" autocomplete="off" role = "form" class="form-horizontal">\
                         <div class = "form-group">\
                             <label class="col-sm-3 control-label no-padding-right" for = "name">版本名称</label>\
                             <div class="col-sm-9">\
-                                <input name="sid" value="' + sid + '" style="display:none;" />\
+                                <input type = "hidden" name="sid" value="' + sid + '" />\
                                 <input type = "text" class = "form-control" id = "name" name="name" placeholder = "请输入版本名称" />\
                             </div>\
                         </div>\
@@ -393,6 +325,18 @@
             confirmHide: false,
             confirmValue: '上传',
             confirm: function (cnt) {
+                if($('input[name=name]').val()==''){
+                    warningOpen('版本名称不能为空','danger','fa-bolt')
+                    return false;
+                }
+                if($('input[name=versioncode]').val()==''){
+                    warningOpen('版本编号不能为空','danger','fa-bolt')
+                    return false;
+                }
+                if($('input[name=file_data]')[0].files.length==0){
+                    warningOpen('请选择要上传的应用','danger','fa-bolt')
+                    return false;
+                }
                 cnt.find('form').submit();
             },
             cancelValue: '取消',

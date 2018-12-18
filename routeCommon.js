@@ -67,18 +67,19 @@ module.exports = function (app, chttp) {
         });
     });
     // 重置业务管理员密码
-    app.post('/common/adminpw/reset', function (req, res) {
+    app.post('/common/admin/resetpw', function (req, res) {
         req.body['sid'] = req.cookies.sid;
-        req.body.passwd = md5('xthinkers' + req.body.passwd);
+        req.body['passwd'] = md5('xthinkers' + req.body.pw);
+        delete req.body.pw;
+        console.log(req.body);
         chttp.cpost(req.body, '/p/org/resetAdmPw', function (cont) {
             res.send(cont);
         });
     });
     // 重置用户密码
-    app.post('/common/pw/reset', function (req, res) {
+    app.post('/common/user/resetpw', function (req, res) {
         req.body['sid'] = req.cookies.sid;
         req.body.pw = md5('xthinkers' + req.body.pw);
-        console.log(req.body);
         chttp.cpost(req.body, '/p/user/resetUserPw', function (cont) {
             res.send(cont);
         });

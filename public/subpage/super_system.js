@@ -21,8 +21,8 @@ $('button.btnFormAjax').click(function () {
 
     })
 })
-hosturl = localStorage.getItem("appssec_url") + '/';
-var acturl = hosturl + 'p/org/orgUpdateSettings';
+
+var acturl = localStorage.getItem("appssec_url") + '/' + 'p/org/orgUpdateSettings';
 document.getElementById("updateLogo").action = acturl;
 $("span[id^='identify_method']").removeClass('txt');
 $("input:checkbox[name^='identify_method']").prop("checked", false);

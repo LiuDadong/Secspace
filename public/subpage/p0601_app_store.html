@@ -292,14 +292,14 @@
                                     <div class="control-group">
                                         <div class="radio col-sm-5">
                                             <label>
-                                                <input name="auto_start" value='1' type="radio" checked="checked" />
-                                                <span class="text">自启动应用</span>
+                                                <input name="auto_start" value='0' type="radio" checked="checked" />
+                                                <span class="text">禁止自启动</span>
                                             </label>
                                         </div>
                                         <div class="radio col-sm-5">
                                             <label>
-                                                <input name="auto_start" value='0' type="radio" />
-                                                <span class="text">禁止自启动</span>
+                                                <input name="auto_start" value='1' type="radio" />
+                                                <span class="text">自启动应用</span>
                                             </label>
                                         </div>
                                     </div>
@@ -460,24 +460,20 @@
                     </ul>
                     <div class="tab-content tabBody">
                         <div id="paneGroup" class="tab-pane active">
-                            <div class="classify row col-md-2">
+                            <div class="classify row col-md-3">
                                 <div id="treeUserGroup" class="relFilter"></div>
                             </div>
-                            <div class="row col-md-8">
-                                <table id="tblForUserGroupTree"></table>
+                            <div class="row col-md-9">
+                                <div><table id="tblForUserGroupTree"></table></div>
                             </div>
                         </div>
 
                         <div id="paneTag" class="tab-pane">
-                            <div class="classify row col-md-2">
+                            <div class="classify row col-md-3">
                                 <div id="treeUserTag" class="relFilter">tags</div>
                             </div>
-                            <div class="row col-md-8">
-                                <table id="tblForUserTagList">
-                                    <tr>
-                                        <td>标签用户</td>
-                                    </tr>
-                                </table>
+                            <div class="row col-md-9">
+                                <div><table id="tblForUserTagList"></table></div>
                             </div>
                         </div>
                     </div>

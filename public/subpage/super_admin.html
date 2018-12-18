@@ -36,17 +36,23 @@
             <div class="widget-body section form" style="overflow:hidden;padding-top:80px;">
                 <div class="row col-md-7 col-md-offset-2">
                     <form id="multForm" class="form-horizontal" role="form" method="post" action="/common/mod">
-                        <input type="hidden" name="org_id" /> 
+                        <input type="hidden" name="org_id" />
+                        <div class="form-group">
+                            <label for="orgName" class="col-md-3 control-label no-padding-right">责任机构</label>
+                            <div class="col-md-6">
+                                <input type="text" id="orgName" name="orgName" class="form-control" readonly="readonly" />
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="account" class="col-md-3 control-label no-padding-right">账号</label>
                             <div class="col-md-6">
-                                <input type="text" id="account" name="account" class="form-control require" ctrl-regex="account" placeholder="用于登录">
+                                <input type="text" id="account" name="account" class="form-control require" ctrl-regex="account" placeholder="业务管理员登录账号">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="name" class="col-md-3 control-label no-padding-right">姓名</label>
                             <div class="col-md-6">
-                                <input type="text" id="name" name="name" class="form-control require" ctrl-regex="name_ch" placeholder="管理员姓名">
+                                <input type="text" id="name" name="name" class="form-control require" ctrl-regex="name_mix" placeholder="管理员姓名">
                             </div>
                         </div>
                         <div class="form-group">

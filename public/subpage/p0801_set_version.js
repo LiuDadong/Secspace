@@ -233,7 +233,7 @@ function version_update(i) {
 function add() {
     var vcode = /^[0-9]+(\.+[0-9]+)+$/;
     var sid = $.cookie('sid');
-    var url = hosturl + 'p/file/uploadApp';
+    var url = localStorage.getItem("appssec_url") + '/p/file/uploadApp';
     var cont = '';
     cont += '<div class="modal-header">'
         + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'

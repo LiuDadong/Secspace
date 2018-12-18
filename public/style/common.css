@@ -14,11 +14,13 @@ td{
     pointer-events:none;
     cursor: auto;
 }
+li.disabled{
+    opacity: 0.6;
+}
 
 .dropdown-menu a.disabled{
     opacity: 0.6;
 }
-
 
 
 
@@ -426,7 +428,6 @@ table {
     border-radius: 0!important;
     background-clip: padding-box!important;
     background-color: #fbfbfb;
-    border: 1px solid #d5d5d5;
     font-family: inherit;
     -webkit-transition: -webkit-box-shadow .45s,border-color .45s ease-in-out;
     -moz-transition: -moz-box-shadow .45s,border-color .45s ease-in-out;
@@ -450,7 +451,7 @@ table {
 }
 
 .xtree li>i.tIcon {
-    margin: 0 0.5em;
+    margin: 0.5em;
     cursor: pointer;
 }
 
@@ -472,14 +473,12 @@ table {
 
 
 .xtree li,.xlist li {
-    display: flex;
     list-style: none;
     padding: 0;
     margin: 0;
-    justify-content: flex-start;
-    align-items: center;
     box-shadow: none;
     min-height: 24px;
+    text-align: left;
 }
 .xlist li span,
 .xtree li span{
@@ -499,6 +498,11 @@ table {
     font-weight: bold;
     color: rgb(40, 110, 240);
 }
+
+.xtree label{
+    vertical-align: bottom;
+}
+
 
 .tab-pane .relFilter li span {
     cursor: pointer;
@@ -773,4 +777,39 @@ textarea:focus,
 input:focus{
     border-color: #000 !important;
     color: #000 !important;
+}
+
+
+.userstable .fa{
+    cursor: pointer;
+    margin-right: 2px;
+    font-size: 13px !important;
+}
+
+/* 使用webkit内核的浏览器 */
+textarea::-webkit-input-placeholder,
+input::-webkit-input-placeholder{
+    font-style: italic;
+}
+
+/* Firefox版本4-18 */
+textarea:-moz-placeholder, 
+input:-moz-placeholder{
+    font-style: italic;
+}
+
+/* Firefox版本19+ */
+textarea::-moz-placeholder,
+input::-moz-placeholder{
+    font-style: italic;
+}
+
+ /* IE浏览器 */
+textarea:-ms-input-placeholder,
+input:-ms-input-placeholder{
+    font-style: italic;
+}
+
+textarea{
+    resize:none;
 }

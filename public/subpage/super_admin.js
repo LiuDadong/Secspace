@@ -131,6 +131,7 @@
                     $('input[name=account]').prop('readonly', false);
                     $('.form-group:has(input[type=password])').removeClass('hidden');
                     $('input[name=org_id]').val($('#om_admin jmnode.selected').attr('nodeid'));
+                    $('input[name=orgName]').val($('#om_admin jmnode.selected').text());
                     break;
                 case "edit":
                 case "view":
@@ -140,6 +141,7 @@
                     break;
                 default:
             }
+            $('input[name=orgName]').prop('disabled',true);
             $.silentPost('/common/adminRoleInfo', {}, function (data) {
                 var selectRoles = $('#selectRoles').empty().css({ 'max-height': '200px' });
                 if (data.rt === "0000") {
@@ -349,7 +351,7 @@
             var frmResetPW = $('#frmResetPW').MultForm({
                 editUrl: '/p/org/resetAdmPw',
                 editBtnTxt: '确认',
-                editAct: '/common/adminpw/reset',
+                editAct: '/common/admin/resetpw',
                 afterUsed: function (use) {
                     frmResetPW.find('input[name=url]').remove();
                 },

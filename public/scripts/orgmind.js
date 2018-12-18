@@ -8,7 +8,7 @@
 
 ; (function ($w) {
     'use strict';
-    // set 'orgMind' as the library name.
+    // set 'OrgMind' as the library name.
     // __name__ should be a const value, Never try to change it easily.
     var __name__ = 'OrgMind';
     // library version
@@ -115,7 +115,7 @@
         init: function () {
             if (this.inited) { return; }
             this.inited = true;
-            this.jmcnter.addClass('orgmind');
+            this.jmcnter.data('om',this).addClass('orgmind');
             this.cnterInit();   //盒子初始化
             this.btnsInit();    //关联按钮初始化
             this.ajaxMind();    //拉取图形数据并绘制
@@ -136,13 +136,13 @@
                                 that['selected'] = [];
                                 jn.toggleClass('selected');
                                 cnter.find('jmnode.selected').each(function () {
-                                    that.selected.push(jm.get_selected_node($(this).attr('nodeid')));
+                                    that.selected.push(jm.get_node($(this).attr('nodeid')));
                                 });
                             } else {
                                 jm.select_node($(jn).attr('nodeid'));
                                 that['selected'] = jm.get_selected_node();
+                                that.synOrgInfoPanel();
                             }
-                            that.synOrgInfoPanel();
                             that.opts.jmnodeClick(that);
                             break;
                         case 'jmnodes':
@@ -520,10 +520,12 @@
         },
         synOrgInfoPanel:function () {
             $(this['theBtn']).prop('disabled',false);
-            $('#topic').text(this.selected.topic);
-            $('#orgCode').text(this.selected.data.orgCode);
-            $('#orgUser').text(this.selected.data.orgUser);
-            $('#orgPolicy').text(this.selected.data.orgPolicy);
+            if(!Array.isArray(this.selected)){
+                $('#topic').text(this.selected.topic||'');
+                $('#orgCode').text(this.selected.data.orgCode||'');
+                $('#orgUser').text(this.selected.data.orgUser||'');
+                $('#orgPolicy').text(this.selected.data.orgPolicy||'');
+            }
         }
     };
 

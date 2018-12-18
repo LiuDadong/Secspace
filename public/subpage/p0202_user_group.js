@@ -63,11 +63,11 @@ function getUsersList(departId) {
                 tdAct = item.name === "未分组" ? '<td></td>' : '<td class="other"><a class="btn btn-primary btn-xs' + (hasFn('mod') ? '" onclick="edit(this)"' : ' disabled"') + '>编辑</a></td>';
                 tdUsersInfo = item.name == '未分组'
                     ? '<td><span>' + item.current_num + '</span></td>'
-                    : '<td><span onclick="dialogForMoveUser(this)" class="cursor"><a>' + item.current_num + '</a></span></td>';
+                    : '<td><span onclick="dialogForMoveUser(this)" class="pointer"><a>' + item.current_num + '</a></span></td>';
 
                 status = item.status == 1 ? '正常' : '禁用';
                 tdName = item.child_node != 0 ?
-                    '<td class="tdGrpName" onclick="toggleChild(this)" class="cursor"><i class="fa fa-plus"></i>' + item.name + '</td>' :
+                    '<td class="tdGrpName" onclick="toggleChild(this)" class="pointer"><i class="fa fa-plus"></i>' + item.name + '</td>' :
                     '<td class="tdGrpName">' + item.name + '</td>';
                 tri.html(tdCkb + tdName
                     + '<td>' + item.creator + '</td>'
@@ -107,7 +107,7 @@ function toggleChild(td) {
                     var cItem = data.depart_list[i];
                     var status = cItem.status == 1 ? '正常' : '禁用';
                     var str2 = cItem.child_node != 0
-                        ? '<td onclick="toggleChild(this)" class="cursor" style="padding-left:'
+                        ? '<td onclick="toggleChild(this)" class="pointer" style="padding-left:'
                         + ((cItem.layer * 1 - 1) * 40) + 'px;background:url(../imgs/fold_line.png) no-repeat '
                         + (10 + (cItem.layer * 1 - 2) * 20) + 'px 0;">'
                         + '<i class="fa fa-plus faopen"></i><i class="fa fa-minus faclose"></i>'
@@ -122,7 +122,7 @@ function toggleChild(td) {
                             + '<span class="text"></span></label></div></td>'
                             + str2
                             + '<td>' + cItem.creator + '</td>'
-                            + '<td><span onclick="dialogForMoveUser(this)" class="cursor"><a>' + cItem.current_num + '</a></span></td>'
+                            + '<td><span onclick="dialogForMoveUser(this)" class="pointer"><a>' + cItem.current_num + '</a></span></td>'
                             + '<td>' + cItem.update_time + '</td>'
                             + '<td>' + status + '</td>'
                             + '<td departid="' + cItem.departId + '" style="display:none;">' + cItem.departId + '</td>'
@@ -143,7 +143,7 @@ function toggleChild(td) {
 }
 function toggleChildByTd(td) {
     var item = $(td).closest('tr').data('item'),
-        hide = $(td).find('i.fa').hasClass('fa-plus');
+        hide = $(td).find('i.fa:visible').hasClass('fa-plus');
     $('.userstable table tr').each(function () {
         if ($(this).attr('pid') === item.departId) {
             if ($(td).is(':visible')) {
@@ -731,8 +731,10 @@ function users_delete() {
 
 // 用户组内外用户移动
 function dialogForMoveUser(e) {
+    var _tr = $(e).closest('tr');
+    var departId = _tr.find('td').eq(6).attr('departId');
     var cont = '<div style="display:flex;">\
-            <input type="hidden" name="departId" />\
+            <input type="hidden" name="departId" value="'+ departId +'" />\
             <div style="width:45%">\
                     <form id="pnlForInGroup" class="form-inline pnl" role="form" onkeydown="if(event.keyCode==13){return false;}">\
                             <div class="buttons-preview pull-left"><h5>组内用户</h5></div>\
@@ -775,9 +777,6 @@ function dialogForMoveUser(e) {
     $('.dialog-box').css({
         top: '15%'
     }).find();
-    var _tr = $(e).closest('tr');
-    var departId = _tr.find('td').eq(6).attr('departId');
-    $('input:hidden[name=departId]').val(departId);
     tblCoupleInit(departId);
 }
 
@@ -791,39 +790,41 @@ function tblCoupleRefresh(departId) {
     tblCouple(departId, function () {
         getUsersList(0);
         $('.arrows').removeClass('antiCursor');
-        $('.dialog-box-content input').val('');
+        $('.dialog-box-content input[type=text]:visible').val('');
     });
 }
 
 function tblCouple(departId, cb) {
     $.silentGet('/admin/depart/memberManage', { departId: departId }, function (data) {
         if (data.rt == '0000') {
-            $('#tblForInner').ScrollList({
-                inputList: data.depart_users,
+            var scrollOpts={
                 width: '100%',
                 height: '300px',
-                elesTop: ['序号', '账号', '姓名', '<label><input class="allcheck" type="checkbox"><span>全选</span></div>'],
+                elesTop: ['序号', '账号', '姓名','用户组', '<label><input class="allcheck" type="checkbox"><span>全选</span></div>'],
                 elesDemo: [
                     '<span class="counter"></span>',
                     '<span item-key="account"></span>',
                     '<span item-key="name"></span>',
+                    '<span item-key="depart.name"></span>',
                     '<label><input class="itemcheck" type="checkbox"><span></span></label>'
                 ],
-                widthProportion: [0.5, 1, 1, 0.5]
-            });
-            $('#tblForOuter').ScrollList({
-                inputList: data.available_users,
-                width: '100%',
-                height: '300px',
-                elesTop: ['序号', '账号', '姓名', '<label><input class="allcheck" type="checkbox"><span>全选</span></label>'],
-                elesDemo: [
-                    '<span class="counter"></span>',
-                    '<span item-key="account"></span>',
-                    '<span item-key="name"></span>',
-                    '<label><input class="itemcheck" type="checkbox"><span></span></label>'
-                ],
-                widthProportion: [0.5, 1, 1, 0.5]
-            });
+                widthProportion: [0.5, 1, 1, 1, 0.5],
+                fnValByKey: function (k, v) {  //用于根据键值对修正要显示文本
+                    switch (k) {
+                        case 'depart.name':
+                            v = v===null?'未分组':v;
+                            break;
+                        default:
+                    }
+                    return v;
+                }
+            };
+
+            scrollOpts['inputList']=data.depart_users;
+            $('#tblForInner').ScrollList(scrollOpts);
+
+            scrollOpts['inputList']=data.available_users;
+            $('#tblForOuter').ScrollList(scrollOpts);
             if (cb) {
                 cb(data);
             }

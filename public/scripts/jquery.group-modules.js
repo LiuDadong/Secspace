@@ -13,6 +13,10 @@
         try {
             for (i in keys) {
                 val = val[keys[i]];
+                if(val===null||val===undefined){
+                    val===null;
+                    break;
+                }
             }
         } catch (err) {
             val = '';
@@ -271,200 +275,215 @@
                     btnToggleOrg.prop('disabled', false);
                 });
             });
-            //判定是否具有删除权限
-            hasFn('del')
-                ? pnlLeft.find('.btnDel').on('click', function () {
+            //判定管理员角色功能点是否具有删除功能权限
+            if(hasFn('del')){
+                pnlLeft.find('.btnDel').on('click', function () {
                     var actText = $(this).text().replace(/[\s]/g, ''),//获取操作类型文本-删除
                         sel = pagingTable.data('PagingTable').sel;//获取列表中所有选中的对象数据：要删除的数据
                     if (sel.length > 0) {
-                        var needUnact;
-                        switch (getItemType(sel[0])) {
-                            case '用户':
-                            case '用户标签':
-                                needUnact = [];
-                            default:
-                                needUnact = $.arrKeyFlt(sel, false, function (item) {
-                                    return item.status == '1';
-                                });
-                        }
-
-                        if (needUnact.length == 0) {
-                            $.dialog('confirm', {
-                                width: 460,
-                                height: null,
-                                maskClickHide: true,
-                                title: "删除确认",
-                                content: '<p class="text-align-center">确认删除选中的' + $(pnl.relSubCaption).data('itemText') + '吗？</p>',
-                                hasBtn: true,
-                                hasClose: true,
-                                hasMask: true,
-                                confirmValue: '确认',
-                                confirm: function () {
-                                    if (sel[0].hasOwnProperty('policy_type')) {
-                                        delPolicy();
-                                    } else {
-                                        delDefault();
-                                    }
-                                    function delPolicy() {
-                                        var allPros = [],
-                                            selPcyIds = {
-                                                device: $.arrKeyFlt(sel, 'id', function (item) {
-                                                    return item.policy_type == 'device';
-                                                }),
-                                                complicance: $.arrKeyFlt(sel, 'id', function (item) {
-                                                    return item.policy_type == 'complicance';
-                                                }),
-                                                geofence: $.arrKeyFlt(sel, 'id', function (item) {
-                                                    return item.policy_type == 'geofence';
-                                                }),
-                                                timefence: $.arrKeyFlt(sel, 'id', function (item) {
-                                                    return item.policy_type == 'timefence';
-                                                }),
-                                                whiteapp: $.arrKeyFlt(sel, 'id', function (item) {
-                                                    return item.policy_type == 'whiteapp';
-                                                }),
-                                                blackapp: $.arrKeyFlt(sel, 'id', function (item) {
-                                                    return item.policy_type == 'blackapp';
-                                                }),
-                                                limitaccess: $.arrKeyFlt(sel, 'id', function (item) {
-                                                    return item.policy_type == 'limitaccess';
-                                                }),
-                                                customer: $.arrKeyFlt(sel, 'id', function (item) {
-                                                    return item.policy_type == 'customer';
-                                                })
-                                            };
-                                        for (k in selPcyIds) {
-                                            if (selPcyIds[k].length > 0) {
-                                                allPros.push($.proPost('/common/del', {
-                                                    url: '/p/policy/delete',
-                                                    ids: JSON.stringify(selPcyIds[k]),
-                                                    policy_type: k
-                                                }));
-                                            }
-                                        }
-                                        if (allPros.length > 0) {
-                                            $.proAll(true, allPros, function (datas, rts) {
-                                                if (rts.length === 1 && rts[0] == '0000') {
-                                                    switch (rts[0]) {
-                                                        case '0000':
-                                                            pagingTable.PagingTable('update');
-                                                            break;
-                                                        default:
-                                                    }
-                                                }
-                                            }, actText);
-                                            return;
-                                        }
-                                    }
-                                    function delDefault() {
-                                        var modJson = {};
-                                        if (pnl.deleteJson.hasOwnProperty('id')) {
-                                            modJson['id'] = JSON.stringify($.arrKeyFlt(sel, 'id'))
+                        if(hasHdlAuth(sel,'删除',getItemType(sel[0]))){  //判定管理员对所选成员是否都具有删除权限
+                            var needUnact;
+                            switch (getItemType(sel[0])) {
+                                case '用户':
+                                case '用户标签':
+                                    needUnact = [];
+                                default:
+                                    needUnact = $.arrKeyFlt(sel, false, function (item) {
+                                        return item.status == '1';
+                                    });
+                            }
+    
+                            if (needUnact.length == 0) {
+                                $.dialog('confirm', {
+                                    width: 460,
+                                    height: null,
+                                    maskClickHide: true,
+                                    title: "删除确认",
+                                    content: '<p class="text-align-center">确认删除选中的' + $(pnl.relSubCaption).data('itemText') + '吗？</p>',
+                                    hasBtn: true,
+                                    hasClose: true,
+                                    hasMask: true,
+                                    confirmValue: '确认',
+                                    confirm: function () {
+                                        if (sel[0].hasOwnProperty('policy_type')) {
+                                            delPolicy();
                                         } else {
-                                            modJson['ids'] = JSON.stringify($.arrKeyFlt(sel, 'id'))
+                                            delDefault();
                                         }
-                                        $.actPost('/common/del', delData(sel), function (data) {
-                                            switch (data.rt) {
-                                                case '0000':
-                                                    pagingTable.PagingTable('update');
-                                                    break;
-                                                default:
+                                        function delPolicy() {
+                                            var allPros = [],
+                                                selPcyIds = {
+                                                    device: $.arrKeyFlt(sel, 'id', function (item) {
+                                                        return item.policy_type == 'device';
+                                                    }),
+                                                    complicance: $.arrKeyFlt(sel, 'id', function (item) {
+                                                        return item.policy_type == 'complicance';
+                                                    }),
+                                                    geofence: $.arrKeyFlt(sel, 'id', function (item) {
+                                                        return item.policy_type == 'geofence';
+                                                    }),
+                                                    timefence: $.arrKeyFlt(sel, 'id', function (item) {
+                                                        return item.policy_type == 'timefence';
+                                                    }),
+                                                    whiteapp: $.arrKeyFlt(sel, 'id', function (item) {
+                                                        return item.policy_type == 'whiteapp';
+                                                    }),
+                                                    blackapp: $.arrKeyFlt(sel, 'id', function (item) {
+                                                        return item.policy_type == 'blackapp';
+                                                    }),
+                                                    limitaccess: $.arrKeyFlt(sel, 'id', function (item) {
+                                                        return item.policy_type == 'limitaccess';
+                                                    }),
+                                                    customer: $.arrKeyFlt(sel, 'id', function (item) {
+                                                        return item.policy_type == 'customer';
+                                                    })
+                                                };
+                                            for (k in selPcyIds) {
+                                                if (selPcyIds[k].length > 0) {
+                                                    allPros.push($.proPost('/common/del', {
+                                                        url: '/p/policy/delete',
+                                                        ids: JSON.stringify(selPcyIds[k]),
+                                                        policy_type: k
+                                                    }));
+                                                }
                                             }
-                                        }, actText)
-                                        function delData(sel) {
-                                            var jsonPatch = {};
-                                            if (pnl.deleteJson.hasOwnProperty('account')) {
-                                                jsonPatch['account'] = JSON.stringify(arrByKey(sel, 'account'));
-                                            } else if (pnl.deleteJson.hasOwnProperty('userId')) {
-                                                jsonPatch['userId'] = JSON.stringify(arrByKey(sel, 'userId'));
-                                            } else if (pnl.deleteJson.hasOwnProperty('id')) {
-                                                jsonPatch['id'] = JSON.stringify(arrByKey(sel, 'id'));
+                                            if (allPros.length > 0) {
+                                                $.proAll(true, allPros, function (datas, rts) {
+                                                    if (rts.length === 1 && rts[0] == '0000') {
+                                                        switch (rts[0]) {
+                                                            case '0000':
+                                                                pagingTable.PagingTable('update');
+                                                                break;
+                                                            default:
+                                                        }
+                                                    }
+                                                }, actText);
+                                                return;
+                                            }
+                                        }
+                                        function delDefault() {
+                                            var modJson = {};
+                                            if (pnl.deleteJson.hasOwnProperty('id')) {
+                                                modJson['id'] = JSON.stringify($.arrKeyFlt(sel, 'id'))
                                             } else {
-                                                jsonPatch['ids'] = JSON.stringify(arrByKey(sel, 'id'));
+                                                modJson['ids'] = JSON.stringify($.arrKeyFlt(sel, 'id'))
                                             }
-                                            return $.extend(
-                                                true,
-                                                pnl.deleteJson,
-                                                jsonPatch
-                                            )
-                                            function arrByKey(arr, key) {
-                                                return arr.map(function (item) {
-                                                    return item[key];
-                                                });
+                                            $.actPost('/common/del', delData(sel), function (data) {
+                                                switch (data.rt) {
+                                                    case '0000':
+                                                        pagingTable.PagingTable('update');
+                                                        break;
+                                                    default:
+                                                }
+                                            }, actText)
+                                            function delData(sel) {
+                                                var jsonPatch = {};
+                                                if (pnl.deleteJson.hasOwnProperty('account')) {
+                                                    jsonPatch['account'] = JSON.stringify(arrByKey(sel, 'account'));
+                                                } else if (pnl.deleteJson.hasOwnProperty('userId')) {
+                                                    jsonPatch['userId'] = JSON.stringify(arrByKey(sel, 'userId'));
+                                                } else if (pnl.deleteJson.hasOwnProperty('id')) {
+                                                    jsonPatch['id'] = JSON.stringify(arrByKey(sel, 'id'));
+                                                } else {
+                                                    jsonPatch['ids'] = JSON.stringify(arrByKey(sel, 'id'));
+                                                }
+                                                return $.extend(
+                                                    true,
+                                                    pnl.deleteJson,
+                                                    jsonPatch
+                                                )
+                                                function arrByKey(arr, key) {
+                                                    return arr.map(function (item) {
+                                                        return item[key];
+                                                    });
+                                                }
                                             }
                                         }
-                                    }
-                                },
-                                confirmHide: true,
-                                cancelValue: '取消'
-                            });
-                        } else {
-                            warningOpen('请先禁用要删除的' + $(pnl.relSubCaption).data('itemText') + '！', 'danger', 'fa-bolt');
+                                    },
+                                    confirmHide: true,
+                                    cancelValue: '取消'
+                                });
+                            } else {
+                                warningOpen('请先禁用要删除的' + $(pnl.relSubCaption).data('itemText') + '！', 'danger', 'fa-bolt');
+                            }
                         }
+                        
                     } else {
                         warningOpen('请选择要' + actText + '的' + $(pnl.relSubCaption).data('itemText') + '！', 'danger', 'fa-bolt');
                     }
                 })
-                : toggleFn(pnlLeft.find('.btnDel'), false);
+            }else{
+                toggleFn(pnlLeft.find('.btnDel'), false);
+            }
 
-            //判定是否具有下发机构内下发权限
-            hasFn('iio')
-                ? pnlLeft.find('.btnToIssue').on('click', function () {
+            //判定管理员角色功能点是否具有机构内下发权限
+            if(hasFn('iio')){  //管理员角色功能点是否具有机构内下发权限
+                pnlLeft.find('.btnToIssue').on('click', function () {
                     var actText = $(this).text().replace(/[\s]/g, ''),
                         sel = $(pnl.relPagingTable).data('PagingTable').sel,
                         sCap = $(pnl.relSubCaption);
                     if (sel.length == 0) {
                         warningOpen('请选择要' + actText + '的' + $(pnl.relSubCaption).data('itemText'), 'danger', 'fa-bolt');
                         return false;
-                    } else if (sel[0].policy_type) {   //每次只让下发一个策略
-                        if (sel.length > 1) {
-                            warningOpen('一次只能下发一个策略！', 'danger', 'fa-bolt');
-                            return false;
-                        } else {
-                            if (sel[0].status === 0) {
-                                warningOpen('请先启用该策略！', 'danger', 'fa-bolt');
-                                return false;
+                    } else {   //每次只让下发一个策略
+                        if (hasHdlAuth(sel, '机构内下发', '策略')) {  //判定管理员对所选成员是否都具有机构内下发权限
+                            switch (getItemType(sel[0])){
+                                case '策略':
+                                    if (sel.length > 1) {
+                                        warningOpen('一次只能下发一个策略！', 'danger', 'fa-bolt');
+                                        return false;
+                                    } else {
+                                        if (sel[0].status === 0) {
+                                            warningOpen('请先启用该策略！', 'danger', 'fa-bolt');
+                                            return false;
+                                        }
+                                        $('#tabForIssue').data('policy', {
+                                            policy_id: sel[0].id,
+                                            policy_type: sel[0].policy_type
+                                        });
+                                    }
+                                    break;
+                                case '文件':
+                                    var arr = [];
+                                    for (var i = 0; i < sel.length; i++) {
+                                        arr.push(~~sel[i].id)
+                                    }
+                                    $('#tabForIssue').data('file', {
+                                        ids: JSON.stringify(arr)
+                                    });
+                                    break;
+                                case '应用':
+                                    var arr = [];
+                                    for (var i = 0; i < sel.length; i++) {
+                                        if (~~sel[i].visit_type == 0) {
+                                            arr.push(sel[i].identify)
+                                        } else {
+                                            warningOpen('只能对授权应用授权！', 'danger', 'fa-bolt');
+                                            return false;
+                                        }
+                                    }
+                                    $('#tabForIssue').data('app', {
+                                        identify: arr
+                                    });
+                                    break;
+                                default:
+                                    $('#tabForIssue').data('sel', sel);
                             }
-                            $('#tabForIssue').data('policy', {
-                                policy_id: sel[0].id,
-                                policy_type: sel[0].policy_type
-                            });
+                            sCap.text(actText + sCap.data('itemText'));
+                            $('.section:has(#pagingTable)').hide();
+                            $('.section:has(#tabForIssue)').show();
+                            $(pnl.relXTree).XTree();
+                            $(pnl.relXList).XList();
                         }
-                    } else if (sel[0].filename) {   //文件下发
-                        var arr = [];
-                        for (var i = 0; i < sel.length; i++) {
-                            arr.push(~~sel[i].id)
-                        }
-                        $('#tabForIssue').data('file', {
-                            ids: JSON.stringify(arr)
-                        });
-
-                    } else if (sel[0].app_name) {   //应用授权
-                        var arr = [];
-                        for (var i = 0; i < sel.length; i++) {
-                            if (~~sel[i].visit_type == 0) {
-                                arr.push(sel[i].identify)
-                            } else {
-                                warningOpen('只能对授权应用授权！', 'danger', 'fa-bolt');
-                                return false;
-                            }
-                        }
-                        $('#tabForIssue').data('app', {
-                            identify: arr
-                        });
-                    } else {
-                        $('#tabForIssue').data('sel', sel);
-                    }
-                    sCap.text(actText + sCap.data('itemText'));
-                    $('.section:has(#pagingTable)').hide();
-                    $('.section:has(#tabForIssue)').show();
-                    $(pnl.relXTree).XTree();
-                    $(pnl.relXList).XList();
+                    } 
                 })
-                : toggleFn(pnlLeft.find('.btnToIssue'), false);
+            }else{
+                toggleFn(pnlLeft.find('.btnToIssue'), false);
+            }
 
-            (hasFn('ioo') || hasFn('pub'))  //判定是否具有跨机构操作（发布或下发）权限
-                ? pnlLeft.find('.btnToSubOrgs').on('click', function () {
+            //判定管理员角色功能点是否具有跨机构操作（发布或下发）权限
+            if(hasFn('ioo') || hasFn('pub')){
+                pnlLeft.find('.btnToSubOrgs').on('click', function () {
                     var actText = $(this).text().replace(/[\s]/g, ''),
                         sel = $(pnl.relPagingTable).data('PagingTable').sel,
                         sCap = $(pnl.relSubCaption);
@@ -474,86 +493,115 @@
                         return false;
                     } else {
                         if (hasHdlAuth(sel, '跨机构下发发布', '策略')) {
-                            if (sel[0].policy_type) {   //每次只让下发一个策略
-                                if (sel.length > 1) {
-                                    warningOpen('一次只能下发一个策略！', 'danger', 'fa-bolt');
-                                    return false;
-                                } else {
-                                    if (sel[0].status === 0) {
-                                        warningOpen('请先启用该策略！', 'danger', 'fa-bolt');
+                            switch (getItemType(sel[0])){
+                                case '策略':
+                                    if (sel.length > 1) {
+                                        warningOpen('一次只能下发或发布一个策略！', 'danger', 'fa-bolt');
                                         return false;
-                                    }
-                                    $('#select_jm_container').data('policy', {
-                                        policy_id: sel[0].id,
-                                        policy_type: sel[0].policy_type
-                                    });
-                                }
-                            } else if (sel[0].filename) {   //文件下发
-                                var arr = [];
-                                for (var i = 0; i < sel.length; i++) {
-                                    arr.push(~~sel[i].id)
-                                }
-                                $('#tabForIssue').data('file', {
-                                    ids: JSON.stringify(arr)
-                                });
-
-                            } else if (sel[0].app_name) {   //应用授权
-                                var arr = [];
-                                for (var i = 0; i < sel.length; i++) {
-                                    if (~~sel[i].visit_type == 0) {
-                                        arr.push(sel[i].identify)
                                     } else {
-                                        warningOpen('只能对授权应用授权！', 'danger', 'fa-bolt');
-                                        return false;
+                                        if (sel[0].status === 0) {
+                                            warningOpen('请先启用该策略！', 'danger', 'fa-bolt');
+                                            return false;
+                                        }
+                                        $('#om_select').data('policy', {
+                                            policy_id: sel[0].id,
+                                            policy_type: sel[0].policy_type
+                                        });
                                     }
-                                }
-                                $('#tabForIssue').data('app', {
-                                    identify: arr
-                                });
-                            } else {
-                                $('#org_jsmind').data('sel', sel);
+                                    break;
+                                case '文件':
+                                    var arr = [];
+                                    for (var i = 0; i < sel.length; i++) {
+                                        arr.push(~~sel[i].id)
+                                    }
+                                    $('#tabForIssue').data('file', {
+                                        ids: JSON.stringify(arr)
+                                    });
+                                    break;
+                                case '应用':
+                                    var arr = [];
+                                    for (var i = 0; i < sel.length; i++) {
+                                        if (~~sel[i].visit_type == 0) {
+                                            arr.push(sel[i].identify)
+                                        } else {
+                                            warningOpen('只能对授权应用授权！', 'danger', 'fa-bolt');
+                                            return false;
+                                        }
+                                    }
+                                    $('#tabForIssue').data('app', {
+                                        identify: arr
+                                    });
+                                    break;
+                                default:
+                    
                             }
                             sCap.text(actText + sCap.data('itemText'));
                             $('.section:has(#pagingTable)').hide();
-                            $('.section:has(#select_jm_container)').show();
-                            $('#select_jm_container').css({
+                            $('.section:has(#om_select)').show();
+                            $('#om_select').css({
                                 height: '500px',
                                 overflow: 'auto'
                             });
-                            var selJm = new orgMind('select', {
-                                container: 'select_jm_container',
-                                multiple: true
-                            });
+                            if($('#om_select').data('om') instanceof OrgMind){
+                                $('#om_select').data('om').refresh();
+                            }else{
+                                var omSelect = new OrgMind({
+                                    container: 'om_select',          //'om_admin'-- id of the container   
+                                    multiple: true,     //支持多选
+                                    allowUnsel: true,    //允许不选
+                                    disableRoot: true,
+                                    editable: false,
+                                    expandToDepth:10,
+                                    view: {
+                                        hmargin: 20,
+                                        vmargin: 5,
+                                        line_width: 1,
+                                        line_color: '#000'
+                                    },
+                                    layout: {
+                                        hspace: 20,
+                                        vspace: 10,
+                                        pspace: 12
+                                    },
+                                    jmnodeClick: function (om) {  //标签元素jmnode
+                                        
+                                    },
+                                    complete:function(om){
+                                        
+                                    }
+                                });
+                            }
                         }
-
                     }
                 })
-                : toggleFn(pnlLeft.find('.btnToSubOrgs'), false);
+            }else{
+                toggleFn(pnlLeft.find('.btnToSubOrgs'), false);
+            }
 
 
-            //如果没有任何下发和发布操作权限，则禁用下发的点击下拉
-            toggleFn(pnlLeft.find('.btnToIssue'), hasFn('iio'));
-            toggleFn(pnlLeft.find('.btnToSubOrgs'),hasFn('ioo') || hasFn('pub'));
-
-
-            pnlLeft.find('.btnDefPcy').on('click', function () {
-                var btn = $(this).prop('disabled', true);
-                $.silentPost('/policy/default', {
-                    policy_type: pnl.policy_type
-                }, function (data) {
-                    btn.prop('disabled', false);
-                    switch (data.rt) {
-                        case '0000':
-                            pnl.closest('.section').hide();
-                            pnl.objTargetForm.closest('.section').show();
-                            pnl.objTargetForm.data('item', data.policies).usedAs('edit');
-                            pnl.objTargetForm.find('input[name=name]').attr('readonly', true);
-                            $(pnl.relSubCaption).html(btn.text());
-                            break;
-                        default:
-                    }
-                })
-            });
+            if(hasFn('mod')){
+                pnlLeft.find('.btnDefPcy').on('click', function () {
+                    var btn = $(this).prop('disabled', true);
+                    $.silentPost('/policy/default', {
+                        policy_type: pnl.policy_type
+                    }, function (data) {
+                        btn.prop('disabled', false);
+                        switch (data.rt) {
+                            case '0000':
+                                pnl.closest('.section').hide();
+                                pnl.objTargetForm.closest('.section').show();
+                                pnl.objTargetForm.data('item', data.policies).usedAs('edit');
+                                pnl.objTargetForm.find('input[name=name]').attr('readonly', true);
+                                $(pnl.relSubCaption).html(btn.text());
+                                break;
+                            default:
+                        }
+                    })
+                });
+            }else{
+                toggleFn(pnlLeft.find('.btnDefPcy'), false);
+            }
+            
 
             //绑定常用事件
             //设置右部输入、选择框样式
@@ -649,7 +697,7 @@
                 }
                 clearData();
                 function clearData() {
-                    $('#select_jm_container jmnodes jmnode.selected').click();
+                    $('#om_select jmnodes jmnode.selected').click();
                 }
             });
 
@@ -739,10 +787,13 @@
                 : toggleFn(ipnlLeft.find('[act=PUB]'), false);
             function pubiss() {
                 var actText = $(this).find('i').text(),
+                    orgs=$('#om_select').data('om').selected.map(function(item){
+                        return item.id;
+                    }),
                     pd = {
-                        policy_id: $('#select_jm_container').data('policy').policy_id,
+                        policy_id: $('#om_select').data('policy').policy_id,
                         action: $(this).attr('act'),
-                        orgs: JSON.stringify($('#select_jm_container jmnodes').data('orgs')),
+                        orgs: JSON.stringify(orgs),
                     }
                 if (pd.orgs === '[]') {
                     warningOpen('请选择机构', 'danger', 'fa-bolt');
@@ -1200,7 +1251,13 @@
                                 $(this).text(val).attr('title', val);
                                 //$(this).text(opts.fnValByKey(key, list[i][key]));
                             });
+                            if(opts.afterAppend){
+                                opts.afterAppend(tri, list[i]);
+                            }
                         }
+
+                        
+
                         if (opts.paging) {
                             tbHas.find('tr').each(function () {
                                 arrangeItem(opts, $(this));
@@ -1208,6 +1265,7 @@
                         } else {
                             unPagingSel(opts);
                         }
+
                         ctrlThCkb(opts, thHeader, tbHas);
                     } else {
                         tbHas.empty();
@@ -1366,7 +1424,7 @@
                             $('#frmModPW').data('item', { userId: item.userId });
                             var frmModPW = $('#frmModPW').MultForm({
                                 editBtnTxt: '确认',
-                                editAct: '/common/pw/reset',
+                                editAct: item.hasOwnProperty('roleId')? '/common/admin/resetpw': '/common/user/resetpw',
                                 afterUsed: function (use) {
                                     frmModPW.find('input[name=url]').remove();
                                 },
@@ -1398,7 +1456,6 @@
                             widthProportion: [],  //列宽比
                             completed: fnCompleted
                         }
-                    console.log(thisData);
                     //根据item-key的值，调用不同的函数，显示需要的信息详情,通过修正ScrollList的配置参数opts，实现对相似数据的显示
                     switch (urlkey) {
                         case '/p/user/activeDevList-dev_num.android': //用户激活的安卓设备
@@ -1483,7 +1540,7 @@
                             '<span item-key="policy_type"></span>',
                             '<span item-key="creator"></span>',
                             '<span item-key="status"></span>',
-                            '<span class="' + (hasFn('rop') ? 'btnUnbind' : '') + '">移出策略</span>'
+                            '<span class="btn btn-primary btn-sm ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '">移除策略</span>'
                         ];
                         opts.widthProportion = [0.5, 1, 1, 1, 1, 1];  //信息详情列表各列宽比
                         opts.title = '用户“' + item.name + '”应用策略';
@@ -1568,7 +1625,7 @@
                             '<span item-key="name"></span>',
                             '<span item-key="account"></span>',
                             '<span item-key="status"></span>',
-                            '<span class="btnUnbind">移出策略</span>'
+                            '<span class="btn btn-primary btn-sm ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '">移除策略</span>'
                         ];
                         opts.widthProportion = [0.5, 1, 1, 1, 1];  //信息详情列表各列宽比
                         return opts;
@@ -1767,7 +1824,6 @@
                 }
             },
             reset: function () {
-                console.log('reset')
                 frm[0].reset();
                 $(frm[0]).find(':input[name]').each(function () {
                     $(this).prop('disabled', false);
@@ -2096,8 +2152,8 @@
                 gchecked = ~~item.checked,
                 ghc = ~~item.hasChild,
                 li = opts.multiple
-                    ? $('<li gident="' + gident + '" data-gid="' + gid + '"><input type="checkbox"/><span class="cursor">' + gtxt + '</span><i class="tIcon fa fa-plus"></i></li>')
-                    : $('<li gident="' + gident + '" data-gid="' + gid + '"><label class="cursor"><input type="radio" name="xtreeitem"/>' + gtxt + '</label><i class="tIcon fa fa-plus"></i></li>');
+                    ? $('<li gident="' + gident + '" data-gid="' + gid + '"><input type="checkbox"/><span class="pointer">' + gtxt + '</span><i class="tIcon fa fa-plus"></i></li>')
+                    : $('<li gident="' + gident + '" data-gid="' + gid + '"><label class="pointer"><input type="radio" name="xtreeitem"/>' + gtxt + '</label><i class="tIcon fa fa-plus"></i></li>');
 
             if (ghc) {
                 li.find('.tIcon').on('click', function () {
@@ -2183,9 +2239,7 @@
 
             if (gtxt !== '未分组') {
                 aim.append(li);
-                if (item.status != 1) {
-                    li.addClass('disabled').find('input,.tIcon').prop('disabled', true);
-                } else {
+                if(item.status != 0){
                     //判断成员是否有子节点
                     if (ghc) {  //如果有则预加载一级
                         li.on('preload', function () {
@@ -2226,7 +2280,9 @@
                     } else {
                         li.find('.tIcon').remove();
                     }
-                }
+                }else{
+                    li.addClass('disabled').find('input').remove();
+                }  
             }
         };
         var __prop__ = {  //插件默认方法
@@ -2427,7 +2483,7 @@
                                     tstatus: items[i].status
                                 })
                             }
-                            ol.find('li:first span').click();
+                            ol.find('li:has(input):first span').click();
                         }
                     }
 
@@ -2437,14 +2493,11 @@
                         tident = item.tident;
                     txt = item.tname;
                     var li = opts.multiple
-                        ? $('<li class="dd-item" tident="' + tident + '" data-tid="' + tid + '"><div><label class="cursor"><input type="checkbox"/>' + txt + '</label></div></li>')
-                        : $('<li class="dd-item" tident="' + tident + '" data-tid="' + tid + '"><div><label class="cursor"><input type="radio" name="tid" value="' + tid + '"/>' + txt + '</label></div></li>');
-
-                    if (item.tstatus != 1) {
-                        li.addClass('disabled').find('input').remove();
-                    } else {
+                        ? $('<li class="dd-item" tident="' + tident + '" data-tid="' + tid + '"><div><label class="pointer"><input type="checkbox"/>' + txt + '</label></div></li>')
+                        : $('<li class="dd-item" tident="' + tident + '" data-tid="' + tid + '"><div><label class="pointer"><input type="radio" name="tid" value="' + tid + '"/>' + txt + '</label></div></li>');
+                    if (item.tstatus != 0) {
                         if (opts.relPTable) {
-                            li = $('<li class="dd-item" data-tid="' + tid + '"><div><input type="checkbox"/><span class="cursor">' + txt + '</span></div></li>');
+                            li = $('<li class="dd-item" data-tid="' + tid + '"><div><input type="checkbox"/><span class="pointer">' + txt + '</span></div></li>');
                             li.data({//与组id一一对应
                                 check: 0,
                                 sel: [],
@@ -2459,7 +2512,8 @@
                                 }
                                 $(this).closest('.xlist').XList('getRules');
                             });
-                            li.find('input:checkbox').on('change input propertychange', function () {  //监控勾选操作
+                            li.find('input:checkbox').on('change input propertychange', function (e) {  //监控勾选操作
+                                e.stopPropagation();
                                 li.data({  //刷新自身
                                     check: $(this).prop('checked'),
                                     sel: [],
@@ -2471,7 +2525,8 @@
                                 }
                                 li.trigger('dataChange');
                             })
-                            li.find('span').on('click', function () {
+                            li.find('span').on('click', function (e) {
+                                e.stopPropagation();
                                 if (!li.hasClass('active')) {
                                     li.closest('.xlist').find('li.active').removeClass('active');
                                     li.addClass('active');
@@ -2531,13 +2586,12 @@
                                     });
                                 }
                             })
-                        } else {
-
                         }
+                    }else{
+                        li.addClass('disabled').find('input').remove();
                     }
                     aim.append(li);
                 };
-                lst.find('ol>li:first>span').click();
                 return lst;
             },
             getRules: function () {
@@ -2740,7 +2794,7 @@
                             uli.find('.counter').text(i + 1);
                             uli.find('[item-key]').each(function () {
                                 var k = $(this).attr('item-key'),
-                                    v = opts.fnValByKey(k, list[i][k]);
+                                    v = opts.fnValByKey(k, valByKey(list[i], k));
                                 $(this).html(v);
                                 if (typeof v == 'string' && v.length > 15) {
                                     $(this).closest('li').attr('title', $(this).text()).css({
@@ -2789,7 +2843,7 @@
                 '<span item-key="name"></span>',
                 '<span item-key="account"></span>',
                 '<span item-key="status"></span>',
-                '<span class="btnUnbind">移出策略</span>'
+                '<span class="btn btn-primary btn-sm ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '">移除策略</span>'
             ],
             relPagingTable: '#pagingTable',
             width: '500px',

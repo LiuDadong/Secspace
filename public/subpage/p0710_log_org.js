@@ -47,32 +47,30 @@
                 + '<th>时间</th>'
                 + '<th>操作者</th>'
                 + '<th>影响目标</th>'
-                //  + '<th>账号</th>'
-                // + '<th>设备名称</th>'
-                //  + '<th>设备类型</th>'
                 + '<th>具体操作</th></tr>';
-        var url = '/man/Log/getLog?start_time=' + start_time
-            + '&end_time=' + end_time
-            + '&category=orgLog'
-            + '&start_page=' + start_page
-            + '&page_length=' + page_length;
+        var pd={
+            category:'orgLog',
+            start_time:start_time,
+            end_time:end_time,
+            start_page:start_page,
+            page_length:page_length
+        };
         if (keyword) {
-            url += '&keyword=' + encodeURI(encodeURI(keyword));
+            pd['keyword']=keyword;
         }
         if (log_type) {
-            url += '&log_type=' + encodeURI(encodeURI(log_type));
+            pd['log_type']=log_type;
         }
-
-        $.get(url, function (data) {
-            data = JSON.parse(data);
+        $.silentGet('/man/Log/getLog',pd, function (data) {
             if (data.rt == '0000') {
+                if(data.logInfo.length==0){
+                    str += '<tr><td colspan="5">暂无日志</td></tr>'
+                }
                 for (var i in data.logInfo) {
                     str += '<tr>'
                         + '<td>' + data.logInfo[i].log_type + '</td>'
                         + '<td>' + data.logInfo[i].opt_time + '</td>'
                         + '<td>' + data.logInfo[i].creator + '</td>'
-                        //+ '<td>' + data.logInfo[i].log_type + '</td>'
-                        //+ '<td>' + data.logInfo[i].log_type + '</td>'
                         + '<td>' + data.logInfo[i].effect_target + '</td>'
                         + '<td>' + data.logInfo[i].operate + ': ' + data.logInfo[i].state + '</td>'
                         + '</tr>';
@@ -85,9 +83,6 @@
             }
         });
     }
-
-
-
 
     // page查询
     function search(p, i) {

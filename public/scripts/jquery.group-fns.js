@@ -1,15 +1,11 @@
 $.objRegex= {  //输入控制
     account: {   //account表示账号类参数,在输入元素上添加类“re-account”,便可实现对元素输入的正则控制
-        pattern: /^[a-zA-Z0-9]{4,16}$/,   //检测输入的值是否合法
-        info: "4-16位英文、数字"   //用户设置titile作为鼠标移入时的提示
-    },
-    name_ch: {
-        pattern: /^[\u4e00-\u9fa5]{2,16}$/,
-        info: "2-16个汉字"
+        pattern: /^[a-zA-Z0-9_-]{4,16}$/,   //检测输入的值是否合法
+        info: "请输入4-16位英文、数字、_或-"   //用户设置titile作为鼠标移入时的提示
     },
     name_mix: {
-        pattern: /^[\u4e00-\u9fa5a-zA-Z0-9_]{2,16}$/,
-        info: "2-16个中英文或数字"
+        pattern: /^[\u4e00-\u9fa5a-zA-Z0-9_-]{2,16}$/,
+        info: "请输入2-16位中英文、数字、_或-"
     },
     appname: {
         pattern: /^[a-zA-Z0-9.]{3,30}$/,
@@ -21,31 +17,31 @@ $.objRegex= {  //输入控制
     },
     phone: {
         pattern: /^[\d]{11}$/,
-        info: "11位数字"
+        info: "请输入11位数字"
     },
     email: {
         pattern: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
-        info: "合法邮箱地址"
+        info: "请输入合法邮箱地址"
     },
     password: {
         pattern: /^[a-zA-Z\d_]{6,16}$/,
-        info: "6-16位字母和数字"
+        info: "请输入6-16位字母和数字"
     },
     number6: {
         pattern: /^[\d]{6}$/,
-        info: "六位数"
+        info: "请输入六位数"
     },
     wifi: {
         pattern: /^[\s\S]{0,30}$/,
-        info: "不超过30个字符"
+        info: "请输入30位以内字符"
     },
     version: {
         pattern: /^[a-zA-Z\d.]{2,16}$/,
-        info: "不超过16个字符,建议格式v1.01"
+        info: "请输入16位以内字符,建议格式v1.01"
     },
     keyword: {
-        pattern: /^[a-zA-Z\d]{0,30}$/,
-        info: "请输入30位以内中英文或数字"
+        pattern: /^[a-zA-Z\d]{1,30}$/,
+        info: "请输入16位以内中英文、数字、_或-"
     },
     url: {
         pattern: /^(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?$/,
@@ -53,8 +49,8 @@ $.objRegex= {  //输入控制
     },
     package: {
         pattern: /^[a-zA-Z\d]{0,30}$/,
-        info: "请输入30位以内英文、数字和“.”"
-    },
+        info: "请输入30位以内英文、数字或点"
+    }
 };
 $.iptRegExpCtrl =function (ipt){
     var ctrlRegex = $(ipt).attr('ctrl-regex');
@@ -540,7 +536,7 @@ $.fn.plugInit = function () {
             })
 
             // 给第一个.item（将用于复制追加）中的图标按钮<i>元素绑定click时间，只有一个.item时清空其中所有:input的值，否则删除当前.item
-            box.find('.item i').addClass('cursor').off('click').on('click', function () {
+            box.find('.item i').addClass('pointer').off('click').on('click', function () {
                 if (box.find('.item').length == 1) {
                     $(this).closest('.item').find(':input').reset();
                 } else {

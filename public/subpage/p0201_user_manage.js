@@ -71,6 +71,9 @@
                 case 'tag':
                     v = v.length;
                     break;
+                case 'depart.name':
+                    v = v===null?'未分组':v;
+                    break;
                 default:
             }
             return v;
@@ -221,12 +224,10 @@ function prepareUserGroupTree(){
     });
 }
 function prepareUserTagList(){
-
     var xlistUserTag = $('#xlistUserTag').XList({
         relPTable: null,
         multiple: true
     });
-    xlistUserTag.XTree('select','d2d1',{name:'liudadong'});
     xlistUserTag.off().on('input change propertychange', function (e) {
         var tids = [];
         $(this).find('li[data-tid]:has(input:checked)').each(function () {
@@ -306,40 +307,7 @@ function importusers() {
         return false;
     });
 }
-function gotoIssue() {
-    var cont = '<form role = "form" onclick="$.dialogClose()" class="form-horizontal issuePolicy">' +
-        '<div class = "form-group">' +
-        '<div class="col-sm-5 col-sm-offset-1">' +
-        '<a href="javascript:pjaxClick(\'/sub?pg=p0401_pcy_device\')" class="btn btn-primary">设备策略</a>' +
-        '</div>' +
-        '<div class="col-sm-5 col-sm-offset-1">' +
-        '<a href="javascript:pjaxClick(\'/sub?pg=p0402_pcy_compliance\')" class="btn btn-primary">合规策略</a>' +
-        '</div>' +
-        '</div>' +
-        '<div class = "form-group">' +
-        '<div class="col-sm-5 col-sm-offset-1">' +
-        '<a href="javascript:pjaxClick(\'/sub?pg=p0403_pcy_rail\')" class="btn btn-primary btn-large">' +
-        '围栏策略' +
-        '</a>' +
-        '</div>' +
-        '<div class="col-sm-5 col-sm-offset-1">' +
-        '<a href="javascript:pjaxClick(\'/sub?pg=p0404_pcy_app\')" class="btn btn-primary btn-large">' +
-        '应用策略' +
-        '</a>' +
-        '</div>' +
-        '</div>' +
-        '</form>'
-    $.dialog('info', {
-        width: 300,
-        height: null,
-        maskClickHide: true,
-        title: "下发策略",
-        content: cont,
-        hasBtn: false,
-        hasClose: true,
-        hasMask: true
-    });
-}
+
 function changeGroup() {
     var sel = $('#pagingTable').data('PagingTable').sel;
     if (sel.length === 0) {

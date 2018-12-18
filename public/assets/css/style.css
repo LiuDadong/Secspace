@@ -524,7 +524,7 @@ a, a:hover {
 
 /* search user*/
 
-.cursor {
+.pointer {
     cursor: pointer;
 }
 
@@ -649,14 +649,6 @@ a, a:hover {
     margin-top: 0px;
     margin-bottom: 0px;
 }
-
-.modal-body .issuePolicy a {
-    width: 120px;
-    height: 40px;
-    line-height: 24px;
-}
-
-
 
 
 

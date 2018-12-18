@@ -92,7 +92,12 @@
             }
             return v;
         },
-
+        afterAppend:function(tri,itemi){
+            var orgNode=omAdmin.selected==null?omAdmin.jm.get_root():omAdmin.selected;
+            if(itemi.orgCode==orgNode.data.orgCode){
+                tri.find('.checkbox,[todo=edit],[todo=resetpw]').remove();
+            }
+        },
         cbEdit: function (item) {   //点击修改、编辑按钮，跳转至表单后的回调函数，用于数据显示、表单控制修正
             multForm.usedAs('edit');
         },
@@ -129,6 +134,7 @@
                     $('input[name=account]').prop('readonly', false);
                     $('.form-group:has(input[type=password])').removeClass('hidden');
                     $('input[name=org_id]').val($('#om_admin jmnode.selected').attr('nodeid'));
+                    $('input[name=orgName]').val($('#om_admin jmnode.selected').text());
                     break;
                 case "edit":
                 case "view":
@@ -138,6 +144,7 @@
                     break;
                 default:
             }
+            $('input[name=orgName]').prop('disabled',true);
             $.silentPost('/common/adminRoleInfo', {}, function (data) {
                 var selectRoles = $('#selectRoles').empty().css({ 'max-height': '200px' });
                 if (data.rt === "0000") {
@@ -347,7 +354,7 @@
             var frmResetPW = $('#frmResetPW').MultForm({
                 editUrl: '/p/org/resetAdmPw',
                 editBtnTxt: '确认',
-                editAct: '/common/adminpw/reset',
+                editAct: '/common/admin/resetpw',
                 afterUsed: function (use) {
                     frmResetPW.find('input[name=url]').remove();
                 },

@@ -47,8 +47,7 @@ var mapObj = (function () {
 })();
 // 获取设备列表
 function getDeviceList(start_page, page_length) {
-    var table = $('.devicetable'),
-        str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>' +
+    var table = $('<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>' +
             '<th class="sel" style="line-height:20px;"><div class="checkbox">' +
             '<label><input type="checkbox" onclick="selectedAll(this)" />' +
             '<span class="text">全选</span></label></div></th>' +
@@ -59,8 +58,8 @@ function getDeviceList(start_page, page_length) {
             '<th>系统</th>' +
             '<th>上一次在线时间</th>' +
             '<th>目前状态</th>' +
-            '</tr>';
-
+            '</tr></table>');
+    $('.devicetable').html(table);
     $.silentGet('/man/dev/getDevList', {
         start_page: start_page,
         page_length: page_length,
@@ -68,26 +67,25 @@ function getDeviceList(start_page, page_length) {
     }, function (data) {
         var online = '', platform = '';
         if (data.rt == '0000') {
+            table.data('data', data);
             for (var i in data.doc) {
                 dev_name = data.doc[i].dev_name || '未知设备';
                 dev_system = data.doc[i].dev_system || '未知系统';
                 online = (data.doc[i].online == 1) ? '在线' : '离线';
                 platform = (data.doc[i].platform == "ios") ? 'iOS' : 'Android';
-                str += '<tr data-i="' + i + '">' +
+                var tri=$('<tr data-i="' + i + '">' +
                     '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" />' +
                     '<span class="text"></span></label></div></td>' +
-                    '<td><a href="javascript:getDetail(' + i + ');">' + dev_name + '</a></td>' +
+                    '<td><a onclick="getDetail(this)" class="pointer">' + dev_name + '</a></td>' +
                     '<td>' + data.doc[i].user_name + '</td>' +
                     '<td>' + data.doc[i].account + '</td>' +
                     '<td>' + platform + '</td>' +
                     '<td>' + dev_system + '</td>' +
                     '<td>' + data.doc[i].last_online + '</td>' +
                     '<td>' + online + '</td>' +
-                    '</tr>';
+                    '</tr>').data('item',data.doc[i]);
+                table.append(tri);
             }
-            str += '</table>';
-            table.html(str);
-            table.find('table').data('data', data);
             createFooter(start_page, page_length, data.total_count, 1);
         } else if (data.rt == 5) {
             toLoginPage();
@@ -113,19 +111,13 @@ function devicelist() {
 }
 
 function checkmap() {
-    var dev_id = [],
-        i = 0;
-    var tr;
-    var tab = $('.devicetable table');
-    tab.find('td span.text').each(function () {
-        if ($(this).hasClass('txt')) {
-            tr = $(this).parents("tr");
-            dev_id[i] = tr.data('i') * 1;
-            i = i + 1;
-        }
+    var sel = [];
+    $('.devicetable table').find('tr:has(td span.text.txt)').each(function () {
+        sel.push($(this).data('item'))
     });
-    if (i === 1) {
-        getDetail(dev_id[0]);
+    console.log(sel);
+    if (sel.length === 1) {
+        getItemDetail(sel[0]);
         $('#myTab5 li').removeClass('active');
         $('#tab1').removeClass('in active');
         $('#myTab5 li').eq(2).addClass('active');
@@ -135,8 +127,7 @@ function checkmap() {
     }
 }
 
-function getDetail(i) {
-    var oItem = $('.devicelist table').data('data').doc[i];
+function getItemDetail(oItem) {
     var oDevInfo = oItem.dev_info ? oItem.dev_info : null,
         oAppInfoList = oItem.app_list ? oItem.app_list.app_info_list : null;
     if (typeof oDevInfo === "object" && JSON.stringify(oDevInfo) !== '{}' && oDevInfo !== null) {
@@ -153,10 +144,8 @@ function getDetail(i) {
             status = oItem.online == 1 ? '在线' : '离线',
             userid = oItem.uid,
             dev_id = oItem.dev_id;
-        var strtab1 = '';
         var strtab4 = '';
-        var strtab2 = '';
-
+        console.log('11111111111')
         $('.devicename').text('设备名称 : ' + devicename);
         $('.lasttime').text('上一次在线时间 : ' + lasttime);
         $('.imei').text('IMEI : ' + oDevInfo.imei);
@@ -213,6 +202,7 @@ function getDetail(i) {
         $('.netinfo4').html(netinfo4);
 
         // tab3 设备定位信息
+        console.log(dev_id);
         var url = '/man/dev/location?dev_id=' + dev_id;
         $.get(url, function (data) {
             data = JSON.parse(data);
@@ -238,6 +228,9 @@ function getDetail(i) {
     } else {
         warningOpen('设备信息缺失！', 'danger', 'fa-bolt');
     }
+}
+function getDetail(e) {
+    getItemDetail($(e).closest('tr').data('item'));
 }
 
 //根据请求获得的定位数据，展示定位地图

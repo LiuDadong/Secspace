@@ -312,8 +312,6 @@ module.exports = function (app, chttp) {
     app.get('/admin/depart/memberManage', function (req, res) {
         req.query['sid']=req.cookies.sid;
         req.query['org_id']=req.cookies.org_id;
-        console.log(req.query)
-        console.log('/p/depart/memberManage?'+querystring.stringify(req.query))
         chttp.cget('/p/depart/memberManage?'+querystring.stringify(req.query), function (cont) {
             res.send(cont);
         });
@@ -393,35 +391,11 @@ module.exports = function (app, chttp) {
         });
     });
 
-    // // 查询标签里面用户列表
-    // app.get('/man/tag/tagManagement', function (req, res) {
-    //     var url = '/p/org/tagManagement?sid=' + req.cookies.sid +
-    //         '&tag_id=' + req.query.tag_id;
-    //     chttp.cget(url, function (cont) {
-    //         res.send(cont);
-    //     });
-    // });
-
-    // // 标签添加用户删除用户
-    // app.post('/man/tag/addUsers', function (req, res) {
-    //     var postData = {
-    //         'sid': req.cookies.sid,
-    //         'tag_id': req.body.tag_id,
-    //         'user_list': req.body.user_list,
-    //         'app_list': req.body.app_list
-    //     },
-    //         url = '/p/org/tagManagement';
-    //     chttp.cpost(postData, url, function (cont) {
-    //         res.send(cont);
-    //     });
-    // });
 
     // 查询标签里用户和不属于用户组用户
     app.get('/admin/tag/memberManage', function (req, res) {
         req.query['sid']=req.cookies.sid;
         req.query['org_id']=req.cookies.org_id;
-        console.log(req.query);
-        console.log('/p/tag/memberManage?'+querystring.stringify(req.query));
         chttp.cget('/p/tag/memberManage?'+querystring.stringify(req.query), function (cont) {
             res.send(cont);
         });
@@ -1366,7 +1340,6 @@ module.exports = function (app, chttp) {
     //编辑应用
     app.post('/app/modify', function (req, res) {
         req.body['sid'] = req.cookies.sid;
-        console.log(req.body)
         chttp.cpost(req.body, '/p/app/modify', function (cont) {
             res.send(cont);
         });
@@ -1474,6 +1447,7 @@ module.exports = function (app, chttp) {
     //机构内下发或授权
     app.post('/issueByRules', function (req, res) {
         req.body['sid'] = req.cookies.sid;
+        req.body['org_id'] = req.cookies.org_id;
         chttp.cpost(req.body, '/p/org/auth', function (cont) {
             res.send(cont);
         });

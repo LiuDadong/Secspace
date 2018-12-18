@@ -25,9 +25,6 @@
                             <i class="fa fa-magic">发送激活码</i>
                         </button>
                         
-                        <button onclick="gotoIssue()" class="btn btn-default btn-sm">
-                            下发策略
-                        </button>
                         <button rolefn="grp" onclick="changeGroup()" class="btn btn-default btn-sm">
                             换组
                         </button>
@@ -59,7 +56,7 @@
                         <div class="form-group">
                             <label for="name" class="col-md-4 control-label no-padding-right">姓名</label>
                             <div class="col-md-5">
-                                <input type="text" id="name" name="name" class="form-control require" ctrl-regex="name_ch" />
+                                <input type="text" id="name" name="name" class="form-control require" ctrl-regex="name_mix" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -182,28 +179,24 @@
                     </ul>
                     <div class="tab-content tabBody">
                         <div id="paneGroup" class="tab-pane active">
-                            <div class="classify row col-md-2">
+                            <div class="classify row col-md-3">
                                 <div class="well">
                                     <div id="treeUserGroup" class="relFilter"></div>
                                 </div>
                             </div>
-                            <div class="row col-md-8">
-                                <table id="tblForUserGroupTree"></table>
+                            <div class="row col-md-9">
+                                <div><table id="tblForUserGroupTree"></table></div>
                             </div>
                         </div>
 
                         <div id="paneTag" class="tab-pane">
-                            <div class="classify row col-md-2">
+                            <div class="classify row col-md-3">
                                 <div class="well">
                                     <div id="treeUserTag" class="relFilter"></div>
                                 </div>
                             </div>
-                            <div class="row col-md-8">
-                                <table id="tblForUserTagList">
-                                    <tr>
-                                        <td>标签用户</td>
-                                    </tr>
-                                </table>
+                            <div class="row col-md-9">
+                                <div><table id="tblForUserTagList"></table></div>
                             </div>
                         </div>
                     </div>
