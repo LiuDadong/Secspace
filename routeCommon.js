@@ -71,7 +71,6 @@ module.exports = function (app, chttp) {
         req.body['sid'] = req.cookies.sid;
         req.body['passwd'] = md5('xthinkers' + req.body.pw);
         delete req.body.pw;
-        console.log(req.body);
         chttp.cpost(req.body, '/p/org/resetAdmPw', function (cont) {
             res.send(cont);
         });
@@ -139,7 +138,6 @@ module.exports = function (app, chttp) {
     app.get('/common/item/info', function (req, res) {   //会自动添加org_id
         var url = req.query.url;
         req.query['sid']=req.cookies.sid;
-        console.log(req.query);
         delete req.query.url;
         switch (url){
             case '/p/policy/userByPolId':

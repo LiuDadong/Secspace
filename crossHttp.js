@@ -4,7 +4,7 @@ var logSettings = {
     crossPost: false //控制跨域cpost请求的日志输出
 }
 var PDP,
-    v = 5;
+    v = 2;
 // 1: 上线部署
 // 2: 内网基础测试
 // 3: 正式：本地测试上线部署

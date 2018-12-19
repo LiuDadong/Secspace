@@ -41,7 +41,6 @@
         }
     })
 
-
     frm.on('submit', function () {
         frm.ajaxSubmit({
             resetForm: true,
@@ -55,17 +54,8 @@
                 switch (data.rt) {
                     case '0000':
                         if (data.serverModules && typeof data.serverModules == 'object') {
-                            var licPath = getLicPath('', data.serverModules, {});
-                            $.silentGet('/newlic', { 'licPath': JSON.stringify(licPath) }, function (data) {
-                                console.info(data);
-                                if (data.rt == '0000') {
-
-                                    warningOpen('激活成功！', 'primary', 'fa-check');
-                                } else {
-                                    warningOpen('更新licence失败！', 'danger', 'fa-bolt');
-                                }
-                            })
-                            licRender(data.serverModules);
+                            localStorage.setItem('lic',JSON.stringify(data.serverModules));
+                            warningOpen('激活成功！', 'primary', 'fa-check');
                         } else {
                             warningOpen('没有返回licence解析数据！', 'danger', 'fa-bolt');
                         }

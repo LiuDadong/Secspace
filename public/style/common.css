@@ -13,6 +13,7 @@ td{
 .disabled{
     pointer-events:none;
     cursor: auto;
+    overflow: hidden;
 }
 li.disabled{
     opacity: 0.6;

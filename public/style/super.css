@@ -1,10 +1,3 @@
-.disabled {
-    position: relative;
-    pointer-events: none;
-    cursor: auto;
-    overflow: hidden;
-}
-
 .disabled::after {
     display: block;
     content: '';

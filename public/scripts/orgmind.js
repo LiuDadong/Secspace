@@ -502,7 +502,7 @@
                 if (data.rt === '0000') {
                     if (data.data.length === 0) {
                         $.silentPost('/common/orgtree/add', {
-                            topic: '移动控制平台',
+                            topic: '总公司',
                             orgCode: 'root',
                             parentid: 0
                         }, function (data) {

@@ -203,11 +203,15 @@ function prepareUserGroupTree(){
         relPTable: null
     });
     xtreeUserGroup.off().on('input change propertychange', function (e) {
-        $('input:hidden[name=depart_id]').val($(this).find('li[data-gid]:has(input:radio:checked)').attr('data-gid')).change();
+        if($(this).find('li[data-gid]:has(input:radio:checked)').length==0){
+            $('input:hidden[name=depart_id]').val('-1').change();
+        }else{
+            $('input:hidden[name=depart_id]').val($(this).find('li[data-gid]:has(input:radio:checked)').attr('data-gid')).change();
+        }
     });
     $('input:hidden[name=depart]').off().on('input change propertychange', function () {
         if ($(this).data('value')) {
-            var timer,depart_id = $(this).data('value').id;;
+            var timer,depart_id = $(this).data('value').id;
             clearTimeout(timer);
             timer = setTimeout(function () {
                 xtreeUserGroup.find('li:visible i.fa-minus').click();
@@ -230,22 +234,29 @@ function prepareUserTagList(){
     });
     xlistUserTag.off().on('input change propertychange', function (e) {
         var tids = [];
-        $(this).find('li[data-tid]:has(input:checked)').each(function () {
-            tids.push($(this).attr('data-tid')*1);
-        });
+        if($(this).find('li[data-tid]:has(input:checked)').length!=0){
+            $(this).find('li[data-tid]:has(input:checked)').each(function () {
+                tids.push($(this).attr('data-tid')*1);
+            });
+        }
+        console.log(tids)
         $('input:hidden[name=tag_id]').val(JSON.stringify(tids)).change();
     });
     
     $('input[name=tag]').off().on('input change propertychange', function () {
-        if ($(this).data('value')) {
+        if($(this).val()=='[]'){
+            $('input:hidden[name=tag_id]').val('[]').change();
+        }else{
             var tids = $(this).data('value').map(function (item) {
-                    return item.id+'';
-                });
-            setTimeout(function () {
-                xlistUserTag.find('li[data-tid]:has(input)').each(function(){
-                    $(this).find('input').prop('checked',tids.indexOf($(this).attr('data-tid'))!==-1).change();
-                })
-            }, 100)
+                return item.id+'';
+            });
+            if(xlistUserTag.find('li[data-tid]:has(input)').length!=0){
+                setTimeout(function () {
+                        xlistUserTag.find('li[data-tid]:has(input)').each(function(){
+                            $(this).find('input').prop('checked',tids.indexOf($(this).attr('data-tid'))!==-1).change();
+                        })
+                }, 100)
+            }
         }
     })
 }

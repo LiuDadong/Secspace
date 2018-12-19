@@ -2239,54 +2239,51 @@
                     $(opts.relPTable).PagingTable('page', 1);
                 })
             }
-
-            if (gtxt !== '未分组') {
-                aim.append(li);
-                if(item.status != 0){
-                    //判断成员是否有子节点
-                    if (ghc) {  //如果有则预加载一级
-                        li.on('preload', function () {
-                            var ckb = $(this).find('input:checkbox');
-                            var ul = $('<ul>');
-                            var pd = {
-                                url: '/p/depart/manage'
-                            };
-                            pd[opts.keyItemIdentify] = gident;
-                            $.silentGet('/common/org/list', pd, function (data) {
-                                if (data.rt == '0000') {
-                                    var items = opts.fnGetTreeItems(data);
-                                    li.data('items', items);
-                                    for (var i = 0; i < items.length; i++) {
-                                        appendTreeItem(opts, ul, {
-                                            gid: items[i][opts.keyItemId],
-                                            gident: items[i][opts.keyItemIdentify],
-                                            text: items[i][opts.keyItemText],
-                                            checked: ckb.prop('checked'),
-                                            hasChild: items[i][opts.keyItemHasChild],
-                                            status: items[i].status
-                                        })
-                                    }
-                                    li.after(ul);
+            aim.append(li);
+            if(item.status != 0){
+                //判断成员是否有子节点
+                if (ghc) {  //如果有则预加载一级
+                    li.on('preload', function () {
+                        var ckb = $(this).find('input:checkbox');
+                        var ul = $('<ul>');
+                        var pd = {
+                            url: '/p/depart/manage'
+                        };
+                        pd[opts.keyItemIdentify] = gident;
+                        $.silentGet('/common/org/list', pd, function (data) {
+                            if (data.rt == '0000') {
+                                var items = opts.fnGetTreeItems(data);
+                                li.data('items', items);
+                                for (var i = 0; i < items.length; i++) {
+                                    appendTreeItem(opts, ul, {
+                                        gid: items[i][opts.keyItemId],
+                                        gident: items[i][opts.keyItemIdentify],
+                                        text: items[i][opts.keyItemText],
+                                        checked: ckb.prop('checked'),
+                                        hasChild: items[i][opts.keyItemHasChild],
+                                        status: items[i].status
+                                    })
                                 }
-                            })
-                        });
-                        li.trigger('preload');
-                        if (opts.hasRoot) {
-                            if (opts.initOpen && gid == 0) {
-                                li.find('.tIcon').click().addClass('hidden');
+                                li.after(ul);
                             }
-                        } else {
-                            if (gid == 0) {
-                                li.hide().addClass('hidden').find('.tIcon').click();
-                            }
+                        })
+                    });
+                    li.trigger('preload');
+                    if (opts.hasRoot) {
+                        if (opts.initOpen && gid == 0) {
+                            li.find('.tIcon').click().addClass('hidden');
                         }
                     } else {
-                        li.find('.tIcon').remove();
+                        if (gid == 0) {
+                            li.hide().addClass('hidden').find('.tIcon').click();
+                        }
                     }
-                }else{
-                    li.addClass('disabled').find('input').remove();
-                }  
-            }
+                } else {
+                    li.find('.tIcon').remove();
+                }
+            }else{
+                li.addClass('disabled').find('input').remove();
+            }  
         };
         var __prop__ = {  //插件默认方法
             init: function (opts) {

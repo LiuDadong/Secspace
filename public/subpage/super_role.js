@@ -61,8 +61,6 @@ var multForm = $('#multForm').MultForm({
     editUrl: '/p/role/roleManage',
     editBtnTxt: '保存',
     afterReset: function () {  //表单重置之后紧接着的回调
-        //控制禁用客户端权限样式和行为
-        // 获取客户端设置授权项
         var permissionItems = $(this).data('permissionItems');
         $(':input[data-for=permissionItems]').each(function () {
             $(this).prop('checked', ~~permissionItems[$(this).attr('name')] == 1)
@@ -202,7 +200,7 @@ function showRolefns(){
 
 
 
-//根据授权licence控制角色功能点备选项显示或隐藏
+//根据授权licence控制角色功能点备选项是否删除
 renderLicToRolefns();
 
 

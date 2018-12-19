@@ -765,7 +765,7 @@ function updatePW(e) {  //修改密码
         title: "修改密码",
         content: '<form id="frmModPW" class="form-horizontal form-bordered" role="form" method="post" style="margin-right:-40px;">\
                     <div class="form-group">\
-                        <label for="old_passwd" class="col-sm-2 control-label no-padding-right">新密码</label>\
+                        <label for="old_passwd" class="col-sm-2 control-label no-padding-right">当前密码</label>\
                         <div class="col-sm-10">\
                             <input type="password" class="form-control require" id="old_passwd" name="old_passwd" ctrl-regex="password" placeholder="请输入当前密码">\
                         </div>\

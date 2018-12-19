@@ -10,32 +10,6 @@ var multer = require('multer');
 var querystring = require("querystring");
 var fs = require("fs");
 var path = require('path');
-var licPath = {
-    p01: true,
-    p0201: true,
-    p0202: true,
-    p0203: true,
-    p0301: true,
-    p0401: true,
-    p0402: true,
-    p0403: true,
-    p0404: true,
-    p0501: true,
-    p0601: true,
-    p0602: true,
-    p0603: true,
-    p0701: true,
-    p0702: true,
-    p0703: true,
-    p0704: true,
-    p0705: true,
-    p0706: true,
-    p0707: true,
-    p0708: true,
-    p0709: true,
-    p0801: true,
-    p0802: true
-};
 var upTransfer = multer({
     storage: multer.diskStorage({
         //设置上传后文件路径，uploads文件夹会自动创建。
@@ -56,16 +30,6 @@ module.exports = function (app, chttp) {
      * =============================================================
      */
     // 管理员主页
-    
-    app.get('/newlic', function (req, res) {
-        if (req.query.licPath) {
-            licPath = JSON.parse(req.query.licPath);
-            res.send({ rt: 0 });
-        } else {
-            res.send({ rt: 1 });
-        }
-    })
-
     app.get('/sub', function (req, res) {
         var fns=req.cookies.fns;
         try{

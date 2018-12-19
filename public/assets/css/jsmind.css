@@ -162,6 +162,7 @@ jmnodes.theme-asbestos jmexpander:hover{}
 
 /* org theme */                                                      /* greensea 即是主题名 */
 jmnodes.theme-org jmnode{
+    width: 7em;
     transition: all .15s ease;
     background-clip: padding-box;
     display: inline-block;

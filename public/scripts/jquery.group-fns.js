@@ -36,11 +36,11 @@ $.objRegex= {  //输入控制
         info: "请输入30位以内字符"
     },
     version: {
-        pattern: /^[a-zA-Z\d.]{2,16}$/,
+        pattern: /^[a-zA-Z0-9.]{2,16}$/,
         info: "请输入16位以内字符,建议格式v1.01"
     },
     keyword: {
-        pattern: /^[a-zA-Z\d]{1,30}$/,
+        pattern: /^[a-zA-Z0-9_-]{1,16}$/,
         info: "请输入16位以内中英文、数字、_或-"
     },
     url: {
@@ -48,7 +48,7 @@ $.objRegex= {  //输入控制
         info: "请输入合法url"
     },
     package: {
-        pattern: /^[a-zA-Z\d]{0,30}$/,
+        pattern: /^[a-zA-Z0-9.]{0,30}$/,
         info: "请输入30位以内英文、数字或点"
     }
 };
@@ -140,13 +140,12 @@ $.handleECode = function () {
         case '9001':    //操作失败
             setTimeout(function () {
                 location.href = '/logout';
-            }, 3000)
+            }, 2000)
             if ($('.dialog-box .dialog-box-content').text() != "登陆已过期，请重新登陆。") {
                 $.dialog('info', {
                     content: "登陆已过期，请重新登陆。"
                 });
             }
-
             break;
         // case '3009':
         //     break;

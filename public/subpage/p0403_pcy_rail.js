@@ -272,7 +272,6 @@ $('input:checkbox[name=wifi]').on('change', function () {
 });
 
 $("select[name=policy_type]").on('change', function () {
-    console.log('1111')
     if ($(this).val() == 'geofence') {
         $(".timepolicy").css({ 'display': 'none' });
         $(".addresspolicy").css({ 'display': 'block' });
