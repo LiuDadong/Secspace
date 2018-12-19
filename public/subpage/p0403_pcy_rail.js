@@ -209,16 +209,16 @@ $.silentPost('/policy/dev_app', {}, function (data) {//获取已启用设备策�
 
         
         for (var i in device) {
-            var option = $('<option>')
-            devPolicy.append(
-                option.clone(true)
-                    .attr('value', device[i].id)
-                    .text(device[i].name)
-            );
+            var option = $('<option>').attr('value', device[i].id).text(device[i].name);
+            if(device[i].name=='默认策略'){
+                option.attr('checked','checked');
+                devPolicy.prepend(option);
+            }else{
+                devPolicy.append(option);
+            }
         }
         for (var i in blackapp) {
-            var option = $('<option>')
-            option.attr({
+            var option = $('<option>').attr({
                 'value': blackapp[i].id,
                 title: '黑名单应用策略'
             }).html('<span>' + blackapp[i].name + '</span>')
@@ -226,8 +226,7 @@ $.silentPost('/policy/dev_app', {}, function (data) {//获取已启用设备策�
             appPolicy.append(option);
         }
         for (var i in whiteapp) {
-            var option = $('<option>')
-            option.attr({
+            var option = $('<option>').attr({
                 'value': whiteapp[i].id,
                 title: '白名单应用策略'
             }).html('<span>' + whiteapp[i].name + '</span>')
@@ -273,6 +272,7 @@ $('input:checkbox[name=wifi]').on('change', function () {
 });
 
 $("select[name=policy_type]").on('change', function () {
+    console.log('1111')
     if ($(this).val() == 'geofence') {
         $(".timepolicy").css({ 'display': 'none' });
         $(".addresspolicy").css({ 'display': 'block' });
@@ -287,6 +287,9 @@ $("select[name=repeat_type]").on('change', function () {
     } else {
         $(".everyweek").css({ 'display': 'none' });
     }
+    $('.form-group:has(#start_time)').toggleClass('hidden',$(this).val()=='4')
+        .find('input').prop('disabled',$(this).val()=='4');
+    
 });
 
 

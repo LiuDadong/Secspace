@@ -115,7 +115,6 @@ function checkmap() {
     $('.devicetable table').find('tr:has(td span.text.txt)').each(function () {
         sel.push($(this).data('item'))
     });
-    console.log(sel);
     if (sel.length === 1) {
         getItemDetail(sel[0]);
         $('#myTab5 li').removeClass('active');
@@ -145,7 +144,6 @@ function getItemDetail(oItem) {
             userid = oItem.uid,
             dev_id = oItem.dev_id;
         var strtab4 = '';
-        console.log('11111111111')
         $('.devicename').text('设备名称 : ' + devicename);
         $('.lasttime').text('上一次在线时间 : ' + lasttime);
         $('.imei').text('IMEI : ' + oDevInfo.imei);
@@ -202,7 +200,6 @@ function getItemDetail(oItem) {
         $('.netinfo4').html(netinfo4);
 
         // tab3 设备定位信息
-        console.log(dev_id);
         var url = '/man/dev/location?dev_id=' + dev_id;
         $.get(url, function (data) {
             data = JSON.parse(data);

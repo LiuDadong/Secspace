@@ -813,3 +813,10 @@ input:-ms-input-placeholder{
 textarea{
     resize:none;
 }
+
+#om_switch_title{
+    font-size: 18px;
+    font-weight: bold;
+    text-indent: 0.6em;
+    margin-top: 0.6em;
+}

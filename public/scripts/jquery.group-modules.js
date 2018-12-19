@@ -705,6 +705,7 @@
             //机构内下发/取消下发
             hasFn('iio') || hasFn('iss')
                 ? ipnlLeft.find('.btnIssue,btnUnissue').on('click', function () {
+                    opts['theBtn']=$(this).prop('disabeld',true);
                     var actText = $(this).find('i').text(),
                         state = ~~$(this).hasClass('btnIssue'),
                         tab = $(opts.objTargetTab),
@@ -740,7 +741,6 @@
                     if (rules && rules.reverse == 1) {
                         pd.authfilter = 'xtree';
                         pd.authrules = JSON.stringify(rules);
-                        console.info('xtree-rules', rules);
                     } else if (rules && rules.length > 0 && typeof rules[0] == 'object') {
                         for (i in rules) {
                             if (rules[i].check) {
@@ -766,6 +766,7 @@
                         return;
                     }
                     $.actPost('/issueByRules', pd, function (data) {
+                        opts['theBtn'].prop('disabled',false);
                         switch (data.rt) {
                             case '0000':
                                 tab.find('li.active>span').click();
@@ -786,6 +787,7 @@
                 ? ipnlLeft.find('[act=PUB]').on('click', pubiss)
                 : toggleFn(ipnlLeft.find('[act=PUB]'), false);
             function pubiss() {
+                opts['theBtn']=$(this).prop('disabeld',true);
                 var actText = $(this).find('i').text(),
                     orgs=$('#om_select').data('om').selected.map(function(item){
                         return item.id;
@@ -799,6 +801,7 @@
                     warningOpen('请选择机构', 'danger', 'fa-bolt');
                 } else {
                     $.actPost('/isspubSub', pd, function (data) {
+                        opts['theBtn'].prop('disabeld',false);
                         switch (data.rt) {
                             case '0000':
                                 break;
