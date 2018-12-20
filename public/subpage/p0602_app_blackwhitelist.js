@@ -96,6 +96,13 @@
                 }
             }
             return true;
+        },
+        afterUsed:function(act){
+            setTimeout(function(){
+                $('.append-box input:visible').each(function(){
+                    $(this).change();
+                });
+            },1)
         }
     })
 

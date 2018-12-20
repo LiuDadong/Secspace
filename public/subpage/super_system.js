@@ -382,3 +382,34 @@ function set_updatePW() {
         warningOpen('两次密码不一致！', 'danger', 'fa-bolt');
     }
 }
+
+$('input[type=number]').on('keydown',function(e){
+        return e.keyCode!=69
+})
+$('input[type=number]').on('input',function(e){
+    var ipt=$(this).val();
+    if(ipt){
+        if($(this).attr('max')){
+            if(parseInt(ipt)>parseInt($(this).attr('max'))){
+                ipt=$(this).attr('max');
+            }
+        }
+    }
+    $(this).val(ipt);
+})
+$('input[type=number]').on('blur',function(e){
+    var ipt=$(this).val();
+    if(ipt){
+        if($(this).attr('min')){
+            if(parseInt(ipt)<parseInt($(this).attr('min'))){
+                ipt=$(this).attr('min');
+            }
+        }
+    }else{
+        ipt=$(this).attr('min')||0;
+    }
+    $(this).val(ipt);
+})
+
+
+

@@ -74,6 +74,7 @@
             //判断是否具有添加权限
             hasFn('add')
                 ? pnlLeft.find('.btnAdd,.btnUpload').on('click', function () {
+                    console.log(this);
                     var actText = $(this).text().replace(/[\s]/g, ''),
                         sCap = $(pnl.relSubCaption);
                     sCap.text(actText + sCap.data('itemText'));
@@ -492,7 +493,7 @@
                         warningOpen('请选择要' + actText + '的' + $(pnl.relSubCaption).data('itemText'), 'danger', 'fa-bolt');
                         return false;
                     } else {
-                        if (hasHdlAuth(sel, '跨机构下发发布', '策略')) {
+                        if (hasHdlAuth(sel, '跨机构操作', '策略')) {
                             switch (getItemType(sel[0])){
                                 case '策略':
                                     if (sel.length > 1) {
@@ -1915,6 +1916,8 @@
             saveFnsForShare();      //保存组件函数至页面元素form，以便共享
             ajaxFormInit();         //表单ajax初始化
             bindFormBaseHandles();  //绑定表单基础事件处理函数， 返回按钮和提交事件
+            inputInfoInit();        //输入框信息初始化  如title等
+            inputNumberInit();      //数值输入框初始化
             bindIptHandles();       //绑定输入款
             function preventAutoSubmit() {
                 frm[0].onkeydown = function (event) {
@@ -2060,6 +2063,51 @@
                     }
                 })
             }
+            function inputNumberInit(){
+                $(frm[0]).find('input[type=number]').on('keydown',function(e){
+                    return e.keyCode!=69;
+                });
+                $(frm[0]).find('input[type=number]').on('input',function(e){
+                    var ipt=$(this).val();
+                    if(ipt){
+                        if($(this).attr('max')){
+                            if(parseInt(ipt)>parseInt($(this).attr('max'))){
+                                ipt=$(this).attr('max');
+                            }
+                        }
+                    }
+                    $(this).val(ipt);
+                });
+                $(frm[0]).find('input[type=number]').on('blur',function(e){
+                    var ipt=$(this).val();
+                    if(ipt){
+                        if($(this).attr('min')){
+                            if(parseInt(ipt)<parseInt($(this).attr('min'))){
+                                ipt=$(this).attr('min');
+                            }
+                        }
+                    }else{
+                        ipt=$(this).attr('min')||0;
+                    }
+                    $(this).val(ipt);
+                });
+            }
+            function inputInfoInit(){
+                $(frm[0]).find('.form-group :input').each(function(){
+                    var ctrlRegex = $(this).attr('ctrl-regex');
+                    if(ctrlRegex){     //正则检查
+                        var irec = $.objRegex[ctrlRegex];
+                        if (irec) {
+                            if (irec.info) {  //设置提示信息
+                                $(this).attr('title', '请输入' + irec.info);
+                            }
+                        } else {
+                            console.error('ctrl-regex="' + ctrlRegex + '"未定义');
+                        }
+                    }
+                })
+            }
+            
             function bindIptHandles() {
                 $(frm[0]).find('.form-group :input').on('change input', function (e) {
                     var ipt = $(this).removeClass('danger'),
@@ -2070,29 +2118,6 @@
                         setTimeout(function () {
                             bmark.addClass('danger');
                         }, 0);
-                    }
-                    if ($(this).attr('type') == 'number') {   //数字输入框校验
-                        var ipt = ($(this).val()).replace(/[^0-9]/g, ""),
-                            min,
-                            max;
-                        if (ipt) {
-                            ipt = parseInt(ipt);
-                            if ($(this).attr('min')) {
-                                min = parseInt($(this).attr('min'));
-                                ipt = ipt > min ? ipt : min;
-                            }
-                            if ($(this).attr('max')) {
-                                max = parseInt($(this).attr('max'));
-                                ipt = ipt < max ? ipt : max;
-                            }
-                        } else {
-                            if ($(this).attr('min')) {
-                                ipt = parseInt($(this).attr('min'));
-                            } else {
-                                ipt = 0;
-                            }
-                        }
-                        $(this).val(ipt);
                     }
 
                     if ($(this).hasClass('require')) {    //必填项检查
@@ -2114,7 +2139,7 @@
 
                     if ($(this).closest('.append-box').length === 1) {  //append-box组件中的input
                         if ($(this).closest('.append-box').find('.item :input.danger').length > 0) {
-                            addDanger()
+                            addDanger();
                         }
                     }
 

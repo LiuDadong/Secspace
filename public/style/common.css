@@ -552,16 +552,6 @@ table {
     text-align: center;
 }
 
-.scrollList .btnUnbind {
-    cursor: pointer;
-    color: #427fed;
-    padding: 0 4px;
-}
-
-.scrollList .btnUnbind:hover {
-    color: #134fbe;
-}
-
 
 .scrollList label{
     padding: 0;

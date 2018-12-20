@@ -5,6 +5,8 @@
  */
 
 
+var camap = new CAmap('amapwrap');
+
 applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
 
 //用于交互时改变标题显示
@@ -195,10 +197,6 @@ var issueSubsPane = $('#issueSubsPane').IssuePane({
 
 
 
-
-
-var Amap = new cAmap('amapwrap');
-Amap.run();
 $.silentPost('/policy/dev_app', {}, function (data) {//获取已启用设备策略和应用策略
     if (data.rt == '0000') {
         var device=data.policies.device,
@@ -292,11 +290,6 @@ $("select[name=repeat_type]").on('change', function () {
 });
 
 
-// 添加
-function add() {
-    Amap.fnMapInit();
-}
-
 
 // 提交添加策略
 function getPolicyData() {
@@ -320,8 +313,10 @@ function getPolicyData() {
     /*根据选择的围栏类型配置请求数据postData*/
     switch (postData.policy_type) {
         case 'geofence':   //地理围栏
+            console.log($('.lnglat').length)
+            console.log($($('.lnglat')[0]).text())
             postData['site_range'] = JSON.stringify({
-                site: $('.pointer').text(),
+                site: $('.lnglat').text(),
                 range: $('.radius').text()
             });
             postData['gps'] = ~~$('input[name=gps]').prop('checked');
@@ -346,6 +341,7 @@ function getPolicyData() {
         default:
 
     }
+    console.log(postData);
     return postData;
 }
 function add_policy() {
@@ -373,8 +369,6 @@ function mod_policy() {
     }, '修改并下发');
 }
 
-
-
 // 显示成员
 function showItem(item) {
     $('select[name=policy_type]').prop("disabled", true);
@@ -382,7 +376,6 @@ function showItem(item) {
     $('#out_fence select[name=dev_policy]').val(item.out_fence.dev_policy);
     $('#in_fence select[name=app_policy]').val(item.in_fence.app_policy);
     $('#out_fence select[name=app_policy]').val(item.out_fence.app_policy);
-
     switch (item.policy_type) {
         case "geofence":
             var siteObj = item.site_range;
@@ -400,10 +393,9 @@ function showItem(item) {
                     $('input:hidden[name=ssid]').val('').removeData();
                 }
             }
-
-            $('.pointer').html(siteObj.site);
+            $('.lnglat').html(siteObj.site);
             $('.radius').html(siteObj.range);
-            Amap.fnSetInit(lnglat, radius);
+            camap.fnSetInit(lnglat, radius);
             break;
         case "timefence":
             var timeObj = item.time_limit;
@@ -413,15 +405,16 @@ function showItem(item) {
                 $(".everyweek").css({ 'display': 'none' });
             $('select[name=repeat_type]').val(timeObj.repeat_type).change();
             $('select[name=weekday]').val(timeObj.weekday).change();
-            $('input[name=stop_date]').val(timeObj.stop_date).change();
-            $('input[name=start_date]').val(timeObj.start_date).change();
-            $('input[name=stop_time]').val(timeObj.stop_time).change();
-            $('input[name=start_time]').val(timeObj.start_time).change();
+            setTimeout(function(){
+                $('input[name=stop_date]').val(timeObj.stop_date).change();
+                $('input[name=start_date]').val(timeObj.start_date).change();
+                $('input[name=stop_time]').val(timeObj.stop_time).change();
+                $('input[name=start_time]').val(timeObj.start_time).change();
+            },1)
             break;
         default:
             console.error("检查modify(i)中的围栏类型railPolicyMod.policy_type")
     }
-
-
 }
+
 

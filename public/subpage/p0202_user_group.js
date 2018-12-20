@@ -4,18 +4,13 @@
  * ==================================================================
  */
 
-(function () {
-    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
+applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
 
 
-    var subCaption = $('#subCaption').data('itemText', '用户组').text('用户组列表');
+var subCaption = $('#subCaption').data('itemText', '用户组').text('用户组列表');
 
-    // 用户组
-    getUsersList(0);
-
-
-})();
-
+// 用户组
+getUsersList(0);
 
 // 用户组列表
 function getUsersList(departId) {

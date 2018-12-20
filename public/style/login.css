@@ -4,6 +4,7 @@ html{
 	height: 100%;
 	background-color:white;
 }
+
 body{
 	padding: 0;
 	margin: 0;
@@ -26,7 +27,6 @@ h3.product-name{
 	margin: 0 auto;
 }
 
-
 #login-form .input-icon>input{
 	background:none !important;
 	outline: none !important;
@@ -48,6 +48,7 @@ h3.product-name{
 #login-form .checkbox input+span.text{
 	font-size: 20px;
 }
+
 #login-form .btn-block{
 	height: 50px;
 	line-height: 30px;
@@ -76,7 +77,6 @@ h3.product-name{
 #login-form .input-icon>input:focus+i{
 	opacity: 1;
 }
-
 
 hr.wide{
 	opacity: 0.4;

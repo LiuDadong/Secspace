@@ -93,8 +93,7 @@
             return v;
         },
         afterAppend:function(tri,itemi){
-            var orgNode=omAdmin.selected==null?omAdmin.jm.get_root():omAdmin.selected;
-            if(itemi.orgCode==orgNode.data.orgCode){
+            if(itemi.orgCode==omAdmin.jm.get_root().data.orgCode){
                 tri.find('.checkbox,[todo=edit],[todo=resetpw]').remove();
             }
         },

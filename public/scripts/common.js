@@ -26,12 +26,18 @@ function pjaxInit() {  //pjax初始化
         setTimeout(function(){
             pageRender();
         },100);
-        if($(e.target).data('fns')!==undefined){
-            $.cookie('fns',JSON.stringify($(e.target).data('fns')));
+        var fns=$(e.target).data('fns');
+        if(fns===undefined){
+            $.cookie('hasAcc',1);
         }else{
-            $.removeCookie('fns',{ path: '/'});
+            if(fns==1){
+                $.cookie('hasAcc',1);
+            }else if(Array.isArray(fns) && fns.indexOf('acc')!== -1 ){
+                $.cookie('hasAcc',1);
+            }else{
+                $.cookie('hasAcc',0);
+            }
         }
-        
         $(".loading-container").removeClass('loading-inactive').addClass('loading-active');//参考的loading动画代码
     });
     $(document).on('pjax:success', function (event, data, state, option) {        
@@ -552,6 +558,20 @@ function toggleFn(ele,has){  //根据has判定元素ele是否具有访问权限�
     }
 }
 function hasFn(fn){   //判断功能点fn是否属于合法权限
+    if($.cookie('org_id')==0){
+        return true;
+    }
+    var lid = localStorage.getItem('org_id'),   //管理员责任机构id
+        cid = $.cookie('org_id');               //管理员当前管理机构id
+    switch (fn){
+        case 'ioo':
+        case 'pub':
+            if(lid!=cid){
+                return false;
+            }
+            break;
+        default:
+    }
     var fns= $.cookie('fns');
     if(fns=='undefined'||fns==undefined||fns===''||fns==='true'||fns==='1'){
         return true;
@@ -580,6 +600,7 @@ function hasHdlAuth(item,act,aim){
         return hasAuth(item,act,aim);
     }
     function hasAuth(item,act,aim){
+        console.log(item);
         var mng = $.cookie('manager'),
         lid = localStorage.getItem('org_id'),   //管理员责任机构id
         cid = $.cookie('org_id'),               //管理员当前管理机构id
@@ -587,16 +608,26 @@ function hasHdlAuth(item,act,aim){
         if(lid=='0'){  //超级管理员具备最高权限
             yesno = true;
         }
-        if(lid===cid && !item.hasOwnProperty('manager')){  //业务管理员对责任机构内没有指定管理者的成员具有完全管理权限
-            yesno = true;
+
+        if(!item.hasOwnProperty('manager')){    //业务管理员对责任机构内没有指定管理者的成员具有完全管理权限
+            yesno = true;                       //业务管理员对责任机构内没有指定管理者的成员具有完全管理权限
         }
+
         if(item.hasOwnProperty('origin')){  //对策略的操作权限
             switch (item.origin){
                 case 'NAV':     //本级创建的策略
                     yesno = mng == item.manager;
+                    if(act=='跨机构操作'&&lid!=cid){
+                        warningOpen('不允许在下级机构进行跨机构操作','danger','fa-bolt');
+                        return false;
+                    }
                     break;
                 case 'PUB':     //上级发布的策略
-                    yesno = (lid == cid&&act=='机构内下发');   //本级的管理员具有机构内下发权限
+                    if(act=='机构内下发'){
+                        yesno = lid == cid;  //本级机构管理员具有在机构内下发上级发布下来的策略的权限
+                    }else{
+                        yesno = false;
+                    }
                     break;
                 case 'ISS':     //上级下发的策略
                     yesno = false;

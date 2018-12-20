@@ -33,13 +33,9 @@ pjaxInit(); //pjax初始化
         }
     });
     $('#btnJmSwitch').on('click',function(){
-        var btn=$(this);
-        if(!btn.hasClass('inited')){
-            setTimeout(function(){
-                omSwitch.refresh();
-                btn.addClass('inited');
-            },10)
-        }
+        setTimeout(function(){
+            omSwitch.refresh();
+        },10)
     });
 })();
 

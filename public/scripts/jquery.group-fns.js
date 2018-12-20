@@ -437,15 +437,15 @@ $.fn.plugInit = function () {
 
                     //实时刷新数据
                     var ipdHid = box.find('input[type=hidden]').data('arrData', []),
-                        arrData = box.find('input[type=hidden]').data('arrData'),
-                        iptNum = box.find('.item:first :input').length,
-                        onlyname, dt, hasVal;
-                    if (iptNum > 1) {
-                        box.find('.item').each(function () {
-                            dt = {};
-                            hasVal = false;
-                            $(this).find(':input').each(function () {
-                                
+                    arrData = box.find('input[type=hidden]').data('arrData'),
+                    iptNum = box.find('.item:first :input').length,
+                    dt, hasVal;
+                    if(yesno){
+                        if (iptNum > 1) {
+                            box.find('.item').each(function () {
+                                dt = {};
+                                hasVal = false;
+                                $(this).find(':input').each(function () {
                                     if ($(this).val() == '') {
                                         box.find('button').attr('disabled', 'disabled');
                                     }
@@ -457,29 +457,32 @@ $.fn.plugInit = function () {
                                         }
                                     }
                                     dt[$(this).attr('name')] = $(this).val();
-                                
-                            })
-                            if (hasVal) {
-                                arrData.push(dt);
-                            }
-                        })
-                        
-                    } else if (iptNum == 1) {
-                        box.find('.item').each(function () {
-                            var ipt=$(this).find(':input'),
-                                dt = ipt.val();
-                                if (dt) {
-                                    if($.iptRegExpCtrl(ipt)){
-                                        arrData.push(dt);
-                                    }else{
-                                        yesno=false;
-                                    }
+                                })
+                                if (hasVal) {
+                                    arrData.push(dt);
                                 }
-                        })
-                    } else {
-                        console.error('.item中必须至少含有一个:input类元素。')
+                            })
+                            
+                        } else if (iptNum == 1) {
+                            box.find('.item').each(function () {
+                                var ipt=$(this).find(':input'),
+                                    dt = ipt.val();
+                                    if (dt) {
+                                        if($.iptRegExpCtrl(ipt)){
+                                            arrData.push(dt);
+                                        }else{
+                                            yesno=false;
+                                        }
+                                    }
+                            })
+                        } else {
+                            console.error('.item中必须至少含有一个:input类元素。')
+                        }   
+                        ipdHid.val(yesno?JSON.stringify(arrData):'[]').change();
+                    }else{
+                        ipdHid.val('[]').change();
                     }
-                    ipdHid.val(yesno?JSON.stringify(arrData):'').change();
+                    
                     if (box.closest('form').data('fns') !== undefined) {  //尝试检查可能所属的表单预先绑定的数据检查函数check
                         try {
                             box.closest('form').data('fns').check();
@@ -525,14 +528,13 @@ $.fn.plugInit = function () {
                     console.warn('组件append-box初入的数据arrData必须是数组格式的字符串或对象')
                 }
                 box.appendCheck();
-
             })
 
             // 监控第一个.item（将用于复制追加）中的所有:input值的变化，再通过appendCheck函数实时控制整个组件
             box.find('.item :input').off().on('input propertychange change', function () {
                 $(this).val($(this).val().replace(/\s/g, ''));
                 box.appendCheck();
-            })
+            });
 
             // 给第一个.item（将用于复制追加）中的图标按钮<i>元素绑定click时间，只有一个.item时清空其中所有:input的值，否则删除当前.item
             box.find('.item i').addClass('pointer').off('click').on('click', function () {
@@ -545,7 +547,6 @@ $.fn.plugInit = function () {
             });
 
             // 给追加按钮绑定追加方法
-
             box.find('button').off('click').on('click', function () {
                 var item = box.find('.item:first').clone(true);
                 item.find(':input').val('');

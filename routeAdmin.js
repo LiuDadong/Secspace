@@ -31,13 +31,6 @@ module.exports = function (app, chttp) {
      */
     // 管理员主页
     app.get('/sub', function (req, res) {
-        var fns=req.cookies.fns;
-        try{
-            fns= (fns===undefined)?1:JSON.parse(fns);
-        }catch(err){
-            fns=1
-        }
-        
         if (req.query.pg&&req.cookies.sid) {
             if(req.cookies.org_id=='0'){  //根机构id为'0'，由超级管理员管理
                 if (req.get('X-PJAX')) {
@@ -45,25 +38,20 @@ module.exports = function (app, chttp) {
                 } else {
                     res.render('super');
                 }
-            }else{
-                if(fns==1||(fns instanceof Array&&fns[0]==='acc')){
+            }else{  //业务管理员
+                if(req.cookies['hasAcc']==1){
                     if (req.get('X-PJAX')) {
                         res.end(fs.readFileSync(__dirname + '/public/subpage/' + req.query.pg + '.html'));
                     } else {
                         res.render('layout');
                     }
                 }else{
-                    if (req.get('X-PJAX')) {
-                        res.render('Expire404');
-                    } else {
-                        res.render('login');
-                    }
+                    res.render(req.get('X-PJAX')?'Expire404':'layout');
                 }
             }
         } else {
             res.redirect('/');
         }
-
     })
 
     app.get('/subpage', function (req, res) {

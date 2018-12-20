@@ -117,7 +117,6 @@
         afterUsed: function (use, item) {
             $('#ckbSendEmail').prop('checked', false).change();
             //this.off('submit');
-            var btnSubmit = this.find('input[type=submit]');
             switch (use) {
                 case "add":
                     $('input:hidden[name=tag_id]').val('[]');
@@ -144,6 +143,7 @@
             pagingTable.PagingTable('refresh');
         },
         beforeSubmit: function (arrKeyVal, $frm, ajaxOptions) {
+            console.log($frm.find('input:focus')[0]);
             for (var i = 0; i < arrKeyVal.length; i++) {
                 if (delKeyVal(arrKeyVal[i].name)) {
                     arrKeyVal.splice(i, 1);
@@ -239,7 +239,6 @@ function prepareUserTagList(){
                 tids.push($(this).attr('data-tid')*1);
             });
         }
-        console.log(tids)
         $('input:hidden[name=tag_id]').val(JSON.stringify(tids)).change();
     });
     

@@ -10,14 +10,28 @@
             <div class="widget-body">
                 <form class="form-horizontal" role="form" action="/super/setting/updateSettings">
                     <div class="row">
+                        <h5 class="col-lg-offset-1">会话时间设置</h5>
+                    </div>
+                    <!-- 会话时间-->
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="admin_session" class="col-lg-3 control-label no-padding-right">会话时间</label>
+                            <div class="col-lg-3">
+                                <div class="has-unit">
+                                    <input type="number" name="admin_session" id="admin_session" min="1" max="60" class="form-control" />
+                                    <span>分钟</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <h5 class="col-lg-offset-1">登录安全策略</h5>
                     </div>
                     <div class="row">
                         <div class="form-group">
                             <label for="pw_max_try_times" class="col-lg-3 control-label no-padding-right">密码连续失败次数</label>
                             <div class="col-lg-3">
-                                <input type="number" name="pw_max_try_times" id="pw_max_try_times" min="1" max="20"
-                                    class="form-control" />
+                                <input type="number" name="pw_max_try_times" id="pw_max_try_times" min="1" max="20" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -40,18 +54,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- <div class="row">
-                        <h5 class="col-lg-offset-1">消息服务地址设置</h5>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="send_url" class="col-lg-3 control-label no-padding-right">消息服务地址</label>
-                            <div class="col-lg-3">
-                                <input type="text" name="send_url" id="send_url" class="form-control" />
-                            </div>
-                        </div>
-                    </div> -->
                 </form>
             </div>
         </div>
@@ -73,11 +75,10 @@
                     <!-- 会话时间-->
                     <div class="row">
                         <div class="form-group">
-                            <label for="session_expire_time" class="col-lg-3 control-label no-padding-right">会话时间</label>
+                            <label for="user_session" class="col-lg-3 control-label no-padding-right">会话时间</label>
                             <div class="col-lg-3">
                                 <div class="has-unit">
-                                    <input type="number" name="session_expire_time" id="session_expire_time" min="120"
-                                        class="form-control" />
+                                    <input id="user_session" name="user_session" type="number" class="form-control" min="30" max="1000000000"/>
                                     <span>分钟</span>
                                 </div>
                             </div>

@@ -3,7 +3,7 @@
  *                          应用策略 apppolicy
  * ==================================================================
  */
-
+    var camap = new CAmap('amapwrap');
     applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
 
     //用于交互时改变标题显示
@@ -158,6 +158,11 @@
                     break;
                 default:
             }
+            setTimeout(function(){
+                $('#multForm select').css({
+                    cursor:'pointer'
+                }).change();
+            },1);
         },
         cbSubmit: function (use) {  //提交编辑成功之后的回调
             switch (use) {
@@ -205,8 +210,7 @@
 
 
 
-    var Amap = new cAmap('amapwrap');
-    Amap.run();
+
     var appPolicies = {};
     // 已经启用黑名单列表对象
     var frmAppPcy = $('#frmAppPcy'),
@@ -400,7 +404,7 @@
                 }
                 if (addrpolicy.prop('checked')) {
                     pd['site_range'] = JSON.stringify({
-                        site: $('.pointer').text(),
+                        site: $('.lnglat').text(),
                         range: $('.radius').text()
                     });
                 }
@@ -448,7 +452,7 @@
             if (item.site_range && item.site_range.site && item.site_range.range) {
                 var aCenter = item.site_range.site.split(',');
                 var iRadius = parseInt(item.site_range.range);
-                Amap.fnSetInit(aCenter, iRadius);
+                camap.fnSetInit(aCenter, iRadius);
             }
             if (item.time_limit) {
                 $('select[name=repeat_type]').val(item.time_limit.repeat_type).change();
@@ -591,4 +595,3 @@
             });
         }
     }
-
