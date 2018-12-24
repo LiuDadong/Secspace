@@ -284,9 +284,19 @@ $("select[name=repeat_type]").on('change', function () {
     } else {
         $(".everyweek").css({ 'display': 'none' });
     }
-    $('.form-group:has(#start_time)').toggleClass('hidden',$(this).val()=='4')
-        .find('input').prop('disabled',$(this).val()=='4');
-    
+    if($(this).val()=='4'){
+        $('#stop_date').removeClass('require danger')
+        .parent().addClass('hidden')
+        .prev().addClass('hidden');
+        $('label[for=start_date]').prop('lastChild').nodeValue='特定日期';
+
+    }else{
+        $('#stop_date').addClass('require')
+        .parent().removeClass('hidden')
+        .prev().removeClass('hidden');
+        $('label[for=start_date]').prop('lastChild').nodeValue='起止日期';
+    }
+    $('#start_date').change();
 });
 
 
@@ -313,8 +323,6 @@ function getPolicyData() {
     /*根据选择的围栏类型配置请求数据postData*/
     switch (postData.policy_type) {
         case 'geofence':   //地理围栏
-            console.log($('.lnglat').length)
-            console.log($($('.lnglat')[0]).text())
             postData['site_range'] = JSON.stringify({
                 site: $('.lnglat').text(),
                 range: $('.radius').text()
@@ -329,7 +337,7 @@ function getPolicyData() {
             var time_limit = {
                 repeat_type: $('select[name=repeat_type]').val(),
                 start_date: $('input[name=start_date]').val(),
-                stop_date: $('input[name=stop_date]').val(),
+                stop_date: $('select[name=repeat_type]').val()=='4'?$('input[name=start_date]').val():$('input[name=stop_date]').val(),
                 start_time: $('input[name=start_time]').val(),
                 stop_time: $('input[name=stop_time]').val(),
             };
@@ -341,7 +349,6 @@ function getPolicyData() {
         default:
 
     }
-    console.log(postData);
     return postData;
 }
 function add_policy() {

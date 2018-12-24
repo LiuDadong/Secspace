@@ -180,14 +180,13 @@ var multForm = $('#multForm').MultForm({
                 complicance_item.os_version = ~~$('select[name=os_version]').val();
             }
             if ($('input[name=lost_day]').is(':visible')) {
-                complicance_item.os_version = ~~$('input[name=lost_day]').val();
+                complicance_item.lost_day = ~~$('input[name=lost_day]').val();
             }
             for (k in complicance_item) {
                 if (k == $('select[name=compliance_type]').val()) {
                     complicance_item[k] = 1;
                 }
             }
-
 
             var violation_limit = {
                 camera: 0,
@@ -322,7 +321,7 @@ function showItem(item) {
             }
         }
     }
-    eleCompType.change()
+    eleCompType.change();
 
     var alarm = item.violation_limit.alarm;
     $('input[name=mesg]').prop('checked', alarm == 3 || alarm == 1);
@@ -342,10 +341,9 @@ function showItem(item) {
 fnSpecialInit();
 
 function fnSpecialInit() {
-
     $("select[name=compliance_type]").change(function () {
         var os_version = $("select[name=os_version]"),
-            lost_day = $("input[name=lost_day]"),
+            wrap_lost_day = $(".has-unit:has(input[name=lost_day])"),
             valid_title = $(".valid_title"),
             valid_item = $(".valid_item");
         if ($(this).val() === 'sys_low') {
@@ -354,9 +352,9 @@ function fnSpecialInit() {
             os_version.hide();
         }
         if ($(this).val() === 'lost_contact') {
-            lost_day.show();
+            wrap_lost_day.show();
         } else {
-            lost_day.hide();
+            wrap_lost_day.hide();
         }
         switch ($(this).val()) {
             case 'lost_contact':

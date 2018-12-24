@@ -88,8 +88,10 @@
                                     <option value="24" class="option">Android 7.0 (API 24)</option>
                                     <option value="25" class="option">Android 7.1.1 (API 25)</option>
                                 </select>
-                                <input type="number" style="display: none;" min="1" max="365" name="lost_day"
-                                    placeholder="请输入失联天数（1~365天）" class="form-control" />
+                                <div class="has-unit" style="display: none;">
+                                    <input type="number" min="1" max="365" name="lost_day" placeholder="请输入失联天数（1~365）" class="form-control" />
+                                    <span>天</span>
+                                </div>
                             </div>
                         </div>
 
