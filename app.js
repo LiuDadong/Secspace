@@ -1,7 +1,7 @@
 var express = require('express');
-var path = require('path');;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+var path = require('path');
 var app = express();
-var bodyParser = require('body-parser');gti 
+var bodyParser = require('body-parser');
 
 app.set('port', process.env.PORT || 3001);
 app.set('views', path.join(__dirname, 'views'));

@@ -14,7 +14,7 @@
 			autoHide: false,  //是否自自动消失，配合time参数共用
 			maskClickHide: true, //点击mask是否隐藏对话框
 			time: 3000,  //自动消失时间，单位毫秒
-			zIndex: 99999,  //弹出层定位层级
+			zIndex: 1,  //弹出层定位层级
 			hasMask: false,  //是否显示遮罩层
 			hasClose: false,  //是否显示关闭按钮
 			hasBtn: false,  //是否显示操作按钮，如取消，确定

@@ -7,19 +7,7 @@
 
     applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
 
-    $(".jedate").each(function () {
-        $(this).jeDate({
-            format: "YYYY-MM-DD hh:mm:ss",
-            okfun: function (elem, value) {
-                elem.elem.change();
-                $('.input-group-btn button').click();
-            },
-            clearfun: function (elem, value) {
-                elem.elem.change();
-                $('.input-group-btn button').click();
-            }
-        });
-    })
+    logDateInit();
 
     getloglist(1, 10);
     $("#datestart, #dateend, select[name=log_type]").change(function () {
@@ -72,7 +60,7 @@
                         + '<td>' + data.logInfo[i].log_type + '</td>'
                         + '<td>' + data.logInfo[i].opt_time + '</td>'
                         + '<td>' + data.logInfo[i].account + '</td>'
-                        + '<td>' + data.logInfo[i].client_ip + '</td>'
+                        + '<td>' + (data.logInfo[i].client_ip||'--') + '</td>'
                         + '<td>' + data.logInfo[i].dev_name + '</td>'
                         + '<td>' + data.logInfo[i].os_type + '</td>'
                         + '<td>' + data.logInfo[i].operate + ': ' + data.logInfo[i].state + '</td>'

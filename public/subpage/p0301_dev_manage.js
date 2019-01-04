@@ -68,27 +68,29 @@ function getDeviceList(start_page, page_length) {
         var online = '', platform = '';
         if (data.rt == '0000') {
             table.data('data', data);
-            for (var i in data.doc) {
-                dev_name = data.doc[i].dev_name || '未知设备';
-                dev_system = data.doc[i].dev_system || '未知系统';
-                online = (data.doc[i].online == 1) ? '在线' : '离线';
-                platform = (data.doc[i].platform == "ios") ? 'iOS' : 'Android';
-                var tri=$('<tr data-i="' + i + '">' +
-                    '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" />' +
-                    '<span class="text"></span></label></div></td>' +
-                    '<td><a onclick="getDetail(this)" class="pointer">' + dev_name + '</a></td>' +
-                    '<td>' + data.doc[i].user_name + '</td>' +
-                    '<td>' + data.doc[i].account + '</td>' +
-                    '<td>' + platform + '</td>' +
-                    '<td>' + dev_system + '</td>' +
-                    '<td>' + data.doc[i].last_online + '</td>' +
-                    '<td>' + online + '</td>' +
-                    '</tr>').data('item',data.doc[i]);
-                table.append(tri);
+            if(data.doc.length>0){
+                for (var i in data.doc) {
+                    dev_name = data.doc[i].dev_name || '未知设备';
+                    dev_system = data.doc[i].dev_system || '未知系统';
+                    online = (data.doc[i].online == 1) ? '在线' : '离线';
+                    platform = (data.doc[i].platform == "ios") ? 'iOS' : 'Android';
+                    var tri=$('<tr data-i="' + i + '">' +
+                        '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" />' +
+                        '<span class="text"></span></label></div></td>' +
+                        '<td><a onclick="getDetail(this)" class="pointer">' + dev_name + '</a></td>' +
+                        '<td>' + data.doc[i].user_name + '</td>' +
+                        '<td>' + data.doc[i].account + '</td>' +
+                        '<td>' + platform + '</td>' +
+                        '<td>' + dev_system + '</td>' +
+                        '<td>' + data.doc[i].last_online + '</td>' +
+                        '<td>' + online + '</td>' +
+                        '</tr>').data('item',data.doc[i]);
+                    table.append(tri);
+                }
+            }else{
+                table.append('<tr><td colspan="8">暂无设备</td></tr>');
             }
             createFooter(start_page, page_length, data.total_count, 1);
-        } else if (data.rt == 5) {
-            toLoginPage();
         }
     });
     currentpage = start_page;

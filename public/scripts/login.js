@@ -1,3 +1,5 @@
+var b64 = new Base64();
+
 $.get('/p/login/getProductName', function (data) {
     data = JSON.parse(data);
     if (data.rt == '0000') {
@@ -6,7 +8,8 @@ $.get('/p/login/getProductName', function (data) {
         $('h3').html('移动安全管理平台');
     }
 });
-var b64 = new Base64(); 
+
+
 //表单初始化
 // 获取网络ip
 if(typeof returnCitySN!=="undefined"){  //
@@ -26,7 +29,7 @@ $('input[name=account]').on('input change propertychange', function () {
     }
 });
 
-//渲染上次登录的账号和密码（如果纯在的话）
+//渲染上次登录的账号和密码（如果存在的话）
 if ($.cookie('account') && $.cookie('passwd')) {
     $('input.savepw').prop('checked', true);
     $('input[name=account]').val($.cookie('account')).change();

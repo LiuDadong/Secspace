@@ -57,8 +57,18 @@
                             <label for="delay" class="col-md-4 control-label no-padding-right">延迟</label>
                             <div class="col-md-6">
                                 <div class="has-unit">
-                                    <input type="number" id="delay" name="delay" class="require form-control" min="1" max="72" placeholder="1-72" />
+                                    <input type="number" id="delay" name="delay" class="require form-control" value="1" min="1" max="72" placeholder="1-72" />
                                     <span>小时</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="leave" />
+                                        <span class="text">休假期间生效</span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +99,7 @@
                                     <option value="25" class="option">Android 7.1.1 (API 25)</option>
                                 </select>
                                 <div class="has-unit" style="display: none;">
-                                    <input type="number" min="1" max="365" name="lost_day" placeholder="请输入失联天数（1~365）" class="form-control" />
+                                    <input type="number" value="1" min="1" max="365" name="lost_day" placeholder="请输入失联天数（1~365）" class="form-control" />
                                     <span>天</span>
                                 </div>
                             </div>

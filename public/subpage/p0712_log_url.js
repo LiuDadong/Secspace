@@ -1,10 +1,11 @@
 /*
  * ==================================================================
- *                          违规情况日志 log
+ *                          用户管理日志 log
  * ==================================================================
  */
 
     applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
+
 
     logDateInit();
     getloglist(1, 10);
@@ -33,13 +34,10 @@
                 + '<th>类型</th>'
                 + '<th>时间</th>'
                 + '<th>操作者</th>'
-                // + '<th>账号</th>'
-                + '<th>设备名称</th>'
-                + '<th>IP地址</th>'
-                //   + '<th>设备类型</th>'
+                + '<th>影响目标</th>'
                 + '<th>具体操作</th></tr>';
         var pd={
-            category:'violationLog',
+            category:'urlLog',
             start_time:start_time,
             end_time:end_time,
             start_page:start_page,
@@ -54,15 +52,14 @@
         $.silentGet('/man/Log/getLog',pd, function (data) {
             if (data.rt == '0000') {
                 if(data.logInfo.length==0){
-                    str += '<tr><td colspan="6">暂无日志</td></tr>'
+                    str += '<tr><td colspan="5">暂无日志</td></tr>'
                 }
                 for (var i in data.logInfo) {
                     str += '<tr>'
                         + '<td>' + data.logInfo[i].log_type + '</td>'
                         + '<td>' + data.logInfo[i].opt_time + '</td>'
-                        + '<td>' + data.logInfo[i].account + '</td>'
-                        + '<td>' + data.logInfo[i].dev_name + '</td>'
-                        + '<td>' + (data.logInfo[i].client_ip||'--') + '</td>'
+                        + '<td>' + data.logInfo[i].creator + '</td>'
+                        + '<td>' + data.logInfo[i].effect_target + '</td>'
                         + '<td>' + data.logInfo[i].operate + ': ' + data.logInfo[i].state + '</td>'
                         + '</tr>';
                 }

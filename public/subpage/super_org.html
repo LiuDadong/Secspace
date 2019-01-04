@@ -12,11 +12,11 @@
                         <button class="btnEdit btn btn-default btn-sm" type="button"><i class="fa fa-pencil-square-o">编辑</i></button>
                         <button class="btnDel btn btn-default btn-sm" type="button"><i class="fa fa-minus-square">删除</i></button>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm dropdown-toggle btnExport"
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle"
                                 data-toggle="dropdown">导出<i class="fa fa-angle-down"></i></button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop1" onclick="event.stopPropagation();">
-                                <li><a href="#">选定机构</a></li>
-                                <li><a href="#">选定机构及下级机构</a></li>
+                                <li><a class="btnExport" data-flag="0" href="#">选定机构</a></li>
+                                <li><a class="btnExport" data-flag="1" href="#">选定机构及下级机构</a></li>
                             </ul>
                         </div>
                         <button class="btnImport btn btn-default btn-sm" type="button">导入</button>

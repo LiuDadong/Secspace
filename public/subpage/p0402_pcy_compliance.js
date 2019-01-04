@@ -77,7 +77,7 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
                         <td><span item-key="update_time"></span></td>\
                         <td><span item-key="creator"></span></td>\
                         <td><span item-key="manager"></span></td>\
-                        <td><a todo="edit">编辑</a><a todo="view">查看</a></td>\
+                        <td><a todo="edit" title="编辑"><i class="fa fa-edit"></i></a><a todo="view" title="查看"><i class="fa fa-eye"></i></a></td>\
                     </tr>',
     //因不同需求需要个性控制组件表现的修正函数和增强函数
     fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -210,6 +210,7 @@ var multForm = $('#multForm').MultForm({
             var postData = {
                 url:'/p/policy/comPolicyMan',
                 name: $('input[name=name]').val(),
+                leave:$('input[name=leave]').prop('checked') ? 1 : 0,
                 delay: $('input[name=delay]').val(),
                 violation_limit: JSON.stringify(violation_limit),
                 complicance_item: JSON.stringify(complicance_item),
@@ -302,6 +303,7 @@ function checkthis(e) {
 function showItem(item) {
     $('input[name=id]').val(item.id);
     $('input[name=name]').val(item.name);
+    $('input[name=leave]').prop('checked',item.leave=='1');
     $('input[name=delay]').val(item.delay);
 
     if (item.complicance_item.os_version != 0) {

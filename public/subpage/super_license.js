@@ -1,6 +1,6 @@
 /*
  * ==================================================================
- *                          licence管理 app
+ *                          license管理 app
  * ==================================================================
  */
 
@@ -26,7 +26,7 @@
             } else {
                 fs > maxSize * 1024 * 1024
                     ? warningOpen('文件大小不得超过' + maxSize + "MB", 'danger', 'fa-bolt')
-                    : warningOpen('请选择licence文件', 'danger', 'fa-bolt');
+                    : warningOpen('请选择license文件', 'danger', 'fa-bolt');
                 checkRes(false);
             }
 
@@ -57,11 +57,11 @@
                             localStorage.setItem('lic',JSON.stringify(data.serverModules));
                             warningOpen('激活成功！', 'primary', 'fa-check');
                         } else {
-                            warningOpen('没有返回licence解析数据！', 'danger', 'fa-bolt');
+                            warningOpen('没有返回license解析数据！', 'danger', 'fa-bolt');
                         }
                         break;
                     case 45:
-                        warningOpen('Licence已过期！', 'danger', 'fa-bolt');
+                        warningOpen('License已过期！', 'danger', 'fa-bolt');
                         break;
                     case 47:
                         warningOpen('同一License文件只能在同一台设备上激活！', 'danger', 'fa-bolt');
@@ -73,11 +73,11 @@
                         warningOpen('已达到授权设备数', 'danger', 'fa-bolt');
                         break;
                     case 46:
-                        warningOpen('Licence读取失败！', 'danger', 'fa-bolt');
+                        warningOpen('License读取失败！', 'danger', 'fa-bolt');
                         break;
                     default:
                         console.warn("data.rt=" + data.rt)
-                        warningOpen('licence上传失败！', 'danger', 'fa-bolt');
+                        warningOpen('license上传失败！', 'danger', 'fa-bolt');
                 }
             },
             error: function (err) {

@@ -6,7 +6,14 @@ td{
     -ms-text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
 }
-.antiCursor{
+
+.form-group label{
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.anti-cursor{
     pointer-events:none;
     cursor: auto;
 }
@@ -396,7 +403,7 @@ td.dev-list i {
     top: 0;
     left: 65%;
     bottom: 5px;
-    content: 'Licence未购买！';
+    content: 'License未购买！';
     font-weight: bold;
     color: red;
 }
@@ -426,6 +433,7 @@ table {
 
 .xtree,.xlist{
     padding: 10px;
+    border: 1px solid #d5d5d5;
     border-radius: 0!important;
     background-clip: padding-box!important;
     background-color: #fbfbfb;
@@ -438,8 +446,9 @@ table {
     -moz-box-shadow: none;
     box-shadow: none;
 }
+
 .xtree:hover,.xlist:hover{
-    border-color: rgba(0,0,0,.2);
+    border-color: rgba(0, 0, 0, .5);
 }
 .xtree input,.xlist input{
     opacity: 1;
@@ -451,8 +460,9 @@ table {
     vertical-align: middle;
 }
 
+
 .xtree li>i.tIcon {
-    margin: 0.5em;
+    margin: -1em 0.5em 0;
     cursor: pointer;
 }
 
@@ -500,17 +510,11 @@ table {
     color: rgb(40, 110, 240);
 }
 
-.xtree label{
-    vertical-align: bottom;
-}
-
 
 .tab-pane .relFilter li span {
     cursor: pointer;
     line-height: 16px;
 }
-
-
 
 
 /* 滚动列表组件样式 */
@@ -757,17 +761,23 @@ th.filter>ul.dropdown-menu{
 }
 
 
+.regex-info{
+    display: none;
+}
 
-textarea.danger,
+
+/* textarea.danger,
 input.danger{
     border-color: rgba(255, 0, 0 ,0.7) !important;
     box-shadow: 0 0 2px rgba(255, 0, 0 ,0.7) !important;
     color: inherit !important;
+} */
+
+input:focus+.regex-info{
+    display: block;
 }
-textarea:focus,
-input:focus{
-    border-color: #000 !important;
-    color: #000 !important;
+.has-error .regex-info{
+    display: block;
 }
 
 
@@ -777,11 +787,7 @@ input:focus{
     font-size: 13px !important;
 }
 
-/* 使用webkit内核的浏览器 */
-textarea::-webkit-input-placeholder,
-input::-webkit-input-placeholder{
-    font-style: italic;
-}
+
 
 /* Firefox版本4-18 */
 textarea:-moz-placeholder, 
@@ -810,4 +816,22 @@ textarea{
     font-weight: bold;
     text-indent: 0.6em;
     margin-top: 0.6em;
+}
+
+
+/* 使用webkit内核的浏览器 */
+textarea::-webkit-input-placeholder,
+input::-webkit-input-placeholder{
+    font-style: italic !important;
+    color: inherit !important;
+}
+
+.has-error .append-box input{
+    color: #858585;
+    border: 1px solid #d5d5d5;
+}
+
+.append-box input.input-error{
+    color: #e46f61 !important;
+    border-color: #e7bebe;
 }

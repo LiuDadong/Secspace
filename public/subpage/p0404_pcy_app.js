@@ -73,7 +73,7 @@
                         <td><span item-key="update_time"></span></td>\
                         <td><span item-key="creator"></span></td>\
                         <td><span item-key="manager"></span></td>\
-                        <td><a todo="edit">编辑</a><a todo="view">查看</a></td>\
+                        <td><a todo="edit" title="编辑"><i class="fa fa-edit"></i></a><a todo="view" title="查看"><i class="fa fa-eye"></i></a></td>\
                     </tr>',
         //因不同需求需要个性控制组件表现的修正函数和增强函数
         fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -288,20 +288,20 @@
             }
         }
     })
-    $.silentPost('/man/apppolicy/onBlackList', {}, function (data) {
+    $.silentPost('/man/apppolicy/onBlackList', {}, function (data) {  //初始化黑白名单select
         if (data.rt == '0000') {
             if (data.blacklist.length > 0) {
                 showList(data.blacklist, wrapBlackList.find('select[name=black_id]'));
             } else {
-                wrapBlackList.find('select[name=black_id]').html('');
+                wrapBlackList.find('select[name=black_id]').html('<option class="anti-cursor">暂无黑名单应用</option>');
             }
             if (data.whitelist.length > 0) {
                 showList(data.whitelist, wrapWhiteList.find('select[name=white_id]'));
             } else {
-                wrapWhiteList.find('select[name=white_id]').html('');
+                wrapWhiteList.find('select[name=white_id]').html('<option class="anti-cursor">暂无白名单应用</option>');
             }
             function showList(list, eleSelect) {
-                eleSelect.data('list', list);
+                eleSelect.empty().data('list', list);
                 for (var i = 0; i < list.length; i++) {
                     var option = $('<option>');
                     option.text(list[i].name).attr('value', list[i].id);
@@ -310,39 +310,63 @@
             }
         }
     })
-
-
-    $(".jedate").each(function () {
-        if ($(this).hasClass('mindate')) {
-            $(this).jeDate({
+    jeDateInit();
+    function jeDateInit(){
+        var today=$.nowDate().split(' ')[0],
+            tomorrow=$.nowDate({DD:+1}).split(' ')[0];
+            start_date_opt={
                 format: "YYYY-MM-DD",
-                minDate: new Date(),
-                okfun: function (elem, value) {
+                minDate: today,
+                isClear:false,
+                okfun: function (elem) {
                     elem.elem.change();
-                },
-                clearfun: function (elem, value) {
+                    stop_date_opt.minDate=elem.val;
+                    $('#stop_date').jeDate(stop_date_opt);
+                    if($.timeStampDate(elem.val)>$.timeStampDate($('#stop_date').val())){
+                        $('#stop_date').val(elem.val)
+                    }
+                }
+            },
+            stop_date_opt={
+                format: "YYYY-MM-DD",
+                minDate: today,
+                isClear:false,
+                okfun: function (elem) {
                     elem.elem.change();
                 }
-            });
-        }
-        if ($(this).hasClass('jetime')) {
-            $(this).jeDate({
+            },
+            time_opt={
                 format: "hh:mm:ss",
-                okfun: function (elem, value) {
-                    elem.elem.change();
-                },
-                clearfun: function (elem, value) {
+                isClear:false,
+                okfun: function (elem) {
                     elem.elem.change();
                 }
-            });
-        }
-    })
-    $("select#repeat_type").on('change', function () {
+            };
+        $('#start_date').attr('value',today).jeDate(start_date_opt);
+        $('#stop_date').attr('value',tomorrow).jeDate(stop_date_opt);
+        $('#start_time').attr('value','08:00:00').jeDate(time_opt);
+        $('#stop_time').attr('value','20:00:00').jeDate(time_opt);
+    }
+
+    $("select[name=repeat_type]").on('change', function () {
         if ($(this).val() == 1) {
-            $(".everyweek").show();
+            $(".everyweek").css({ 'display': 'block' });
         } else {
-            $(".everyweek").hide();
+            $(".everyweek").css({ 'display': 'none' });
         }
+        if($(this).val()=='4'){
+            $('#stop_date').removeClass('require danger')
+            .parent().addClass('hidden')
+            .prev().addClass('hidden');
+            $('label[for=start_date]').prop('lastChild').nodeValue='特定日期';
+    
+        }else{
+            $('#stop_date').addClass('require')
+            .parent().removeClass('hidden')
+            .prev().removeClass('hidden');
+            $('label[for=start_date]').prop('lastChild').nodeValue='起止日期';
+        }
+        $('#start_date').change();
     });
 
 
@@ -356,6 +380,7 @@
         var pd = {
             url: '/p/policy/appPolicyMan',
             name: $('input[name=name]').val(),
+            leave:$('input[name=leave]').prop('checked') ? 1 : 0,
             policy_type: policy_type.val()
         }, black_id, white_id;
         switch (policy_type.val()) {
@@ -432,6 +457,7 @@
     // 编辑
     function showItem(item) {
         policy_type.val(item.policy_type).change().prop('disabled', true);
+        $('input[name=leave]').prop('checked',item.leave=='1');
         if (item.policy_type == 'limitaccess') {
             switch (item.limit) {
                 case 'geo':

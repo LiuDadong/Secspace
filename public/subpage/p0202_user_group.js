@@ -50,32 +50,42 @@ function getUsersList(departId) {
                                 <th>操作</th>\
                             </tr>\
                         </table>');
-            for (var i in data.depart_list) {
-                var item = data.depart_list[i];
-                tri = $('<tr></tr>').data('item', item);
-                tri.data('item')['parent_id'] = 0;
-                tdCkb = item.name === "未分组" ? '<td></td>' : '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" /><span class="text"></span></label></div></td>';
-                tdAct = item.name === "未分组" ? '<td></td>' : '<td class="other"><a class="btn btn-primary btn-xs' + (hasFn('mod') ? '" onclick="edit(this)"' : ' disabled"') + '>编辑</a></td>';
-                tdUsersInfo = item.name == '未分组'
-                    ? '<td><span>' + item.current_num + '</span></td>'
-                    : '<td><span onclick="dialogForMoveUser(this)" class="pointer"><a>' + item.current_num + '</a></span></td>';
-
-                status = item.status == 1 ? '正常' : '禁用';
-                tdName = item.child_node != 0 ?
-                    '<td class="tdGrpName" onclick="toggleChild(this)" class="pointer"><i class="fa fa-plus"></i>' + item.name + '</td>' :
-                    '<td class="tdGrpName">' + item.name + '</td>';
-                tri.html(tdCkb + tdName
-                    + '<td>' + item.creator + '</td>'
-                    + tdUsersInfo
-                    + '<td>' + item.update_time + '</td>'
-                    + '<td>' + status + '</td>'
-                    + '<td departid="' + data.depart_list[i].departId + '" style="display:none;">' + item.id + '</td>'
-                    + '<td style="display:none;">' + item.name + '</td>'
-                    + '<td style="display:none;">' + item.status + '</td>'
-                    + '<td style="display:none;">' + departId + '</td>'
-                    + tdAct);
-                tbl.append(tri);
+            if(data.depart_list.length>0){
+                for (var i in data.depart_list) {
+                    var item = data.depart_list[i];
+                    tri = $('<tr></tr>').data('item', item);
+                    tri.data('item')['parent_id'] = 0;
+                    tdCkb = item.name === "未分组" ? '<td></td>' : '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" /><span class="text"></span></label></div></td>';
+                    tdAct = '<td class="other"><a title="编辑" class="btn btn-primary btn-xs' 
+                            + (hasFn('mod') ? '" onclick="edit(this)"' : ' disabled"') 
+                            + '><i class="fa fa-edit"></i></a>'
+                            +'<a title="查看" class="btn btn-primary btn-xs" onclick="view(this)"><i class="fa fa-eye"></i></a></td>';
+                    tdUsersInfo = item.name == '未分组'
+                        ? '<td><span>' + item.current_num + '</span></td>'
+                        : '<td><span onclick="dialogForMoveUser(this)" class="pointer"><a>' + item.current_num + '</a></span></td>';
+    
+                    status = item.status == 1 ? '正常' : '禁用';
+                    tdName = item.child_node != 0 ?
+                        '<td class="tdGrpName" onclick="toggleChild(this)" class="pointer"><i class="fa fa-plus"></i>' + item.name + '</td>' :
+                        '<td class="tdGrpName">' + item.name + '</td>';
+                    tri.html(tdCkb + tdName
+                        + '<td>' + item.creator + '</td>'
+                        + tdUsersInfo
+                        + '<td>' + item.update_time + '</td>'
+                        + '<td>' + status + '</td>'
+                        + '<td departid="' + data.depart_list[i].departId + '" style="display:none;">' + item.id + '</td>'
+                        + '<td style="display:none;">' + item.name + '</td>'
+                        + '<td style="display:none;">' + item.status + '</td>'
+                        + '<td style="display:none;">' + departId + '</td>'
+                        + tdAct);
+                    tbl.append(tri);
+                }
+            }else{
+                if(departId==0){
+                    tbl.append('<tr><td colspan="7">暂无用户组</td></tr>');
+                }
             }
+            
             table.html(tbl);
         }
     });
@@ -124,7 +134,10 @@ function toggleChild(td) {
                             + '<td style="display:none;">' + cItem.name + '</td>'
                             + '<td style="display:none;">' + cItem.status + '</td>'
                             + '<td style="display:none;">' + cItem.departId + '</td>'
-                            + '<td class="other"><a class="btn btn-primary btn-xs' + (hasFn('mod') && item.name !== "未分组" ? '" onclick="edit(this)"' : ' disabled"') + '>编辑</a><td>')
+                            + '<td class="other">'
+                                +'<a title="编辑" class="btn btn-primary btn-xs' + (hasFn('mod') && item.name !== "未分组" ? '" onclick="edit(this)"' : ' disabled"') + '><i class="fa fa-edit"></i></a>'
+                                +'<a title="查看" class="btn btn-primary btn-xs" onclick="view(this)"><i class="fa fa-eye"></i></a>'
+                            +'<td>')
                     if (cTr.find('td:last').html() == '') {
                         cTr.find('td:last').remove();
                     }
@@ -405,6 +418,10 @@ function add() {
 function edit(e) {
     grpFormFor('edit', e)
 }
+function view(e) {
+    console.log(e);
+    grpFormFor('view', e)
+}
 
 function grpFormFor(use, ele) {
     var item = {};
@@ -416,6 +433,11 @@ function grpFormFor(use, ele) {
             item = $(ele).closest('tr').data('item');
             title = "编辑用户组:" + item.name;
             break;
+        case 'view':
+            item = $(ele).closest('tr').data('item');
+            title = "查看用户组:" + item.name;
+            break;
+        default:
     }
     var cont = '<form id="frmUserGroup" class="form-horizontal form-bordered" role="form" method="post">\
             <input type="hidden" name="departId"/>\
@@ -460,7 +482,7 @@ function grpFormFor(use, ele) {
                 </div>\
             </div>\
         </form>';
-    $.dialog('confirm', {
+    $.dialog('form', {
         width: 500,
         height: null,
         autoSize: true,
@@ -487,6 +509,8 @@ function grpFormFor(use, ele) {
                 case 'add':
                     frmUserGroup.find('input[name=parent_id]').val(0);
                     break;
+                case 'view':
+                    frmUserGroup.find('.xtree').addClass('anti-cursor');
                 case 'edit':
                     frmUserGroup.find('input[name=status][value="' + item.status + '"]').prop('checked', true);
                     break;
@@ -520,16 +544,13 @@ function grpFormFor(use, ele) {
             getUsersList(0);
         }
     });
-
+    console.log(item);
     if (item) {
         frmUserGroup.data('item', item);
     } else {
         frmUserGroup.removeData('item');
     }
 
-    $('#frmUserGroup').parent().css({
-        display: 'block'
-    })
     $('#xtreegroup').XTree({
         multiple: false,
         hasRoot: false,
@@ -554,7 +575,6 @@ function grpFormFor(use, ele) {
         }
 
     });
-
     frmUserGroup.usedAs(use);
 }
 var active1 = '';
@@ -784,7 +804,7 @@ function tblCoupleInit(departId) {
 function tblCoupleRefresh(departId) {
     tblCouple(departId, function () {
         getUsersList(0);
-        $('.arrows').removeClass('antiCursor');
+        $('.arrows').removeClass('anti-cursor');
         $('.dialog-box-content input[type=text]:visible').val('');
     });
 }
@@ -853,7 +873,7 @@ function tblCouple(departId, cb) {
 }
 
 function moveGrpUsers(flag) {
-    $('.arrows').addClass('antiCursor');
+    $('.arrows').addClass('anti-cursor');
     event.stopPropagation();
     var user_list = [],
         departId = $('input:hidden[name=departId]').val();
@@ -864,7 +884,7 @@ function moveGrpUsers(flag) {
             });
             if (user_list.length == 0) {
                 warningOpen('请选择组外用户', 'danger', 'fa-bolt');
-                $('.arrows').removeClass('antiCursor');
+                $('.arrows').removeClass('anti-cursor');
                 return;
             }
             break;
@@ -874,7 +894,7 @@ function moveGrpUsers(flag) {
             });
             if (user_list.length == 0) {
                 warningOpen('请选择组内用户', 'danger', 'fa-bolt');
-                $('.arrows').removeClass('antiCursor');
+                $('.arrows').removeClass('anti-cursor');
                 return;
             }
             break;

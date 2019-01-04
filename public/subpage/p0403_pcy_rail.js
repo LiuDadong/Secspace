@@ -76,7 +76,7 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
                         <td><span item-key="update_time"></span></td>\
                         <td><span item-key="creator"></span></td>\
                         <td><span item-key="manager"></span></td>\
-                        <td><a todo="edit">编辑</a><a todo="view">查看</a></td>\
+                        <td><a todo="edit" title="编辑"><i class="fa fa-edit"></i></a><a todo="view" title="查看"><i class="fa fa-eye"></i></a></td>\
                     </tr>',
     //因不同需求需要个性控制组件表现的修正函数和增强函数
     fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -205,7 +205,7 @@ $.silentPost('/policy/dev_app', {}, function (data) {//获取已启用设备策�
         var devPolicy = $('select[name=dev_policy]').empty(),
             appPolicy = $('select[name=app_policy]').html('<option value="-1">不设置应用策略</option>');
 
-        
+        console.log(device);
         for (var i in device) {
             var option = $('<option>').attr('value', device[i].id).text(device[i].name);
             if(device[i].name=='默认策略'){
@@ -310,6 +310,7 @@ function getPolicyData() {
     var postData = {
         url:'/p/policy/fenceMan',
         name: $('input[name=name]').val(),
+        leave:$('input[name=leave]').prop('checked') ? 1 : 0,
         policy_type: $('select[name=policy_type]').val(),
         in_fence: JSON.stringify({
             dev_policy: $('#in_fence select[name=dev_policy]').val() * 1,
@@ -383,6 +384,7 @@ function showItem(item) {
     $('#out_fence select[name=dev_policy]').val(item.out_fence.dev_policy);
     $('#in_fence select[name=app_policy]').val(item.in_fence.app_policy);
     $('#out_fence select[name=app_policy]').val(item.out_fence.app_policy);
+    $('input[name=leave]').prop('checked',item.leave=='1');
     switch (item.policy_type) {
         case "geofence":
             var siteObj = item.site_range;

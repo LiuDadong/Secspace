@@ -13,13 +13,13 @@
         try {
             for (i in keys) {
                 val = val[keys[i]];
-                if(val===null||val===undefined){
-                    val===null;
+                if(val===''||val===null||val===undefined){
+                    val='— —';
                     break;
                 }
             }
         } catch (err) {
-            val = '';
+            val = '— —';
             this.console.error(item);
             this.console.error(keys);
             this.console.error(err);
@@ -290,7 +290,7 @@
                                     needUnact = [];
                                 default:
                                     needUnact = $.arrKeyFlt(sel, false, function (item) {
-                                        return item.status == '1';
+                                        return item.status!==undefined&& item.status!= '0'&&item.userId===undefined;
                                     });
                             }
     
@@ -1221,7 +1221,6 @@
                         if (opts.paging) {
                             createFooter(tbl, opts.start, opts.pageLength, opts.totalCount);
                         }
-
                     }
                 })
                 function showTableList(list) {
@@ -1251,17 +1250,16 @@
                             tri.find('[item-key]').each(function () {
                                 $(this).toggleClass('ellipsis', this.tagName == "TD");
                                 var key = $(this).attr('item-key'),
-                                    val = opts.fnValByKey(key, valByKey(list[i], key));
-                                $(this).text(val).attr('title', val);
-                                //$(this).text(opts.fnValByKey(key, list[i][key]));
+                                    val = opts.fnValByKey(key, valByKey(list[i], key));     //  键值显示修正
+                                $(this).html(val);
+                                if(typeof val==='string' && val.indexOf('<')===-1){
+                                    $(this).attr('title', val);
+                                }
                             });
                             if(opts.afterAppend){
                                 opts.afterAppend(tri, list[i]);
                             }
                         }
-
-                        
-
                         if (opts.paging) {
                             tbHas.find('tr').each(function () {
                                 arrangeItem(opts, $(this));
@@ -1386,7 +1384,7 @@
                         if (item.status == 0) {
                             warningOpen('请先激活该用户！', 'danger', 'fa-bolt');
                         } else {
-                            $.dialog('confirm', {
+                            $.dialog('form', {
                                 width: 500,
                                 height: null,
                                 autoSize: true,
@@ -1437,9 +1435,6 @@
                                 }
                             });
                             frmModPW.usedAs('edit');
-                            $('#frmModPW').parent().css({
-                                display: 'block'
-                            })
                         }
 
                     }
@@ -1544,7 +1539,7 @@
                             '<span item-key="policy_type"></span>',
                             '<span item-key="creator"></span>',
                             '<span item-key="status"></span>',
-                            '<span class="btn btn-primary btn-sm ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '">移除策略</span>'
+                            '<span title="移除策略" class="btn btn-primary btn-xs icon-only ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '"><i class="fa fa-eraser"></i></span>'
                         ];
                         opts.widthProportion = [0.5, 1, 1, 1, 1, 1];  //信息详情列表各列宽比
                         opts.title = '用户“' + item.name + '”应用策略';
@@ -1629,7 +1624,7 @@
                             '<span item-key="name"></span>',
                             '<span item-key="account"></span>',
                             '<span item-key="status"></span>',
-                            '<span class="btn btn-primary btn-sm ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '">移除策略</span>'
+                            '<span title="移除策略" class="btn btn-primary btn-sm ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '"><i class="fa fa-eraser"></i></span>'
                         ];
                         opts.widthProportion = [0.5, 1, 1, 1, 1];  //信息详情列表各列宽比
                         return opts;
@@ -1753,23 +1748,27 @@
             usedAs: function (use) {
                 $(frm[0]).data('use', use);
                 frm.beforeUsed(use, frm.data('item'));
-                var btnSubmit = $(frm[0]).find(':input[type=submit]'),
-                    frmGrp = $(frm[0]).find('.form-group');
+                var btnSubmit = $(frm[0]).find(':input[type=submit]');
                 frm.reset();
                 frm.afterReset();
                 if ($(frm[0]).find('input:hidden[name=url]').length === 0) {
                     $(frm[0]).prepend('<input type="hidden" name="url" />')
                 }
+                $(frm[0]).find('.form-group').removeClass('anti-cursor');
                 switch (use) {
                     case 'add':
+                        frm.find('.control-label>b').show();
+                        frm.find('.has-error').removeClass('has-error');
                         $(frm[0]).attr('action', frm.addAct);
                         $(frm[0]).data('url', frm.addUrl).find('input:hidden[name=url]').val(frm.addUrl);
                         $(frm[0]).data('infoTxt', frm.addInfoTxt);
                         $(frm[0]).find('input:checkbox').prop('disabled', false);
-                        btnSubmit.show().text(frm.addBtnTxt).val(frm.addBtnTxt).prop('disabled', true);
+                        btnSubmit.show().text(frm.addBtnTxt).val(frm.addBtnTxt).prop('disabled', false);
+                        $(frm[0]).find('input:visible:first').focus();
                         break;
                     case 'edit':
                         frm.showItem();
+                        frm.find('.control-label>b').show();
                         $(frm[0]).attr('action', frm.editAct);
                         $(frm[0]).data('url', frm.editUrl).find('input:hidden[name=url]').val(frm.editUrl);
                         $(frm[0]).data('infoTxt', frm.editInfoTxt);
@@ -1779,31 +1778,26 @@
                     case 'view':
                         frm.showItem();
                         frm.removeAttr('action');
-                        $(frm[0]).find(':input[name]').prop('disabled', true);
-                        $(frm[0]).find('input:checkbox').prop('disabled', true);
-                        $(frm[0]).find('input:radio:checked').prop('disabled', false);
-                        $(frm[0]).find('.append-box').addClass('disabled');
+                        frm.find('.control-label>b').hide();
+                        $(frm[0]).find('.form-group:has(:input[name])').addClass('anti-cursor');
                         btnSubmit.hide();
                         break;
                     default:
                         $(frm[0]).attr('action', optAdd.action);
                         btnSubmit.show().text(optAdd.submitText).val(optAdd.submitText);
                 }
-                iptChange();
                 frm.afterUsed(use, frm.data('item'));
-                frm.check();
+                
+                $(frm[0]).removeData('editStatus').off('change.edit input.edit');
                 setTimeout(function () {
+                    if(use==='edit'){
+                        $(frm[0]).data('editStatus','init')
+                        .on('change.edit input.edit',function(){
+                            $(frm[0]).removeData('editStatus');
+                        });
+                    }
                     frm.find('button:not([type])').attr('type', 'button');
-                }, 300);
-                function iptChange() {
-                    $(frm[0]).find(':input[name]').each(function () {
-                        try {
-                            $(this).change();
-                        } catch (err) {
-                            console.error(err);
-                        }
-                    })
-                }
+                }, 30);
             },
             beforeUsed: function (use, item) {
                 switch (use) {
@@ -1837,13 +1831,13 @@
                 });
             },
             check: function () {
-                $(frm[0]).find('input[type=submit]').prop('disabled', $(frm[0]).find('.form-group:visible .danger').length !== 0);
+                var hasError=$(frm[0]).find('.form-group.has-error:visible').length !== 0;
+                $(frm[0]).find('input[type=submit]').prop('disabled', hasError);
+                return !hasError
             },
             showItem: function () {
-                var item;
-                if ($(frm[0]).data('item')) {
-                    item = $(frm[0]).data('item');
-                } else {
+                var item = $(frm[0]).data('item');;
+                if (!item) {
                     console.warn('组件multForm调用showItem方法需先将要显示的成员数据存入表单data("item")');
                     return;
                 }
@@ -1869,29 +1863,33 @@
                     } else {
                         v = item[k];
                     }
-                    switch (tntp) {
-                        case 'input:text':
-                        case 'input:number':
-                        case 'select:single':
-                            $(this).val(v);
-                            break;
-                        case 'input:hidden':
-                            if (typeof v === 'object') {
-                                $(this).val(JSON.stringify(v));
-                            } else {
+                    if(v!==undefined){
+                        switch (tntp) {
+                            case 'input:text':
+                            case 'input:number':
+                            case 'select:single':
                                 $(this).val(v);
-                            }
-                            $(this).data('value', v);
-                            break;
-                        case 'input:radio':
-                            $(this).prop('checked', $(this).val() == v);
-                            break;
-                        case 'input:checkbox':
-                            $(this).prop('checked', ~~v == 1);
-                            break;
-                        default:
-                            $(this).val(v);
+                                break;
+                            case 'input:hidden':
+                                if (typeof v === 'object') {
+                                    $(this).val(JSON.stringify(v));
+                                } else {
+                                    $(this).val(v);
+                                }
+                                $(this).data('value', v);
+                                break;
+                            case 'input:radio':
+                                $(this).prop('checked', $(this).val() == v);
+                                break;
+                            case 'input:checkbox':
+                                $(this).prop('checked', ~~v == 1);
+                                break;
+                            default:
+                                $(this).val(v);
+                        }
+                        $(this).change();
                     }
+                    
                 });
                 $(frm[0]).find('.append-box :input[name][type=hidden]').each(function () {
                     var k = $(this).attr('name'),
@@ -1912,13 +1910,15 @@
             //准备html
             //禁用表单的回车自动提交
             preventAutoSubmit();    //屏蔽回车提交
-            prepareMarkers();       //准备输入form-group数据校验结果标志 <b>*</b>
+            requireInit();       //准备输入form-group数据校验结果标志 <b>*</b>
             saveFnsForShare();      //保存组件函数至页面元素form，以便共享
             ajaxFormInit();         //表单ajax初始化
             bindFormBaseHandles();  //绑定表单基础事件处理函数， 返回按钮和提交事件
             inputInfoInit();        //输入框信息初始化  如title等
+            unableAutoComplete();   //禁用自动补全
+            avoidExplorerHint();    //避开浏览器自动输入提示
             inputNumberInit();      //数值输入框初始化
-            bindIptHandles();       //绑定输入款
+            bindIptHandles();       //绑定输入处理
             function preventAutoSubmit() {
                 frm[0].onkeydown = function (event) {
                     var target, tag;
@@ -1942,7 +1942,7 @@
                     }
                 };
             }
-            function prepareMarkers() {
+            function requireInit() {
                 $(frm[0]).find('.form-group:has(:input.require,:input.same,:input[same-with])').each(function () {  //准备必填项的标识符<b></b>
                     if ($(this).find('label:first-child>b').length == 0) {
                         $(this).find('label:first-child').prepend($('<b>*</b>'));
@@ -1994,6 +1994,20 @@
                             });
                         },
                         beforeSubmit: function (arrKeyVal, $frm, ajaxOptions) {
+                            $(frm[0]).find('input[type=submit]').prop('disabled',true);
+                            if($frm.data('editStatus')==='init'){
+                                return false;
+                            }
+                            $(frm[0]).find(':input[name]').each(function () {
+                                try {
+                                    $(this).change();
+                                } catch (err) {
+                                    console.error(err);
+                                }
+                            })
+                            if(!frm.check()){
+                                return false;
+                            }
                             for (var i = 0; i < arrKeyVal.length; i++) {
                                 if (delKeyVal(arrKeyVal[i].name)) {
                                     arrKeyVal.splice(i, 1);
@@ -2021,7 +2035,7 @@
                             }
                         },
                         success: function (data) {
-
+                            $(frm[0]).find('input[type=submit]').prop('disabled',false);
                             $.handleECode(true, data, $(frm[0]).data('infoTxt'));
                             switch (data.rt) {
                                 case '0000':
@@ -2092,14 +2106,25 @@
                     $(this).val(ipt);
                 });
             }
+            function unableAutoComplete(){
+                $(frm[0]).find('.form-group :input').each(function(){
+                    $(this).attr('autocomplete','off');
+                });
+            }
+            function avoidExplorerHint(){   //用于避开浏览自动记住账号和密码
+                $(frm[0]).prepend('<input type="text" / style="display:none;">');
+                $(frm[0]).find('.form-group input[type=password]').on('focus input',function(){
+                    $(this).attr('type',$(this).val()==''?'text':'password');
+                })
+            }
             function inputInfoInit(){
                 $(frm[0]).find('.form-group :input').each(function(){
                     var ctrlRegex = $(this).attr('ctrl-regex');
                     if(ctrlRegex){     //正则检查
                         var irec = $.objRegex[ctrlRegex];
                         if (irec) {
-                            if (irec.info) {  //设置提示信息
-                                $(this).attr('title', '请输入' + irec.info);
+                            if (irec.info) {  //设置提示信息                                
+                                $(this).attr('autocomplete','off').after('<p class="help-block regex-info">'+irec.info +'</p>')
                             }
                         } else {
                             console.error('ctrl-regex="' + ctrlRegex + '"未定义');
@@ -2107,19 +2132,9 @@
                     }
                 })
             }
-            
             function bindIptHandles() {
                 $(frm[0]).find('.form-group :input').on('change input', function (e) {
-                    var ipt = $(this).removeClass('danger'),
-                        bmark = ipt.closest('.form-group').find('.control-label>b').removeClass('danger');
-
-                    function addDanger() {  //不合法时添加标志
-                        ipt.addClass('danger');
-                        setTimeout(function () {
-                            bmark.addClass('danger');
-                        }, 0);
-                    }
-
+                    var fg=$(this).closest('.form-group').removeClass('has-error');
                     if ($(this).hasClass('require')) {    //必填项检查
                         if (
                             $(this).val() === ''
@@ -2127,19 +2142,19 @@
                             || $(this).val() === null
                             || $(this).val() === undefined
                         ) {
-                            addDanger();
+                            fg.addClass('has-error');
                         }
                     }
 
                     if ($(this).attr('ctrl-regex')) {     //正则检查
                         if ($(this).val() && !$.iptRegExpCtrl(this)) {
-                            addDanger();
+                            fg.addClass('has-error');
                         }
                     }
 
                     if ($(this).closest('.append-box').length === 1) {  //append-box组件中的input
-                        if ($(this).closest('.append-box').find('.item :input.danger').length > 0) {
-                            addDanger();
+                        if ($(this).closest('.append-box').find('.item :input.input-error').length > 0) {
+                            fg.addClass('has-error');
                         }
                     }
 
@@ -2147,12 +2162,10 @@
                 var iptSame = $(frm[0]).find('.form-group :input[same-with]'),
                     iptWith = $(frm[0]).find('#' + iptSame.attr('same-with'));
                 iptSame.on('change input', function (e) {
-                    if (iptWith.closest('.form-group').find('.danger').length > 0) {
-                        $(this).addClass('danger')
-                            .closest('.form-group').find('label>b').addClass('danger');
+                    if (iptWith.closest('.form-group').hasClass('has-error')) {
+                        $(this).closest('.form-group').addClass('has-error');
                     } else {
-                        $(this).toggleClass('danger', $(this).val() !== iptWith.val())
-                            .closest('.form-group').find('label>b').toggleClass('danger', $(this).val() !== iptWith.val());
+                        $(this).closest('.form-group').toggleClass('has-error', $(this).val() !== iptWith.val());
                     }
                 });
                 iptWith.on('change input', function (e) {
@@ -2160,7 +2173,7 @@
                 });
 
                 $(frm[0]).on('change input', function () {  //.form-group单元校验之后的整体校验
-                    frm.check();  //检验所有标记markers（<b>*</b>），判断是否所有数据都合法
+                    frm.check();  //检验所有.form-group是否还有未通过的标记.has-error
                 });
             }
             return frm;
@@ -2279,15 +2292,19 @@
                             if (data.rt == '0000') {
                                 var items = opts.fnGetTreeItems(data);
                                 li.data('items', items);
-                                for (var i = 0; i < items.length; i++) {
-                                    appendTreeItem(opts, ul, {
-                                        gid: items[i][opts.keyItemId],
-                                        gident: items[i][opts.keyItemIdentify],
-                                        text: items[i][opts.keyItemText],
-                                        checked: ckb.prop('checked'),
-                                        hasChild: items[i][opts.keyItemHasChild],
-                                        status: items[i].status
-                                    })
+                                if(items.length>0){
+                                    for (var i = 0; i < items.length; i++) {
+                                        appendTreeItem(opts, ul, {
+                                            gid: items[i][opts.keyItemId],
+                                            gident: items[i][opts.keyItemIdentify],
+                                            text: items[i][opts.keyItemText],
+                                            checked: ckb.prop('checked'),
+                                            hasChild: items[i][opts.keyItemHasChild],
+                                            status: items[i].status
+                                        })
+                                    }
+                                }else{
+                                    ul.html('<li>暂无用户组</li>');
                                 }
                                 li.after(ul);
                             }
@@ -2371,7 +2388,18 @@
                         fnValByKey: function (k, v) {  //用于根据键值对修正要显示文本
                             switch (k) {
                                 case 'status':
-                                    v = v == 1 ? '已激活' : '未激活';  //例：
+                                    switch (v){
+                                        case 0:
+                                            v = "未激活";
+                                            break;
+                                        case 1:
+                                            v = "已激活";
+                                            break;
+                                        case 2:
+                                            v = "休假";
+                                            break;
+                                        default:
+                                    }
                                     break;
                                 default:
                             }
@@ -2601,7 +2629,17 @@
                                         fnValByKey: function (k, v) {  //用于根据键值对修正要显示文本
                                             switch (k) {
                                                 case 'status':
-                                                    v = v == 1 ? '已激活' : '未激活';  //例：
+                                                    switch (v){
+                                                        case 0:
+                                                            v = "未激活";
+                                                            break;
+                                                        case 1:
+                                                            v = "已激活";
+                                                            break;
+                                                        case 2:
+                                                            v = "休假";
+                                                            break;
+                                                    }
                                                     break;
                                                 default:
                                             }
@@ -2822,11 +2860,10 @@
                                     v = opts.fnValByKey(k, valByKey(list[i], k));
                                 $(this).html(v);
                                 if (typeof v == 'string' && v.length > 15) {
-                                    $(this).closest('li').attr('title', $(this).text()).css({
-                                        whiteSpace: 'nowrap',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis'
-                                    })
+                                    $(this).closest('li').addClass('ellipsis');
+                                    if($(this).text().indexOf('<')===-1){
+                                        $(this).closest('li').attr('title', $(this).text());
+                                    }
                                 }
                             });
                             ddHas.append(uli);
@@ -2868,7 +2905,7 @@
                 '<span item-key="name"></span>',
                 '<span item-key="account"></span>',
                 '<span item-key="status"></span>',
-                '<span class="btn btn-primary btn-sm ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '">移除策略</span>'
+                '<span title="移除策略" class="btn btn-primary btn-sm ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '"><i class="fa fa-eraser"></i></span>'
             ],
             relPagingTable: '#pagingTable',
             width: '500px',

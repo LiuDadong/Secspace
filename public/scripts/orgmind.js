@@ -217,7 +217,11 @@
                 function fnAdd() {
                     that['theBtn']=$(this).prop('disabled',true);
                     var nodeSel = that.selected,
-                        htmlForm = '<form class="form-horizontal" role="form" style="width:400px;">\
+                        $form,
+                        $confirm;
+                    $.dialog('form', {
+                        title: '添加机构',
+                        content:  '<form class="form-horizontal" role="form" style="width:400px;">\
                                         <div class="form-group">\
                                             <label for="topic" class="col-sm-3 control-label no-padding-right">机构名称</label>\
                                             <div class="col-sm-8">\
@@ -231,11 +235,6 @@
                                             </div>\
                                         </div>\
                                     </form>',
-                        $form,
-                        $confirm;
-                    $.dialog('confirm', {
-                        title: '添加机构',
-                        content: htmlForm,
                         confirmValue: '添加',
                         confirm: function () {
                             that.nodeAdd({
@@ -268,7 +267,11 @@
                 function fnEdit() {
                     that['theBtn']=$(this).prop('disabled',true);
                     var nodeSel = jm.get_selected_node(),
-                        htmlForm = '<form class="form-horizontal" role="form" style="width:400px;">\
+                        $form,
+                        $confirm;
+                    $.dialog('form', {
+                        title: '编辑机构',
+                        content: '<form class="form-horizontal" role="form" style="width:400px;">\
                                         <div class="form-group">\
                                             <label for="topic" class="col-sm-3 control-label no-padding-right">机构名称</label>\
                                             <div class="col-sm-8">\
@@ -282,11 +285,6 @@
                                             </div>\
                                         </div>\
                                     </form>',
-                        $form,
-                        $confirm;
-                    $.dialog('confirm', {
-                        title: '编辑机构',
-                        content: htmlForm,
                         confirmValue: '保存',
                         confirm: function () {
                             var editData={
@@ -338,6 +336,7 @@
                         return;
                     }
                     $.dialog('confirm', {
+                        content: '确认删除选中的机构吗?',
                         confirmValue: '确认',
                         confirm: function () {
                             $.actPost('/common/orgtree/del', {
@@ -356,15 +355,40 @@
                             $(that['theBtn']).prop('disabled',false);
                         },
                         cancelValue: '取消',
-                        title: '删除机构',
-                        content: '确认删除选中的机构吗?'
+                        title: '删除机构'
                     });
                 }
                 function fnExport() {
                     that['theBtn']=$(this).prop('disabled',true);
-                    alert('暂不支持，敬请期待')
-                    that['theBtn'].prop('disabled',false);
-                    return false
+                    // 导出机构数据
+                    var url = localStorage.getItem('appssec_url') + '/p/org/exportOrg?sid=' + $.cookie('sid') +'&org_id=' + jm.get_selected_node().id+'&flag=' + $(this).data('flag');
+                        // downloadFile(url);
+                        // window.location = url;
+                        console.log(url)
+                        // try {
+                        //     var elemIF = document.createElement("iframe");
+                        //     elemIF.src = url;
+                        //     $(elemIF).attr('src', url).css('display', 'none');
+                        //     document.body.appendChild(elemIF);
+                        // } catch (e) {
+                        //     console.error('下载log表格失败:url' + url);
+                        //     console.error(e);
+                        // }
+                        var dt={
+                            sid:$.cookie('sid'),
+                            org_id:jm.get_selected_node().id,
+                            flag:$(this).data('flag')
+                        },
+                        inputs='';
+                        for(n in dt){
+                            inputs+= '<input type="hidden" name="'+ n +'" value="'+ dt[n] +'" />'
+                        }
+                        console.log(inputs);
+                        $('<form action="' + url + '" method="get">' + inputs + '</form>')
+                        .appendTo('body').submit().remove();
+                    setTimeout(function(){
+                        that['theBtn'].prop('disabled',false);
+                    },1000)
                 }
                 function fnImport() {
                     that['theBtn']=$(this).prop('disabled',true);

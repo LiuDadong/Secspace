@@ -69,7 +69,7 @@
                         <td class="ellipsis" item-key="phone"></td>\
                         <td class="ellipsis" item-key="creator"></td>\
                         <td class="ellipsis" item-key="created_time"></td>\
-                        <td class="ellipsis"><a todo="edit">编辑</a><a todo="view">查看</a><a todo="resetpw">重置密码</a></td>\
+                        <td class="ellipsis"><a todo="edit" title="编辑"><i class="fa fa-edit"></i></a><a todo="view" title="查看"><i class="fa fa-eye"></i></a><a todo="resetpw" title="重置密码"><i class="fa fa-key"></i></a></td>\
                     </tr>',
         //因不同需求需要个性控制组件表现的修正函数和增强函数
         fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -310,7 +310,7 @@
         if (item.status == 0) {
             warningOpen('请先启用该管理员！', 'danger', 'fa-bolt');
         } else {
-            $.dialog('confirm', {
+            $.dialog('form', {
                 width: 500,
                 height: null,
                 autoSize: true,
@@ -366,9 +366,6 @@
                 userId: item.userId
             })
             frmResetPW.usedAs('edit');
-            $('#frmResetPW').parent().css({
-                display: 'block'
-            })
         }
 
     }

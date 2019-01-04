@@ -57,10 +57,12 @@ $.iptRegExpCtrl =function (ipt){
     if(ctrlRegex){     //正则检查
         var irec = $.objRegex[ctrlRegex];
         if (irec) {
-            if (irec.info) {  //设置提示信息
-                $(ipt).attr('title', '请输入' + irec.info);
+            var yesno=irec.pattern.test($(ipt).val());
+            if($(ipt).closest('.append-box').length==0){
+                $(ipt).closest('.form-group').toggleClass('has-error',!yesno);
+            }else{
+                $(ipt).toggleClass('input-error',!yesno);
             }
-            $(ipt).toggleClass('danger',!irec.pattern.test($(ipt).val()));
             return irec.pattern.test($(ipt).val());
         } else {
             console.error('ctrl-regex="' + ctrlRegex + '"未定义');
@@ -409,13 +411,13 @@ $.fn.plugInit = function () {
                     }
                     box.find('.item i').toggleClass('hidden', emp);
                     var appendBtn = box.find('button').prop('disabled', false);
-                    var noRepeatIpts = box.find('.item .no-repeat').removeClass('danger');  //查重
+                    var noRepeatIpts = box.find('.item input.no-repeat').removeClass('input-error');  //查重
                     if (noRepeatIpts.length > 1) {
                         for (var i = 0; i < noRepeatIpts.length - 1; i++) {
                             for (var j = i + 1; j < noRepeatIpts.length; j++) {
                                 if ($(noRepeatIpts[i]).val() === $(noRepeatIpts[j]).val()) {
-                                    $(noRepeatIpts[i]).addClass('danger');
-                                    $(noRepeatIpts[j]).addClass('danger');
+                                    $(noRepeatIpts[i]).addClass('input-error');
+                                    $(noRepeatIpts[j]).addClass('input-error');
                                     yesno=false;
                                     appendBtn.prop('disabled', true);
                                 }
@@ -695,7 +697,7 @@ $.dialog = function (type, opts) {
     var __def__ = {
         width: null,
         height: null,
-        zIndex: 99999,
+        zIndex: 1001,
         autoHide: false,
         maskClickHide: false,
         autoSize: true,
@@ -733,7 +735,21 @@ $.dialog = function (type, opts) {
                 },
                 opts
             );
-
+            break;
+        case 'form':   //表单对话框
+            opts.content = $('<div>').html(opts.content).css({
+                fontSize: '1em',
+            });
+            opts = $.extend(
+                true,
+                __def__,
+                {
+                    title: '操作确认',
+                    confirmValue: '确定',
+                    cancelValue: '取消',
+                },
+                opts
+            );
             break;
         case 'list':    //列表对话框
             opts = $.extend(

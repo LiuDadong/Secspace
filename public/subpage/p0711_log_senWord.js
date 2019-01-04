@@ -1,10 +1,11 @@
 /*
  * ==================================================================
- *                          违规情况日志 log
+ *                          用户管理日志 log
  * ==================================================================
  */
 
     applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
+
 
     logDateInit();
     getloglist(1, 10);
@@ -30,16 +31,25 @@
 
         var table = $('.logtable'),
             str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-                + '<th>类型</th>'
-                + '<th>时间</th>'
-                + '<th>操作者</th>'
-                // + '<th>账号</th>'
-                + '<th>设备名称</th>'
-                + '<th>IP地址</th>'
-                //   + '<th>设备类型</th>'
-                + '<th>具体操作</th></tr>';
+                + '<th style="width:12%">类型</th>'
+                + '<th style="width:10%">用户名</th>'
+                + '<th style="width:12%">账号</th>'
+                + '<th style="width:8%">设备</th>'
+                + '<th style="width:8%">操作系统</th>'
+                + '<th style="width:14%">时间</th>'
+                + '<th style="width:10%">敏感词</th>'
+                + '<th style="width:20%">违规地址</th>';
+// account:"duanhuili"
+// dev_name:"EVA-AL00"
+// log_type:"网页敏感词"
+// opt_time:"2019-01-04 16:20:54"
+// os_type:"android"
+// os_version:"8.0.0"
+// sensitive_word:"海军"
+// user_name:"段晖莉"
+// vio_addr:"http://www.appssec.cn/test/pla.html"
         var pd={
-            category:'violationLog',
+            category:'senWordLog',
             start_time:start_time,
             end_time:end_time,
             start_page:start_page,
@@ -54,16 +64,18 @@
         $.silentGet('/man/Log/getLog',pd, function (data) {
             if (data.rt == '0000') {
                 if(data.logInfo.length==0){
-                    str += '<tr><td colspan="6">暂无日志</td></tr>'
+                    str += '<tr><td colspan="5">暂无日志</td></tr>'
                 }
                 for (var i in data.logInfo) {
                     str += '<tr>'
                         + '<td>' + data.logInfo[i].log_type + '</td>'
-                        + '<td>' + data.logInfo[i].opt_time + '</td>'
+                        + '<td>' + data.logInfo[i].user_name + '</td>'
                         + '<td>' + data.logInfo[i].account + '</td>'
                         + '<td>' + data.logInfo[i].dev_name + '</td>'
-                        + '<td>' + (data.logInfo[i].client_ip||'--') + '</td>'
-                        + '<td>' + data.logInfo[i].operate + ': ' + data.logInfo[i].state + '</td>'
+                        + '<td>' + (data.logInfo[i].os_type=='android'? 'Android':'iOS') + '</td>'
+                        + '<td>' + data.logInfo[i].opt_time + '</td>'
+                        + '<td>' + data.logInfo[i].sensitive_word + '</td>'
+                        + '<td title="'+ data.logInfo[i].vio_addr +'">' + data.logInfo[i].vio_addr + '</td>'
                         + '</tr>';
                 }
                 str += '</table>';

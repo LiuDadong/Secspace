@@ -5,23 +5,7 @@
  */
     applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
 
-    $(".jedate").each(function () {
-        $(this).jeDate({
-            format: "YYYY-MM-DD hh:mm:ss",
-            toggle: function (elem, value, date) {
-                elem.elem.change();
-                $(".loglist .btn-default").click();
-            },
-            okfun: function (elem, value) {
-                elem.elem.change();
-                $(".loglist .btn-default").click();
-            },
-            clearfun: function (elem, value) {
-                elem.elem.change();
-                $(".loglist .btn-default").click();
-            }
-        });
-    })
+    logDateInit();
     getloglist(1, 10);
     $("select[name=log_type]").change(function () {
         getloglist(1, 10);

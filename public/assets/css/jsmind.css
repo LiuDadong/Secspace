@@ -181,7 +181,7 @@ jmnodes.theme-org jmnode{
     -ms-user-select: none;
     user-select: none;
     background-image: none;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     border-radius: 4px;
     color: #333;
     background-color: #fff;
@@ -189,21 +189,30 @@ jmnodes.theme-org jmnode{
     box-shadow:none;
     transition: 0.35;
 }       /* 节点样式 */
-jmnodes.theme-org jmnode:hover{
+jmnodes.theme-org jmnode:hover{            /* 鼠标悬停的节点样式 */
     border-color: #555;
-    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,.1);
-    -moz-box-shadow: 0 1px 0 rgba(0,0,0,.1);
-    box-shadow: 0 1px 0 rgba(0,0,0,.1);
-}            /* 鼠标悬停的节点样式 */
+    -webkit-box-shadow: 0 2px 0 rgba(0,0,0,.1);
+    -moz-box-shadow: 0 2px 0 rgba(0,0,0,.1);
+    box-shadow: 0 2px 0 rgba(0,0,0,.1);
+}
+jmnodes.theme-org jmnode.root:hover{            /* 鼠标悬停的节点样式 */
+    border-color: #5689e7;
+    box-shadow: 0 2px 0 #5689e7;
+}
 
-jmnodes.theme-org jmnode.root{
+jmnodes.theme-org jmnode.root{      /* 根节点样式 */
     background-color:#427fed;
     color: #fff;
-    box-shadow: 0 1px 0 rgba(0,0,0,.05);
-}      /* 根节点样式 */
-jmnodes.theme-org jmnode.selected{
-    border-color: #333;
+    border-color: #427fed;
+}
+jmnodes.theme-org jmnode.selected{ /* 选中的节点样式 */
+    border-color: #000;
+    background: #ddd;
     box-shadow: 0 0 4px rgba(0,0,0,0.8);
-} /* 选中的节点样式 */
+}
+jmnodes.theme-org jmnode.root.selected{      /* 根节点样式 */
+    background-color:#135be0;
+    border-color: #000;
+}
 jmnodes.theme-org jmexpander{cursor: pointer;}                                       /* 展开/关闭节点的控制点样式 */
 jmnodes.theme-org jmexpander:hover{box-shadow: 0 0 5px #ccc}   /* 鼠标悬停展开/关闭节点的控制点样式 */

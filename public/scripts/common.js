@@ -1,3 +1,4 @@
+var b64 = new Base64();
 function pjaxClick(sHref) {
     switch(sHref){
         case '/':
@@ -65,6 +66,7 @@ function homeJadeInit() {  //初始化登录的管理员信息
         manager=localStorage.getItem('manager'),
         email=localStorage.getItem('email'),
         firLogin=localStorage.getItem('firLogin');
+    console.log(firLogin);
     if(icon){
         $('img.log').attr('src',appssec_url+'/'+icon);
     }
@@ -77,13 +79,13 @@ function homeJadeInit() {  //初始化登录的管理员信息
 
     if(firLogin=='0'){
         $.dialog('confirm',{
-            title:'初始密码提示',
+            title:'初始密码修改提示',
             content:'<p>当前登录密码为初始密码，出于安全考虑，建议修改初始密码？</p>',
             confirmValue: '修改密码',
             confirm: function () {
                 setTimeout(function(){
                     $('.account-area button[onclick="updatePW()"]').click();
-                },300)  
+                },300)
             },
             cancelValue: '取消',
             cancel:function(){
@@ -624,9 +626,7 @@ function hasHdlAuth(item,act,aim){
                     break;
                 case 'PUB':     //上级发布的策略
                     if(act=='机构内下发'){
-                        yesno = lid == cid;  //本级机构管理员具有在机构内下发上级发布下来的策略的权限
-                    }else{
-                        yesno = false;
+                        yesno = true;  //对于上级发布的策略，能看见的人都具有机构内下发的权限
                     }
                     break;
                 case 'ISS':     //上级下发的策略
@@ -673,7 +673,7 @@ function accountInfo(e) {  //修改密码
         if(localStorage.getItem("avatar")){
             srcAvatar=localStorage.getItem("appssec_url")+'/'+localStorage.getItem("avatar");
         }
-        $.dialog('confirm', {
+        $.dialog('form', {
             width: 500,
             height: null,
             autoSize:true,
@@ -779,16 +779,12 @@ function accountInfo(e) {  //修改密码
                 };
             $(frm).off().ajaxForm(ajaxFormOptions);
         }
-        $('#frmModPW').parent().css({
-            display:'block'
-        })
-
 }
 
 
 
 function updatePW(e) {  //修改密码
-    $.dialog('confirm', {
+    $.dialog('form', {
         width: 500,
         height: null,
         autoSize:true,
@@ -833,16 +829,34 @@ function updatePW(e) {  //修改密码
         cancelValue: '取消'
     });
     var frmModPW =$('#frmModPW').MultForm({
-        editBtnTxt: '确认',
-        editAct:'/common/pw/selfmod',
+        addBtnTxt: '确认',
+        addAct:'/common/pw/selfmod',
+        beforeSubmit:function(arrKeyVal, $frm, ajaxOptions){
+            frmModPW['new_passwd']=b64.encode($('input[name=new_passwd]').val());
+            console.log(arrKeyVal);
+        },
         cbSubmit: function (use) {  //提交编辑成功之后的回调
+            localStorage.setItem('firLogin','');
+            $.cookie('passwd',frmModPW['new_passwd']);
             $.dialogClose();
         }
     });
-    frmModPW.usedAs('edit');
-    $('#frmModPW').parent().css({
-        display:'block'
-    })
-
+    frmModPW.usedAs('add');
 }
 
+
+
+function logDateInit(){
+    $(".jedate").each(function () {
+        $(this).jeDate({
+            isClear:true,
+            format: "YYYY-MM-DD hh:mm:ss",
+            okfun: function (elem) {
+                elem.elem.change();
+            },
+            clearfun: function (elem) {
+                elem.elem.change();
+            }
+        });
+    })
+}

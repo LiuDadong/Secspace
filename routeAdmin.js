@@ -1512,6 +1512,23 @@ module.exports = function (app, chttp) {
         });
     });
 
+    
+    // 新建请假
+    app.post('/user/leave', function (req, res) {
+        req.body['sid'] = req.cookies.sid;
+        console.log(req.body);
+        chttp.cpost(req.body, '/p/user/leave', function (cont) {
+            res.send(cont);
+        });
+    });
+    // 更新请假
+    app.post('/user/leaveSta', function (req, res) {
+        req.body['sid'] = req.cookies.sid;
+        console.log(req.body);
+        chttp.cpost(req.body, '/p/user/leaveSta', function (cont) {
+            res.send(cont);
+        });
+    });
 };
 
 

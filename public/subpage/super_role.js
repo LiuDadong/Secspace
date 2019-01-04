@@ -28,7 +28,7 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
                         <td><span item-key="status"></span></td>\
                         <td><span item-key="creator"></span></td>\
                         <td><span item-key="create_time"></span></td>\
-                        <td><a todo="edit">编辑</a><a todo="view">查看</a></td>\
+                        <td><a todo="edit" title="编辑"><i class="fa fa-edit"></i></a><a todo="view" title="查看"><i class="fa fa-eye"></i></a></td>\
                     </tr>',
     //因不同需求需要个性控制组件表现的修正函数和增强函数
     fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -200,11 +200,11 @@ function showRolefns(){
 
 
 
-//根据授权licence控制角色功能点备选项是否删除
+//根据授权license控制角色功能点备选项是否删除
 renderLicToRolefns();
 
 
-//根据授权licence控制角色功能点备选项显示或隐藏
+//根据授权license控制角色功能点备选项显示或隐藏
 function renderLicToRolefns(){
     var  rolesFns= getLicPath('',JSON.parse(localStorage.getItem('lic')),{});
     for(k in rolesFns){
