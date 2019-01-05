@@ -141,6 +141,7 @@ var multForm = $('#multForm').MultForm({
         var btnSubmit = this.find('input[type=submit]');
         switch (use) {
             case "add":
+                $('input[name=wifi]').change();
                 btnSubmit.off().on('click', function (e) {
                     e.preventDefault();
                     add_policy();
@@ -329,8 +330,9 @@ function getPolicyData() {
                 range: $('.radius').text()
             });
             postData['gps'] = ~~$('input[name=gps]').prop('checked');
+            console.log($('input[name=ssid]').data())
             postData['wifi_limit'] = JSON.stringify({
-                open: ~~$('input[name=wifi]').prop('checked') ? 1 : 0,
+                open: ~~$('input[name=wifi]').prop('checked'),
                 ssid: $('input[name=wifi]').prop('checked') ? $('input[name=ssid]').data('arrData') : []
             });
             break;
@@ -350,6 +352,7 @@ function getPolicyData() {
         default:
 
     }
+    console.log(postData);
     return postData;
 }
 function add_policy() {

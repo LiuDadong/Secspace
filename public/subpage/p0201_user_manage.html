@@ -50,41 +50,41 @@
             </div>
             <!-- section:添加、修改、查看多用途表单 -->
             <div style="overflow:hidden;display: none;" class="widget-body section">
-                <div class="row col-md-7 col-md-offset-2">
+                <div class="row col-md-8 col-md-offset-2">
                     <form id="multForm" class="form-horizontal" role="form" method="post" action="#">
                         <input type="hidden" name="userId" />
                         <div class="form-title">
                             <b>基本信息 </b>
                         </div>
                         <div class="form-group">
-                            <label for="name" class="col-md-4 control-label no-padding-right">姓名</label>
-                            <div class="col-md-5">
+                            <label for="name" class="col-md-3 control-label no-padding-right">姓名</label>
+                            <div class="col-md-8">
                                 <input type="text" id="name" name="name" class="form-control require" ctrl-regex="name_mix" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="email" class="col-md-4 control-label no-padding-right">邮箱</label>
-                            <div class="col-md-5">
+                            <label for="email" class="col-md-3 control-label no-padding-right">邮箱</label>
+                            <div class="col-md-8">
                                 <input type="text" id="email" name="email" class="form-control require" ctrl-regex="email" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="phone" class="col-md-4 control-label no-padding-right">手机号</label>
-                            <div class="col-md-5">
+                            <label for="phone" class="col-md-3 control-label no-padding-right">手机号</label>
+                            <div class="col-md-8">
                                 <input type="text" id="phone" name="phone" class="form-control" ctrl-regex="phone" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label no-padding-right">所属组</label>
-                            <div class="col-md-5" style="min-height:100px;max-height:300px;overflow: auto;">
+                            <label class="col-md-3 control-label no-padding-right">所属组</label>
+                            <div class="col-md-8" style="min-height:100px;max-height:300px;overflow: auto;">
                                 <input type="hidden" name="depart" />
                                 <input type="hidden" name="depart_id" value="-1"/>
                                 <div id="xtreeUserGroup"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label no-padding-right">标签</label>
-                            <div class="col-md-5" style="min-height:100px;max-height:300px;overflow: auto;">
+                            <label class="col-md-3 control-label no-padding-right">标签</label>
+                            <div class="col-md-8" style="min-height:100px;max-height:300px;overflow: auto;">
                                 <input type="hidden" name="tag" />
                                 <input type="hidden" name="tag_id" value="[]" />
                                 <div id="xlistUserTag"></div>
@@ -95,15 +95,15 @@
                                 <b>账号信息 </b>
                             </div>
                             <div class="form-group">
-                                <label for="account" class="col-md-4 control-label no-padding-right">账号</label>
-                                <div class="col-md-5">
+                                <label for="account" class="col-md-3 control-label no-padding-right">账号</label>
+                                <div class="col-md-8">
                                     <input type="text" id="account" name="account" class="form-control require"
                                         ctrl-regex="account" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="active_code" class="col-md-4 control-label no-padding-right">激活码</label>
-                                <div class="col-md-5">
+                                <label for="active_code" class="col-md-3 control-label no-padding-right">激活码</label>
+                                <div class="col-md-8">
                                     <span class="input-icon icon-right">
                                         <input type="text" id="active_code" name="active_code" class="form-control require"
                                             ctrl-regex="number6" />
@@ -114,8 +114,8 @@
 
                             </div>
                             <div class="form-group">
-                                <label for="valid_time" class="col-md-4 control-label no-padding-right">有效期</label>
-                                <div class="col-md-5">
+                                <label for="valid_time" class="col-md-3 control-label no-padding-right">有效期</label>
+                                <div class="col-md-8">
                                     <div class="has-unit">
                                         <input type="number" id="valid_time" name="valid_time" value="1" min="1" max="30"
                                             placeholder="1~30" class="form-control" />

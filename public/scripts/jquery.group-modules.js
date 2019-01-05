@@ -74,7 +74,6 @@
             //判断是否具有添加权限
             hasFn('add')
                 ? pnlLeft.find('.btnAdd,.btnUpload').on('click', function () {
-                    console.log(this);
                     var actText = $(this).text().replace(/[\s]/g, ''),
                         sCap = $(pnl.relSubCaption);
                     sCap.text(actText + sCap.data('itemText'));
@@ -473,7 +472,7 @@
                             sCap.text(actText + sCap.data('itemText'));
                             $('.section:has(#pagingTable)').hide();
                             $('.section:has(#tabForIssue)').show();
-                            $(pnl.relXTree).XTree();
+                            $(pnl.relXTree).XTree({showUndivided:true});
                             $(pnl.relXList).XList();
                         }
                     } 
@@ -547,7 +546,8 @@
                                 $('#om_select').data('om').refresh();
                             }else{
                                 var omSelect = new OrgMind({
-                                    container: 'om_select',          //'om_admin'-- id of the container   
+                                    container: 'om_select',          //'om_admin'-- id of the container
+                                    rootId:$.cookie('org_id'),
                                     multiple: true,     //支持多选
                                     allowUnsel: true,    //允许不选
                                     disableRoot: true,
@@ -2256,14 +2256,11 @@
                         li.closest('.xtree').find('li.active').removeClass('active');
                         li.addClass('active');
                     }
-                    if (gident == 0) {
-                        $(opts.relPTable).data('PagingTable').jsonData = {
-                            'url': '/p/user/manage'
-                        };
-                    } else {
-                        $(opts.relPTable).data('PagingTable').jsonData = {
-                            'url': '/p/depart/members'
-                        };
+                    $(opts.relPTable).find('.thHeader th:first .checkbox .text').text($(this).text());
+                    $(opts.relPTable).data('PagingTable').jsonData = {
+                        'url': opts.relPTableUrl
+                    };
+                    if (gident != 0) {
                         $(opts.relPTable).data('PagingTable').jsonData[opts.keyItemIdentify] = gident;
                     }
                     $.extend(
@@ -2292,7 +2289,9 @@
                             if (data.rt == '0000') {
                                 var items = opts.fnGetTreeItems(data);
                                 li.data('items', items);
-                                if(items.length>0){
+                                if(items.length===0 && !opts.showUndivided){
+                                    ul.html('<li>暂无用户组</li>');                                    
+                                }else{
                                     for (var i = 0; i < items.length; i++) {
                                         appendTreeItem(opts, ul, {
                                             gid: items[i][opts.keyItemId],
@@ -2303,8 +2302,16 @@
                                             status: items[i].status
                                         })
                                     }
-                                }else{
-                                    ul.html('<li>暂无用户组</li>');
+                                    if(opts.showUndivided){
+                                        appendTreeItem(opts, ul, {
+                                            gid: -1,
+                                            gident: -1,
+                                            text: '未分组',
+                                            checked: 0,
+                                            hasChild: 0,
+                                            status: 1
+                                        })
+                                    }
                                 }
                                 li.after(ul);
                             }
@@ -2358,9 +2365,10 @@
                     hasChild: 1,
                     status: 1
                 })
+
                 if (opts.relPTable) {
                     $(opts.relPTable).PagingTable({
-                        jsonData: { 'url': '/p/user/manage' },
+                        jsonData: { 'url': opts.relPTableUrl },
                         //selectAll: true,
                         relFilter: tre[0],
                         // theadHtml为表头类元素，第一个th用于存放全选复选框
@@ -2377,7 +2385,7 @@
                                             <td></td>\
                                             <td><span item-key="name"></span></td>\
                                             <td><span item-key="account"></span></td>\
-                                            <td><span item-key="depart.name"></span></td>\
+                                            <td><span item-key="depart_name"></span></td>\
                                             <td><span item-key="status"></span></td>\
                                         </tr>',
                         tbodyEmptyHtml: '<tr><td>该用户组没有直属用户</td><tr>',
@@ -2407,7 +2415,7 @@
                         }
                     });
                 }
-                tre.find('li[data-gid=0]').addClass('active');
+                tre.find('li[data-gid=0]').addClass('active').find('span').click();
                 return tre;
             },
             getRules: function () {  //获取用户选择信息
@@ -2478,11 +2486,12 @@
             }
         };
         $.fn[plug]['__def__'] = {     //插件默认属性
-            rootUrl: '/p/org/userList', //树形根节点获取全部用户接口
             hasRoot: 1,  //1表示设立一个根节点，0或false表示无根节点
             rootText: '所有用户组',  //根节点文本
             relPTable: '#tblForUserGroupTree',  //连动的表格（PagingTable组件）
+            relPTableUrl:'/p/depart/members',
             multiple: true,   //控制XTree是否支持多选，true则猜用复选框，false则采用单选框
+            showUndivided:false,
             tableListKey: 'user_list',
             relSubCaption: "#subCaption", //关联的显示标题选择器
             keyItemId: 'id',  //成员唯一标识  用户构建下发数据
@@ -2606,12 +2615,12 @@
                                         relFilter: lst[0],
                                         // theadHtml为表头类元素，第一个th用于存放全选复选框
                                         theadHtml: '<tr>\
-                                        <th></th>\
-                                        <th>姓名</th>\
-                                        <th>账号</th>\
-                                        <th>所属组</th>\
-                                        <th>状态</th>\
-                                    </tr>',
+                                            <th></th>\
+                                            <th>姓名</th>\
+                                            <th>账号</th>\
+                                            <th>所属组</th>\
+                                            <th>状态</th>\
+                                        </tr>',
                                         // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
                                         // to-edit、to-view表示要跳转的目标表单
                                         tbodyDemoHtml: '<tr>\

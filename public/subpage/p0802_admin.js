@@ -3,6 +3,7 @@
     
     var omAdmin = new OrgMind({
         container: 'om_admin',          //'om_admin'-- id of the container   
+        rootId:$.cookie('org_id'),
         multiple: false,     //支持多选
         allowUnsel: true,    //允许不选
         disableRoot: true,

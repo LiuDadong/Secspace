@@ -424,8 +424,6 @@
             this.aCenter = [lng, lat];
             var aLnglatBox = document.getElementsByClassName(this.sLnglatBoxClass);
             for (i in aLnglatBox) {
-                console.log(aLnglatBox[i]);
-                console.log(lng,lat);
                 aLnglatBox[i].innerHTML = lng + ',' + lat
                 aLnglatBox[i].innerHTML = lng + ',' + lat
             }

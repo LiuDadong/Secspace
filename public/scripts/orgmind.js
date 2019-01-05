@@ -513,8 +513,12 @@
             }, '添加', '机构')
         },
         ajaxMind: function (cb) {  //获取机构树mind数据刷新至页面，cb支持回调
-            var that = this;
-            $.silentGet('/common/orgtree/nodes', {}, function (data) {
+            var that = this,pd={};
+            if(that.opts['rootId']){
+                pd={org_id:that.opts['rootId']}
+            }
+            console.log(pd);
+            $.silentGet('/common/orgtree/nodes', pd, function (data) {
                 try{
                     $(that['theBtn'])
                     .prop('disabled',false)

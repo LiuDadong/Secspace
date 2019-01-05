@@ -389,13 +389,6 @@ function fnSpecialInit() {
             }
         }
     });
-    $('#delay').keyup(function () {
-        var c = $(this);
-        var temp_amount = c.val().replace(/[^\d]/g, '');
-        // 判断范围
-        temp_amount = temp_amount < 1 ? 1 : temp_amount > 72 ? 72 : temp_amount;
-        $(this).val(temp_amount);
-    });
 
 }
 

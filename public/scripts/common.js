@@ -66,7 +66,6 @@ function homeJadeInit() {  //初始化登录的管理员信息
         manager=localStorage.getItem('manager'),
         email=localStorage.getItem('email'),
         firLogin=localStorage.getItem('firLogin');
-    console.log(firLogin);
     if(icon){
         $('img.log').attr('src',appssec_url+'/'+icon);
     }
@@ -484,11 +483,15 @@ function mergeRolesFns(){
         p0708: 0, //管理员日志   exp(export): 导出
         p0709: 0, //违规情况日志 exp(export): 导出
         p0710: 0, //机构管理日志 exp(export): 导出
-        //p0711: 0, //角色管理日志 exp(export): 导出
+        p0711: 0, //敏感词日志   exp(export): 导出
+        p0712: 0, //上网行为日志 exp(export): 导出
         p0801: 0, //机构树       add:增加  del:删除  mod:修改    ie(import/export):导入导出
         p0802: 0  //管理员       add:增加  del:删除  mod:修改    act:启用/禁用
     };
     var roles=JSON.parse(localStorage.getItem('lic'));
+    console.log('roles');
+    console.log(roles);
+
     for(i in roles){
         if(roles[i]){
             var fni=roles[i]['function'];

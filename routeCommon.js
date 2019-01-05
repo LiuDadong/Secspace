@@ -93,7 +93,8 @@ module.exports = function (app, chttp) {
 
     //获取机构树节点，sid中包含当前请求的身份信息，服务端会自动返回当前身份有访问权限的所有机构
     app.get('/common/orgtree/nodes', function (req, res) {
-        chttp.cget('/p/org/orgManage?sid=' + req.cookies.sid, function (cont) {
+        req.query['sid']=req.cookies.sid;
+        chttp.cget('/p/org/orgManage?' + querystring.stringify(req.query), function (cont) {
             res.send(cont);
         });
     });

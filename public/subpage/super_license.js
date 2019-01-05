@@ -45,39 +45,26 @@
         frm.ajaxSubmit({
             resetForm: true,
             beforeSubmit: function () {
-                console.info(iptFile[0].files[0]);
-                iptFile.prop("disabled", true);
-                btnSmt.prop("disabled", true);
+                console.log(iptFile[0].files[0]);
+                if(iptFile[0].files.length===0){
+                    warningOpen('请选择授权文件','danger','fa-bolt');
+                    return false;
+                }else{
+                    iptFile.prop("disabled", true);
+                    btnSmt.prop("disabled", true);
+                }
             },
             success: function (data, result) {
                 iptFile.prop("disabled", false).change();
+                $.handleECode(true, data, '上传');
                 switch (data.rt) {
                     case '0000':
                         if (data.serverModules && typeof data.serverModules == 'object') {
                             localStorage.setItem('lic',JSON.stringify(data.serverModules));
-                            warningOpen('激活成功！', 'primary', 'fa-check');
-                        } else {
-                            warningOpen('没有返回license解析数据！', 'danger', 'fa-bolt');
                         }
-                        break;
-                    case 45:
-                        warningOpen('License已过期！', 'danger', 'fa-bolt');
-                        break;
-                    case 47:
-                        warningOpen('同一License文件只能在同一台设备上激活！', 'danger', 'fa-bolt');
-                        break;
-                    case 48:
-                        warningOpen('已达到授权用户数！', 'danger', 'fa-bolt');
-                        break;
-                    case 49:
-                        warningOpen('已达到授权设备数', 'danger', 'fa-bolt');
-                        break;
-                    case 46:
-                        warningOpen('License读取失败！', 'danger', 'fa-bolt');
                         break;
                     default:
                         console.warn("data.rt=" + data.rt)
-                        warningOpen('license上传失败！', 'danger', 'fa-bolt');
                 }
             },
             error: function (err) {

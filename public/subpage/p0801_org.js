@@ -5,6 +5,7 @@
         var omEdit = new OrgMind({
             container: 'om_edit',          //'om_edit'-- id of the container   
             btnContainer: 'btn_cnter',     //'btn_cnter' --关联按钮组
+            rootId:$.cookie('org_id'),
             multiple: false,     //不支持多选
             allowUnsel: false,    //不允许不选
             disableRoot: false,

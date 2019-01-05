@@ -125,14 +125,6 @@
         editUrl: '/p/policy/customerMan',
         editBtnTxt: '保存',
         afterReset: function () {  //表单重置之后紧接着的回调
-            //控制禁用客户端权限样式和行为
-            // 获取客户端设置授权项
-            var permissionItems = $(this).data('permissionItems');
-            $(':input[data-for=permissionItems]').each(function () {
-                $(this).prop('checked', ~~permissionItems[$(this).attr('name')] == 1)
-                    .prop('disabled', ~~permissionItems[$(this).attr('name')] == -1);
-            })
-
             //权限关联逻辑
             $('input:checkbox[on-on]').off().on("click", function (e) {
                 var checkbox = $(this),
@@ -242,6 +234,18 @@
                 return $('input:checkbox[name=' + n + ']').closest("div").prev('label').text();
             }
         },
+        afterUsed:function(){
+            var permissionItems= JSON.parse(localStorage.getItem('permissionItems'));
+            $('#multForm').find(':input[data-for=permissionItems]').each(function () {
+                var key = $(this).attr('name'),
+                    val = permissionItems[key];
+                $(this).toggleClass('forbidden', ~~val == -1)
+                    .closest('.form-group').toggleClass('forbidden', ~~val == -1);
+                if (~~val == -1) {
+                    $(this).prop('checked', false).prop('disabled', true);
+                }
+            });
+        },
         cbSubmit: function (act) {  //提交编辑成功之后的回调
             switch (act) {
                 case 'add':
@@ -283,20 +287,6 @@
 
     //模块特别情况处理
 
-    // 获取客户端设置授权项
-    $.silentGet('/getPermissions', { url: '/p/org/getPermissionItems' }, function (data) {
-        var permissionItems = data.permissionItems;
-        multForm.data('permissionItems', permissionItems);
-        $(':input[data-for=permissionItems]').each(function () {
-            var key = $(this).attr('name'),
-                val = permissionItems[key];
-            $(this).toggleClass('forbidden', ~~val == -1)
-                .closest('.form-group').toggleClass('forbidden', ~~val == -1);
-            if (~~val == -1) {
-                $(this).prop('checked', false).prop('disabled', true);
-            }
-        });
-    })
 
     //颜色选择器初始化
     
@@ -331,4 +321,10 @@
         $('#font_color').css({
             cursor: $(this).prop('checked')?'pointer':'not-allowed'
         })
+    })
+
+    
+    // 获取客户端设置授权项
+    $.silentGet('/getPermissions', { url: '/p/org/getPermissionItems' }, function (data) {
+        localStorage.setItem('permissionItems',JSON.stringify(data.permissionItems));
     })

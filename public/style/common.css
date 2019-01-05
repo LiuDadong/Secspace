@@ -831,7 +831,16 @@ input::-webkit-input-placeholder{
     border: 1px solid #d5d5d5;
 }
 
+
+/* append-box组件错误样式 */
 .append-box input.input-error{
     color: #e46f61 !important;
     border-color: #e7bebe;
+}
+
+.append-box input+.help-block{
+    display: none;
+}
+.append-box input.input-error:focus+.help-block{
+    display: block;
 }

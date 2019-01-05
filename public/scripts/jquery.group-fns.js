@@ -68,6 +68,7 @@ $.iptRegExpCtrl =function (ipt){
             console.error('ctrl-regex="' + ctrlRegex + '"未定义');
         }
     }
+    return true;
 }
 
 
@@ -152,7 +153,9 @@ $.handleECode = function () {
         // case '3009':
         //     break;
         default:
+            
             errorText = dt.desc ? dt.desc : '未收录错误';
+            console.log(errorText);
     }
     if (arguments[0] !== null) {
         if (okText) {
@@ -436,7 +439,6 @@ $.fn.plugInit = function () {
                             appendBtn.prop('disabled', true);
                         }
                     })
-
                     //实时刷新数据
                     var ipdHid = box.find('input[type=hidden]').data('arrData', []),
                     arrData = box.find('input[type=hidden]').data('arrData'),
@@ -469,6 +471,7 @@ $.fn.plugInit = function () {
                             box.find('.item').each(function () {
                                 var ipt=$(this).find(':input'),
                                     dt = ipt.val();
+                                    console.log(dt)
                                     if (dt) {
                                         if($.iptRegExpCtrl(ipt)){
                                             arrData.push(dt);
@@ -479,10 +482,10 @@ $.fn.plugInit = function () {
                             })
                         } else {
                             console.error('.item中必须至少含有一个:input类元素。')
-                        }   
-                        ipdHid.val(yesno?JSON.stringify(arrData):'[]').change();
+                        }
+                        ipdHid.data('arrData',yesno?arrData:[]).val(yesno?JSON.stringify(arrData):'[]').change();
                     }else{
-                        ipdHid.val('[]').change();
+                        ipdHid.data('arrData',[]).val('[]').change();
                     }
                     
                     if (box.closest('form').data('fns') !== undefined) {  //尝试检查可能所属的表单预先绑定的数据检查函数check
@@ -541,7 +544,7 @@ $.fn.plugInit = function () {
             // 给第一个.item（将用于复制追加）中的图标按钮<i>元素绑定click时间，只有一个.item时清空其中所有:input的值，否则删除当前.item
             box.find('.item i').addClass('pointer').off('click').on('click', function () {
                 if (box.find('.item').length == 1) {
-                    $(this).closest('.item').find(':input').reset();
+                    $(this).closest('.item').find('input').val('');
                 } else {
                     $(this).closest('.item').remove();
                 }

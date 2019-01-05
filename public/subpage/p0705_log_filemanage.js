@@ -10,20 +10,6 @@
 
     
     logDateInit();
-    function logDateInit(){
-        $(".jedate").each(function () {
-            $(this).jeDate({
-                isClear:true,
-                format: "YYYY-MM-DD hh:mm:ss",
-                okfun: function (elem) {
-                    elem.elem.change();
-                },
-                clearfun: function (elem) {
-                    elem.elem.change();
-                }
-            });
-        })
-    }
     getloglist(1, 10);
     $("#datestart, #dateend, select[name=log_type]").change(function () {
         getloglist(1, 10);
