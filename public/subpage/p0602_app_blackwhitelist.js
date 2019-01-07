@@ -112,6 +112,10 @@
         updateStatusJson: {
             id: [],
             flag: 0
+        },
+        deleteJson:{
+            url:'/p/app/listMan',
+            id:[]
         }
     })
     //页面初始化事件绑定
@@ -119,62 +123,7 @@
 
 
     function bindEvents() {
-        var tblSel = pagingTable.data('PagingTable').sel;
         // 给操作面板中的按钮绑定事件(包括分页长度和搜索关键字实时刷新)
-
-        panel.find('.btnDel').on('click', function () {
-            var ids = [],
-                needUnact = [];
-            for (var i = 0; i < tblSel.length; i++) {
-                var item = tblSel[i];
-                ids.push(item.id);
-                if (item.status == 1) {
-                    needUnact.push(item.name)
-                }
-            }
-            if (ids.length > 0) {
-                if (needUnact.length === 0) {
-                    bootbox.dialog({
-                        title: '<i class="glyphicon glyphicon-fire danger"></i>',
-                        message: '<p class="text-align-center">确认删除选中的应用吗？</p>',
-                        className: "modal-darkorange",
-                        buttons: {
-                            success: {
-                                label: "取消",
-                                className: "btn-blue",
-                                callback: function () {
-                                    //
-                                }
-                            },
-                            "确认删除": {
-                                className: "btn-danger",
-                                callback: function () {
-                                    $.silentPost('/man/appList/del', {
-                                        id: JSON.stringify(ids)
-                                    }, function (data) {
-                                        switch (data.rt) {
-                                            case '0000':
-                                                pagingTable.PagingTable('refresh');
-                                                warningOpen('删除成功！', 'primary', 'fa-check');
-                                                break;
-                                            case 5:
-                                                toLoginPage();
-                                                break;
-                                            default:
-                                                warningOpen('删除失败！', 'danger', 'fa-bolt');
-                                        }
-                                    })
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    warningOpen('请先禁用要删除的应用！', 'danger', 'fa-bolt');
-                }
-
-            }
-        })
-
         /**
      * 绑定表单事件
      */

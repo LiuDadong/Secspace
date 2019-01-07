@@ -310,43 +310,8 @@
             }
         }
     })
-    jeDateInit();
-    function jeDateInit(){
-        var today=$.nowDate().split(' ')[0],
-            tomorrow=$.nowDate({DD:+1}).split(' ')[0];
-            start_date_opt={
-                format: "YYYY-MM-DD",
-                minDate: today,
-                isClear:false,
-                okfun: function (elem) {
-                    elem.elem.change();
-                    stop_date_opt.minDate=elem.val;
-                    $('#stop_date').jeDate(stop_date_opt);
-                    if($.timeStampDate(elem.val)>$.timeStampDate($('#stop_date').val())){
-                        $('#stop_date').val(elem.val)
-                    }
-                }
-            },
-            stop_date_opt={
-                format: "YYYY-MM-DD",
-                minDate: today,
-                isClear:false,
-                okfun: function (elem) {
-                    elem.elem.change();
-                }
-            },
-            time_opt={
-                format: "hh:mm:ss",
-                isClear:false,
-                okfun: function (elem) {
-                    elem.elem.change();
-                }
-            };
-        $('#start_date').attr('value',today).jeDate(start_date_opt);
-        $('#stop_date').attr('value',tomorrow).jeDate(stop_date_opt);
-        $('#start_time').attr('value','08:00:00').jeDate(time_opt);
-        $('#stop_time').attr('value','20:00:00').jeDate(time_opt);
-    }
+    jeDatePcyInit();
+
 
     $("select[name=repeat_type]").on('change', function () {
         if ($(this).val() == 1) {

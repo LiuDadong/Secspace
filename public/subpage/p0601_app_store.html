@@ -26,19 +26,19 @@
             <div class="widget-body">
                 <form class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
                     <div class="buttons-preview pull-left">
-                        <button type="button" id="btnUpload" class="btn btn-primary">
+                        <button rolefn="add" type="button" id="btnUpload" class="btn btn-primary">
                             <i class="fa fa-plus"></i>上传
                         </button>
-                        <button type="button" id="btnIssue" class="btn btn-primary">
+                        <button rolefn="iss" type="button" id="btnIssue" class="btn btn-primary">
                             <i class="fa fa-magic"></i>授权
                         </button>
                         <button type="button" id="btnRefresh" class="btn btn-default btn-sm">
                             <i class="fa fa-refresh"></i>刷新
                         </button>
-                        <button type="button" id="btnUpdate" class="btn btn-default btn-sm">
+                        <button rolefn="add" type="button" id="btnUpdate" class="btn btn-default btn-sm">
                             <i class="fa fa-exchange"></i>应用更新
                         </button>
-                        <button type="button" id="btnDelete" class="btn btn-default btn-sm">
+                        <button rolefn="del" type="button" id="btnDelete" class="btn btn-default btn-sm">
                             <i class="fa fa-minus-square"></i>删除
                         </button>
                     </div>
@@ -88,7 +88,7 @@
                                 <th style="width:9%">已安装/已授权</th>
                                 <th style="width:8%">创建者</th>
                                 <th style="width:12%">更新时间</th>
-                                <th style="width:16%">操作</th>
+                                <th style="width:10%">操作</th>
                             </tr>
                         </thead>
                         <tbody id="tbHas">
@@ -118,9 +118,9 @@
                                 <td viewkey="operator">null</td>
                                 <td viewkey="modified">null</td>
                                 <td class="tact appact">
-                                    <button class="btnModify btn btn-primary btn-xs">修改</button>
-                                    <button class="btnView btn btn-primary btn-xs">查看</button>
-                                    <button class="btnVersion  btn btn-default btn-xs">历史版本</button>
+                                    <button rolefn="mod" title="编辑" class="btnModify btn btn-primary btn-xs"><i class="fa fa-edit"></i></button>
+                                    <button title="查看" class="btnView btn btn-primary btn-xs"><i class="fa fa-eye"></i></button>
+                                    <button title="历史版本" class="btnVersion  btn btn-default btn-xs"><i class="fa fa-paperclip"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -342,7 +342,7 @@
                                     <b class="danger">*</b>应用显示名称
                                 </label>
                                 <div class="col-sm-7">
-                                    <input type="text" ctrl-regex="^[\u4e00-\u9fa5_a-zA-Z0-9]{1,15}$" autocomplete="off" class="form-control" name="name" placeholder="请输入web应用在手机上的显示名称" />
+                                    <input type="text" ctrl-regex="appname" autocomplete="off" class="form-control" name="name" placeholder="请输入web应用在手机上的显示名称" />
                                 </div>
                             </div>
                         </div>

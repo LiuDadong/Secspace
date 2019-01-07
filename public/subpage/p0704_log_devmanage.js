@@ -12,7 +12,6 @@
 
     getloglist(1, 10);
     $("#datestart, #dateend, select[name=log_type]").change(function () {
-        console.log('1111')
         getloglist(1, 10);
     });
     $('input[name=searchval]').keyup(function () {

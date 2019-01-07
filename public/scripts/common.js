@@ -31,6 +31,7 @@ function pjaxInit() {  //pjax初始化
         if(fns===undefined){
             $.cookie('hasAcc',1);
         }else{
+            localStorage.setItem('fns',JSON.stringify(fns));
             if(fns==1){
                 $.cookie('hasAcc',1);
             }else if(Array.isArray(fns) && fns.indexOf('acc')!== -1 ){
@@ -60,6 +61,7 @@ function pjaxInit() {  //pjax初始化
 }
 function homeJadeInit() {  //初始化登录的管理员信息
     var appssec_url = localStorage.getItem("appssec_url"),
+        product_name = localStorage.getItem("product_name"),
         icon = localStorage.getItem("icon"),
         avatar = localStorage.getItem("avatar"),
         managerName=localStorage.getItem('name'),
@@ -75,6 +77,7 @@ function homeJadeInit() {  //初始化登录的管理员信息
     $('.managerName').text(managerName);
     $('li.manager>a').text(manager);
     $('li.email>a').text(email);
+    $('.product_name a').text(product_name);
 
     if(firLogin=='0'){
         $.dialog('confirm',{
@@ -577,11 +580,11 @@ function hasFn(fn){   //判断功能点fn是否属于合法权限
             break;
         default:
     }
-    var fns= $.cookie('fns');
-    if(fns=='undefined'||fns==undefined||fns===''||fns==='true'||fns==='1'){
+    var strFns= localStorage.getItem('fns');
+    if(strFns=='undefined'||strFns==undefined||strFns===''||strFns==='true'||strFns==='1'){
         return true;
     }else{
-        var fns= JSON.parse(fns);
+        var fns= JSON.parse(strFns);
         if(fns instanceof Array){
             return fns.indexOf(fn)!==-1;
         }else{
@@ -605,7 +608,6 @@ function hasHdlAuth(item,act,aim){
         return hasAuth(item,act,aim);
     }
     function hasAuth(item,act,aim){
-        console.log(item);
         var mng = $.cookie('manager'),
         lid = localStorage.getItem('org_id'),   //管理员责任机构id
         cid = $.cookie('org_id'),               //管理员当前管理机构id
@@ -797,7 +799,7 @@ function updatePW(e) {  //修改密码
                     <div class="form-group">\
                         <label for="old_passwd" class="col-sm-2 control-label no-padding-right">当前密码</label>\
                         <div class="col-sm-10">\
-                            <input type="password" class="form-control require" id="old_passwd" name="old_passwd" ctrl-regex="password" placeholder="请输入当前密码">\
+                            <input type="password" class="form-control require" id="old_passwd" name="old_passwd" placeholder="请输入当前密码">\
                         </div>\
                     </div>\
                     <div class="form-group">\
@@ -836,7 +838,6 @@ function updatePW(e) {  //修改密码
         addAct:'/common/pw/selfmod',
         beforeSubmit:function(arrKeyVal, $frm, ajaxOptions){
             frmModPW['new_passwd']=b64.encode($('input[name=new_passwd]').val());
-            console.log(arrKeyVal);
         },
         cbSubmit: function (use) {  //提交编辑成功之后的回调
             localStorage.setItem('firLogin','');
@@ -847,7 +848,36 @@ function updatePW(e) {  //修改密码
     frmModPW.usedAs('add');
 }
 
-
+function jeDatePcyInit(){
+    var today=$.nowDate().split(' ')[0],
+        tomorrow=$.nowDate({DD:+1}).split(' ')[0];
+        start_date_opt={
+            format: "YYYY-MM-DD",
+            minDate: today,
+            isClear:false,
+            okfun: function (elem) {
+                stopNum=$.timeStampDate(elem.val)+60*60*24;
+                stop_date_opt.minDate=$.timeStampDate(stopNum,stop_date_opt.format);
+                $('#stop_date').jeDate(stop_date_opt);
+                if(stopNum>$.timeStampDate($('#stop_date').val())){
+                    $('#stop_date').val(stop_date_opt.minDate);
+                }
+            }
+        },
+        stop_date_opt={
+            format: "YYYY-MM-DD",
+            minDate: today,
+            isClear:false
+        },
+        time_opt={
+            format: "hh:mm:ss",
+            isClear:false
+        };
+    $('#start_date').attr('value',today).jeDate(start_date_opt);
+    $('#stop_date').attr('value',tomorrow).jeDate(stop_date_opt);
+    $('#start_time').attr('value','08:00:00').jeDate(time_opt);
+    $('#stop_time').attr('value','20:00:00').jeDate(time_opt);
+}
 
 function logDateInit(){
     $(".jedate").each(function () {

@@ -45,7 +45,7 @@
     //采用分页表格组件pagingTable初始化黑白名单列表
     var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
         paging: false,
-        maxHeight:'500px',
+        maxHeight:'400px',
         jsonData: { 'url': '/p/org/adminMan' },
         // theadHtml为表头类元素，第一个th用于存放全选复选框
         theadHtml: '<tr>\

@@ -96,7 +96,11 @@
     var panel = $('#panel').Panel({
         objTargetTable: pagingTable,
         objTargetForm: multForm,
-        objTargetCaption: subCaption
+        objTargetCaption: subCaption,
+        deleteJson:{
+            url:'/p/tag/manage',
+            tagId:[]
+        }
     })
 
 

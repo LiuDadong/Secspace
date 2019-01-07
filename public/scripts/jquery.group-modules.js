@@ -289,7 +289,7 @@
                                     needUnact = [];
                                 default:
                                     needUnact = $.arrKeyFlt(sel, false, function (item) {
-                                        return item.status!==undefined&& item.status!= '0'&&item.userId===undefined;
+                                        return item.status!==undefined&& item.status!= '0'&&item.policy_type!==undefined;
                                     });
                             }
     
@@ -362,12 +362,6 @@
                                             }
                                         }
                                         function delDefault() {
-                                            var modJson = {};
-                                            if (pnl.deleteJson.hasOwnProperty('id')) {
-                                                modJson['id'] = JSON.stringify($.arrKeyFlt(sel, 'id'))
-                                            } else {
-                                                modJson['ids'] = JSON.stringify($.arrKeyFlt(sel, 'id'))
-                                            }
                                             $.actPost('/common/del', delData(sel), function (data) {
                                                 switch (data.rt) {
                                                     case '0000':
@@ -378,14 +372,20 @@
                                             }, actText)
                                             function delData(sel) {
                                                 var jsonPatch = {};
-                                                if (pnl.deleteJson.hasOwnProperty('account')) {
-                                                    jsonPatch['account'] = JSON.stringify(arrByKey(sel, 'account'));
-                                                } else if (pnl.deleteJson.hasOwnProperty('userId')) {
-                                                    jsonPatch['userId'] = JSON.stringify(arrByKey(sel, 'userId'));
-                                                } else if (pnl.deleteJson.hasOwnProperty('id')) {
-                                                    jsonPatch['id'] = JSON.stringify(arrByKey(sel, 'id'));
-                                                } else {
+                                                if(pnl.deleteJson===undefined){
                                                     jsonPatch['ids'] = JSON.stringify(arrByKey(sel, 'id'));
+                                                }else{
+                                                    if (pnl.deleteJson.hasOwnProperty('account')) {
+                                                        jsonPatch['account'] = JSON.stringify(arrByKey(sel, 'account'));
+                                                    } else if (pnl.deleteJson.hasOwnProperty('userId')) {
+                                                        jsonPatch['userId'] = JSON.stringify(arrByKey(sel, 'userId'));
+                                                    } else if (pnl.deleteJson.hasOwnProperty('tagId')) {
+                                                        jsonPatch['tagId'] = JSON.stringify(arrByKey(sel, 'tagId'));
+                                                    } else if (pnl.deleteJson.hasOwnProperty('id')) {
+                                                        jsonPatch['id'] = JSON.stringify(arrByKey(sel, 'id'));
+                                                    } else {
+                                                        jsonPatch['ids'] = JSON.stringify(arrByKey(sel, 'id'));
+                                                    }
                                                 }
                                                 return $.extend(
                                                     true,
@@ -1021,6 +1021,9 @@
                 //表头用于全选的复选框
                 if (!trHeader.find('th:first-child').html()) {
                     var spantxt = opts.selectAll ? '全选' : '';
+                    if(opts.relFilter){  //设置全选框默认文本
+                        spantxt=$(opts.relFilter).find('.active span').text();
+                    }
                     trHeader.find('th:first-child').empty().append(
                         $('<div class="checkbox"><label>'
                             + '<input type="checkbox"/>'
@@ -1152,7 +1155,6 @@
                         trDemo.find(opts.trDemoBinders[j].dom).on(opts.trDemoBinders[j].event, opts.trDemoBinders[j].fn);
                     }
                 }
-
                 this[plug]('refresh');
                 return this;
             },
@@ -1729,7 +1731,6 @@
             type: 'POST', //表单提交方式
             targetTable: '#pagingTable',  //关联的分页表格选择器
             relSubCaption: "#subCaption", //关联的显示标题选择器
-
             fnValByKey: function (k, v) { //表单数据显示预处理
                 switch (k) {
                     case 'xxx':
@@ -2365,7 +2366,7 @@
                     hasChild: 1,
                     status: 1
                 })
-
+                tre.find('li[data-gid=0]').addClass('active');
                 if (opts.relPTable) {
                     $(opts.relPTable).PagingTable({
                         jsonData: { 'url': opts.relPTableUrl },
@@ -2415,7 +2416,7 @@
                         }
                     });
                 }
-                tre.find('li[data-gid=0]').addClass('active').find('span').click();
+                
                 return tre;
             },
             getRules: function () {  //获取用户选择信息
@@ -2589,6 +2590,7 @@
                             })
                             li.find('span').on('click', function (e) {
                                 e.stopPropagation();
+                                $(opts.relPTable).find('.thHeader .checkbox:first span.text').text($(this).text());
                                 if (!li.hasClass('active')) {
                                     li.closest('.xlist').find('li.active').removeClass('active');
                                     li.addClass('active');

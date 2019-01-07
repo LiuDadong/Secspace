@@ -147,7 +147,6 @@
         },
         beforeSubmit: function (arrKeyVal, $frm, ajaxOptions) {
             for (var i = 0; i < arrKeyVal.length; i++) {
-                console.log(arrKeyVal[i]);
                 if (delKeyVal(arrKeyVal[i].name)) {
                     arrKeyVal.splice(i, 1);
                     i--;
@@ -465,7 +464,6 @@ function askForLeave() {
         var uids=sel.map(function(item){
             return item.userId;
         })
-        console.log(uids);
         $.dialog('form', {
             width: 400,
             height: null,

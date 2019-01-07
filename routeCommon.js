@@ -25,7 +25,7 @@ var arrTypedUrls=[  //采用请求类型识别操作类型的新式接口
     '/p/policy/fenceMan',       //围栏策略
     '/p/policy/appPolicyMan',   //应用策略
     '/p/policy/customerMan',    //客户端策略
-    '/p/app/listMan'            //客户端策略
+    '/p/app/listMan'            //黑白名单
     ];
 var upTransfer = multer({
     storage: multer.diskStorage({
@@ -155,7 +155,6 @@ module.exports = function (app, chttp) {
                 });
         }
     });
-
 
     // 机构内列表呈现类成员的获取
     app.get('/common/org/list', function (req, res) {   //会自动添加org_id
@@ -323,6 +322,5 @@ module.exports = function (app, chttp) {
                 res.send(cont);
             });
         }
-        
     });
 };

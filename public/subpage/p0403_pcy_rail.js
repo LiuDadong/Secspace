@@ -8,7 +8,7 @@
 var camap = new CAmap('amapwrap');
 
 applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
-
+jeDatePcyInit();
 //用于交互时改变标题显示
 var subCaption = $('#subCaption').data('itemText', '围栏策略').text('围栏策略列表');
 
@@ -205,8 +205,6 @@ $.silentPost('/policy/dev_app', {}, function (data) {//获取已启用设备策�
             whiteapp=data.policies.whiteapp;
         var devPolicy = $('select[name=dev_policy]').empty(),
             appPolicy = $('select[name=app_policy]').html('<option value="-1">不设置应用策略</option>');
-
-        console.log(device);
         for (var i in device) {
             var option = $('<option>').attr('value', device[i].id).text(device[i].name);
             if(device[i].name=='默认策略'){
@@ -330,7 +328,6 @@ function getPolicyData() {
                 range: $('.radius').text()
             });
             postData['gps'] = ~~$('input[name=gps]').prop('checked');
-            console.log($('input[name=ssid]').data())
             postData['wifi_limit'] = JSON.stringify({
                 open: ~~$('input[name=wifi]').prop('checked'),
                 ssid: $('input[name=wifi]').prop('checked') ? $('input[name=ssid]').data('arrData') : []
@@ -352,7 +349,6 @@ function getPolicyData() {
         default:
 
     }
-    console.log(postData);
     return postData;
 }
 function add_policy() {

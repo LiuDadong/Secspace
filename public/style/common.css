@@ -764,18 +764,6 @@ th.filter>ul.dropdown-menu{
 .regex-info{
     display: none;
 }
-
-
-/* textarea.danger,
-input.danger{
-    border-color: rgba(255, 0, 0 ,0.7) !important;
-    box-shadow: 0 0 2px rgba(255, 0, 0 ,0.7) !important;
-    color: inherit !important;
-} */
-
-input:focus+.regex-info{
-    display: block;
-}
 .has-error .regex-info{
     display: block;
 }

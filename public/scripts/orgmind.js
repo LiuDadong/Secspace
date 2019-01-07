@@ -366,7 +366,6 @@
                     var url = localStorage.getItem('appssec_url') + '/p/org/exportOrg?sid=' + $.cookie('sid') +'&org_id=' + jm.get_selected_node().id+'&flag=' + $(this).data('flag');
                         // downloadFile(url);
                         // window.location = url;
-                        console.log(url)
                         // try {
                         //     var elemIF = document.createElement("iframe");
                         //     elemIF.src = url;
@@ -385,7 +384,6 @@
                         for(n in dt){
                             inputs+= '<input type="hidden" name="'+ n +'" value="'+ dt[n] +'" />'
                         }
-                        console.log(inputs);
                         $('<form action="' + url + '" method="get">' + inputs + '</form>')
                         .appendTo('body').submit().remove();
                     setTimeout(function(){
@@ -519,7 +517,6 @@
             if(that.opts['rootId']){
                 pd={org_id:that.opts['rootId']}
             }
-            console.log(pd);
             $.silentGet('/common/orgtree/nodes', pd, function (data) {
                 try{
                     $(that['theBtn'])

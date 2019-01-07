@@ -1,4 +1,4 @@
-<div style="margin-bottom:20px;" class="row">
+<div class="row">
     <div class="firsttop col-lg-12 col-sm-12 col-xs-12">
         <div class="t1 col-lg-3 col-sm-3 col-xs-3">
             <div class="title">用户</div>
@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <div style="padding-left:5px;" class="t2 col-lg-3 col-sm-3 col-xs-3">
+        <div class="t2 col-lg-3 col-sm-3 col-xs-3">
             <div class="title">设备</div>
             <div class="content">
                 <div class="totaluser col-xs-4 list">
@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <div style="padding-left:5px;" class="t3 col-lg-3 col-sm-3 col-xs-3">
+        <div class="t3 col-lg-3 col-sm-3 col-xs-3">
             <div class="title">策略</div>
             <div class="content">
                 <div class="totaluser col-xs-4 list">
@@ -47,7 +47,7 @@
                 </div>
             </div>
         </div>
-        <div style="padding-left:5px;" class="t4 col-lg-3 col-sm-3 col-xs-3">
+        <div class="t4 col-lg-3 col-sm-3 col-xs-3">
             <div class="title">应用</div>
             <div class="content">
                 <div class="totaluser col-xs-4 list">
@@ -67,88 +67,81 @@
     </div>
 </div>
 <div class="row">
-    <div class="first col-lg-12 col-sm-12 col-xs-12">
-        <div class="col-lg-3 col-sm-6 col-xs-12">
-            <div style="margin:0 0 16px 0;" class="widget">
-                <div class="widget-header">
-                    <span style="font-size:16px;" class="widget-caption">已激活用户百分比</span>
-                </div>
-                <div class="widget-body">
-                    <div id="online" class="circle">
-                        <div class="pie_left">
-                            <div class="left"></div>
-                        </div>
-                        <div class="pie_right">
-                            <div class="right"></div>
-                        </div>
-                        <div class="mask">
-                            <span>0</span>
-                            <label>%</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="col-lg-3 col-sm-6 col-xs-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span style="font-size:16px;" class="widget-caption">已激活用户百分比</span>
             </div>
-        </div>
-        <div style="padding-left:5px;" class="col-lg-3 col-sm-6 col-xs-12">
-            <div style="margin:0 0 16px 0;" class="widget">
-                <div class="widget-header">
-                    <span style="font-size:16px;" class="widget-caption">设备合规百分比</span>
-                </div>
-                <div class="widget-body">
-                    <div id="depart" class="circle">
-                        <div class="pie_left">
-                            <div class="left"></div>
-                        </div>
-                        <div class="pie_right">
-                            <div class="right"></div>
-                        </div>
-                        <div class="mask">
-                            <span>0</span>
-                            <label>%</label>
-                        </div>
+            <div class="widget-body">
+                <div id="online" class="circle">
+                    <div class="pie_left">
+                        <div class="left"></div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="poly col-lg-3 col-sm-6 col-xs-12">
-            <div class="widget">
-                <div class="widget-header">
-                    <span style="font-size:16px;" class="widget-caption">策略下发百分比</span>
-                </div>
-                <div class="widget-body">
-                    <div id="app" class="circle">
-                        <div class="pie_left">
-                            <div class="left"></div>
-                        </div>
-                        <div class="pie_right">
-                            <div class="right"></div>
-                        </div>
-                        <div class="mask">
-                            <span>0</span>
-                            <label>%</label>
-                        </div>
+                    <div class="pie_right">
+                        <div class="right"></div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div style="padding-left:5px;" class="col-lg-3 col-sm-6 col-xs-12">
-            <div class="widget">
-                <div class="widget-header">
-                    <span style="font-size:16px;" class="widget-caption">每天在线设备数量</span>
-                </div>
-                <div class="widget-body">
-                    <div id="deviceNum"></div>
+                    <div class="mask">
+                        <span>0</span>
+                        <label>%</label>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div tabindex="-1" role="dialog" style="display:none;" aria-hidden="false" class="bootbox modal fade bootbox-confirm in modal-primary">
-    <div style="width:500px;" class="modal-dialog">
-        <div class="modal-content"></div>
+    <div class="col-lg-3 col-sm-6 col-xs-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span class="widget-caption">设备合规百分比</span>
+            </div>
+            <div class="widget-body">
+                <div id="depart" class="circle">
+                    <div class="pie_left">
+                        <div class="left"></div>
+                    </div>
+                    <div class="pie_right">
+                        <div class="right"></div>
+                    </div>
+                    <div class="mask">
+                        <span>0</span>
+                        <label>%</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="poly col-lg-3 col-sm-6 col-xs-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span class="widget-caption">策略下发百分比</span>
+            </div>
+            <div class="widget-body">
+                <div id="app" class="circle">
+                    <div class="pie_left">
+                        <div class="left"></div>
+                    </div>
+                    <div class="pie_right">
+                        <div class="right"></div>
+                    </div>
+                    <div class="mask">
+                        <span>0</span>
+                        <label>%</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-6 col-xs-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span class="widget-caption">每天在线设备数量</span>
+            </div>
+            <div class="widget-body">
+                <div id="deviceNum"></div>
+            </div>
+        </div>
     </div>
 </div>
-<div class="background"></div>
+
 <div style="margin-right: 15px;text-align:right;color:#aaa;" class="page-version">
     <label></label>
 </div>

@@ -419,7 +419,6 @@ function edit(e) {
     grpFormFor('edit', e)
 }
 function view(e) {
-    console.log(e);
     grpFormFor('view', e)
 }
 
@@ -544,7 +543,6 @@ function grpFormFor(use, ele) {
             getUsersList(0);
         }
     });
-    console.log(item);
     if (item) {
         frmUserGroup.data('item', item);
     } else {
@@ -691,25 +689,23 @@ function refresh() {
 }
 // 删除
 function deletes() {
-    var i = 0;
-    var tab = $('.userstable table');
-    if (tab.find('span').hasClass('txt')) {
-        i = 1;
-    }
-    var cont = '';
-    if (i > 0) {
-        cont += '<div class="modal-header">'
-            + ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-            + '<h4 class="modal-title">提示</h4>'
-            + '</div>'
-            + '<div class="modal-body">'
-            + '<p>确定删除？</p>'
-            + '</div>'
-            + '<div class="modal-footer">'
-            + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-            + '<button type="button" class="btn btn-primary" onclick="users_delete()">确认</button>'
-            + '</div>';
-        alertOpen(cont);
+    if ($('.userstable table').find('span.txt').length>0) {
+        $.dialog('confirm', {
+            width: 460,
+            height: null,
+            maskClickHide: true,
+            title: "删除确认",
+            content: '<p class="text-align-center">确认删除选中的用户组吗？</p>',
+            hasBtn: true,
+            hasClose: true,
+            hasMask: true,
+            confirmValue: '确认',
+            confirm: function () {
+                users_delete();
+            },
+            confirmHide: true,
+            cancelValue: '取消'
+        });
     }
 }
 

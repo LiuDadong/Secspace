@@ -1023,13 +1023,6 @@ module.exports = function (app, chttp) {
     });
 
 
-    // 删除应用黑白名单
-    app.post('/man/appList/del', function (req, res) {
-        req.body['sid'] = req.cookies.sid;
-        chttp.cpost(req.body, '/p/app/delAppList', function (cont) {
-            res.send(cont);
-        });
-    });
 
     // 黑名单禁用/启用
     app.post('/man/appList/updateStatus', function (req, res) {
@@ -1516,7 +1509,6 @@ module.exports = function (app, chttp) {
     // 新建请假
     app.post('/user/leave', function (req, res) {
         req.body['sid'] = req.cookies.sid;
-        console.log(req.body);
         chttp.cpost(req.body, '/p/user/leave', function (cont) {
             res.send(cont);
         });
@@ -1524,7 +1516,6 @@ module.exports = function (app, chttp) {
     // 更新请假
     app.post('/user/leaveSta', function (req, res) {
         req.body['sid'] = req.cookies.sid;
-        console.log(req.body);
         chttp.cpost(req.body, '/p/user/leaveSta', function (cont) {
             res.send(cont);
         });

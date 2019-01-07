@@ -8,8 +8,8 @@ $.objRegex= {  //输入控制
         info: "请输入2-16位中英文、数字、_或-"
     },
     appname: {
-        pattern: /^[a-zA-Z0-9.]{3,30}$/,
-        info: '3-30个英文、数字或"."'
+        pattern: /^[\u4e00-\u9fa5a-zA-Z0-9_-]{1,20}$/,
+        info: '1-20个中英文、数字或"."'
     },
     description: {
         pattern: /^[\s\S]{0,60}$/,
@@ -25,11 +25,11 @@ $.objRegex= {  //输入控制
     },
     password: {
         pattern: /^[a-zA-Z\d_]{6,16}$/,
-        info: "请输入6-16位字母和数字"
+        info: "请输入6-16位字母或数字"
     },
     number6: {
         pattern: /^[\d]{6}$/,
-        info: "请输入六位数"
+        info: "请输入6位数字"
     },
     wifi: {
         pattern: /^[\s\S]{0,30}$/,

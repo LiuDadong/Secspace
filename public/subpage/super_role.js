@@ -141,7 +141,7 @@ fnTree.find('li i.fa').on('click', function () {
 
 $('#allcheck').on('click', function () {
     $(this).toggleClass('blue');
-    fnTree.find('input').prop('checked', $(this).hasClass('blue'));
+    fnTree.find('input').prop('checked', $(this).hasClass('blue')).change();
     getRolefns();
 });
 

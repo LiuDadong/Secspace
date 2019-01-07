@@ -136,9 +136,9 @@ $('#updateLogo').submit(function () {
                         localStorage.setItem("icon", data.doc.icon);
                     }
                 });
-                if (d1.rt == 0) {
-                    $('.navbar .product_name').html('<a href="#" class="navbar-brand">' + product_name + '</a>');
-                    localStorage.setItem("productName", product_name);
+                if (d1.rt == '0000') {
+                    $('.navbar .product_name a').text(product_name);
+                    localStorage.setItem("product_name", product_name);
                     $('input[name=product_name]').val(product_name);
                     $('input[name=company_name]').val(company_name);
                     $('input[name=company_domain]').val(company_domain);
@@ -148,7 +148,6 @@ $('#updateLogo').submit(function () {
                     warningOpen('操作失败！', 'danger', 'fa-bolt');
                     console.warn(d1.rt);
                 }
-                alertOff();
             },
             error: function (err) {
                 console.error(err)
@@ -336,7 +335,7 @@ function modifycompany() {
     $.post('/super/setting/updateSettings', postData, function (data) {
         if (data.rt == '0000') {
             $('.navbar .product_name').html('<a href="#" class="navbar-brand">' + product_name + '</a>');
-            localStorage.setItem("productName", product_name);
+            localStorage.setItem("product_name", product_name);
             warningOpen('操作成功！', 'primary', 'fa-check');
         } else if (data.rt == 5) {
             toLoginPage();

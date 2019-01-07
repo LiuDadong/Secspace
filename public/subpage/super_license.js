@@ -7,9 +7,6 @@
     var frm = $('#multForm'),
         iptFile = frm.find('input[type=file]'),
         btnSmt = frm.find('button[type=submit]');
-
-    frm.attr("action", localStorage.getItem("appssec_url") + "/p/org/licenseUpload");
-
     iptFile.on('change input propertychange', function () {
         var file = this.files[0],
             eleFn = $(this).nextAll('p.file-name'),
@@ -45,7 +42,6 @@
         frm.ajaxSubmit({
             resetForm: true,
             beforeSubmit: function () {
-                console.log(iptFile[0].files[0]);
                 if(iptFile[0].files.length===0){
                     warningOpen('请选择授权文件','danger','fa-bolt');
                     return false;

@@ -80,7 +80,7 @@ $('form').ajaxForm({
                 localStorage.setItem("firLogin", data.firLogin);
                 localStorage.setItem("avatar", data.avatar ? data.avatar : '');
                 localStorage.setItem("icon", data.icon);
-                localStorage.setItem("productName", data.product_name);
+                localStorage.setItem("product_name", data.product_name);
                 localStorage.setItem("appssec_url", data.manager_url);
                 localStorage.setItem("lic", JSON.stringify(data.serverModules));
                 localStorage.setItem("org_id", data.org);

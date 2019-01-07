@@ -163,7 +163,6 @@
         fnSetInit: function ([lng, lat], iRadius) {
             this.aInitCenter = [lng, lat];
             this.iInitRadius = iRadius;
-            console.log([lng, lat], iRadius);
             this.fnMapInit();
         },
         /*功能键dom准备*/
@@ -342,7 +341,6 @@
                 btnInit = that.oMapFuncEles.mapBtns.oBtns.mapInitBtn.ele,
                 btnResize = that.oMapFuncEles.mapBtns.oBtns.mapResizeBtn.ele;
             iptSearch.addEventListener('keydown', function (e) {
-                console.log(e.keyCode);
                 if (e.keyCode == 13) {
                     return false;
                 }
