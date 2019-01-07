@@ -359,6 +359,8 @@
                     });
                 }
                 function fnExport() {
+                    warningOpen('敬请期待','danger','fa-bolt');
+                    return false;
                     that['theBtn']=$(this).prop('disabled',true);
                     // 导出机构数据
                     var url = localStorage.getItem('appssec_url') + '/p/org/exportOrg?sid=' + $.cookie('sid') +'&org_id=' + jm.get_selected_node().id+'&flag=' + $(this).data('flag');
@@ -391,10 +393,10 @@
                     },1000)
                 }
                 function fnImport() {
+                    warningOpen('敬请期待','danger','fa-bolt');
+                    return false;
                     that['theBtn']=$(this).prop('disabled',true);
-                    alert('暂不支持，敬请期待')
                     that['theBtn'].prop('disabled',false);
-                    return false
                 }
             }
         },
