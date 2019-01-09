@@ -527,7 +527,6 @@ table {
 .scrollList dl, .scrollList dt, .scrollList dd, .scrollList ul, .scrollList li {
     list-style: none;
     margin: 0;
-    padding: 0;
 }
 
 .scrollList ul{
@@ -539,18 +538,13 @@ table {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6px 0;
+    white-space: nowrap;
+    padding: 5px 0;
     box-shadow: 0 0 0 1px #ddd inset;
     margin: 0 -1px -1px 0;
 }
 
 
-/* .scrollList dt>ul>li{
-    background: #ddd;
-} */
-/* .scrollList dd.ddHas ul:nth-child(even) li{
-    background: #ccc;
-} */
 .scrollList dd>ul>li:only-child{
     width:100%;
     text-align: center;
@@ -568,6 +562,25 @@ table {
     opacity: 1;
     padding: 0;
     margin: 0;
+}
+
+.scrollList span>i{
+    margin-right: 2px;
+    font-size: 11px;
+    padding: 4px 6px;
+    color: #fff;
+    background: #427fed;
+    transition: all .15s ease;
+    border-radius: 2px;
+    background-clip: padding-box;
+}
+.scrollList span>i{
+    background-color: #4285f4!important;
+    border-color: #427fed;
+    color: #fff;
+}
+.scrollList .disabled{
+    opacity: 0.5;
 }
 
 
@@ -751,8 +764,8 @@ th.filter>ul.dropdown-menu{
 
 .orgPanel{
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 26px;
+    left: 40px;
     width: 20%;
 }
 .jsmind.orgManage{
@@ -831,4 +844,15 @@ input::-webkit-input-placeholder{
 }
 .append-box input.input-error:focus+.help-block{
     display: block;
+}
+
+.orgmind{
+    border: 1px solid rgba(0,0,0,0.2);
+    transition: all 0.5s;
+}
+
+
+
+.file-name{
+    width: 100%;
 }

@@ -74,6 +74,7 @@ module.exports = function (app, chttp) {
     // license上传更新
     app.post('/licenseUpload',multipartMiddleware, function (req, res) {
         const file_data = req.files['file_data'];
+        console.log(file_data);
         const newPath = path.join(path.dirname(file_data.path), file_data.originalFilename);
         fs.rename(file_data.path, newPath, function (err) {
             if (err) {
@@ -81,6 +82,7 @@ module.exports = function (app, chttp) {
             }
             else {
                 req.body['file'] = fs.createReadStream(newPath)
+                console.log(req.body);
                 chttp.cFormData(req.body, '/p/org/licenseUpload', function (cont) {
                     res.send(cont);
                 });

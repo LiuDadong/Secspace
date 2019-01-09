@@ -615,18 +615,17 @@
                 $(pnl.relPagingTable).data('PagingTable').pageLength = $(this).val() * 1;
                 $(pnl.relPagingTable).PagingTable('page', 1);
             })
+            var keywordTimer;
             pnlRight.find('#iptKeyword').on('input change propertychange', function () {
                 /**
                  * pagingTable组件会优先获取目标表格存储的data('keyword')作为搜索关键字，
                  */
-                if ($.iptRegExpCtrl(this)) {
-                    $('#pagingTable').data('PagingTable').keyword = encodeURIComponent($(this).val());
-                    if ($(this).data('timer')) {
-                        clearTimeout($(this).data('timer'))
-                    }
-                    $(this).data('timer', setTimeout(function () {
+                clearTimeout(keywordTimer);
+                if ($.iptRegExpCtrl(this)||$(this).val()==='') {
+                    $(pnl.relPagingTable).data('PagingTable').keyword = encodeURIComponent($(this).val());
+                    keywordTimer = setTimeout(function () {
                         $(pnl.relPagingTable).PagingTable('page', 1);
-                    }, 700))
+                    }, 700)
                 }
             })
             //绑定默认事件
@@ -907,14 +906,17 @@
         // 创建footer
         function createFooter(tbl, page, length, total) {
             var j = 0;
-            if (tbl.next('.pagingTableFooter').length == 0) {
-                tbl.after($('<div class="pagingTableFooter"></div>'))
+            // if (tbl.next('.pagingTableFooter').length == 0) {
+            //     tbl.after($('<div class="pagingTableFooter"></div>'))
+            // }
+            if (tbl.next('.DTTTFooter').length == 0) {
+                tbl.after($('<div class="row DTTTFooter"></div>'))
             }
             if (total >= 0) {
-                var doc = tbl.next('.pagingTableFooter'),
+                var doc = tbl.next(),
                     pages = Math.ceil(total / length);
                 page = total > 0 ? page : 0;
-                var str = '<div class="DTTTFooter"><div class="col-md-2"><div class="footertotal" style="white-space:nowrap;">共' + total + '条第' + page + '页</div></div>' +
+                var str = '<div class="col-md-2"><div class="dataTables_info">共' + total + '条第' + page + '页</div></div>' +
                     '<div class="col-md-10">' +
                     '<div class="dataTables_paginate paging_bootstrap">' +
                     '<ul class="pagination">';
@@ -969,7 +971,7 @@
                 }
                 str += '</ul>' +
                     '</div>' +
-                    '</div></div>';
+                    '</div>';
                 doc.html(str);
                 doc.find('ul.pagination>li>a[to-page]').on('click', function (e) {
                     tbl.PagingTable('page', $(e.target).attr('to-page') * 1)
@@ -1031,11 +1033,6 @@
                             + '</label></div>')
                     );
                 }
-
-                tbl.parent().css({
-                    overflow:'auto',
-                    paddingRight:'4px'
-                })
                 if(opts.maxHeight){
                     tbl.parent().css({
                         maxHeight:opts.maxHeight
@@ -1184,7 +1181,11 @@
                 if (opts.paging) {
                     opts.jsonData['start_page'] = opts.start;
                     opts.jsonData['page_length'] = opts.pageLength;
+                }
+                if(opts.keyword){
                     opts.jsonData['keyword'] = opts.keyword;
+                }else{
+                    delete opts.jsonData['keyword'];
                 }
 
                 var tbl = this,
@@ -1316,7 +1317,7 @@
             start: 1,
             pageLength: 10,
             paging: true,
-            scrollable: true,
+            scrollable: false,
             iptKeyword: '#iptKeyword',
             jsonData: {},
             check: 0,
@@ -1541,9 +1542,9 @@
                             '<span item-key="policy_type"></span>',
                             '<span item-key="creator"></span>',
                             '<span item-key="status"></span>',
-                            '<span title="移除策略" class="btn btn-primary btn-xs icon-only ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '"><i class="fa fa-eraser"></i></span>'
+                            '<span title="移除策略" class="pointer ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '"><i class="fa fa-eraser"></i></span>'
                         ];
-                        opts.widthProportion = [0.5, 1, 1, 1, 1, 1];  //信息详情列表各列宽比
+                        opts.widthProportion = [0.5, 1.3, 1, 1, 1, 1];  //信息详情列表各列宽比
                         opts.title = '用户“' + item.name + '”应用策略';
                         opts.numInfoData = $.extend(true, {
                             userId: item.userId
@@ -1626,7 +1627,7 @@
                             '<span item-key="name"></span>',
                             '<span item-key="account"></span>',
                             '<span item-key="status"></span>',
-                            '<span title="移除策略" class="btn btn-primary btn-sm ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '"><i class="fa fa-eraser"></i></span>'
+                            '<span title="移除策略" class="pointer ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '"><i class="fa fa-eraser"></i></span>'
                         ];
                         opts.widthProportion = [0.5, 1, 1, 1, 1];  //信息详情列表各列宽比
                         return opts;
@@ -2036,7 +2037,7 @@
                             }
                         },
                         success: function (data) {
-                            $(frm[0]).find('input[type=submit]').prop('disabled',false);
+                            $(frm[0]).data('response',data).find('input[type=submit]').prop('disabled',false);
                             $.handleECode(true, data, $(frm[0]).data('infoTxt'));
                             switch (data.rt) {
                                 case '0000':
@@ -2057,6 +2058,9 @@
                                     break;
                                 default:
                                     console.warn("data.rt=" + data.rt)
+                            }
+                            if(frm.success instanceof Function){
+                                frm.success(data);
                             }
 
                         }
@@ -2870,8 +2874,11 @@
                                 var k = $(this).attr('item-key'),
                                     v = opts.fnValByKey(k, valByKey(list[i], k));
                                 $(this).html(v);
-                                if (typeof v == 'string' && v.length > 15) {
-                                    $(this).closest('li').addClass('ellipsis');
+                                if (typeof v == 'string' && v.length > 6) {
+                                    $(this).addClass('ellipsis').css({
+                                        padding:'0 0.4em',
+                                        display:'inline-block'
+                                    });
                                     if($(this).text().indexOf('<')===-1){
                                         $(this).closest('li').attr('title', $(this).text());
                                     }
@@ -2916,7 +2923,7 @@
                 '<span item-key="name"></span>',
                 '<span item-key="account"></span>',
                 '<span item-key="status"></span>',
-                '<span title="移除策略" class="btn btn-primary btn-sm ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '"><i class="fa fa-eraser"></i></span>'
+                '<span title="移除策略" class="pointer ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '"><i class="fa fa-eraser"></i></span>'
             ],
             relPagingTable: '#pagingTable',
             width: '500px',

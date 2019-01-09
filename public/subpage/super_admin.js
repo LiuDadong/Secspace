@@ -49,15 +49,15 @@
         jsonData: { 'url': '/p/org/adminMan' },
         // theadHtml为表头类元素，第一个th用于存放全选复选框
         theadHtml: '<tr>\
-                        <th></th>\
+                        <th style="width:8%"></th>\
                         <th>账号</th>\
                         <th>姓名</th>\
-                        <th>状态</th>\
+                        <th style="width:8%">状态</th>\
                         <th>责任机构</th>\
                         <th>手机号</th>\
                         <th>创建者</th>\
-                        <th>创建时间</th>\
-                        <th style="width:16%">操作</th>\
+                        <th style="width:16%">创建时间</th>\
+                        <th style="width:12%">操作</th>\
                     </tr > ',
         tbodyEmptyHtml: '<tr><td>暂无管理员</td><tr>',
         // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框

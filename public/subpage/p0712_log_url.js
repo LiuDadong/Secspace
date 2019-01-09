@@ -31,11 +31,13 @@
 
         var table = $('.logtable'),
             str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-                + '<th>类型</th>'
-                + '<th>时间</th>'
-                + '<th>操作者</th>'
-                + '<th>影响目标</th>'
-                + '<th>具体操作</th></tr>';
+            + '<th style="width:10%">类型</th>'
+            + '<th style="width:10%">用户名</th>'
+            + '<th style="width:18%">账号</th>'
+            + '<th style="width:10%">设备</th>'
+            + '<th style="width:10%">操作系统</th>'
+            + '<th style="width:18%">时间</th>'
+            + '<th style="width:20%">违规地址</th>';
         var pd={
             category:'urlLog',
             start_time:start_time,
@@ -56,12 +58,14 @@
                 }
                 for (var i in data.logInfo) {
                     str += '<tr>'
-                        + '<td>' + data.logInfo[i].log_type + '</td>'
-                        + '<td>' + data.logInfo[i].opt_time + '</td>'
-                        + '<td>' + data.logInfo[i].creator + '</td>'
-                        + '<td>' + data.logInfo[i].effect_target + '</td>'
-                        + '<td>' + data.logInfo[i].operate + ': ' + data.logInfo[i].state + '</td>'
-                        + '</tr>';
+                    + '<td>' + data.logInfo[i].log_type + '</td>'
+                    + '<td>' + data.logInfo[i].user_name + '</td>'
+                    + '<td>' + data.logInfo[i].account + '</td>'
+                    + '<td>' + data.logInfo[i].dev_name + '</td>'
+                    + '<td>' + (data.logInfo[i].os_type=='android'? 'Android':'iOS') + '</td>'
+                    + '<td>' + data.logInfo[i].opt_time + '</td>'
+                    + '<td title="'+ data.logInfo[i].url +'">' + data.logInfo[i].url + '</td>'
+                    + '</tr>';
                 }
                 str += '</table>';
                 table.html(str);

@@ -301,17 +301,21 @@ module.exports = function (app, chttp) {
 
     // 机构内列表呈现类成员的添加操作  
     app.post('/common/upload', multipartMiddleware, function (req, res) {
-        var url=req.body.url;
+        var url=req.body.url,uploadFile='';
+        req.body['sid']=req.cookies.sid;
         delete req.body.url;
-        const avatar = req.files['avatar'];
-        if(avatar){
-            const newPath = path.join(path.dirname(avatar.path), avatar.originalFilename);
-            fs.rename(avatar.path, newPath, function (err) {
+        for(i in req.files){
+            uploadFile=req.files[i];
+        }
+        if(uploadFile){
+            const newPath = path.join(path.dirname(uploadFile.path), uploadFile.originalFilename);
+            fs.rename(uploadFile.path, newPath, function (err) {
                 if (err) {
                     res.send(err);
                 }
                 else {
-                    req.body['file'] = fs.createReadStream(newPath)
+                    req.body['file'] = fs.createReadStream(newPath);
+                    console.log(req.body);
                     chttp.cFormData(req.body, url, function (cont) {
                         res.send(cont);
                     });
@@ -322,5 +326,13 @@ module.exports = function (app, chttp) {
                 res.send(cont);
             });
         }
+    });
+
+    // 获取平台license
+    app.post('/common/license',multipartMiddleware, function (req, res) {
+        req.body['sid'] = req.cookies.sid;
+        chttp.cpost(req.body, '/p/super/license', function (cont) {
+            res.send(cont);
+        });
     });
 };

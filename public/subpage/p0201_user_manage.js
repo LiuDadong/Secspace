@@ -74,10 +74,10 @@
                             v = '正常'
                             break;
                         case 2:
-                            v = '<a onclick="updateLeave(this)" href="#">有请假申请</a>';
+                            v = hasFn('lev')?'<a onclick="updateLeave(this)" href="#">有请假申请</a>':'有请假申请';
                             break;
                         case 3:
-                            v = '<a onclick="updateLeave(this)" href="#">休假中</a>';
+                            v = hasFn('lev')?'<a onclick="updateLeave(this)" href="#">休假中</a>':'休假中';
                             break;
                         default:
                     }

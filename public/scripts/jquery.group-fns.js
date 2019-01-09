@@ -1,4 +1,4 @@
-$.objRegex= {  //输入控制
+$.objRegex= {  //输入正则控制
     account: {   //account表示账号类参数,在输入元素上添加类“re-account”,便可实现对元素输入的正则控制
         pattern: /^[a-zA-Z0-9_-]{4,16}$/,   //检测输入的值是否合法
         info: "请输入4-16位英文、数字、_或-"   //用户设置titile作为鼠标移入时的提示
@@ -9,7 +9,7 @@ $.objRegex= {  //输入控制
     },
     appname: {
         pattern: /^[\u4e00-\u9fa5a-zA-Z0-9_-]{1,20}$/,
-        info: '1-20个中英文、数字或"."'
+        info: '1-20个中英文、数字或"-_"'
     },
     description: {
         pattern: /^[\s\S]{0,60}$/,
@@ -40,7 +40,7 @@ $.objRegex= {  //输入控制
         info: "请输入16位以内字符,建议格式v1.01"
     },
     keyword: {
-        pattern: /^[a-zA-Z0-9_-]{1,16}$/,
+        pattern: /^[\u4e00-\u9fa5a-zA-Z0-9_-]{1,16}$/,
         info: "请输入16位以内中英文、数字、_或-"
     },
     url: {
@@ -48,8 +48,8 @@ $.objRegex= {  //输入控制
         info: "请输入合法url"
     },
     package: {
-        pattern: /^[a-zA-Z0-9.]{0,30}$/,
-        info: "请输入30位以内英文、数字或点"
+        pattern: /^[a-zA-Z0-9\._-]{0,50}$/,
+        info: "请输入50位以内英文、数字或'._-'"
     }
 };
 $.iptRegExpCtrl =function (ipt){
@@ -309,6 +309,13 @@ $.dealRt3009 = function (policy_list) {
         title: '以下策略暂无法禁用',
         content: cont
     });
+}
+
+
+$.getLicense = function (cb){
+    $.silentPost('/common/license',{},function(data){
+        cb(data);
+    })
 }
 
 $.fn.iptsReset = function () {

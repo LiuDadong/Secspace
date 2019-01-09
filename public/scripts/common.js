@@ -285,7 +285,7 @@ function createFooter(page, length, total, footerNum) {
         var doc = $('.page' + footerNum + ''),
             pages = ~~(total / length) + (total % length > 0 ? 1 : 0);
         page = total > 0 ? page : 0;
-        var str = '<div class="DTTTFooter"><div class="col-md-2"><div class="footertotal" style="white-space:nowrap;">共' + total + '条第' + page + '页</div></div>' +
+        var str = '<div class="DTTTFooter"><div class="col-md-2"><div class="dataTables_info">共' + total + '条第' + page + '页</div></div>' +
             '<div class="col-md-10">' +
             '<div class="dataTables_paginate paging_bootstrap">' +
             '<ul class="pagination">';
@@ -486,8 +486,8 @@ function mergeRolesFns(){
         p0708: 0, //管理员日志   exp(export): 导出
         p0709: 0, //违规情况日志 exp(export): 导出
         p0710: 0, //机构管理日志 exp(export): 导出
-        p0711: 0, //敏感词日志   exp(export): 导出
-        p0712: 0, //上网行为日志 exp(export): 导出
+        p0711: 1, //敏感词日志   exp(export): 导出
+        p0712: 1, //上网行为日志 exp(export): 导出
         p0801: 0, //机构树       add:增加  del:删除  mod:修改    ie(import/export):导入导出
         p0802: 0  //管理员       add:增加  del:删除  mod:修改    act:启用/禁用
     };
@@ -746,7 +746,6 @@ function accountInfo(e) {  //修改密码
             }
         });
         frmAccount.data('item',{
-            sid:$.cookie('sid'),
             account:$.cookie('manager'),
             name:localStorage.getItem('name')
         });
