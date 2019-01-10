@@ -2,228 +2,225 @@
   <div class="apptaglist col-xs-12 col-md-12">
     <div class="widget">
       <div class="widget-header">
-          <span id="subCaption" class="widget-caption">应用标签</span>
+        <span id="subCaption" class="widget-caption">应用标签</span>
       </div>
-      <div class="widget-body">
-          <form id="panel" class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
-              <div class="buttons-preview pull-left">
-                  <button rolefn="add" onclick="add()" class="btnInvite btn btn-primary" type="button">
-                      <i class="fa fa-plus">添加</i>
-                  </button>
-                  <button rolefn="del" onclick="deletes()" class="btnInvite btn btn-default btn-sm hrefactive" type="button">
-                      <i class="fa fa-minus-square">删除</i>
-                  </button>
-                  <button onclick="refresh()" class="btnRefresh btn btn-default btn-sm" type="button">
-                      <i class="fa fa-refresh">刷新</i>
-                  </button>
+      <div class="widget-body section">
+        <form id="panel" class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
+          <div class="buttons-preview pull-left">
+            <button rolefn="add" onclick="add()" class="btnInvite btn btn-primary" type="button">
+              <i class="fa fa-plus">添加</i>
+            </button>
+            <button rolefn="del" onclick="deletes()" class="btnInvite btn btn-default btn-sm hrefactive" type="button">
+              <i class="fa fa-minus-square">删除</i>
+            </button>
+            <button onclick="refresh()" class="btnRefresh btn btn-default btn-sm" type="button">
+              <i class="fa fa-refresh">刷新</i>
+            </button>
+          </div>
+          <div class="pull-right">
+            <div class="input-group">
+              <span class="input-icon">
+                <input id="iptKeyword" name="searchval" type="text" class="form-control input-sm" autocomplete="off"
+                  placeholder="根据名称搜索">
+                <i class="glyphicon glyphicon-search blue"></i>
+              </span>
+            </div>
+          </div>
+        </form>
+        <div class="paging-table-wrap">
+          <div style="box-shadow:none;padding:0;" class="apptagtable widget-body"></div>
+          <div class="page1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display:none;" class="apptag_add col-xs-12 col-md-12 ">
+    <div class="widget">
+      <div class="widget-header">
+        <span class="widget-caption">应用标签</span>
+      </div>
+      <div class="widget-body section">
+        <div class="col-lg-8 col-lg-offset-1 col-sm-12">
+          <form id="multForm" class="form-horizontal" role="form">
+            <input type="text" style="display:none;">
+            <div class="form-group">
+              <!-- 名单名称 -->
+              <label for="name" class="col-sm-2 control-label no-padding-right"><b>*</b>
+                <span>标签名</span>
+              </label>
+              <div class="col-sm-10">
+                <input type="text" id="name" name="name" ctrl-regex="name_mix" class="require form-control"
+                  autocomplete="off" placeholder="请输入标签名">
+                <p class="help-block regex-info">请输入2-16位中英文、数字、_或-</p>
               </div>
-              <div class="pull-right">
-                  <div class="input-group">
-                      <span class="input-icon">
-                          <input id="iptKeyword" name="searchval" type="text" class="form-control input-sm" autocomplete="off" placeholder="根据名称搜索">
-                          <i class="glyphicon glyphicon-search blue"></i>
-                      </span>
-                  </div>
+            </div>
+            <div class="form-group">
+              <!-- 描述 -->
+              <label for="describe" class="col-sm-2 control-label no-padding-right">
+                <span>描述</span>
+              </label>
+              <div class="col-sm-10">
+                <textarea class="form-control" name="describe" id="describe" ctrl-regex="description" cols="30" rows="10"></textarea>
               </div>
+            </div>
+            <hr class="wide">
+            <div class="form-group">
+              <div class="col-lg-6 col-lg-offset-5">
+                <div class="col-sm-6">
+                  <button type="button" onclick="apptaglist()" class="btnBack btn btn-default" autocomplete="off">返回</button>
+                </div>
+                <div class="col-sm-6">
+                  <button type="button" onclick="tag_add()" class="btnBack btn btn-default" autocomplete="off">保存</button>
+                </div>
+              </div>
+            </div>
           </form>
-      </div>
-      <div style="box-shadow:none;padding:0;" class="apptagtable widget-body"></div>
-      <div class="page1"></div>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div style="display:none;" class="apptag_add col-xs-12 col-md-12 setting">
-    <div style="border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;" class="widget">
-      <div style="height:40px;" class="widget-header">
-        <p style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;">应用标签</p>
-      </div>
-      <div style="overflow:hidden;" class="widget-body">
-        <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
-          <div class="form-group">
-            <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
-              <label for="name" style="width:110px;" class="control-label">
-                <i style="color:red; font-size:12px;margin-right:10px;" class="icon glyphicon glyphicon-asterisk"></i>
-                名称</label>
-              <div style="position: absolute;top: 0px;left: 110px;right: 0px;">
-                <input type="text" id="name" name="name" ctrl-regex="name_mix" class="form-control" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
-          <div class="form-group">
-            <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
-              <label for="email" style="width:110px;padding-left:22px;" class="control-label">描述</label>
-              <div style="position: absolute;top: 0px;left: 110px;right: 0px;">
-                <span class="input-icon icon-right">
-                  <textarea id="describe" rows="8" name="describe" ctrl-regex="description" class="form-control"></textarea>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style="margin-top:150px;" class="row col-xs-12 col-md-12">
-          <div class="form-group">
-            <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
-              <div style="padding-top:10px;text-align:right;" class="div col-lg-6 col-xs-6 col-sm-6">
-                <a href="javascript:apptaglist()" style="width:78px;" class="btn">取消</a>
-              </div>
-              <div style="padding-top:10px;text-align:center;" class="div col-lg-6 col-xs-6 col-sm-6">
-                <a href="javascript:tag_add()" style="width:78px;" class="btn btn-primary">保存</a>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div style="display:none;" class="apptag_mod col-xs-12 col-md-12 setting">
-    <div style="border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;" class="widget">
-      <div style="height:40px;" class="widget-header">
-        <p style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;">应用标签</p>
+  <div style="display:none;" class="apptag_mod col-xs-12 col-md-12">
+    <div class="widget">
+      <div class="widget-header">
+        <span class="widget-caption">应用标签</span>
       </div>
-      <div style="overflow:hidden;" class="widget-body">
-        <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
-          <div class="form-group">
-            <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
-              <label for="name" style="width:110px;" class="control-label">
-                <i style="color:red; font-size:12px;margin-right:10px;" class="icon glyphicon glyphicon-asterisk"></i>名称</label>
-              <div style="position: absolute;top: 0px;left: 110px;right: 0px;">
-                <input type="hidden" name="apptag_id" />
-                <input type="text" id="name" name="name" class="form-control" />
+      <div class="widget-body section">
+        <div class="col-lg-8 col-lg-offset-1 col-sm-12">
+          <form id="multForm" class="form-horizontal" role="form">
+            <input type="text" style="display:none;">
+            <input type="hidden" name="apptag_id" />
+            <div class="form-group">
+              <!-- 名单名称 -->
+              <label for="name" class="col-sm-2 control-label no-padding-right"><b>*</b>
+                <span>标签名</span>
+              </label>
+              <div class="col-sm-10">
+                <input type="text" id="name" name="name" ctrl-regex="name_mix" class="require form-control"
+                  autocomplete="off" placeholder="请输入标签名">
+                <p class="help-block regex-info">请输入2-16位中英文、数字、_或-</p>
               </div>
             </div>
-          </div>
-        </div>
-        <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
-          <div class="form-group">
-            <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
-              <label for="email" style="width:110px;padding-left:22px;" class="control-label">描述</label>
-              <div style="position: absolute;top: 0px;left: 110px;right: 0px;">
-                <span class="input-icon icon-right">
-                  <textarea id="describe" rows="8" name="describe" class="form-control"></textarea>
-                </span>
+            <div class="form-group">
+              <!-- 描述 -->
+              <label for="describe" class="col-sm-2 control-label no-padding-right">
+                <span>描述</span>
+              </label>
+              <div class="col-sm-10">
+                <textarea class="form-control" name="describe" id="describe" ctrl-regex="description" cols="30" rows="10"></textarea>
               </div>
             </div>
-          </div>
-        </div>
-        <div style="margin-top:150px;" class="row col-xs-12 col-md-12">
-          <div class="form-group">
-            <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
-              <div style="padding-top:10px;text-align:right;" class="div col-lg-6 col-xs-6 col-sm-6">
-                <a href="javascript:apptaglist()" style="width:78px;" class="btn">取消</a>
-              </div>
-              <div style="padding-top:10px;text-align:center;" class="div col-lg-6 col-xs-6 col-sm-6">
-                <a href="javascript:tag_mod()" style="width:78px;" class="btn btn-primary">保存</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div style="display:none;" class="apptag_view col-xs-12 col-md-12 setting">
-    <div style="height:320px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;" class="widget">
-      <div style="height:40px;" class="widget-header">
-        <p style="line-height: 40px;text-align: left;font-size: 16px;font-weight: bold;color: #444;">应用标签</p>
-      </div>
-      <div class="widget-body">
-        <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
-          <div class="form-group">
-            <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
-              <label for="name" style="width:110px;" class="control-label">名称</label>
-              <div style="position: absolute;top: 0px;left: 110px;right: 0px;">
-                <input type="text" id="name" name="name" disabled="disabled" class="form-control" />
+            <hr class="wide">
+            <div class="form-group">
+              <div class="col-lg-6 col-lg-offset-5">
+                <div class="col-sm-6">
+                  <button type="button" onclick="apptaglist()" class="btnBack btn btn-default" autocomplete="off">返回</button>
+                </div>
+                <div class="col-sm-6">
+                  <button type="button" onclick="tag_mod()" class="btnBack btn btn-default" autocomplete="off">保存</button>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div style="margin-bottom:0px;" class="row col-xs-12 col-md-12">
-          <div class="form-group">
-            <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
-              <label for="email" style="width:110px;" class="control-label">描述</label>
-              <div style="position: absolute;top: 0px;left: 110px;right: 0px;">
-                <span class="input-icon icon-right">
-                  <textarea id="describe" rows="8" name="describe" disabled="disabled" class="form-control"></textarea>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style="margin-top:150px;" class="row col-xs-12 col-md-12">
-          <div class="form-group">
-            <div class="col-lg-6 col-xs-6 col-sm-6 col-lg-offset-3 col-xs-offset-3 col-sm-offset-3">
-              <div style="padding-top:10px;text-align:right;" class="div col-lg-6 col-xs-6 col-sm-6">
-                <a href="javascript:apptaglist()" style="width:78px;" class="btn">返回</a>
-              </div>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="row">
+  <div style="display:none;" class="apptag_view col-xs-12 col-md-12">
+    <div class="widget">
+      <div class="widget-header">
+        <span class="widget-caption">应用标签</span>
+      </div>
+      <div class="widget-body section">
+        <div class="col-lg-8 col-lg-offset-1 col-sm-12">
+          <form id="multForm" class="form-horizontal" role="form">
+            <input type="text" style="display:none;">
+            <div class="form-group">
+              <!-- 名单名称 -->
+              <label for="name" class="col-sm-2 control-label no-padding-right"><b>*</b>
+                <span>标签名</span>
+              </label>
+              <div class="col-sm-10">
+                <input type="text" disabled="disabled" id="name" name="name" ctrl-regex="name_mix" class="require form-control"
+                  autocomplete="off" placeholder="请输入标签名">
+                <p class="help-block regex-info">请输入2-16位中英文、数字、_或-</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <!-- 描述 -->
+              <label for="describe" class="col-sm-2 control-label no-padding-right">
+                <span>描述</span>
+              </label>
+              <div class="col-sm-10">
+                <textarea disabled="disabled" class="form-control" name="describe" id="describe" ctrl-regex="description"
+                  cols="30" rows="10"></textarea>
+              </div>
+            </div>
+            <hr class="wide">
+            <div class="form-group">
+              <div class="col-lg-6 col-lg-offset-5">
+                <div class="col-sm-6">
+                  <button type="button" onclick="apptaglist()" class="btnBack btn btn-default" autocomplete="off">返回</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <div style="display:none;" class="app col-lg-12 col-sm-12 col-xs-12">
-    <div style="margin-left:0;" class="row">
-      <div class="widget-btn">
-        <a href="javascript:apptaglist()" class="btn btn-primary">
-          <i class="fa fa-times">取消</i>
-        </a>
-        <a href="javascript:save()" class="btn btn-primary">
-          <i class="fa fa-plus">保存</i>
-        </a>
+    <div class="widget">
+      <div class="widget-header">
+        <span class="widget-caption">移入移出标签</span>
       </div>
-    </div>
-    <h5 class="row-title befor-magenta">选定添加应用</h5>
-    <input name="tag_id" style="display:none;" />
-    <div class="row">
-      <div class="col-lg-5 col-sm-5 col-xs-5">
-        <div class="widget">
-          <div class="widget-header bordered-bottom bordered-blue">
-            <span style="line-height:30px;" class="widget-caption">标签外应用</span>
-          </div>
-          <div class="widget-body">
-            <div class="input-group">
-              <span class="input-icon">
-                <input type="text" id="freeapps" name="freeapps" oninput="sfreeapps()" class="form-control input-sm" />
-                <i class="glyphicon glyphicon-search primary"></i>
-              </span>
+      <div class="widget-body section clearfix">
+          <form class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
+            <div class="buttons-preview pull-left">
+              <button onclick="save()" class="btn btn-primary" type="button">
+                <i class="fa fa-plus">保存</i>
+              </button>
+              <button onclick="apptaglist()" class="btn btn-default" type="button">
+                <i class="fa fa-times">取消</i>
+              </button>
             </div>
-            <div style="height:200px;overflow-y:auto;" class="freeapp"></div>
+          </form>
+          <div class="col-lg-12">
+            <div class="col-lg-5 col-sm-5 col-xs-5">
+              <input name="tag_id" style="display:none;" />
+              <div class="widget">
+                <div class="widget-header bordered-bottom bordered-blue">
+                  <span style="line-height:30px;" class="widget-caption">标签外应用</span>
+                </div>
+                <div class="widget-body">
+                  <div class="input-group">
+                    <span class="input-icon">
+                      <input type="text" id="freeapps" name="freeapps" oninput="sfreeapps()" class="form-control input-sm" />
+                      <i class="glyphicon glyphicon-search primary"></i>
+                    </span>
+                  </div>
+                  <div style="height:400px;overflow-y:auto;" class="freeapp"></div>
+                </div>
+              </div>
+            </div>
+            <div style="height:326px;background:url(../imgs/arrow.png) center no-repeat;" class="col-lg-1 col-sm-2"></div>
+            <div class="col-lg-5 col-sm-5 col-xs-5">
+              <div class="widget">
+                <div class="widget-header bordered-bottom bordered-blue">
+                  <span style="line-height:30px;" class="widget-caption">标签内应用</span>
+                </div>
+                <div class="widget-body">
+                  <div class="input-group">
+                    <span class="input-icon">
+                      <input type="text" id="apps" name="apps" oninput="searchapps()" class="form-control input-sm" />
+                      <i class="glyphicon glyphicon-search primary"></i>
+                    </span>
+                  </div>
+                  <div style="height:400px;overflow-y:auto;" class="member"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div style="height:326px;background:url(../imgs/arrow.png) center no-repeat;" class="col-lg-2 col-sm-2 col-xs-2"></div>
-      <div class="col-lg-5 col-sm-5 col-xs-5">
-        <div class="widget">
-          <div class="widget-header bordered-bottom bordered-blue">
-            <span style="line-height:30px;" class="widget-caption">标签内应用</span>
-          </div>
-          <div class="widget-body">
-            <div class="input-group">
-              <span class="input-icon">
-                <input type="text" id="apps" name="apps" oninput="searchapps()" class="form-control input-sm" />
-                <i class="glyphicon glyphicon-search primary"></i>
-              </span>
-            </div>
-            <div style="height:200px;overflow-y:auto;" class="member"></div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
-</div>
-<div tabindex="-1" role="dialog" style="display:none;" aria-hidden="false" class="bootbox modal fade bootbox-confirm in modal-primary">
-  <div style="width:500px;" class="modal-dialog">
-    <div class="modal-content"></div>
-  </div>
-</div>
-<div class="background"></div>
-
-<script data-src="/subpage/p0603_app_tag.js"></script>
+  <script data-src="/subpage/p0603_app_tag.js"></script>

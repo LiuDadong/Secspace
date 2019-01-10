@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <div class="widget-body">
+            <div class="widget-body section">
                 <form class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
                     <div class="buttons-preview pull-left">
                         <button rolefn="add" type="button" id="btnUpload" class="btn btn-primary">
@@ -68,15 +68,15 @@
                         </div>
                     </div>
                 </form>
-                <div class="table-box table-scrollable">
+                <div class="paging-table-wrap">
                     <table id="multTable" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th style="width:6%" class="sel">
+                                <th style="width:110px;" class="sel">
                                     <div class="checkbox">
                                         <label>
                                             <input type="checkbox" />
-                                            <span class="text">全选</span>
+                                            <span class="text"></span>
                                         </label>
                                     </div>
                                 </th>
@@ -128,8 +128,8 @@
                             <span>暂无文件，请上传……</span>
                         </div>
                     </table>
+                    <div class="page1"></div>
                 </div>
-                <div class="page1"></div>
             </div>
 
         </div>
@@ -144,7 +144,7 @@
             <div class="widget-header">
                 <span id="frmCap" class="widget-caption">应用上传</span>
             </div>
-            <div class="widget-body" style="overflow:hidden;">
+            <div class="widget-body section" style="overflow:hidden;">
                 <div id="horizontal-form" class="col-lg-8 col-lg-offset-2 col-sm-6 col-sm-offset-3 col-xs-12">
                     <iframe name="upFileIframe" width="0" height="0" style="display:none;"></iframe>
                     <form id="multForm" class="form-horizontal xxx" role="form" method="post" action="/app/upload" enctype="multipart/form-data"
@@ -428,7 +428,7 @@
             <div class="widget-header">
                 <span class="widget-caption">应用授权</span>
             </div>
-            <div class="widget-body">
+            <div class="widget-body section">
                 <div id="issuePane" style="height:50px;">
                     <form class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
                         <div class="buttons-preview pull-left">
@@ -571,11 +571,11 @@
                 <table id="versionTable" class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th class="sel">
+                            <th class="sel" style="width:210px;">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" />
-                                        <span class="text">全选</span>
+                                        <span class="text"></span>
                                     </label>
                                 </div>
                             </th>

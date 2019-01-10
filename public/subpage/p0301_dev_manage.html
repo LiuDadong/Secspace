@@ -1,10 +1,10 @@
 <div class="row">
     <div class="devicelist col-xs-12 col-md-12">
         <div class="widget">
-            <div class="widget-header section">
+            <div class="widget-header">
                 <span id="subCaption" class="widget-caption">设备列表</span>
             </div>
-            <div class="widget-body clearfix">
+            <div class="widget-body section clearfix">
                 <form id="panel" class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
                     <div class="buttons-preview pull-left">
                         <button rolefn="map" onclick="checkmap()" class="btnInvite btn btn-primary" type="button">
@@ -44,8 +44,11 @@
                         </div>
                     </div>
                 </form>
-                <div class="devicetable"></div>
-                <div class="page1"></div>
+                <div class="paging-table-wrap">
+                    <div class="devicetable"></div>
+                    <div class="page1"></div>
+                </div>
+                
             </div>
         </div>
     </div>

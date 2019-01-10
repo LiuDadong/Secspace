@@ -13,7 +13,7 @@
         jsonData: { url: '/p/app/listMan' },
         // theadHtml为表头类元素，第一个th用于存放全选复选框
         theadHtml: '<tr>\
-                    <th></th>\
+                    <th style="width:110px;"></th>\
                     <th>名称</th>\
                     <th>黑/白名单</th>\
                     <th>状态</th>\

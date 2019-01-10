@@ -9,7 +9,7 @@
 var frmLic =$('#multForm').MultForm({
     addAct:'/common/upload',
     addUrl:'/p/org/licenseUpload',
-    addBtnTxt: '上传License',
+    addBtnTxt: '上传',
     afterUsed:function(use,item){
         switch(use){
             case 'add':
@@ -36,7 +36,6 @@ var frmLic =$('#multForm').MultForm({
     beforeSubmit: function (arrKeyVal, $frm, ajaxOptions) {
         if(frmLic.find('input[type=file]')[0].files.length===0){
             warningOpen('请选择授权文件','danger','fa-bolt');
-            warningOpen('请选择授权文件','danger','fa-bolt');
             return false;
         }
         return true;
@@ -48,8 +47,6 @@ frmLic.find('input[type=file]').on('change input propertychange', function () {
     var ipt=$(this),
         file = this.files[0],
         frmGrp=ipt.closest('.form-group'),
-        eleFn = ipt.nextAll('p.file-name'),
-        eleFh = ipt.nextAll('p.file-help'),
         fn, ex, fs;
     var maxSize = 50;
     if (file) {
@@ -70,8 +67,6 @@ frmLic.find('input[type=file]').on('change input propertychange', function () {
     }
     function checkRes(bool) {
         frmGrp.toggleClass('has-error',!bool);
-        eleFn.text(fn).toggleClass('hidden', !bool);
-        eleFh.toggleClass('hidden', bool);
     }
 })
 
@@ -106,25 +101,22 @@ $('#tgltree').on('click', function () {
 function showLicense(license){
     if(license){
         $('[data-path]').each(function(){
-            switch($(this).attr('type')){
-                case 'checkbox':
-                    console.log(getValFromLicByPath(license,$(this).data('path')));
-                    $(this).closest('.checkbox').addClass('anti-cursor');
-                    $(this).addClass('anti-cursor').prop('checked',getValFromLicByPath(license,$(this).data('path'))!=-1);
-                    break;
-                default:
-                    $(this).html(getValFromLicByPath(license,$(this).data('path')));
+            if($(this).hasClass('list-group-item')){
+                var forbid = getValFromLicByPath(license,$(this).data('path'))==-1;
+                $(this).toggleClass('success',!forbid).toggleClass('darkorange',forbid);
+                $(this).find('i.glyphicon').toggleClass('glyphicon-ok',!forbid).toggleClass('glyphicon-remove',forbid);
+            }else{
+                $(this).html(getValFromLicByPath(license,$(this).data('path')));
             }
         });
     }else{
         $('[data-path]').each(function(){
-            switch($(this).attr('type')){
-                case 'checkbox':
-                    $(this).closest('.checkbox').addClass('anti-cursor');
-                    $(this).addClass('anti-cursor').prop('checked',false);
-                    break;
-                default:
-                    $(this).html('--');
+            if($(this).hasClass('list-group-item')){
+                var forbid = false;
+                $(this).toggleClass('success',!forbid).toggleClass('darkorange',forbid);
+                $(this).find('i.glyphicon').toggleClass('glyphicon-ok',!forbid).toggleClass('glyphicon-remove',forbid);
+            }else{
+                $(this).html('--');
             }
         });
     }
@@ -162,6 +154,10 @@ function showLicense(license){
                     val="不限制";
                 }
                 break;
+            case 'product.validTime.startTime':
+            case 'product.validTime.stopTime':
+                val= val.substr(0,val.length-3);
+                break;
             default:
 
         }
@@ -170,6 +166,11 @@ function showLicense(license){
 }
 //根据授权license控制角色功能点备选项显示或隐藏
 function renderLicRolefns(fns){
+    fnTree.find('label>input:checkbox').each(function(){
+        if($(this).prev('i').length==0){
+            $(this).addClass('hidden').before('<i class="glyphicon" style="margin:-6px 4px 0 0;"></i>');
+        }
+    });
     if(fns){
         var  rolesFns= getLicPath('',fns,{});
         for(k in rolesFns){
@@ -179,12 +180,21 @@ function renderLicRolefns(fns){
         }
         applyLicFns(rolesFns);
     }else{
-        fnTree.find('label').addClass('anti-cursor disabled');
-        fnTree.find('input').prop('checked',false);
+        fnTree.find('label').each(function(){
+            toggleLabel(this,false);
+        });
+    }
+    function toggleLabel(label,yesno){
+        $(label).toggleClass('darkorange',!yesno)
+        .toggleClass('success',yesno);
+        $(label).find('i.glyphicon')
+        .toggleClass('glyphicon-remove',!yesno)
+        .toggleClass('glyphicon-ok',yesno);
     }
     function applyLicFns(rolesFns){
-        fnTree.find('.disabled').removeClass('disabled');
-        fnTree.find('label').addClass('anti-cursor').find('input').prop('checked',true);
+        fnTree.find('label').each(function(){
+            toggleLabel(this,true);
+        });
         fnTree.find('input:hidden[mdl-key]').each(function(){
             var ipt=$(this),
                 ul=ipt.closest('ul'),
@@ -197,11 +207,11 @@ function renderLicRolefns(fns){
                     if(fns[0]=='acc'){
                         ipt.nextAll('li').each(function(){
                             if(fns.indexOf($(this).find('input').attr('value'))===-1){
-                                $(this).find('label').addClass('disabled').find('input').prop('checked',false);
+                                toggleLabel($(this).find('label'),false);
                             }
                         });
                     }else{
-                        li.find('label').addClass('disabled').find('input').prop('checked',false);
+                        toggleLabel(li.find('label'),false);
                     }
                 }else{}
         });
@@ -209,7 +219,8 @@ function renderLicRolefns(fns){
             var nextUl=$(this).next('ul');
             if(nextUl.length===1&&nextUl.find('li').length===0){
                 nextUl.addClass('disabled');
-                $(this).addClass('disabled');
+                toggleLabel(nextUl.find('label'),false);
+                toggleLabel($(this).find('label'),false);
             }
         });
     }

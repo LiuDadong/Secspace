@@ -30,7 +30,7 @@ require(path.join(__dirname, 'routeAdmin.js'))(app, chttp);
 require(path.join(__dirname, 'routeSuper.js'))(app, chttp);
 
 /* 错误页面 */
-app.get('/404', function(req, res) { res.send('Not Found') });
+app.get('/404', function(req, res) { res.send('Not Found')});
 app.get('/500', function(req, res) { res.send('500') });
 app.get('/*', function(req, res) { res.send('Not Found') });
 

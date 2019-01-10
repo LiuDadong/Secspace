@@ -28,9 +28,9 @@
         var st = 1;
         var table = $('.apptagtable'),
             str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-                + '<th class="sel" style="line-height:20px;"><div class="checkbox">'
+                + '<th class="sel" style="width:110px;"><div class="checkbox">'
                 + '<label><input type="checkbox" onclick="selectedAll(this)" />'
-                + '<span class="text">全选</span></label></div></th>'
+                + '<span class="text"></span></label></div></th>'
                 + '<th>名称</th>'
                 + '<th>创建者</th>'
                 + '<th>应用数量</th>'

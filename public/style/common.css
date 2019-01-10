@@ -856,3 +856,17 @@ input::-webkit-input-placeholder{
 .file-name{
     width: 100%;
 }
+
+
+.profile-container .profile-badge span{
+    font-size: 16px;
+}
+
+
+#pjax-aim .widget{
+    margin: 3px 0;
+}
+#pjax-aim .widget>.widget-body.section{
+    min-height: 600px;
+    overflow: auto;
+}

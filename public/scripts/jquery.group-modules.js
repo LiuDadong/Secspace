@@ -762,7 +762,8 @@
                         pd.authfilter = 'xlist';
                         pd.authrules = JSON.stringify(rules);
                     } else {
-                        warningOpen('请选择要' + actText + '的用户！', 'danger', 'fa-bolt');
+                        console.log('111111')
+                        warningOpen('请选择用户！', 'danger', 'fa-bolt');
                         return;
                     }
                     $.actPost('/issueByRules', pd, function (data) {
@@ -876,9 +877,7 @@
         };
         function updateRelTree(opts) {
             if (opts.relFilter) {
-                var actLi = $(opts.relFilter).find('li.active'),
-                    actLiCkb = actLi.find('input:checkbox'),
-                    nextUl = actLi.next('ul');
+                var actLi = $(opts.relFilter).find('li.active');
                 $.extend(
                     true,
                     actLi.data(),
@@ -895,12 +894,23 @@
         function ctrlThCkb(opts, thHeader, tbHas) {
             var ckbHeader = thHeader.find('tr>th:first-child input:checkbox'),
                 ckbsHas = tbHas.find('tr>td:first-child input:checkbox');
+
             if (opts.selectAll) {
-                ckbHeader.prop('checked', opts.check && opts.unsel.length == 0);
+                if(opts.check && opts.unsel.length == 0){
+                    ckbHeader.prop('checked',true);
+                    ckbLiact.prop('checked',true);
+                }else if(!opts.check && opts.sel.length == 0){
+                    ckbHeader.prop('checked',false);
+                    ckbLiact.prop('checked',false);
+                }else{}
             } else {
-                ckbHeader.prop('checked', ckbsHas.filter(function () {
+                if(ckbsHas.filter(function () {
                     return !$(this).prop('checked');
-                }).length == 0);
+                }).length == 0){
+                    ckbHeader.prop('checked',true);
+                }else{
+                    ckbHeader.prop('checked',false);
+                }
             }
         }
         // 创建footer
@@ -1098,6 +1108,9 @@
                         } else {
                             unPagingSel(opts);
                         }
+                        if(opts.relFilter){
+                            $(opts.relFilter).find('li.active>input:checkbox').click();
+                        }
                         console.info('PagingTable.sel:', opts.sel);
                         console.info('PagingTable.unsel:', opts.unsel);
                     })
@@ -1108,7 +1121,7 @@
                     } else {
                         unPagingSel(opts);
                     }
-                    ctrlThCkb(opts, thHeader, tbHas);
+                    // ctrlThCkb(opts, thHeader, tbHas);
 
                     if (opts.selectAll) {
                         if (opts.sel.length == opts.totalCount && opts.totalCount > 0) {
@@ -1271,7 +1284,7 @@
                             unPagingSel(opts);
                         }
 
-                        ctrlThCkb(opts, thHeader, tbHas);
+                        // ctrlThCkb(opts, thHeader, tbHas);
                     } else {
                         tbHas.empty();
                         tbEmpty.show();
@@ -2218,6 +2231,7 @@
                         unsel: [],
                         reverse: false,
                     }).on('dataChange', function () {
+                        console.log($(this).data());
                         if (
                             ($(this).data('check') && $(this).data('unsel').length > 0)
                             || (!$(this).data('check') && $(this).data('sel').length > 0)
