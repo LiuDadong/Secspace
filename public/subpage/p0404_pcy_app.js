@@ -46,7 +46,7 @@
                                 <div class="checkbox">\
                                     <label>\
                                         <input type="checkbox" name="filter" value="NAV" />\
-                                        <span class="text">本地创建</span>\
+                                        <span class="text">本级创建</span>\
                                     </label>\
                                 </div>\
                             </li>\
@@ -90,7 +90,7 @@
                 case 'origin':
                     switch (v) {
                         case 'NAV':
-                            v = '本地创建';
+                            v = '本级创建';
                             break;
                         case 'PUB':
                             v = '上级发布';

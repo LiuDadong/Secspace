@@ -24,10 +24,10 @@
     // 列表
     function getloglist(start_page, page_length) {
         var index = 0;
-        var start_time = $('.search').find('input[name=start_time]').val();
-        var end_time = $('.search').find('input[name=end_time]').val();
+        var start_time = $('input[name=start_time]').val();
+        var end_time = $('input[name=end_time]').val();
         var keyword = $('.input-group').find('input[name=searchval]').val();
-        var log_type = $('.search').find('select[name=log_type]').val();
+        var log_type = $('select[name=log_type]').val();
 
         var table = $('.logtable'),
             str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
@@ -39,15 +39,6 @@
                 + '<th style="width:14%">时间</th>'
                 + '<th style="width:10%">敏感词</th>'
                 + '<th style="width:20%">违规地址</th>';
-// account:"duanhuili"
-// dev_name:"EVA-AL00"
-// log_type:"网页敏感词"
-// opt_time:"2019-01-04 16:20:54"
-// os_type:"android"
-// os_version:"8.0.0"
-// sensitive_word:"海军"
-// user_name:"段晖莉"
-// vio_addr:"http://www.appssec.cn/test/pla.html"
         var pd={
             category:'senWordLog',
             start_time:start_time,
@@ -71,7 +62,7 @@
                         + '<td>' + data.logInfo[i].log_type + '</td>'
                         + '<td>' + data.logInfo[i].user_name + '</td>'
                         + '<td>' + data.logInfo[i].account + '</td>'
-                        + '<td>' + data.logInfo[i].dev_name + '</td>'
+                        + '<td title="'+ data.logInfo[i].dev_name +'">' + data.logInfo[i].dev_name + '</td>'
                         + '<td>' + (data.logInfo[i].os_type=='android'? 'Android':'iOS') + '</td>'
                         + '<td>' + data.logInfo[i].opt_time + '</td>'
                         + '<td>' + data.logInfo[i].sensitive_word + '</td>'

@@ -336,7 +336,7 @@
                         return;
                     }
                     $.dialog('confirm', {
-                        content: '确认删除选中的机构吗?',
+                        content: '确认删除选中的机构及其所有子机构吗?',
                         confirmValue: '确认',
                         confirm: function () {
                             $.actPost('/common/orgtree/del', {

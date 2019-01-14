@@ -39,14 +39,23 @@ module.exports = function (app, chttp) {
                     res.render('super');
                 }
             }else{  //业务管理员
-                if(req.cookies['hasAcc']==1){
-                    if (req.get('X-PJAX')) {
+                // if(req.cookies['hasAcc']==1){
+                //     if (req.get('X-PJAX')) {
+                //         res.end(fs.readFileSync(__dirname + '/public/subpage/' + req.query.pg + '.html'));
+                //     } else {
+                //         res.render('layout');
+                //     }
+                // }else{
+                //     res.render(req.get('X-PJAX')?'Expire404':'layout');
+                // }
+                if(req.get('X-PJAX')){
+                    if(req.cookies['hasAcc']==1){
                         res.end(fs.readFileSync(__dirname + '/public/subpage/' + req.query.pg + '.html'));
-                    } else {
-                        res.render('layout');
+                    }else{
+                        res.render('Expire404');
                     }
                 }else{
-                    res.render(req.get('X-PJAX')?'Expire404':'layout');
+                    res.render('layout');
                 }
             }
         } else {

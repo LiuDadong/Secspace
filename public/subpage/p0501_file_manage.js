@@ -5,7 +5,7 @@
  */
 
 
-    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
+
 
     //用于交互时改变标题显示
     var subCaption = $('#subCaption').data('itemText', '文件').text('文件列表');
@@ -155,3 +155,4 @@
     }
 
 
+    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限

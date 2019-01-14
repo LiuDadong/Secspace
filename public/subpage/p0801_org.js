@@ -1,7 +1,6 @@
 
     
     (function () {
-        applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
         var omEdit = new OrgMind({
             container: 'om_edit',          //'om_edit'-- id of the container   
             btnContainer: 'btn_cnter',     //'btn_cnter' --关联按钮组
@@ -26,4 +25,5 @@
                 console.info(that['selected']);
             }
         });
+        applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
     })()

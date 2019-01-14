@@ -4,7 +4,7 @@
  * ==================================================================
  */
 
-    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
+
 
 
     iptKeywordInit();
@@ -45,24 +45,29 @@
         }
         $.silentGet('/man/appTag/getAppTagList', pd, function (data) {
             if (data.rt == '0000') {
-                for (var i in data.apptag_list) {
-                    str += '<tr>'
-                        + '<td class="sel"><div class="checkbox"><label>'
-                        + '<input type="checkbox" onclick="selected(this)" />'
-                        + '<span class="text"></span></label></div></td>'
-                        + '<td>' + data.apptag_list[i].name + '</td>'
-                        + '<td>' + data.apptag_list[i].creator + '</td>'
-                        + '<td>'
-                        + '<a href="javascript:add_app(' + i + ');">' + data.apptag_list[i].app_num + '</a>'
-                        + '</td>'
-                        + '<td>' + data.apptag_list[i].modify_time + '</td>'
-                        + '<td style="display:none;">' + data.apptag_list[i].id + '</td>'
-                        + '<td style="display:none;">' + data.apptag_list[i].description + '</td>'
-                        + '<td>'
-                        + '<a class="btn btn-primary btn-xs'+(hasFn('mod')?'':' disabled')+'" href="javascript:tag_modify(' + i + ');">编辑</a>'
-                        + '<a class="btn btn-primary btn-xs" href="javascript:tag_view(' + i + ');">详情</a>'
-                        + '</td></tr>';
+                if(data.apptag_list.length>0){
+                    for (var i in data.apptag_list) {
+                        str += '<tr>'
+                            + '<td class="sel"><div class="checkbox"><label>'
+                            + '<input type="checkbox" onclick="selected(this)" />'
+                            + '<span class="text"></span></label></div></td>'
+                            + '<td>' + data.apptag_list[i].name + '</td>'
+                            + '<td>' + data.apptag_list[i].creator + '</td>'
+                            + '<td>'
+                            + '<a href="javascript:add_app(' + i + ');">' + data.apptag_list[i].app_num + '</a>'
+                            + '</td>'
+                            + '<td>' + data.apptag_list[i].modify_time + '</td>'
+                            + '<td style="display:none;">' + data.apptag_list[i].id + '</td>'
+                            + '<td style="display:none;">' + data.apptag_list[i].description + '</td>'
+                            + '<td>'
+                            + '<a class="btn btn-primary btn-xs'+(hasFn('mod')?'':' disabled')+'" href="javascript:tag_modify(' + i + ');">编辑</a>'
+                            + '<a class="btn btn-primary btn-xs" href="javascript:tag_view(' + i + ');">详情</a>'
+                            + '</td></tr>';
+                    }
+                }else{
+                    str += '<tr><td class="sel" colspan="6">暂无应用标签</td></tr>';
                 }
+                
                 str += '</table>';
                 table.html(str);
                 createFooter(start, length, data.total_count, st);
@@ -361,3 +366,5 @@
             });
         }
     }
+
+    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限

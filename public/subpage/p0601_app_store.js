@@ -812,7 +812,7 @@
                             mulFrm.find('.form-group:has(input[name=app_name])').addClass('hidden');
                             switch (item.app_type) {
                                 case 'plugin':  //移动应用
-                                case 'wrap':  //wrapping应用
+                                case 'wrap':  //wrapping应用 
                                     webbox.addClass('hidden');
                                     mobbox.removeClass('hidden');
                                     if (item.platform == 'android') {

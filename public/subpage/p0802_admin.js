@@ -1,5 +1,5 @@
 
-    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
+
     
     var omAdmin = new OrgMind({
         container: 'om_admin',          //'om_admin'-- id of the container   
@@ -94,7 +94,9 @@
             return v;
         },
         afterAppend:function(tri,itemi){
-            if(itemi.orgCode==omAdmin.jm.get_root().data.orgCode){
+            console.log(itemi.org_id)
+            console.log(localStorage.getItem('org_id'))
+            if(itemi.org_id==localStorage.getItem('org_id')){
                 tri.find('.checkbox,[todo=edit],[todo=resetpw]').remove();
             }
         },
@@ -370,3 +372,6 @@
         }
 
     }
+
+
+    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限

@@ -24,10 +24,10 @@
     // 列表
     function getloglist(start_page, page_length) {
         var index = 0;
-        var start_time = $('.search').find('input[name=start_time]').val();
-        var end_time = $('.search').find('input[name=end_time]').val();
+        var start_time = $('input[name=start_time]').val();
+        var end_time = $('input[name=end_time]').val();
         var keyword = $('.input-group').find('input[name=searchval]').val();
-        var log_type = $('.search').find('select[name=log_type]').val();
+        var log_type = $('select[name=log_type]').val();
 
         var table = $('.logtable'),
             str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'

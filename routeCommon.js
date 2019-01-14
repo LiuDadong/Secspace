@@ -233,6 +233,8 @@ module.exports = function (app, chttp) {
     app.post('/common/add', upTransfer.single('file_data'), function (req, res) {
         var url = req.body.url;
         req.body['sid'] = req.cookies.sid;
+        console.log(req.body)
+        console.log(req.file)
         if (req.file) {
             req.body['file_data'] = JSON.stringify(req.file);
         }

@@ -17,7 +17,7 @@ switch (v) {
     case 2: //内网基础测试
         PDP = { protocol: 'https', domain: '192.168.1.25', port: 1443 };
         break;
-    case 3: //本地测试上线
+    case 3: //本地测试正式上线
         PDP = { protocol: 'http', domain: 'tpos.appssec.cn' };
         break;
     case 4: //本地测试惠讯

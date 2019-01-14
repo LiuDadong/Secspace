@@ -18,10 +18,6 @@ var frmLic =$('#multForm').MultForm({
         }
     },
     success: function (res) {  //提交编辑成功之后的回调
-        console.log(res)
-        if (res.serverModules && typeof res.serverModules == 'object') {
-            localStorage.setItem('lic',JSON.stringify(res.serverModules));
-        }
         $.getLicense(function(data){
             if(data.rt==='0000'){
                 var license=data.licInfo.license
@@ -172,7 +168,7 @@ function renderLicRolefns(fns){
         }
     });
     if(fns){
-        var  rolesFns= getLicPath('',fns,{});
+        var  rolesFns= $.getLicPath('',fns,{});
         for(k in rolesFns){
             if(typeof rolesFns[k] == "string"){
                 rolesFns[k]=rolesFns[k].split('-');

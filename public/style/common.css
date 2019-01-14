@@ -533,6 +533,8 @@ table {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    border: 1px solid #ddd;
+    margin-bottom:-1px; 
 }
 .scrollList li{
     display: flex;
@@ -540,8 +542,10 @@ table {
     justify-content: center;
     white-space: nowrap;
     padding: 5px 0;
-    box-shadow: 0 0 0 1px #ddd inset;
-    margin: 0 -1px -1px 0;
+    border-right: 1px solid #ddd;
+}
+.scrollList li:last-child{
+    border:none;
 }
 
 
@@ -582,7 +586,12 @@ table {
 .scrollList .disabled{
     opacity: 0.5;
 }
-
+.scrollList input[type=checkbox]{
+    margin:4px 2px 0 0;
+}
+.scrollList input[type=checkbox]+span{
+    height: 24px;
+}
 
 
 
@@ -870,3 +879,16 @@ input::-webkit-input-placeholder{
     min-height: 600px;
     overflow: auto;
 }
+
+
+.logmenu ul.submenu{
+    height:260px;
+    overflow:auto;
+    padding-left: 4px !important;
+    margin-left: -4px !important;
+}
+.logmenu ul.submenu::before{
+    left: 27px !important;
+    bottom: -180px !important;
+}
+

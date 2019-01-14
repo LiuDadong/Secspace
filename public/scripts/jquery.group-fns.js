@@ -313,7 +313,7 @@ $.dealRt3009 = function (policy_list) {
 
 
 $.getLicense = function (cb){
-    $.silentPost('/common/license',{},function(data){
+    $.nullPost('/common/license',{},function(data){
         cb(data);
     })
 }
@@ -847,3 +847,22 @@ $.textPolicy=function(v){
     }
     return obj;
 }
+
+$.getLicPath = function(baseP, lic, licPath) {
+    for (i in lic) {
+        switch (typeof lic[i]) {
+            case 'object':
+                $.getLicPath(baseP + i, lic[i], licPath);
+                break;
+            case 'boolean':
+            case 'string':
+            case 'number':
+                licPath[baseP + i] = lic[i];
+                break;
+            default:
+        }
+    }
+    if (baseP == '') {
+        return licPath
+    }
+};

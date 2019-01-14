@@ -4,8 +4,6 @@
  * ==================================================================
  */
 (function () {
-    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
-
     $('input[name=searchval]').on('input change propertychange', function () {
         var searchvalTimer;
         clearTimeout(searchvalTimer);
@@ -17,7 +15,7 @@
 
     // 设备管理列表
     getDeviceList(1, 10);
-
+    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
 })();
 var mapObj = (function () {
     var map;

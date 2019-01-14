@@ -417,7 +417,7 @@
             }
 
             //判定管理员角色功能点是否具有机构内下发权限
-            if(hasFn('iio')){  //管理员角色功能点是否具有机构内下发权限
+            if(hasFn('iio')||hasFn('iss')){  //管理员角色功能点是否具有机构内下发权限
                 pnlLeft.find('.btnToIssue').on('click', function () {
                     var actText = $(this).text().replace(/[\s]/g, ''),
                         sel = $(pnl.relPagingTable).data('PagingTable').sel,
@@ -919,10 +919,11 @@
             // if (tbl.next('.pagingTableFooter').length == 0) {
             //     tbl.after($('<div class="pagingTableFooter"></div>'))
             // }
-            if (tbl.next('.DTTTFooter').length == 0) {
-                tbl.after($('<div class="row DTTTFooter"></div>'))
-            }
-            if (total >= 0) {
+            
+            if (total > 0) {
+                if (tbl.next('.DTTTFooter').length == 0) {
+                    tbl.after($('<div class="row DTTTFooter"></div>'))
+                }
                 var doc = tbl.next(),
                     pages = Math.ceil(total / length);
                 page = total > 0 ? page : 0;
@@ -986,6 +987,8 @@
                 doc.find('ul.pagination>li>a[to-page]').on('click', function (e) {
                     tbl.PagingTable('page', $(e.target).attr('to-page') * 1)
                 })
+            }else{
+                tbl.next('.DTTTFooter').remove();
             }
             return this;
         };
@@ -1803,12 +1806,12 @@
                 }
                 frm.afterUsed(use, frm.data('item'));
                 
-                $(frm[0]).removeData('editStatus').off('change.edit input.edit');
+                $(frm[0]).removeClass('needmod').off('change.edit input.edit');
                 setTimeout(function () {
                     if(use==='edit'){
-                        $(frm[0]).data('editStatus','init')
+                        $(frm[0]).addClass('needmod')
                         .on('change.edit input.edit',function(){
-                            $(frm[0]).removeData('editStatus');
+                            $(frm[0]).removeClass('needmod');
                         });
                     }
                     frm.find('button:not([type])').attr('type', 'button');
@@ -2010,7 +2013,7 @@
                         },
                         beforeSubmit: function (arrKeyVal, $frm, ajaxOptions) {
                             $(frm[0]).find('input[type=submit]').prop('disabled',true);
-                            if($frm.data('editStatus')==='init'){
+                            if($frm.hasClass('needmod')){
                                 return false;
                             }
                             $(frm[0]).find(':input[name]').each(function () {
