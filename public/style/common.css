@@ -6,7 +6,14 @@ td{
     -ms-text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
 }
-.antiCursor{
+
+.form-group label{
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.anti-cursor{
     pointer-events:none;
     cursor: auto;
 }
@@ -396,7 +403,7 @@ td.dev-list i {
     top: 0;
     left: 65%;
     bottom: 5px;
-    content: 'Licence未购买！';
+    content: 'License未购买！';
     font-weight: bold;
     color: red;
 }
@@ -426,6 +433,7 @@ table {
 
 .xtree,.xlist{
     padding: 10px;
+    border: 1px solid #d5d5d5;
     border-radius: 0!important;
     background-clip: padding-box!important;
     background-color: #fbfbfb;
@@ -438,8 +446,9 @@ table {
     -moz-box-shadow: none;
     box-shadow: none;
 }
+
 .xtree:hover,.xlist:hover{
-    border-color: rgba(0,0,0,.2);
+    border-color: rgba(0, 0, 0, .5);
 }
 .xtree input,.xlist input{
     opacity: 1;
@@ -451,8 +460,9 @@ table {
     vertical-align: middle;
 }
 
+
 .xtree li>i.tIcon {
-    margin: 0.5em;
+    margin: -1em 0.5em 0;
     cursor: pointer;
 }
 
@@ -500,17 +510,11 @@ table {
     color: rgb(40, 110, 240);
 }
 
-.xtree label{
-    vertical-align: bottom;
-}
-
 
 .tab-pane .relFilter li span {
     cursor: pointer;
     line-height: 16px;
 }
-
-
 
 
 /* 滚动列表组件样式 */
@@ -523,30 +527,28 @@ table {
 .scrollList dl, .scrollList dt, .scrollList dd, .scrollList ul, .scrollList li {
     list-style: none;
     margin: 0;
-    padding: 0;
 }
 
 .scrollList ul{
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    border: 1px solid #ddd;
+    margin-bottom:-1px; 
 }
 .scrollList li{
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6px 0;
-    box-shadow: 0 0 0 1px #ddd inset;
-    margin: 0 -1px -1px 0;
+    white-space: nowrap;
+    padding: 5px 0;
+    border-right: 1px solid #ddd;
+}
+.scrollList li:last-child{
+    border:none;
 }
 
 
-/* .scrollList dt>ul>li{
-    background: #ddd;
-} */
-/* .scrollList dd.ddHas ul:nth-child(even) li{
-    background: #ccc;
-} */
 .scrollList dd>ul>li:only-child{
     width:100%;
     text-align: center;
@@ -566,6 +568,30 @@ table {
     margin: 0;
 }
 
+.scrollList span>i{
+    margin-right: 2px;
+    font-size: 11px;
+    padding: 4px 6px;
+    color: #fff;
+    background: #427fed;
+    transition: all .15s ease;
+    border-radius: 2px;
+    background-clip: padding-box;
+}
+.scrollList span>i{
+    background-color: #4285f4!important;
+    border-color: #427fed;
+    color: #fff;
+}
+.scrollList .disabled{
+    opacity: 0.5;
+}
+.scrollList input[type=checkbox]{
+    margin:4px 2px 0 0;
+}
+.scrollList input[type=checkbox]+span{
+    height: 24px;
+}
 
 
 
@@ -747,8 +773,8 @@ th.filter>ul.dropdown-menu{
 
 .orgPanel{
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 26px;
+    left: 40px;
     width: 20%;
 }
 .jsmind.orgManage{
@@ -757,17 +783,11 @@ th.filter>ul.dropdown-menu{
 }
 
 
-
-textarea.danger,
-input.danger{
-    border-color: rgba(255, 0, 0 ,0.7) !important;
-    box-shadow: 0 0 2px rgba(255, 0, 0 ,0.7) !important;
-    color: inherit !important;
+.regex-info{
+    display: none;
 }
-textarea:focus,
-input:focus{
-    border-color: #000 !important;
-    color: #000 !important;
+.has-error .regex-info{
+    display: block;
 }
 
 
@@ -777,11 +797,7 @@ input:focus{
     font-size: 13px !important;
 }
 
-/* 使用webkit内核的浏览器 */
-textarea::-webkit-input-placeholder,
-input::-webkit-input-placeholder{
-    font-style: italic;
-}
+
 
 /* Firefox版本4-18 */
 textarea:-moz-placeholder, 
@@ -810,4 +826,76 @@ textarea{
     font-weight: bold;
     text-indent: 0.6em;
     margin-top: 0.6em;
+}
+
+
+/* 使用webkit内核的浏览器 */
+textarea::-webkit-input-placeholder,
+input::-webkit-input-placeholder{
+    font-style: italic !important;
+    color: inherit !important;
+}
+
+.has-error .append-box input{
+    color: #858585;
+    border: 1px solid #d5d5d5;
+}
+
+
+/* append-box组件错误样式 */
+.append-box input.input-error{
+    color: #e46f61 !important;
+    border-color: #e7bebe;
+}
+
+.append-box input+.help-block{
+    display: none;
+}
+.append-box input.input-error:focus+.help-block{
+    display: block;
+}
+
+.orgmind{
+    border: 1px solid rgba(0,0,0,0.2);
+    transition: all 0.5s;
+}
+
+
+
+.file-name{
+    width: 100%;
+}
+
+
+.profile-container .profile-badge span{
+    font-size: 16px;
+}
+
+
+#pjax-aim .widget{
+    margin: 3px 0;
+}
+#pjax-aim .widget>.widget-body.section{
+    min-height: 600px;
+    overflow: auto;
+}
+.tab-pane.section{
+    min-height: 600px;
+    overflow: auto;
+}
+
+
+.logmenu ul.submenu{
+    height:260px;
+    overflow:auto;
+    padding-left: 4px !important;
+    margin-left: -4px !important;
+}
+.logmenu ul.submenu::before{
+    left: 27px !important;
+    bottom: -180px !important;
+}
+
+.orgmind{
+    overflow: auto;
 }

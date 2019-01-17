@@ -27,7 +27,7 @@
                         <th style="width:5%;">策略</th>\
                         <th style="width:10%;">用户组</th>\
                         <th style="width:5%;">标签</th>\
-                        <th style="width:15%;">操作</th>\
+                        <th style="width:12%;">操作</th>\
                     </tr>',
         // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
         // to-edit、to-view表示要跳转的目标表单
@@ -57,7 +57,7 @@
                                     <span item-key="tag"></span>\
                                 </a>\
                             </td>\
-                            <td><a todo="edit">编辑</a><a todo="view">查看</a><a todo="resetpw">重置密码</a></td>\
+                            <td><a todo="edit" title="编辑"><i class="fa fa-edit"></i></a><a todo="view" title="查看"><i class="fa fa-eye"></i></a><a todo="resetpw" title="重置密码"><i class="fa fa-key"></i></a></td>\
                         </tr>',
         //因不同需求需要个性控制组件表现的修正函数和增强函数
         fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -66,7 +66,21 @@
         fnValByKey: function (k, v) {  //用于根据键值对修正要显示文本
             switch (k) {
                 case 'status':
-                    v = v == 1 ? '已激活' : '未激活';
+                    switch(v){
+                        case 0:
+                            v = '未激活';
+                            break;
+                        case 1:
+                            v = '正常'
+                            break;
+                        case 2:
+                            v = hasFn('lev')?'<a onclick="updateLeave(this)" href="#">有请假申请</a>':'有请假申请';
+                            break;
+                        case 3:
+                            v = hasFn('lev')?'<a onclick="updateLeave(this)" href="#">休假中</a>':'休假中';
+                            break;
+                        default:
+                    }
                     break;
                 case 'tag':
                     v = v.length;
@@ -131,19 +145,7 @@
                 default:
             }
         },
-        cbSubmit: function (use) {  //提交编辑成功之后的回调
-            switch (use) {
-                case 'add':
-                    break;
-                case 'edit':
-                    break;
-                default:
-            }
-    
-            pagingTable.PagingTable('refresh');
-        },
         beforeSubmit: function (arrKeyVal, $frm, ajaxOptions) {
-            console.log($frm.find('input:focus')[0]);
             for (var i = 0; i < arrKeyVal.length; i++) {
                 if (delKeyVal(arrKeyVal[i].name)) {
                     arrKeyVal.splice(i, 1);
@@ -170,6 +172,16 @@
                 }
             }
             return true;
+        },
+        cbSubmit: function (use) {  //提交编辑成功之后的回调
+            switch (use) {
+                case 'add':
+                    break;
+                case 'edit':
+                    break;
+                default:
+            }
+            pagingTable.PagingTable('refresh');
         }
     })
     
@@ -263,25 +275,23 @@ function prepareUserTagList(){
 function importusers() {
     alert('敬请期待，请不要作无谓尝试！')
     return false;
-    var cont = '<form id="addUserFile" class="form-inline" action="' + localStorage.getItem("appssec_url") + '/p/user/bulkLoad" enctype="multipart/form-data" autocomplete="off" role="form">\
-            <input type="hidden" name="sid" value="' + $.cookie('sid') + '" />\
-            <input type="hidden" name="org_id" value="' + $.cookie('org_id') + '" />\
-            <div class="form-group" style="position:relative;">\
-                <div class="progress progress-striped hidden" style="position:absolute;top:0;left:0;right:0;bottom:0;height:100%">\
-                    <div class="progress-bar progress-bar-inverse" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%">\
-                        <span class="sr-only">\
-                            100% Complete (success)\
-                        </span>\
-                    </div>\
-                </div>\
-                <input id="file_data" name="file_data" type="file" class="form-control"/>\
-            </div>\
-            <a type="button" class="btn btn-default" href="'+ localStorage.getItem("appssec_url") + '/p/user/templateDownload?name=userTemplate.xls">下载模板</a>\
-        </form>'
-    //alertOpen(cont);
-    $.dialog('confirm', {
+    $.dialog('form', {
         title: '批量导入',
-        content: cont,
+        content: '<form id="addUserFile" class="form-inline" action="' + localStorage.getItem("appssec_url") + '/p/user/bulkLoad" enctype="multipart/form-data" autocomplete="off" role="form">\
+                        <input type="hidden" name="sid" value="' + $.cookie('sid') + '" />\
+                        <input type="hidden" name="org_id" value="' + $.cookie('org_id') + '" />\
+                        <div class="form-group" style="position:relative;">\
+                            <div class="progress progress-striped hidden" style="position:absolute;top:0;left:0;right:0;bottom:0;height:100%">\
+                                <div class="progress-bar progress-bar-inverse" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%">\
+                                    <span class="sr-only">\
+                                        100% Complete (success)\
+                                    </span>\
+                                </div>\
+                            </div>\
+                            <input id="file_data" name="file_data" type="file" class="form-control"/>\
+                        </div>\
+                        <a type="button" class="btn btn-default" href="'+ localStorage.getItem("appssec_url") + '/p/user/templateDownload?name=userTemplate.xls">下载模板</a>\
+                    </form>',
         confirmValue: '确认',
         confirm: function () {
             $('#addUserFile').submit();
@@ -437,4 +447,239 @@ function randomCode() {
         }
         return str;
     }
+}
+
+
+function askForLeave() {
+    var sel = $('#pagingTable').data('PagingTable').sel;
+    if (sel.length === 0) {
+        warningOpen('请选择要请假的用户！', 'danger', 'fa-bolt');
+    } else {
+        if(sel.filter(function(item){
+            return item.status===0;
+        }).length>0){
+            warningOpen('未激活用户不能请假！', 'danger', 'fa-bolt');
+            return;
+        }
+        var uids=sel.map(function(item){
+            return item.userId;
+        })
+        $.dialog('form', {
+            width: 400,
+            height: null,
+            autoSize: true,
+            maskClickHide: true,
+            title: "标记请假",
+            content: '<form id="frmAskForLeave" class="form-horizontal form-bordered" role="form" method="post" style="margin-right:-40px;">\
+                        <input type="hidden" name="user_list" value=\''+ JSON.stringify(uids)+'\' />\
+                        <div class="form-group">\
+                            <label for="start_time" class="col-sm-3 control-label no-padding-right">开始时间</label>\
+                            <div class="col-sm-8">\
+                                <input type="text" class="form-control jedate require" id="start_time" name="start_time" >\
+                            </div>\
+                        </div>\
+                        <div class="form-group">\
+                            <label for="stop_time" class="col-sm-3 control-label no-padding-right">结束时间</label>\
+                            <div class="col-sm-8">\
+                                <input type="text" class="form-control jedate require" id="stop_time" name="stop_time" >\
+                            </div>\
+                        </div>\
+                        <div class="form-group">\
+                            <div class="col-sm-2  col-sm-offset-4">\
+                                <button type="button" class="btnBack btn btn-default">返回</button>\
+                            </div>\
+                            <div class="col-sm-2 col-sm-offset-1">\
+                                <input type="submit" class="btn btn-primary" disabled="">\
+                            </div>\
+                        </div>\
+                    </form>',
+            hasBtn: false,
+            hasClose: true,
+            hasMask: true,
+            confirmValue: '确认',
+            confirm: function () {
+                frmAskForLeave.submit();
+            },
+            confirmHide: false,
+            cancelValue: '取消'
+        });
+        
+        var frmAskForLeave = $('#frmAskForLeave').MultForm({
+            addBtnTxt: '确认',
+            addAct: '/user/leave',
+            afterUsed: function (use) {
+                frmAskForLeave.find('input[name=url]').remove();
+            },
+            cbSubmit: function (use) {
+                pagingTable.PagingTable('update');
+                $.dialogClose();
+            }
+        });
+        frmAskForLeave.usedAs('add');
+
+        var start_time_opt={
+            minDate: valInitStart, //0代表今天，-1代表昨天，-2代表前天，以此类推
+            isClear:false,
+            fixed:false,
+            zIndex:999999,
+            format: "YYYY-MM-DD hh:mm",
+            okfun: function (obj) {
+                obj.elem.change();
+                var numStart=$.timeStampDate(obj.val),
+                    numStop=$.timeStampDate($('#stop_time').val()),
+                    numInitStop= numStart+60*60*3,
+                    valInitStop= $.timeStampDate(numInitStop,stop_time_opt.format);
+                stop_time_opt.minDate = obj.val; //开始日选好后，重置结束日的最小日期
+                $('#stop_time').jeDate(stop_time_opt);
+                if(numStop<numInitStop){
+                    $('#stop_time').val(valInitStop);
+                }
+            }
+        };
+        var stop_time_opt={
+            minDate: valInitStop, //0代表今天，-1代表昨天，-2代表前天，以此类推
+            isClear:false,
+            fixed:false,
+            zIndex:999999,
+            format: "YYYY-MM-DD hh:mm",
+            okfun: function (obj) {
+                obj.elem.change();
+                $('.input-group-btn button').click();
+            }
+        };
+        var arrNow=$.nowDate().split(' '),
+        valInitStart=arrNow[0]+' '+arrNow[1].split(':')[0]+':00',
+        valInitStop= $.timeStampDate($.timeStampDate(valInitStart)+60*60*3,stop_time_opt.format);
+        $('#start_time').val(valInitStart).jeDate(start_time_opt);
+        $('#stop_time').val(valInitStop).jeDate(stop_time_opt);
+        setTimeout(function(){
+            $('#frmAskForLeave #start_time').change();
+            $('#frmAskForLeave #stop_time').change();
+        },10)
+    }
+}
+
+function updateLeave(e){
+    var item = $(e).closest('tr').data('item');
+    if(item.leave){
+        var uids=[item.userId];
+        $.dialog('form', {
+            width: 400,
+            height: null,
+            autoSize: true,
+            maskClickHide: true,
+            title: "请假详情",
+            content: '<form id="frmAskForLeave" class="form-horizontal form-bordered" role="form" method="post" style="margin-right:-40px;">\
+                        <input type="hidden" name="user_list" value=\''+ JSON.stringify(uids)+'\' />\
+                        <div class="form-group">\
+                            <label for="start_time" class="col-sm-3 control-label no-padding-right">开始时间</label>\
+                            <div class="col-sm-8">\
+                                <input type="text" class="form-control jedate require" id="start_time" name="start_time" >\
+                            </div>\
+                        </div>\
+                        <div class="form-group">\
+                            <label for="stop_time" class="col-sm-3 control-label no-padding-right">结束时间</label>\
+                            <div class="col-sm-8">\
+                                <input type="text" class="form-control jedate require" id="stop_time" name="stop_time" >\
+                            </div>\
+                        </div>\
+                        <div class="form-group">\
+                            <div class="col-sm-offset-3 col-sm-9">\
+                                <div class="checkbox">\
+                                    <label>\
+                                        <input id="flag" value="1" type="checkbox">\
+                                        <span class="text">撤销请假</span>\
+                                    </label>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div class="form-group">\
+                            <div class="col-sm-2  col-sm-offset-4">\
+                                <button type="button" class="btnBack btn btn-default">返回</button>\
+                            </div>\
+                            <div class="col-sm-2 col-sm-offset-1">\
+                                <input type="submit" class="btn btn-primary" disabled="">\
+                            </div>\
+                        </div>\
+                    </form>',
+            hasBtn: false,
+            hasClose: true,
+            hasMask: true,
+            confirmValue: '确认',
+            confirm: function () {
+                frmAskForLeave.submit();
+            },
+            confirmHide: false,
+            cancelValue: '取消'
+        });
+        
+        var frmAskForLeave = $('#frmAskForLeave').MultForm({
+            editBtnTxt: '保存',
+            editAct: '/user/leaveSta',
+            afterUsed: function (use) {
+                frmAskForLeave.find('input[name=url]').remove();
+            },
+            cbSubmit: function (use) {
+                pagingTable.PagingTable('update');
+                $.dialogClose();
+            }
+        });
+        frmAskForLeave.data('item',item.leave);
+        frmAskForLeave.usedAs('edit');
+        frmAskForLeave.find('#flag').on('change',function(){
+            if($(this).prop('checked')){
+                $(this).attr('name','flag');
+                $('#start_time').prop('disabled',true);
+                $('#stop_time').prop('disabled',true);
+            }else{
+                $(this).removeAttr('name');
+                $('#start_time').prop('disabled',false);
+                $('#stop_time').prop('disabled',false);
+            }
+        })
+
+        var start_time_opt={
+            isinitVal:true,
+            minDate: $.nowDate({hh:0,mm:0}).split(' ')[0]+' 00:00',
+            isClear:false,
+            fixed:false,
+            zIndex:999999,
+            format: "YYYY-MM-DD hh:mm",
+            okfun: function (obj) {
+                obj.elem.change();
+                var numStart=$.timeStampDate(obj.val),
+                    numStop=$.timeStampDate($('#stop_time').val()),
+                    numInitStop= numStart+60*60*3,
+                    valInitStop= $.timeStampDate(numInitStop,stop_time_opt.format);
+                stop_time_opt.minDate = obj.val; //开始日选好后，重置结束日的最小日期
+                $('#stop_time').jeDate(stop_time_opt);
+                if(numStop<numInitStop){
+                    $('#stop_time').val(valInitStop);
+                }
+            }
+        };
+
+        var stop_time_opt={
+            isinitVal:true,
+            minDate: $.nowDate({hh:0,mm:0}).split(' ')[0]+' 00:00', //0代表今天，-1代表昨天，-2代表前天，以此类推
+            isClear:false,
+            fixed:false,
+            zIndex:999999,
+            format: "YYYY-MM-DD hh:mm",
+            okfun: function (obj) {
+                obj.elem.change();
+                $('.input-group-btn button').click();
+            }
+        };
+        $('#start_time').jeDate(start_time_opt);
+        $('#stop_time').jeDate(stop_time_opt);
+        setTimeout(function(){
+            $('#frmAskForLeave #start_time').change();
+            $('#frmAskForLeave #stop_time').change();
+        },10)
+    }else{
+        return;
+    }
+
+    
 }

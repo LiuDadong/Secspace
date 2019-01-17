@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="loglist col-xs-12 col-md-12">
+        <div class="widget">
+            <div class="widget-header">
+                <span id="subCaption" class="widget-caption">上网行为日志</span>
+            </div>
+            <div class="widget-body section">
+                <form id="panel" class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
+                    <div class="buttons-preview pull-left">
+                        <button rolefn="exp" onclick="downloadLog('urlLog')" class="btn btn-primary" type="button">
+                            <i class="fa fa-download">导出</i>
+                        </button>
+                    </div>
+                    <div class="pull-right">
+                        <div class="input-group">
+                            <span class="input-icon">
+                                <input id="datestart" readonly="readonly" type="text" name="start_time" placeholder="起始时间"
+                                    class="form-control jedate datestart input-sm">
+                            </span>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-icon">
+                                <input id="dateend" readonly="readonly" type="text" name="end_time" placeholder="结束时间"
+                                    class="form-control jedate dateend input-sm">
+                            </span>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-icon">
+                                <select name="log_type" class="form-control input-sm">
+                                    <option value="">全部类型</option>
+                                    <option value="违规URL">违规URL</option>
+                                    <option value="非违规URL">非违规URL</option>
+                                </select>
+                            </span>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-icon">
+                                <input oninput="searchlist()" id="iptKeyword" style="width:18em;" name="searchval" type="text" class="form-control input-sm"
+                                    autocomplete="off" placeholder="账号/设备">
+                                <i class="glyphicon glyphicon-search blue"></i>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                <div class="paging-table-wrap">
+                    <div style="box-shadow:none;padding:0;" class="logtable widget-body"></div>
+                    <div class="page1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-src="/subpage/p0712_log_url.js"></script>

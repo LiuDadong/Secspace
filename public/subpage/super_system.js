@@ -136,9 +136,9 @@ $('#updateLogo').submit(function () {
                         localStorage.setItem("icon", data.doc.icon);
                     }
                 });
-                if (d1.rt == 0) {
-                    $('.navbar .product_name').html('<a href="#" class="navbar-brand">' + product_name + '</a>');
-                    localStorage.setItem("productName", product_name);
+                if (d1.rt == '0000') {
+                    $('.navbar .product_name a').text(product_name);
+                    localStorage.setItem("product_name", product_name);
                     $('input[name=product_name]').val(product_name);
                     $('input[name=company_name]').val(company_name);
                     $('input[name=company_domain]').val(company_domain);
@@ -148,7 +148,6 @@ $('#updateLogo').submit(function () {
                     warningOpen('操作失败！', 'danger', 'fa-bolt');
                     console.warn(d1.rt);
                 }
-                alertOff();
             },
             error: function (err) {
                 console.error(err)
@@ -200,15 +199,11 @@ function modwatermarke() {
 
 // 邮箱服务器测试
 function testemail() {
-    var email_server = $('input[name=email_server]').val();
-    var send_user = $('input[name=send_user]').val();
-    var send_pwd = $('input[name=send_pwd]').val();
-    var recv_user = $('input[name=recv_user]').val();
     var postData = {
-        email_server: email_server,
-        send_user: send_user,
-        send_pwd: send_pwd,
-        recv_user: recv_user
+        email_server: $('input[name=email_server]').val(),
+        send_user: $('input[name=send_user]').val(),
+        send_pwd: $('input[name=send_pwd]').val(),
+        recv_user: $('input[name=recv_user]').val()
     };
     if (postData.email_server && postData.send_user && postData.send_pwd && postData.recv_user) {
         $.silentPost('/super/setting/testEmail', postData, function (data) {
@@ -225,24 +220,10 @@ function testemail() {
 }
 // 邮箱服务器设置
 function modemailserver() {
-    var email_server = $('input[name=email_server]').val();
-    var send_user = $('input[name=send_user]').val();
-    var send_pwd = $('input[name=send_pwd]').val();
-
-    var postData = {
-        email_server: email_server,
-        send_user: send_user,
-        send_pwd: send_pwd
-    };
-    $.post('/super/setting/updateSettings', postData, function (data) {
-        if (data.rt == '0000') {
-            warningOpen('操作成功！', 'primary', 'fa-check');
-        } else if (data.rt == 5) {
-            toLoginPage();
-        } else {
-            warningOpen('操作失败！', 'danger', 'fa-bolt');
-            console.warn(data.rt);
-        }
+    $.actPost('/super/setting/updateSettings', {
+        email_server:  $('input[name=email_server]').val(),
+        send_user: $('input[name=send_user]').val(),
+        send_pwd: $('input[name=send_pwd]').val()
     });
 }
 // 修改服务器地址
@@ -336,7 +317,7 @@ function modifycompany() {
     $.post('/super/setting/updateSettings', postData, function (data) {
         if (data.rt == '0000') {
             $('.navbar .product_name').html('<a href="#" class="navbar-brand">' + product_name + '</a>');
-            localStorage.setItem("productName", product_name);
+            localStorage.setItem("product_name", product_name);
             warningOpen('操作成功！', 'primary', 'fa-check');
         } else if (data.rt == 5) {
             toLoginPage();

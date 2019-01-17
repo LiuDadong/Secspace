@@ -49,7 +49,7 @@
                                 <div class="checkbox">\
                                     <label>\
                                         <input type="checkbox" name="filter" value="NAV" />\
-                                        <span class="text">本地创建</span>\
+                                        <span class="text">本级创建</span>\
                                     </label>\
                                 </div>\
                             </li>\
@@ -76,7 +76,7 @@
                         <td><span item-key="update_time"></span></td>\
                         <td><span item-key="creator"></span></td>\
                         <td><span item-key="manager"></span></td>\
-                        <td><a todo="edit">编辑</a><a todo="view">查看</a></td>\
+                        <td><a todo="edit" title="编辑"><i class="fa fa-edit"></i></a><a todo="view" title="查看"><i class="fa fa-eye"></i></a></td>\
                     </tr>',
         //因不同需求需要个性控制组件表现的修正函数和增强函数
         fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -93,7 +93,7 @@
                 case 'origin':
                     switch (v) {
                         case 'NAV':
-                            v = '本地创建';
+                            v = '本级创建';
                             break;
                         case 'PUB':
                             v = '上级发布';
@@ -216,9 +216,6 @@
             $('input[name=camera]').prop('checked', false)
         }
     })
-    $('input[name=control]').on('click', function () {
-        $('.form-group:has(.limit_apps.append-box)').toggleClass('hidden', !$(this).prop('checked'))
-    })
 
 
 
@@ -245,30 +242,6 @@
         });
     }
 
-    function checkwifi(e) {
-        if ($(e).prop('checked')) {
-            $('input[name=mobile_data]').prop("checked", false);
-        }
-    }
-
-    function checkmobile(e) {
-        if ($(e).prop('checked')) {
-            $('input[name=wifi]').prop("checked", false);
-        }
-    }
-
-    function checkgps1(e) {
-        if ($(e).prop('checked')) {
-            $('input[name=gps2]').prop("checked", false);
-        }
-    }
-
-    function checkgps2(e) {
-        if ($(e).prop('checked')) {
-            $('input[name=gps1]').prop("checked", false);
-        }
-    }
-
 
     //获取策略提交数据
     function getPolicyPostData(act) {
@@ -276,16 +249,15 @@
             url: '/p/policy/deviceMan',
             policy_type: 'device',
             name: $('input[name=name]').val(),
+            leave:$('input[name=leave]').prop('checked') ? 1 : 0,
             position_strategy: $('select[name=position_strategy]').val(),
             dev_limit: JSON.stringify({
-                gps: $('select[name=position_strategy]').val() == '3' ? 0 : 1,
                 camera: $('#camera').prop('checked') ? 1 : 0,
                 camera_control: $('#camera_control').prop('checked') ? 1 : 0,
                 wifi: $('#wifi').prop('checked') ? 1 : 0,
                 recording: $('#recording').prop('checked') ? 1 : 0,
                 bluetooth: $('#bluetooth').prop('checked') ? 1 : 0,
-                gps: $('#gps1').prop('checked') ? 1 : 0,
-                mobile_data: $('#mobile_data').prop('checked') ? 1 : 0,
+                gps: $('#gps').prop('checked') ? 1 : 0,
                 screenshot: $('#screenshot').prop('checked') ? 1 : 0,
                 setfactory: $('#setfactory').prop('checked') ? 1 : 0,
                 message: $('#message').prop('checked') ? 1 : 0,
@@ -300,9 +272,7 @@
             }),
             vpnlimit: JSON.stringify({
                 control: $('input[name=control]').prop('checked') ? 1 : 0,
-                limit_apps: $('input[name=control]').prop('checked')
-                    ? $('.limit_apps.append-box input[type=hidden][name=limit_apps]').data('arrData')
-                    : []
+                limit_apps: $('.limit_apps.append-box input[type=hidden][name=limit_apps]').data('arrData')
             }),
             wifi: JSON.stringify({
                 status: $('input[name=status]').prop('checked') ? 1 : 0,
@@ -346,6 +316,7 @@
     function showItem(item) {
         $('input[name=policyid]').val(item.id);
         $('input[name=name]').val(item.name).attr('readonly', false);
+        $('input[name=leave]').prop('checked', item.leave == 1);
         $('select[name=position_strategy]').val(item.position_strategy);
         //锁屏策略
         $('select[name=pw_min_len]').val(item.dev_security.pw_min_len);
@@ -353,27 +324,14 @@
         $('select[name=pw_fail_count]').val(item.dev_security.pw_fail_count);
         $('select[name=available_time]').val(item.dev_security.available_time);
         //限制策略
-        if (item.dev_limit.gps == 1) {
-            $('#gps1').prop('checked', true);
-            $('#gps2').prop('checked', false);
-        } else {
-            $('#gps2').prop('checked', true);
-            $('#gps1').prop('checked', false);
-        }
-        if (item.dev_limit.wifi == 1) {
-            $('#mobile_data').prop('checked', false);
-            $('input[name=mobile_data]').attr("disabled", true);
-        }
-        if (item.dev_limit.mobile_data == 1) {
-            $('#wifi').prop('checked', false);
-            $('input[name=wifi]').attr("disabled", true);
-        }
+        $('#gps').prop('checked', item.dev_limit.gps==1);
+
         $('#camera').prop('checked', item.dev_limit.camera == 1);
         $('#camera_control').prop('checked', item.dev_limit.camera_control == 1);
         $('#bluetooth').prop('checked', item.dev_limit.bluetooth == 1);
         $('#recording').prop('checked', item.dev_limit.recording == 1);
         $('#wifi').prop('checked', item.dev_limit.wifi == 1);
-        $('#mobile_data').prop('checked', item.dev_limit.mobile_data == 1);
+        // $('#mobile_data').prop('checked', item.dev_limit.mobile_data == 1);
         $('#screenshot').prop('checked', item.dev_limit.screenshot == 1);
         $('#setfactory').prop('checked', item.dev_limit.setfactory == 1);
         $('#message').prop('checked', item.dev_limit.message == 1);
@@ -383,13 +341,9 @@
         // 网络策略
         if (item.vpnlimit) {
             $('input[name=control]').prop('checked', item.vpnlimit.control == 1);
-            if (item.vpnlimit.control == 1) {
-                $('.form-group:has(.limit_apps.append-box)').removeClass('hidden')
-                    .find('input[type=hidden][name=limit_apps]')
-                    .trigger('data', { arrData: item.vpnlimit.limit_apps });
-            } else {
-                $('.form-group:has(.limit_apps.append-box)').addClass('hidden').find(':input').val('');
-            }
+            $('.form-group:has(.limit_apps.append-box)')
+            .find('input[type=hidden][name=limit_apps]')
+            .trigger('data', { arrData: item.vpnlimit.limit_apps });
         }
 
         // wifi策略

@@ -25,9 +25,10 @@ $('.firstmenu').addClass('active');
             $('.device_count').html(data.doc.device_count);
             $('.issued_policy').html(data.doc.issued_policy);
             $('.page-version').html('版本信息 : '+data.doc.server_version);
-            $('#online span').html(((data.doc.active_user_count/data.doc.user_count).toFixed(2)*100).toFixed(0));
-            $('#depart span').html(((data.doc.dev_complicance_count/data.doc.device_count).toFixed(2)*100).toFixed(0));
-            $('#app span').html(((data.doc.issued_policy/data.doc.policy_count).toFixed(2)*100).toFixed(0));
+            
+            $('#online span').html(data.doc.user_count?((data.doc.active_user_count/data.doc.user_count).toFixed(2)*100).toFixed(0):0);
+            $('#depart span').html(data.doc.device_count?((data.doc.dev_complicance_count/data.doc.device_count).toFixed(2)*100).toFixed(0):0);
+            $('#app span').html(data.doc.policy_count?((data.doc.issued_policy/data.doc.policy_count).toFixed(2)*100).toFixed(0):0);
             setTimeout(circle(), 500);
             var insureCircle=setInterval(function(){
                 try{

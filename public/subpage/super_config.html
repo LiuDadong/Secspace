@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget">
+            <div class="widget-header bg-primary">
+                <span class="widget-caption">配置文件列表</span>
+            </div>
+            <!-- section:分页列表 -->
+            <div class="widget-body section">
+                <form id="uploadForm" class="clearfix" action="/common/upload_config_files" method="POST" enctype="multipart/form-data">
+                    <div class="buttons-preview pull-left">
+                        <input type="hidden" name="org_code" value="root">
+                        <label class="btn btn-primary"><i class="fa fa-plus">上传配置文件</i><input name="config_files" class="hidden" multiple="multiple" type="file"></label>
+                        <button type="button" onclick="deleteConfigFiles()" class="btn btn-default btn-sm">
+                            <i class="fa fa-times-circle">删除</i>
+                        </button>
+                    </div>
+                </form>
+                <div class="paging-table-wrap" style="height:300px;overflow:auto;"><table id="pagingTable"></table></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-src="/subpage/super_config.js"></script>

@@ -1,4 +1,4 @@
-$.objRegex= {  //输入控制
+$.objRegex= {  //输入正则控制
     account: {   //account表示账号类参数,在输入元素上添加类“re-account”,便可实现对元素输入的正则控制
         pattern: /^[a-zA-Z0-9_-]{4,16}$/,   //检测输入的值是否合法
         info: "请输入4-16位英文、数字、_或-"   //用户设置titile作为鼠标移入时的提示
@@ -8,8 +8,8 @@ $.objRegex= {  //输入控制
         info: "请输入2-16位中英文、数字、_或-"
     },
     appname: {
-        pattern: /^[a-zA-Z0-9.]{3,30}$/,
-        info: '3-30个英文、数字或"."'
+        pattern: /^[\u4e00-\u9fa5a-zA-Z0-9_-]{1,20}$/,
+        info: '1-20个中英文、数字或"-_"'
     },
     description: {
         pattern: /^[\s\S]{0,60}$/,
@@ -25,11 +25,11 @@ $.objRegex= {  //输入控制
     },
     password: {
         pattern: /^[a-zA-Z\d_]{6,16}$/,
-        info: "请输入6-16位字母和数字"
+        info: "请输入6-16位字母或数字"
     },
     number6: {
         pattern: /^[\d]{6}$/,
-        info: "请输入六位数"
+        info: "请输入6位数字"
     },
     wifi: {
         pattern: /^[\s\S]{0,30}$/,
@@ -40,7 +40,7 @@ $.objRegex= {  //输入控制
         info: "请输入16位以内字符,建议格式v1.01"
     },
     keyword: {
-        pattern: /^[a-zA-Z0-9_-]{1,16}$/,
+        pattern: /^[\u4e00-\u9fa5a-zA-Z0-9_-]{1,16}$/,
         info: "请输入16位以内中英文、数字、_或-"
     },
     url: {
@@ -48,8 +48,8 @@ $.objRegex= {  //输入控制
         info: "请输入合法url"
     },
     package: {
-        pattern: /^[a-zA-Z0-9.]{0,30}$/,
-        info: "请输入30位以内英文、数字或点"
+        pattern: /^[a-zA-Z0-9\._-]{0,50}$/,
+        info: "请输入50位以内英文、数字或'._-'"
     }
 };
 $.iptRegExpCtrl =function (ipt){
@@ -57,15 +57,18 @@ $.iptRegExpCtrl =function (ipt){
     if(ctrlRegex){     //正则检查
         var irec = $.objRegex[ctrlRegex];
         if (irec) {
-            if (irec.info) {  //设置提示信息
-                $(ipt).attr('title', '请输入' + irec.info);
+            var yesno=irec.pattern.test($(ipt).val());
+            if($(ipt).closest('.append-box').length==0){
+                $(ipt).closest('.form-group').toggleClass('has-error',!yesno);
+            }else{
+                $(ipt).toggleClass('input-error',!yesno);
             }
-            $(ipt).toggleClass('danger',!irec.pattern.test($(ipt).val()));
             return irec.pattern.test($(ipt).val());
         } else {
             console.error('ctrl-regex="' + ctrlRegex + '"未定义');
         }
     }
+    return true;
 }
 
 
@@ -150,7 +153,9 @@ $.handleECode = function () {
         // case '3009':
         //     break;
         default:
+            
             errorText = dt.desc ? dt.desc : '未收录错误';
+            console.log(errorText);
     }
     if (arguments[0] !== null) {
         if (okText) {
@@ -171,7 +176,9 @@ $.kindAjax = function (ecode, method, url, dt, cb, act, aim) {
         dataType: "json",
         success: function (data) {
             $.handleECode(ecode, data, act, aim)
-            cb(data);
+            if(cb instanceof Function){
+                cb(data);
+            }
         },
         error: function (jqXHR, textStatus) {  //
             console.error(textStatus);
@@ -255,10 +262,10 @@ $.proAll = function (ecode, pros, cb, act, aim) { //有提示post
             }
             console.info('datas:', datas)
             console.info('rts:', rts)
-            cb(datas, rts)
+            if(cb instanceof Function){
+                cb(datas, rts);
+            }
         }
-
-
     })
 }
 
@@ -304,6 +311,13 @@ $.dealRt3009 = function (policy_list) {
         title: '以下策略暂无法禁用',
         content: cont
     });
+}
+
+
+$.getLicense = function (cb){
+    $.nullPost('/common/license',{},function(data){
+        cb(data);
+    })
 }
 
 $.fn.iptsReset = function () {
@@ -409,13 +423,13 @@ $.fn.plugInit = function () {
                     }
                     box.find('.item i').toggleClass('hidden', emp);
                     var appendBtn = box.find('button').prop('disabled', false);
-                    var noRepeatIpts = box.find('.item .no-repeat').removeClass('danger');  //查重
+                    var noRepeatIpts = box.find('.item input.no-repeat').removeClass('input-error');  //查重
                     if (noRepeatIpts.length > 1) {
                         for (var i = 0; i < noRepeatIpts.length - 1; i++) {
                             for (var j = i + 1; j < noRepeatIpts.length; j++) {
                                 if ($(noRepeatIpts[i]).val() === $(noRepeatIpts[j]).val()) {
-                                    $(noRepeatIpts[i]).addClass('danger');
-                                    $(noRepeatIpts[j]).addClass('danger');
+                                    $(noRepeatIpts[i]).addClass('input-error');
+                                    $(noRepeatIpts[j]).addClass('input-error');
                                     yesno=false;
                                     appendBtn.prop('disabled', true);
                                 }
@@ -434,7 +448,6 @@ $.fn.plugInit = function () {
                             appendBtn.prop('disabled', true);
                         }
                     })
-
                     //实时刷新数据
                     var ipdHid = box.find('input[type=hidden]').data('arrData', []),
                     arrData = box.find('input[type=hidden]').data('arrData'),
@@ -467,6 +480,7 @@ $.fn.plugInit = function () {
                             box.find('.item').each(function () {
                                 var ipt=$(this).find(':input'),
                                     dt = ipt.val();
+                                    console.log(dt)
                                     if (dt) {
                                         if($.iptRegExpCtrl(ipt)){
                                             arrData.push(dt);
@@ -477,10 +491,10 @@ $.fn.plugInit = function () {
                             })
                         } else {
                             console.error('.item中必须至少含有一个:input类元素。')
-                        }   
-                        ipdHid.val(yesno?JSON.stringify(arrData):'[]').change();
+                        }
+                        ipdHid.data('arrData',yesno?arrData:[]).val(yesno?JSON.stringify(arrData):'[]').change();
                     }else{
-                        ipdHid.val('[]').change();
+                        ipdHid.data('arrData',[]).val('[]').change();
                     }
                     
                     if (box.closest('form').data('fns') !== undefined) {  //尝试检查可能所属的表单预先绑定的数据检查函数check
@@ -539,7 +553,7 @@ $.fn.plugInit = function () {
             // 给第一个.item（将用于复制追加）中的图标按钮<i>元素绑定click时间，只有一个.item时清空其中所有:input的值，否则删除当前.item
             box.find('.item i').addClass('pointer').off('click').on('click', function () {
                 if (box.find('.item').length == 1) {
-                    $(this).closest('.item').find(':input').reset();
+                    $(this).closest('.item').find('input').val('');
                 } else {
                     $(this).closest('.item').remove();
                 }
@@ -695,7 +709,7 @@ $.dialog = function (type, opts) {
     var __def__ = {
         width: null,
         height: null,
-        zIndex: 99999,
+        zIndex: 1001,
         autoHide: false,
         maskClickHide: false,
         autoSize: true,
@@ -733,7 +747,21 @@ $.dialog = function (type, opts) {
                 },
                 opts
             );
-
+            break;
+        case 'form':   //表单对话框
+            opts.content = $('<div>').html(opts.content).css({
+                fontSize: '1em',
+            });
+            opts = $.extend(
+                true,
+                __def__,
+                {
+                    title: '操作确认',
+                    confirmValue: '确定',
+                    cancelValue: '取消',
+                },
+                opts
+            );
             break;
         case 'list':    //列表对话框
             opts = $.extend(
@@ -821,3 +849,22 @@ $.textPolicy=function(v){
     }
     return obj;
 }
+
+$.getLicPath = function(baseP, lic, licPath) {
+    for (i in lic) {
+        switch (typeof lic[i]) {
+            case 'object':
+                $.getLicPath(baseP + i, lic[i], licPath);
+                break;
+            case 'boolean':
+            case 'string':
+            case 'number':
+                licPath[baseP + i] = lic[i];
+                break;
+            default:
+        }
+    }
+    if (baseP == '') {
+        return licPath
+    }
+};

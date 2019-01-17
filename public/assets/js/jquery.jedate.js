@@ -18,7 +18,7 @@
                 name  : "cn",
                 month : ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
                 weeks : [ "日", "一", "二", "三", "四", "五", "六" ],
-                times : ["小时","分钟","秒数"],
+                times : ["时","分","秒"],
                 titText: "请选择日期时间",
                 clear : "清空",
                 today : "现在",
@@ -26,6 +26,7 @@
                 close : "关闭"
             },
             range:false,
+            isClear:true,
             trigger:"click",
             format:"YYYY-MM-DD hh:mm:ss", //日期格式
             minDate:"1900-01-01 00:00:00", //最小日期
@@ -355,9 +356,12 @@
         boxCell.empty().append(artcont.children().hide()).append(footer);
         var timeStr = function () {
                 var emStr = '<em></em><i>:</i><em></em><i>:</i><em></em>';
+                if(opts.format.split(':').pop()==='mm'){
+                    emStr='<em></em><i>:</i><em></em>';
+                }
                 return isrange ? emStr +"<span> ~ </span>"+ emStr : emStr;
             },
-            btnStr = '<span class="clear">'+clearTxt+'</span><span class="today">'+lang.today+'</span><span class="setok">'+lang.yes+'</span>',
+            btnStr = (opts.isClear?'<span class="clear">'+clearTxt+'</span>':'')+ ('<span class="today">'+lang.today+'</span><span class="setok">'+lang.yes+'</span>'),
             timeDiv = $("<div/>",{"class":"timecon"}).append(timeStr()),
             btnsDiv = $("<div/>",{"class":"btnscon"}).append(btnStr);
         footer.append(timeDiv).append(btnsDiv);
@@ -719,12 +723,26 @@
         if (opts.range == false && boxCell.find(".timelist").length > 0) return;
         $.each(new Array(ranges ? 1 : 2),function (m) {
             var timeList = $("<div/>",{"class":"timelist"}).css({width:ranges ? "100%":"50%",float:ranges ? "":"left"}),
-                timeDiv = $("<div/>",{"class":"contime"}), textDiv = $("<div/>",{"class":"textbox"});
-            var timetxt = textDiv.append('<p>'+lang.times[0]+'</p><p>'+lang.times[1]+'</p><p>'+lang.times[2]+'</p>');
-
+                timeDiv = $("<div/>",{"class":"contime"}), textDiv = $("<div/>",{"class":"textbox"}),
+                ttitle='<p>'+lang.times[0]+'</p><p>'+lang.times[1]+'</p><p>'+lang.times[2]+'</p>',
+                timeform=[24,60,60];
+            if(opts.format.split(':').pop()==='mm'){
+                ttitle='<p>'+lang.times[0]+'</p><p>'+lang.times[1]+'</p>';
+                timeform=[24,60];
+                timeDiv.css({
+                    display:'flex',
+                    width:'141px',
+                    justifyContent:'center'
+                });
+                textDiv.css({
+                    display:'flex',
+                    justifyContent:'center'
+                });
+            }
+            var timetxt = textDiv.append(ttitle);
             timeList.append(timetxt);
             hmsCell.addClass(m==1 ? "spaer":"");
-            $.each([24, 60, 60],function (i,lens) {
+            $.each(timeform,function (i,lens) {
                 var hmsCls = "",tuls = $("<ul/>").attr("idx",m==1 ? 3+i : i),
                     textem = inputs.eq(i).text();
                 for (var h = 0; h < lens; h++) {
@@ -765,6 +783,7 @@
                             hmsCls = clas[1];
                         }
                     }
+                    console.log(jet.digit(h));
                     tlis.text(jet.digit(h)).addClass(hmsCls);
                     hmsCell.append(timeList.append(timeDiv.append(tuls.append(tlis))));
                 }

@@ -36,7 +36,7 @@
                     </div>
                     <div class="pull-right"></div>
                 </form>
-                <div><table id="pagingTable"></table></div>
+                <div class="paging-table-wrap"><table id="pagingTable"></table></div>
             </div>
             <!-- section:添加、修改、查看多用途表单 -->
             <div style="overflow:hidden;display: none;" class="widget-body section">
@@ -65,7 +65,16 @@
                                 </select>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="leave" />
+                                        <span class="text">休假期间生效</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-title">
                             <b>锁屏策略</b>
                         </div>
@@ -143,31 +152,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="wifi" class="col-md-4 control-label no-padding-right">Wifi</label>
-                            <div class="col-md-5">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" onclick="checkwifi(this)" id="wifi" name="wifi" />
-                                        <span class="text">禁用</span>
-                                        <span class="help">不能和移动数据同时禁用</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="mobile_data" class="col-md-4 control-label no-padding-right">移动数据</label>
-                            <div class="col-md-5">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" onclick="checkmobile(this)" id="mobile_data" name="mobile_data" />
-                                        <span class="text">禁用</span>
-                                        <span class="help">仅支持5.0以上系统，需获得系统权限签名</span>
-                                        <span class="help"> </span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+
+
                         <div class="form-group">
                             <label for="bluetooth" class="col-md-4 control-label no-padding-right">蓝牙</label>
                             <div class="col-md-5">
@@ -180,24 +166,12 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="gps1" class="col-md-4 control-label no-padding-right">强制开启GPS</label>
+                            <label for="gps" class="col-md-4 control-label no-padding-right">GPS</label>
                             <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" onclick="checkgps1(this)" id="gps1" name="gps1" />
-                                        <span class="text">开启</span>
-                                        <span class="help">需获得系统权限签名</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="gps2" class="col-md-4 control-label no-padding-right">强制关闭GPS</label>
-                            <div class="col-md-5">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" onclick="checkgps2(this)" id="gps2" name="gps2" />
-                                        <span class="text">关闭</span>
+                                        <input type="checkbox" id="gps" name="gps" />
+                                        <span class="text">禁用</span>
                                         <span class="help">需获得系统权限签名</span>
                                     </label>
                                 </div>
@@ -265,14 +239,14 @@
                         <div class="form-title">
                             <b>网络限制</b>
                         </div>
-
                         <div class="form-group">
-                            <label class="col-md-4 control-label no-padding-right">限制安全空间外网络</label>
+                            <label class="col-md-4 control-label no-padding-right">移动数据和Wifi</label>
                             <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="control" />
                                         <span class="text">开启</span>
+                                        <span class="help">仅限制安全空间外的应用</span>
                                     </label>
                                 </div>
                             </div>
@@ -282,7 +256,7 @@
                             <div class="col-md-5 need-init limit_apps append-box">
                                 <input type="hidden" name="limit_apps" />
                                 <div class="item">
-                                    <input type="text" name="white_app" ctrl-regex="appname" placeholder="请输入程序包名，例：com.taobao.taobao" class="form-control no-repeat" />
+                                    <input type="text" name="white_app" ctrl-regex="package" placeholder="请输入程序包名，例：com.taobao.taobao" class="form-control no-repeat" />
                                     <i class="fa fa-minus-circle primary"></i>
                                 </div>
                                 <button class="btn btn-primary">继续添加白名单应用</button>
@@ -292,22 +266,31 @@
                         <div class="form-title">
                             <b>Wifi策略</b>
                         </div>
-
                         <div class="form-group">
-                            <label class="col-md-4 control-label no-padding-right">下发热点</label>
+                            <label for="wifi" class="col-md-4 control-label no-padding-right">Wifi</label>
+                            <div class="col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="wifi" name="wifi" />
+                                        <span class="text">禁用</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label no-padding-right">仅允许使用推送热点</label>
                             <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="status" name="status" />
                                         <span class="text">开启</span>
-                                        <span class="help">仅允许使用下发的热点,不勾选此项仅作为wifi密码推送功能</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label no-padding-right">wifi热点</label>
+                            <label class="col-md-4 control-label no-padding-right">Wifi热点推送</label>
                             <div class="col-md-5 need-init wifi append-box">
                                 <input type="hidden" name="wifi" />
                                 <div class="item">

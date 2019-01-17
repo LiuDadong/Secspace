@@ -13,7 +13,7 @@
 /* 角色功能点树形 */
 
 #fnTree {
-    padding: 30px;
+    padding: 10px 20px;
     overflow: auto;
     max-height: 400px;
     position: relative;

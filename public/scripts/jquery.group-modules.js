@@ -13,13 +13,13 @@
         try {
             for (i in keys) {
                 val = val[keys[i]];
-                if(val===null||val===undefined){
-                    val===null;
+                if(val===''||val===null||val===undefined){
+                    val='— —';
                     break;
                 }
             }
         } catch (err) {
-            val = '';
+            val = '— —';
             this.console.error(item);
             this.console.error(keys);
             this.console.error(err);
@@ -74,7 +74,6 @@
             //判断是否具有添加权限
             hasFn('add')
                 ? pnlLeft.find('.btnAdd,.btnUpload').on('click', function () {
-                    console.log(this);
                     var actText = $(this).text().replace(/[\s]/g, ''),
                         sCap = $(pnl.relSubCaption);
                     sCap.text(actText + sCap.data('itemText'));
@@ -290,7 +289,7 @@
                                     needUnact = [];
                                 default:
                                     needUnact = $.arrKeyFlt(sel, false, function (item) {
-                                        return item.status == '1';
+                                        return item.status!==undefined&& item.status!= '0'&&item.policy_type!==undefined;
                                     });
                             }
     
@@ -363,12 +362,6 @@
                                             }
                                         }
                                         function delDefault() {
-                                            var modJson = {};
-                                            if (pnl.deleteJson.hasOwnProperty('id')) {
-                                                modJson['id'] = JSON.stringify($.arrKeyFlt(sel, 'id'))
-                                            } else {
-                                                modJson['ids'] = JSON.stringify($.arrKeyFlt(sel, 'id'))
-                                            }
                                             $.actPost('/common/del', delData(sel), function (data) {
                                                 switch (data.rt) {
                                                     case '0000':
@@ -379,14 +372,20 @@
                                             }, actText)
                                             function delData(sel) {
                                                 var jsonPatch = {};
-                                                if (pnl.deleteJson.hasOwnProperty('account')) {
-                                                    jsonPatch['account'] = JSON.stringify(arrByKey(sel, 'account'));
-                                                } else if (pnl.deleteJson.hasOwnProperty('userId')) {
-                                                    jsonPatch['userId'] = JSON.stringify(arrByKey(sel, 'userId'));
-                                                } else if (pnl.deleteJson.hasOwnProperty('id')) {
-                                                    jsonPatch['id'] = JSON.stringify(arrByKey(sel, 'id'));
-                                                } else {
+                                                if(pnl.deleteJson===undefined){
                                                     jsonPatch['ids'] = JSON.stringify(arrByKey(sel, 'id'));
+                                                }else{
+                                                    if (pnl.deleteJson.hasOwnProperty('account')) {
+                                                        jsonPatch['account'] = JSON.stringify(arrByKey(sel, 'account'));
+                                                    } else if (pnl.deleteJson.hasOwnProperty('userId')) {
+                                                        jsonPatch['userId'] = JSON.stringify(arrByKey(sel, 'userId'));
+                                                    } else if (pnl.deleteJson.hasOwnProperty('tagId')) {
+                                                        jsonPatch['tagId'] = JSON.stringify(arrByKey(sel, 'tagId'));
+                                                    } else if (pnl.deleteJson.hasOwnProperty('id')) {
+                                                        jsonPatch['id'] = JSON.stringify(arrByKey(sel, 'id'));
+                                                    } else {
+                                                        jsonPatch['ids'] = JSON.stringify(arrByKey(sel, 'id'));
+                                                    }
                                                 }
                                                 return $.extend(
                                                     true,
@@ -418,7 +417,7 @@
             }
 
             //判定管理员角色功能点是否具有机构内下发权限
-            if(hasFn('iio')){  //管理员角色功能点是否具有机构内下发权限
+            if(hasFn('iio')||hasFn('iss')){  //管理员角色功能点是否具有机构内下发权限
                 pnlLeft.find('.btnToIssue').on('click', function () {
                     var actText = $(this).text().replace(/[\s]/g, ''),
                         sel = $(pnl.relPagingTable).data('PagingTable').sel,
@@ -473,7 +472,7 @@
                             sCap.text(actText + sCap.data('itemText'));
                             $('.section:has(#pagingTable)').hide();
                             $('.section:has(#tabForIssue)').show();
-                            $(pnl.relXTree).XTree();
+                            $(pnl.relXTree).XTree({showUndivided:true});
                             $(pnl.relXList).XList();
                         }
                     } 
@@ -547,7 +546,8 @@
                                 $('#om_select').data('om').refresh();
                             }else{
                                 var omSelect = new OrgMind({
-                                    container: 'om_select',          //'om_admin'-- id of the container   
+                                    container: 'om_select',          //'om_admin'-- id of the container
+                                    rootId:$.cookie('org_id'),
                                     multiple: true,     //支持多选
                                     allowUnsel: true,    //允许不选
                                     disableRoot: true,
@@ -579,29 +579,28 @@
                 toggleFn(pnlLeft.find('.btnToSubOrgs'), false);
             }
 
-
-            if(hasFn('mod')){
-                pnlLeft.find('.btnDefPcy').on('click', function () {
-                    var btn = $(this).prop('disabled', true);
-                    $.silentPost('/policy/default', {
-                        policy_type: pnl.policy_type
-                    }, function (data) {
-                        btn.prop('disabled', false);
-                        switch (data.rt) {
-                            case '0000':
-                                pnl.closest('.section').hide();
-                                pnl.objTargetForm.closest('.section').show();
+            pnlLeft.find('.btnDefPcy').on('click', function () {
+                var btn = $(this).prop('disabled', true);
+                $.silentPost('/policy/default', {
+                    policy_type: pnl.policy_type
+                }, function (data) {
+                    btn.prop('disabled', false);
+                    switch (data.rt) {
+                        case '0000':
+                            pnl.closest('.section').hide();
+                            pnl.objTargetForm.closest('.section').show();
+                            if(hasFn('mod')){
                                 pnl.objTargetForm.data('item', data.policies).usedAs('edit');
-                                pnl.objTargetForm.find('input[name=name]').attr('readonly', true);
-                                $(pnl.relSubCaption).html(btn.text());
-                                break;
-                            default:
-                        }
-                    })
-                });
-            }else{
-                toggleFn(pnlLeft.find('.btnDefPcy'), false);
-            }
+                            }else{
+                                pnl.objTargetForm.data('item', data.policies).usedAs('view');                                
+                            }
+                            pnl.objTargetForm.find('input[name=name]').attr('readonly', true);
+                            $(pnl.relSubCaption).html(btn.text());
+                            break;
+                        default:
+                    }
+                })
+            });
             
 
             //绑定常用事件
@@ -615,18 +614,17 @@
                 $(pnl.relPagingTable).data('PagingTable').pageLength = $(this).val() * 1;
                 $(pnl.relPagingTable).PagingTable('page', 1);
             })
+            var keywordTimer;
             pnlRight.find('#iptKeyword').on('input change propertychange', function () {
                 /**
                  * pagingTable组件会优先获取目标表格存储的data('keyword')作为搜索关键字，
                  */
-                if ($.iptRegExpCtrl(this)) {
-                    $('#pagingTable').data('PagingTable').keyword = encodeURIComponent($(this).val());
-                    if ($(this).data('timer')) {
-                        clearTimeout($(this).data('timer'))
-                    }
-                    $(this).data('timer', setTimeout(function () {
+                clearTimeout(keywordTimer);
+                if ($.iptRegExpCtrl(this)||$(this).val()==='') {
+                    $(pnl.relPagingTable).data('PagingTable').keyword = encodeURIComponent($(this).val());
+                    keywordTimer = setTimeout(function () {
                         $(pnl.relPagingTable).PagingTable('page', 1);
-                    }, 700))
+                    }, 700)
                 }
             })
             //绑定默认事件
@@ -763,7 +761,7 @@
                         pd.authfilter = 'xlist';
                         pd.authrules = JSON.stringify(rules);
                     } else {
-                        warningOpen('请选择要' + actText + '的用户！', 'danger', 'fa-bolt');
+                        warningOpen('请选择用户！', 'danger', 'fa-bolt');
                         return;
                     }
                     $.actPost('/issueByRules', pd, function (data) {
@@ -877,9 +875,7 @@
         };
         function updateRelTree(opts) {
             if (opts.relFilter) {
-                var actLi = $(opts.relFilter).find('li.active'),
-                    actLiCkb = actLi.find('input:checkbox'),
-                    nextUl = actLi.next('ul');
+                var actLi = $(opts.relFilter).find('li.active');
                 $.extend(
                     true,
                     actLi.data(),
@@ -896,25 +892,40 @@
         function ctrlThCkb(opts, thHeader, tbHas) {
             var ckbHeader = thHeader.find('tr>th:first-child input:checkbox'),
                 ckbsHas = tbHas.find('tr>td:first-child input:checkbox');
+
             if (opts.selectAll) {
-                ckbHeader.prop('checked', opts.check && opts.unsel.length == 0);
+                if(opts.check && opts.unsel.length == 0){
+                    ckbHeader.prop('checked',true);
+                    ckbLiact.prop('checked',true);
+                }else if(!opts.check && opts.sel.length == 0){
+                    ckbHeader.prop('checked',false);
+                    ckbLiact.prop('checked',false);
+                }else{}
             } else {
-                ckbHeader.prop('checked', ckbsHas.filter(function () {
+                if(ckbsHas.filter(function () {
                     return !$(this).prop('checked');
-                }).length == 0);
+                }).length == 0){
+                    ckbHeader.prop('checked',true);
+                }else{
+                    ckbHeader.prop('checked',false);
+                }
             }
         }
         // 创建footer
         function createFooter(tbl, page, length, total) {
             var j = 0;
-            if (tbl.next('.pagingTableFooter').length == 0) {
-                tbl.after($('<div class="pagingTableFooter"></div>'))
-            }
-            if (total >= 0) {
-                var doc = tbl.next('.pagingTableFooter'),
+            // if (tbl.next('.pagingTableFooter').length == 0) {
+            //     tbl.after($('<div class="pagingTableFooter"></div>'))
+            // }
+            
+            if (total > 0) {
+                if (tbl.next('.DTTTFooter').length == 0) {
+                    tbl.after($('<div class="row DTTTFooter"></div>'))
+                }
+                var doc = tbl.next(),
                     pages = Math.ceil(total / length);
                 page = total > 0 ? page : 0;
-                var str = '<div class="DTTTFooter"><div class="col-md-2"><div class="footertotal" style="white-space:nowrap;">共' + total + '条第' + page + '页</div></div>' +
+                var str = '<div class="col-md-2"><div class="dataTables_info">共' + total + '条第' + page + '页</div></div>' +
                     '<div class="col-md-10">' +
                     '<div class="dataTables_paginate paging_bootstrap">' +
                     '<ul class="pagination">';
@@ -969,11 +980,13 @@
                 }
                 str += '</ul>' +
                     '</div>' +
-                    '</div></div>';
+                    '</div>';
                 doc.html(str);
                 doc.find('ul.pagination>li>a[to-page]').on('click', function (e) {
                     tbl.PagingTable('page', $(e.target).attr('to-page') * 1)
                 })
+            }else{
+                tbl.next('.DTTTFooter').remove();
             }
             return this;
         };
@@ -1021,6 +1034,9 @@
                 //表头用于全选的复选框
                 if (!trHeader.find('th:first-child').html()) {
                     var spantxt = opts.selectAll ? '全选' : '';
+                    if(opts.relFilter){  //设置全选框默认文本
+                        spantxt=$(opts.relFilter).find('.active span').text();
+                    }
                     trHeader.find('th:first-child').empty().append(
                         $('<div class="checkbox"><label>'
                             + '<input type="checkbox"/>'
@@ -1028,11 +1044,6 @@
                             + '</label></div>')
                     );
                 }
-
-                tbl.parent().css({
-                    overflow:'auto',
-                    paddingRight:'4px'
-                })
                 if(opts.maxHeight){
                     tbl.parent().css({
                         maxHeight:opts.maxHeight
@@ -1098,6 +1109,9 @@
                         } else {
                             unPagingSel(opts);
                         }
+                        if(opts.relFilter){
+                            $(opts.relFilter).find('li.active>input:checkbox').click();
+                        }
                         console.info('PagingTable.sel:', opts.sel);
                         console.info('PagingTable.unsel:', opts.unsel);
                     })
@@ -1108,7 +1122,7 @@
                     } else {
                         unPagingSel(opts);
                     }
-                    ctrlThCkb(opts, thHeader, tbHas);
+                    // ctrlThCkb(opts, thHeader, tbHas);
 
                     if (opts.selectAll) {
                         if (opts.sel.length == opts.totalCount && opts.totalCount > 0) {
@@ -1152,7 +1166,6 @@
                         trDemo.find(opts.trDemoBinders[j].dom).on(opts.trDemoBinders[j].event, opts.trDemoBinders[j].fn);
                     }
                 }
-
                 this[plug]('refresh');
                 return this;
             },
@@ -1182,7 +1195,11 @@
                 if (opts.paging) {
                     opts.jsonData['start_page'] = opts.start;
                     opts.jsonData['page_length'] = opts.pageLength;
+                }
+                if(opts.keyword){
                     opts.jsonData['keyword'] = opts.keyword;
+                }else{
+                    delete opts.jsonData['keyword'];
                 }
 
                 var tbl = this,
@@ -1221,7 +1238,6 @@
                         if (opts.paging) {
                             createFooter(tbl, opts.start, opts.pageLength, opts.totalCount);
                         }
-
                     }
                 })
                 function showTableList(list) {
@@ -1251,17 +1267,16 @@
                             tri.find('[item-key]').each(function () {
                                 $(this).toggleClass('ellipsis', this.tagName == "TD");
                                 var key = $(this).attr('item-key'),
-                                    val = opts.fnValByKey(key, valByKey(list[i], key));
-                                $(this).text(val).attr('title', val);
-                                //$(this).text(opts.fnValByKey(key, list[i][key]));
+                                    val = opts.fnValByKey(key, valByKey(list[i], key));     //  键值显示修正
+                                $(this).html(val);
+                                if(typeof val==='string' && val.indexOf('<')===-1){
+                                    $(this).attr('title', val);
+                                }
                             });
                             if(opts.afterAppend){
                                 opts.afterAppend(tri, list[i]);
                             }
                         }
-
-                        
-
                         if (opts.paging) {
                             tbHas.find('tr').each(function () {
                                 arrangeItem(opts, $(this));
@@ -1270,7 +1285,7 @@
                             unPagingSel(opts);
                         }
 
-                        ctrlThCkb(opts, thHeader, tbHas);
+                        // ctrlThCkb(opts, thHeader, tbHas);
                     } else {
                         tbHas.empty();
                         tbEmpty.show();
@@ -1316,7 +1331,7 @@
             start: 1,
             pageLength: 10,
             paging: true,
-            scrollable: true,
+            scrollable: false,
             iptKeyword: '#iptKeyword',
             jsonData: {},
             check: 0,
@@ -1386,7 +1401,7 @@
                         if (item.status == 0) {
                             warningOpen('请先激活该用户！', 'danger', 'fa-bolt');
                         } else {
-                            $.dialog('confirm', {
+                            $.dialog('form', {
                                 width: 500,
                                 height: null,
                                 autoSize: true,
@@ -1437,9 +1452,6 @@
                                 }
                             });
                             frmModPW.usedAs('edit');
-                            $('#frmModPW').parent().css({
-                                display: 'block'
-                            })
                         }
 
                     }
@@ -1544,9 +1556,9 @@
                             '<span item-key="policy_type"></span>',
                             '<span item-key="creator"></span>',
                             '<span item-key="status"></span>',
-                            '<span class="btn btn-primary btn-sm ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '">移除策略</span>'
+                            '<span title="移除策略" class="pointer ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '"><i class="fa fa-eraser"></i></span>'
                         ];
-                        opts.widthProportion = [0.5, 1, 1, 1, 1, 1];  //信息详情列表各列宽比
+                        opts.widthProportion = [0.5, 1.3, 1, 1, 1, 1];  //信息详情列表各列宽比
                         opts.title = '用户“' + item.name + '”应用策略';
                         opts.numInfoData = $.extend(true, {
                             userId: item.userId
@@ -1629,7 +1641,7 @@
                             '<span item-key="name"></span>',
                             '<span item-key="account"></span>',
                             '<span item-key="status"></span>',
-                            '<span class="btn btn-primary btn-sm ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '">移除策略</span>'
+                            '<span title="移除策略" class="pointer ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '"><i class="fa fa-eraser"></i></span>'
                         ];
                         opts.widthProportion = [0.5, 1, 1, 1, 1];  //信息详情列表各列宽比
                         return opts;
@@ -1732,9 +1744,9 @@
             editBtnTxt: '保存修改',//编辑表单提交按钮显示文本
             editInfoTxt: '修改',//编辑提交成功或失败反馈的信息中的.act
             type: 'POST', //表单提交方式
+            resetForm:true,
             targetTable: '#pagingTable',  //关联的分页表格选择器
             relSubCaption: "#subCaption", //关联的显示标题选择器
-
             fnValByKey: function (k, v) { //表单数据显示预处理
                 switch (k) {
                     case 'xxx':
@@ -1751,25 +1763,29 @@
         };
         var __prop__ = {  //插件默认方法
             usedAs: function (use) {
-                $(frm[0]).data('use', use);
                 frm.beforeUsed(use, frm.data('item'));
-                var btnSubmit = $(frm[0]).find(':input[type=submit]'),
-                    frmGrp = $(frm[0]).find('.form-group');
-                frm.reset();
+                frm[0].reset();
                 frm.afterReset();
+                $(frm[0]).data('use', use);
+                var btnSubmit = $(frm[0]).find(':input[type=submit]');
                 if ($(frm[0]).find('input:hidden[name=url]').length === 0) {
                     $(frm[0]).prepend('<input type="hidden" name="url" />')
                 }
+                $(frm[0]).find('.form-group').removeClass('anti-cursor');
                 switch (use) {
                     case 'add':
+                        frm.find('.control-label>b').show();
+                        frm.find('.has-error').removeClass('has-error');
                         $(frm[0]).attr('action', frm.addAct);
                         $(frm[0]).data('url', frm.addUrl).find('input:hidden[name=url]').val(frm.addUrl);
                         $(frm[0]).data('infoTxt', frm.addInfoTxt);
                         $(frm[0]).find('input:checkbox').prop('disabled', false);
-                        btnSubmit.show().text(frm.addBtnTxt).val(frm.addBtnTxt).prop('disabled', true);
+                        btnSubmit.show().text(frm.addBtnTxt).val(frm.addBtnTxt).prop('disabled', false);
+                        $(frm[0]).find('input:visible:first').focus();
                         break;
                     case 'edit':
                         frm.showItem();
+                        frm.find('.control-label>b').show();
                         $(frm[0]).attr('action', frm.editAct);
                         $(frm[0]).data('url', frm.editUrl).find('input:hidden[name=url]').val(frm.editUrl);
                         $(frm[0]).data('infoTxt', frm.editInfoTxt);
@@ -1779,31 +1795,26 @@
                     case 'view':
                         frm.showItem();
                         frm.removeAttr('action');
-                        $(frm[0]).find(':input[name]').prop('disabled', true);
-                        $(frm[0]).find('input:checkbox').prop('disabled', true);
-                        $(frm[0]).find('input:radio:checked').prop('disabled', false);
-                        $(frm[0]).find('.append-box').addClass('disabled');
+                        frm.find('.control-label>b').hide();
+                        $(frm[0]).find('.form-group:has(:input[name])').addClass('anti-cursor');
                         btnSubmit.hide();
                         break;
                     default:
                         $(frm[0]).attr('action', optAdd.action);
                         btnSubmit.show().text(optAdd.submitText).val(optAdd.submitText);
                 }
-                iptChange();
                 frm.afterUsed(use, frm.data('item'));
-                frm.check();
+                
+                $(frm[0]).removeClass('needmod').off('change.edit input.edit');
                 setTimeout(function () {
+                    if(use==='edit'){
+                        $(frm[0]).addClass('needmod')
+                        .on('change.edit input.edit',function(){
+                            $(frm[0]).removeClass('needmod');
+                        });
+                    }
                     frm.find('button:not([type])').attr('type', 'button');
-                }, 300);
-                function iptChange() {
-                    $(frm[0]).find(':input[name]').each(function () {
-                        try {
-                            $(this).change();
-                        } catch (err) {
-                            console.error(err);
-                        }
-                    })
-                }
+                }, 30);
             },
             beforeUsed: function (use, item) {
                 switch (use) {
@@ -1837,13 +1848,13 @@
                 });
             },
             check: function () {
-                $(frm[0]).find('input[type=submit]').prop('disabled', $(frm[0]).find('.form-group:visible .danger').length !== 0);
+                var hasError=$(frm[0]).find('.form-group.has-error:visible').length !== 0;
+                $(frm[0]).find('input[type=submit]').prop('disabled', hasError);
+                return !hasError
             },
             showItem: function () {
-                var item;
-                if ($(frm[0]).data('item')) {
-                    item = $(frm[0]).data('item');
-                } else {
+                var item = $(frm[0]).data('item');;
+                if (!item) {
                     console.warn('组件multForm调用showItem方法需先将要显示的成员数据存入表单data("item")');
                     return;
                 }
@@ -1869,29 +1880,33 @@
                     } else {
                         v = item[k];
                     }
-                    switch (tntp) {
-                        case 'input:text':
-                        case 'input:number':
-                        case 'select:single':
-                            $(this).val(v);
-                            break;
-                        case 'input:hidden':
-                            if (typeof v === 'object') {
-                                $(this).val(JSON.stringify(v));
-                            } else {
+                    if(v!==undefined){
+                        switch (tntp) {
+                            case 'input:text':
+                            case 'input:number':
+                            case 'select:single':
                                 $(this).val(v);
-                            }
-                            $(this).data('value', v);
-                            break;
-                        case 'input:radio':
-                            $(this).prop('checked', $(this).val() == v);
-                            break;
-                        case 'input:checkbox':
-                            $(this).prop('checked', ~~v == 1);
-                            break;
-                        default:
-                            $(this).val(v);
+                                break;
+                            case 'input:hidden':
+                                if (typeof v === 'object') {
+                                    $(this).val(JSON.stringify(v));
+                                } else {
+                                    $(this).val(v);
+                                }
+                                $(this).data('value', v);
+                                break;
+                            case 'input:radio':
+                                $(this).prop('checked', $(this).val() == v);
+                                break;
+                            case 'input:checkbox':
+                                $(this).prop('checked', ~~v == 1);
+                                break;
+                            default:
+                                $(this).val(v);
+                        }
+                        $(this).change();
                     }
+                    
                 });
                 $(frm[0]).find('.append-box :input[name][type=hidden]').each(function () {
                     var k = $(this).attr('name'),
@@ -1912,13 +1927,15 @@
             //准备html
             //禁用表单的回车自动提交
             preventAutoSubmit();    //屏蔽回车提交
-            prepareMarkers();       //准备输入form-group数据校验结果标志 <b>*</b>
+            requireInit();       //准备输入form-group数据校验结果标志 <b>*</b>
             saveFnsForShare();      //保存组件函数至页面元素form，以便共享
             ajaxFormInit();         //表单ajax初始化
             bindFormBaseHandles();  //绑定表单基础事件处理函数， 返回按钮和提交事件
             inputInfoInit();        //输入框信息初始化  如title等
+            unableAutoComplete();   //禁用自动补全
+            avoidExplorerHint();    //避开浏览器自动输入提示
             inputNumberInit();      //数值输入框初始化
-            bindIptHandles();       //绑定输入款
+            bindIptHandles();       //绑定输入处理
             function preventAutoSubmit() {
                 frm[0].onkeydown = function (event) {
                     var target, tag;
@@ -1942,7 +1959,7 @@
                     }
                 };
             }
-            function prepareMarkers() {
+            function requireInit() {
                 $(frm[0]).find('.form-group:has(:input.require,:input.same,:input[same-with])').each(function () {  //准备必填项的标识符<b></b>
                     if ($(this).find('label:first-child>b').length == 0) {
                         $(this).find('label:first-child').prepend($('<b>*</b>'));
@@ -1956,6 +1973,8 @@
                 var pgrBar = $(frm[0]).find('.progress .progress-bar'),     //pgrBar.css("width":"30%");
                     pgrSro = pgrBar.find('.progress .progress-bar .sr-only'),    //pgrSro.text("30%");
                     ajaxFormOptions = {
+                        type:frm.type,
+                        resetForm:frm.resetForm,
                         beforeSerialize: function (jqForm, ajaxOptions) {
                             $(frm[0]).find('input:hidden[name]').each(function () {
                                 var n = $(this).attr('name'),
@@ -1994,6 +2013,20 @@
                             });
                         },
                         beforeSubmit: function (arrKeyVal, $frm, ajaxOptions) {
+                            $(frm[0]).find('input[type=submit]').prop('disabled',true);
+                            if($frm.hasClass('needmod')){
+                                return false;
+                            }
+                            $(frm[0]).find(':input[name]').each(function () {
+                                try {
+                                    $(this).change();
+                                } catch (err) {
+                                    console.error(err);
+                                }
+                            })
+                            if(!frm.check()){
+                                return false;
+                            }
                             for (var i = 0; i < arrKeyVal.length; i++) {
                                 if (delKeyVal(arrKeyVal[i].name)) {
                                     arrKeyVal.splice(i, 1);
@@ -2021,11 +2054,11 @@
                             }
                         },
                         success: function (data) {
-
+                            $(frm[0]).data('response',data).find('input[type=submit]').prop('disabled',false);
                             $.handleECode(true, data, $(frm[0]).data('infoTxt'));
                             switch (data.rt) {
                                 case '0000':
-                                    frm.reset();
+                                    //frm[0].reset();
                                     switch ($(frm[0]).attr('action')) {
                                         case frm.addAct:
                                             if (frm.cbSubmit) {
@@ -2042,6 +2075,9 @@
                                     break;
                                 default:
                                     console.warn("data.rt=" + data.rt)
+                            }
+                            if(frm.success instanceof Function){
+                                frm.success(data);
                             }
 
                         }
@@ -2092,14 +2128,25 @@
                     $(this).val(ipt);
                 });
             }
+            function unableAutoComplete(){
+                $(frm[0]).find('.form-group :input').each(function(){
+                    $(this).attr('autocomplete','off');
+                });
+            }
+            function avoidExplorerHint(){   //用于避开浏览自动记住账号和密码
+                $(frm[0]).prepend('<input type="text" / style="display:none;">');
+                $(frm[0]).find('.form-group input[type=password]').on('focus input',function(){
+                    $(this).attr('type',$(this).val()==''?'text':'password');
+                })
+            }
             function inputInfoInit(){
                 $(frm[0]).find('.form-group :input').each(function(){
                     var ctrlRegex = $(this).attr('ctrl-regex');
                     if(ctrlRegex){     //正则检查
                         var irec = $.objRegex[ctrlRegex];
                         if (irec) {
-                            if (irec.info) {  //设置提示信息
-                                $(this).attr('title', '请输入' + irec.info);
+                            if (irec.info) {  //设置提示信息                                
+                                $(this).attr('autocomplete','off').after('<p class="help-block regex-info">'+irec.info +'</p>')
                             }
                         } else {
                             console.error('ctrl-regex="' + ctrlRegex + '"未定义');
@@ -2107,19 +2154,9 @@
                     }
                 })
             }
-            
             function bindIptHandles() {
                 $(frm[0]).find('.form-group :input').on('change input', function (e) {
-                    var ipt = $(this).removeClass('danger'),
-                        bmark = ipt.closest('.form-group').find('.control-label>b').removeClass('danger');
-
-                    function addDanger() {  //不合法时添加标志
-                        ipt.addClass('danger');
-                        setTimeout(function () {
-                            bmark.addClass('danger');
-                        }, 0);
-                    }
-
+                    var fg=$(this).closest('.form-group').removeClass('has-error');
                     if ($(this).hasClass('require')) {    //必填项检查
                         if (
                             $(this).val() === ''
@@ -2127,19 +2164,19 @@
                             || $(this).val() === null
                             || $(this).val() === undefined
                         ) {
-                            addDanger();
+                            fg.addClass('has-error');
                         }
                     }
 
                     if ($(this).attr('ctrl-regex')) {     //正则检查
                         if ($(this).val() && !$.iptRegExpCtrl(this)) {
-                            addDanger();
+                            fg.addClass('has-error');
                         }
                     }
 
                     if ($(this).closest('.append-box').length === 1) {  //append-box组件中的input
-                        if ($(this).closest('.append-box').find('.item :input.danger').length > 0) {
-                            addDanger();
+                        if ($(this).closest('.append-box').find('.item :input.input-error').length > 0) {
+                            fg.addClass('has-error');
                         }
                     }
 
@@ -2147,12 +2184,10 @@
                 var iptSame = $(frm[0]).find('.form-group :input[same-with]'),
                     iptWith = $(frm[0]).find('#' + iptSame.attr('same-with'));
                 iptSame.on('change input', function (e) {
-                    if (iptWith.closest('.form-group').find('.danger').length > 0) {
-                        $(this).addClass('danger')
-                            .closest('.form-group').find('label>b').addClass('danger');
+                    if (iptWith.closest('.form-group').hasClass('has-error')) {
+                        $(this).closest('.form-group').addClass('has-error');
                     } else {
-                        $(this).toggleClass('danger', $(this).val() !== iptWith.val())
-                            .closest('.form-group').find('label>b').toggleClass('danger', $(this).val() !== iptWith.val());
+                        $(this).closest('.form-group').toggleClass('has-error', $(this).val() !== iptWith.val());
                     }
                 });
                 iptWith.on('change input', function (e) {
@@ -2160,7 +2195,7 @@
                 });
 
                 $(frm[0]).on('change input', function () {  //.form-group单元校验之后的整体校验
-                    frm.check();  //检验所有标记markers（<b>*</b>），判断是否所有数据都合法
+                    frm.check();  //检验所有.form-group是否还有未通过的标记.has-error
                 });
             }
             return frm;
@@ -2243,14 +2278,11 @@
                         li.closest('.xtree').find('li.active').removeClass('active');
                         li.addClass('active');
                     }
-                    if (gident == 0) {
-                        $(opts.relPTable).data('PagingTable').jsonData = {
-                            'url': '/p/user/manage'
-                        };
-                    } else {
-                        $(opts.relPTable).data('PagingTable').jsonData = {
-                            'url': '/p/depart/members'
-                        };
+                    $(opts.relPTable).find('.thHeader th:first .checkbox .text').text($(this).text());
+                    $(opts.relPTable).data('PagingTable').jsonData = {
+                        'url': opts.relPTableUrl
+                    };
+                    if (gident != 0) {
                         $(opts.relPTable).data('PagingTable').jsonData[opts.keyItemIdentify] = gident;
                     }
                     $.extend(
@@ -2279,15 +2311,29 @@
                             if (data.rt == '0000') {
                                 var items = opts.fnGetTreeItems(data);
                                 li.data('items', items);
-                                for (var i = 0; i < items.length; i++) {
-                                    appendTreeItem(opts, ul, {
-                                        gid: items[i][opts.keyItemId],
-                                        gident: items[i][opts.keyItemIdentify],
-                                        text: items[i][opts.keyItemText],
-                                        checked: ckb.prop('checked'),
-                                        hasChild: items[i][opts.keyItemHasChild],
-                                        status: items[i].status
-                                    })
+                                if(items.length===0 && !opts.showUndivided){
+                                    ul.html('<li>暂无用户组</li>');                                    
+                                }else{
+                                    for (var i = 0; i < items.length; i++) {
+                                        appendTreeItem(opts, ul, {
+                                            gid: items[i][opts.keyItemId],
+                                            gident: items[i][opts.keyItemIdentify],
+                                            text: items[i][opts.keyItemText],
+                                            checked: ckb.prop('checked'),
+                                            hasChild: items[i][opts.keyItemHasChild],
+                                            status: items[i].status
+                                        })
+                                    }
+                                    if(opts.showUndivided){
+                                        appendTreeItem(opts, ul, {
+                                            gid: -1,
+                                            gident: -1,
+                                            text: '未分组',
+                                            checked: 0,
+                                            hasChild: 0,
+                                            status: 1
+                                        })
+                                    }
                                 }
                                 li.after(ul);
                             }
@@ -2341,9 +2387,10 @@
                     hasChild: 1,
                     status: 1
                 })
+                tre.find('li[data-gid=0]').addClass('active');
                 if (opts.relPTable) {
                     $(opts.relPTable).PagingTable({
-                        jsonData: { 'url': '/p/user/manage' },
+                        jsonData: { 'url': opts.relPTableUrl },
                         //selectAll: true,
                         relFilter: tre[0],
                         // theadHtml为表头类元素，第一个th用于存放全选复选框
@@ -2360,7 +2407,7 @@
                                             <td></td>\
                                             <td><span item-key="name"></span></td>\
                                             <td><span item-key="account"></span></td>\
-                                            <td><span item-key="depart.name"></span></td>\
+                                            <td><span item-key="depart_name"></span></td>\
                                             <td><span item-key="status"></span></td>\
                                         </tr>',
                         tbodyEmptyHtml: '<tr><td>该用户组没有直属用户</td><tr>',
@@ -2371,7 +2418,18 @@
                         fnValByKey: function (k, v) {  //用于根据键值对修正要显示文本
                             switch (k) {
                                 case 'status':
-                                    v = v == 1 ? '已激活' : '未激活';  //例：
+                                    switch (v){
+                                        case 0:
+                                            v = "未激活";
+                                            break;
+                                        case 1:
+                                            v = "已激活";
+                                            break;
+                                        case 2:
+                                            v = "休假";
+                                            break;
+                                        default:
+                                    }
                                     break;
                                 default:
                             }
@@ -2379,7 +2437,7 @@
                         }
                     });
                 }
-                tre.find('li[data-gid=0]').addClass('active');
+                
                 return tre;
             },
             getRules: function () {  //获取用户选择信息
@@ -2450,11 +2508,12 @@
             }
         };
         $.fn[plug]['__def__'] = {     //插件默认属性
-            rootUrl: '/p/org/userList', //树形根节点获取全部用户接口
             hasRoot: 1,  //1表示设立一个根节点，0或false表示无根节点
             rootText: '所有用户组',  //根节点文本
             relPTable: '#tblForUserGroupTree',  //连动的表格（PagingTable组件）
+            relPTableUrl:'/p/depart/members',
             multiple: true,   //控制XTree是否支持多选，true则猜用复选框，false则采用单选框
+            showUndivided:false,
             tableListKey: 'user_list',
             relSubCaption: "#subCaption", //关联的显示标题选择器
             keyItemId: 'id',  //成员唯一标识  用户构建下发数据
@@ -2552,6 +2611,7 @@
                             })
                             li.find('span').on('click', function (e) {
                                 e.stopPropagation();
+                                $(opts.relPTable).find('.thHeader .checkbox:first span.text').text($(this).text());
                                 if (!li.hasClass('active')) {
                                     li.closest('.xlist').find('li.active').removeClass('active');
                                     li.addClass('active');
@@ -2578,12 +2638,12 @@
                                         relFilter: lst[0],
                                         // theadHtml为表头类元素，第一个th用于存放全选复选框
                                         theadHtml: '<tr>\
-                                        <th></th>\
-                                        <th>姓名</th>\
-                                        <th>账号</th>\
-                                        <th>所属组</th>\
-                                        <th>状态</th>\
-                                    </tr>',
+                                            <th></th>\
+                                            <th>姓名</th>\
+                                            <th>账号</th>\
+                                            <th>所属组</th>\
+                                            <th>状态</th>\
+                                        </tr>',
                                         // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
                                         // to-edit、to-view表示要跳转的目标表单
                                         tbodyDemoHtml: '<tr>\
@@ -2601,7 +2661,17 @@
                                         fnValByKey: function (k, v) {  //用于根据键值对修正要显示文本
                                             switch (k) {
                                                 case 'status':
-                                                    v = v == 1 ? '已激活' : '未激活';  //例：
+                                                    switch (v){
+                                                        case 0:
+                                                            v = "未激活";
+                                                            break;
+                                                        case 1:
+                                                            v = "已激活";
+                                                            break;
+                                                        case 2:
+                                                            v = "休假";
+                                                            break;
+                                                    }
                                                     break;
                                                 default:
                                             }
@@ -2632,9 +2702,6 @@
                         });
                     }
                 });
-            },
-            reset: function () {
-
             }
         };
         $.fn[plug] = function (fn) {
@@ -2821,12 +2888,14 @@
                                 var k = $(this).attr('item-key'),
                                     v = opts.fnValByKey(k, valByKey(list[i], k));
                                 $(this).html(v);
-                                if (typeof v == 'string' && v.length > 15) {
-                                    $(this).closest('li').attr('title', $(this).text()).css({
-                                        whiteSpace: 'nowrap',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis'
-                                    })
+                                if (typeof v == 'string' && v.length > 6) {
+                                    $(this).addClass('ellipsis').css({
+                                        padding:'0 0.4em',
+                                        display:'inline-block'
+                                    });
+                                    if($(this).text().indexOf('<')===-1){
+                                        $(this).closest('li').attr('title', $(this).text());
+                                    }
                                 }
                             });
                             ddHas.append(uli);
@@ -2868,7 +2937,7 @@
                 '<span item-key="name"></span>',
                 '<span item-key="account"></span>',
                 '<span item-key="status"></span>',
-                '<span class="btn btn-primary btn-sm ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '">移除策略</span>'
+                '<span title="移除策略" class="pointer ' + (hasFn('rmp') ? 'btnUnbind' : 'disabled') + '"><i class="fa fa-eraser"></i></span>'
             ],
             relPagingTable: '#pagingTable',
             width: '500px',

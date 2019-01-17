@@ -1,324 +1,288 @@
 <div class="row">
     <div class="col-xs-12 col-md-12">
         <div class="widget">
-            <div class="widget-header">
-                <i class="widget-icon fa fa-gear"></i>
-                <div style="position:absolute;left:25px;" class="widget-buttons">
-                    <a href="#" data-toggle="collapse">服务端设置</a>
+            <div class="tabbable">
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="active"><a data-toggle="tab" href="#tab1">服务端</a></li>
+                    <li><a data-toggle="tab" href="#tab2">客户端</a></li>
+                    <li><a data-toggle="tab" href="#tab3">邮件服务器</a></li>
+                    <li><a data-toggle="tab" href="#tab4">认证方式</a></li>
+                    <li><a data-toggle="tab" href="#tab5">产品信息</a></li>
+                </ul>
+                <div class="tab-content">
+                    <!--  服务端 -->
+                    <div id="tab1" class="section tab-pane in active">
+                        <div class="col-lg-12">
+                            <form class="form-horizontal" role="form" action="/super/setting/updateSettings">
+                                <h5 class="col-lg-offset-1">会话时间设置</h5>
+                                <!-- 会话时间-->
+                                <div class="form-group">
+                                    <label for="admin_session" class="col-lg-4 control-label no-padding-right">会话时间</label>
+                                    <div class="col-lg-4">
+                                        <div class="has-unit">
+                                            <input type="number" name="admin_session" id="admin_session" value="1" min="1"
+                                                max="60" class="form-control" />
+                                            <span>分钟</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5 class="col-lg-offset-1">登录安全策略</h5>
+
+                                <div class="form-group">
+                                    <label for="pw_max_try_times" class="col-lg-4 control-label no-padding-right">密码连续失败次数</label>
+                                    <div class="col-lg-4">
+                                        <input type="number" name="pw_max_try_times" id="pw_max_try_times" placeholder="1~5"
+                                            value="1" min="1" max="5" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="frozen_time" class="col-lg-4 control-label no-padding-right">用户冻结时间</label>
+                                    <div class="col-lg-4">
+                                        <div class="has-unit">
+                                            <input type="number" name="frozen_time" id="frozen_time" value="10" min="10"
+                                                max="525600" class="form-control" />
+                                            <span>分钟</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-4">
+                                        <button type="button" class="btn btn-primary btnFormAjax">保存</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <!--  客户端 -->
+                    <div id="tab2" class="section tab-pane">
+                        <div class="col-lg-12">
+                            <form class="form-horizontal" role="form" action="/super/setting/updateSettings">
+                                <h5 class="col-lg-offset-1">登录安全策略</h5>
+                                <div class="form-group">
+                                    <label for="client_pw_try_times" class="col-lg-4 control-label no-padding-right">密码连续失败次数</label>
+                                    <div class="col-lg-4">
+                                        <input type="number" name="client_pw_try_times" id="client_pw_try_times" value="3"
+                                            min="1" max="5" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="client_frozen_time" class="col-lg-4 control-label no-padding-right">用户冻结时间</label>
+                                    <div class="col-lg-4">
+                                        <div class="has-unit">
+                                            <input type="number" name="client_frozen_time" id="client_frozen_time"
+                                                value="10" min="10" max="525600" class="form-control" />
+                                            <span>分钟</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h5 class="col-lg-offset-1">会话时间设置</h5>
+                                <!-- 会话时间-->
+                                <div class="form-group">
+                                    <label for="user_session" class="col-lg-4 control-label no-padding-right">会话时间</label>
+                                    <div class="col-lg-4">
+                                        <div class="has-unit">
+                                            <input id="user_session" name="user_session" type="number" class="form-control"
+                                                value="30" min="0" max="1000000000" />
+                                            <span>分钟</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h5 class="col-lg-offset-1">应用下载设置</h5>
+
+                                <div class="form-group">
+                                    <label for="max_download" class="col-lg-4 control-label no-padding-right">应用下载并发数</label>
+                                    <div class="col-lg-4">
+                                        <select name="max_download" id="max_download" class="form-control">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <h5 class="col-lg-offset-1">密码长度设置</h5>
+
+                                <div class="form-group">
+                                    <label for="pw_min_len" class="col-lg-4 control-label no-padding-right">密码长度</label>
+                                    <div class="col-lg-4">
+                                        <input type="number" name="pw_min_len" id="pw_min_len" min="6" max="30" value="6"
+                                            placeholder="6~30" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <h5 class="col-lg-offset-1">密码复杂度设置</h5>
+
+                                <div class="form-group">
+                                    <label for="passwd_type" class="col-lg-4 control-label no-padding-right">密码复杂度</label>
+                                    <div class="col-lg-4">
+                                        <select name="passwd_type" id="passwd_type" class="form-control">
+                                            <option value="1">数字</option>
+                                            <option value="2">数字加字母</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <h5 class="col-lg-offset-1">密码有效期设置</h5>
+
+                                <div class="form-group">
+                                    <label for="pw_min_len" class="col-lg-4 control-label no-padding-right">密码有效期</label>
+                                    <div class="col-lg-4">
+                                        <div class="has-unit">
+                                            <input type="number" name="passwd_available" id="passwd_available" value="1"
+                                                min="0" max="365" placeholder="0~365" value="0" class="form-control" />
+                                            <span>天</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-4">
+                                        <button type="button" class="btn btn-primary btnFormAjax">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--  邮件服务器 -->
+                    <div id="tab3" class="section tab-pane">
+                        <div class="col-lg-12">
+                            <form class="form-horizontal" role="form" action="/super/setting/updateSettings">
+                                <h5 class="col-lg-offset-1">邮件服务器配置</h5>
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label no-padding-right">发送邮件服务器</label>
+                                    <div class="col-lg-4">
+                                        <input type="text" name="email_server" id="email_server" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label no-padding-right">邮件发送者帐户</label>
+                                    <div class="col-lg-4">
+                                        <input type="text" name="send_user" id="send_user" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label no-padding-right">邮件发送者密码</label>
+                                    <div class="col-lg-4">
+                                        <input type="password" name="send_pwd" id="send_pwd" class="form-control" />
+                                    </div>
+                                    <div class="col-lg-1" style="margin: 1px -24px;">
+                                        <a href="javascript:testemail()" class="btn btn-primary">测试邮箱</a>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label no-padding-right">接收者账户</label>
+                                    <div class="col-lg-4">
+                                        <input type="text" name="recv_user" id="recv_user" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-4">
+                                        <a href="javascript:modemailserver()" class="btn btn-primary email-server-btn">保存</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <!--  认证方式 -->
+                    <div id="tab4" class="section tab-pane">
+                        <div class="col-lg-12">
+                            <form class="form-horizontal" role="form" action="/super/setting/updateSettings">
+                                <h5 class="col-lg-offset-1">认证方式配置</h5>
+                                <div class="form-group">
+                                    <label for="identify_method" class="col-lg-4 control-label no-padding-right"></label>
+                                    <div class="col-lg-4">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" onclick="selectcheckbox(this)" name="identify_method1" />
+                                                <span id="identify_method1" class="text">用户名口令认证</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" onclick="select2(this)" name="identify_method2" />
+                                                <span id="identify_method2" class="text">用户名口令＋指纹认证</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" onclick="select3(this)" name="identify_method3" />
+                                                <span id="identify_method3" class="text">用户名口令＋本地指纹认证</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-4">
+                                        <a href="javascript:identify_method()" class="btn btn-primary">保存</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <!--  产品信息 -->
+                    <div id="tab5" class="section tab-pane">
+                        <div class="col-lg-12">
+                            <iframe name="ifme" width="0" height="0" style="display:none;"></iframe>
+                            <form class="form-horizontal" id="updateLogo" method="post" action="/p/org/orgUpdateSettings"
+                                enctype="multipart/form-data" target="ifme">
+                                <h5 class="col-lg-offset-1">产品信息配置</h5>
+                                <div class="form-group">
+                                    <label for="iptLogo" class="col-lg-4 control-label no-padding-right">产品LOGO</label>
+                                    <div class="col-lg-4">
+                                        <div id="wrapLogo" class="wrap-img">
+                                            <input name="sid" type="hidden" />
+                                            <img src="/imgs/logo.png" alt="logo">
+                                            <input type="file" id="iptLogo" name="icon" size="10" />
+                                        </div>
+                                    </div>
+                                    <label class="col-lg-6 col-xs-4 col-lg-4 control-label"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product_name" class="col-lg-4 control-label no-padding-right">产品名称</label>
+                                    <div class="col-lg-4">
+                                        <input type="text" name="product_name" id="product_name" class="form-control" />
+                                    </div>
+                                    <label class="col-lg-6 col-xs-4 col-lg-4 control-label"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="company_name" class="col-lg-4 control-label no-padding-right">公司名称</label>
+                                    <div class="col-lg-4">
+                                        <input type="text" name="company_name" id="company_name" class="form-control" />
+                                    </div>
+                                    <label class="col-lg-6 col-xs-4 col-lg-4 control-label"></label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="company_domain" class="col-lg-4 control-label no-padding-right">公司网址</label>
+                                    <div class="col-lg-4">
+                                        <input type="text" name="company_domain" id="company_domain" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-4">
+                                        <button type="submit" class="btn btn-primary">保存</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
                 </div>
-            </div>
-            <div class="widget-body">
-                <form class="form-horizontal" role="form" action="/super/setting/updateSettings">
-                    <div class="row">
-                        <h5 class="col-lg-offset-1">会话时间设置</h5>
-                    </div>
-                    <!-- 会话时间-->
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="admin_session" class="col-lg-3 control-label no-padding-right">会话时间</label>
-                            <div class="col-lg-3">
-                                <div class="has-unit">
-                                    <input type="number" name="admin_session" id="admin_session" min="1" max="60" class="form-control" />
-                                    <span>分钟</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <h5 class="col-lg-offset-1">登录安全策略</h5>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="pw_max_try_times" class="col-lg-3 control-label no-padding-right">密码连续失败次数</label>
-                            <div class="col-lg-3">
-                                <input type="number" name="pw_max_try_times" id="pw_max_try_times" min="1" max="20" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="frozen_time" class="col-lg-3 control-label no-padding-right">用户冻结时间</label>
-                            <div class="col-lg-3">
-                                <div class="has-unit">
-                                    <input type="number" name="frozen_time" id="frozen_time" min="10" max="525600"
-                                        class="form-control" />
-                                    <span>分钟</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <div class="col-lg-2 col-lg-offset-5">
-                                <button type="button" class="btn btn-primary btnFormAjax">保存</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!--  客户端设置-->
-    <div class="col-xs-12 col-md-12">
-        <div class="widget collapsed">
-            <div class="widget-header">
-                <i class="widget-icon fa fa-gear"></i>
-                <div style="position:absolute;left:25px;" class="widget-buttons">
-                    <a href="#" data-toggle="collapse">客户端设置</a>
-                </div>
-            </div>
-            <div class="widget-body">
-                <form class="form-horizontal" role="form" action="/super/setting/updateSettings">
-                    <div class="row">
-                        <h5 class="col-lg-offset-1">会话时间设置</h5>
-                    </div>
-                    <!-- 会话时间-->
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="user_session" class="col-lg-3 control-label no-padding-right">会话时间</label>
-                            <div class="col-lg-3">
-                                <div class="has-unit">
-                                    <input id="user_session" name="user_session" type="number" class="form-control" min="30" max="1000000000"/>
-                                    <span>分钟</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <h5 class="col-lg-offset-1">应用下载设置</h5>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="max_download" class="col-lg-3 control-label no-padding-right">应用下载并发数</label>
-                            <div class="col-lg-3">
-                                <select name="max_download" id="max_download" class="form-control">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <h5 class="col-lg-offset-1">密码长度设置</h5>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="pw_min_len" class="col-lg-3 control-label no-padding-right">密码长度</label>
-                            <div class="col-lg-3">
-                                <input type="number" name="pw_min_len" id="pw_min_len" min="6" max="10" value="6" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <h5 class="col-lg-offset-1">密码复杂度设置</h5>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="passwd_type" class="col-lg-3 control-label no-padding-right">密码复杂度</label>
-                            <div class="col-lg-3">
-                                <select name="passwd_type" id="passwd_type" class="form-control">
-                                    <option value="1">数字</option>
-                                    <option value="2">数字加字母</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <h5 class="col-lg-offset-1">密码有效期设置</h5>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="pw_min_len" class="col-lg-3 control-label no-padding-right">密码有效期</label>
-                            <div class="col-lg-3">
-                                <div class="has-unit">
-                                    <input type="number" name="passwd_available" id="passwd_available" min="1" max="365"
-                                        value="0" class="form-control" />
-                                    <span>天</span>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <div class="col-lg-2 col-lg-offset-5">
-                                <button type="button" class="btn btn-primary btnFormAjax">保存</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-    <div class="col-xs-12 col-md-12">
-        <div class="widget collapsed">
-            <div class="widget-header">
-                <i class="widget-icon fa fa-gear"></i>
-                <div style="position:absolute;left:25px;" class="widget-buttons">
-                    <a href="#" data-toggle="collapse">邮件服务器设置</a>
-                </div>
-            </div>
-            <div class="widget-body">
-                <form class="form-horizontal" role="form" action="/super/setting/updateSettings">
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label no-padding-right">发送邮件服务器</label>
-                            <div class="col-lg-3">
-                                <input type="text" name="email_server" id="email_server" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label no-padding-right">邮件发送者帐户</label>
-                            <div class="col-lg-3">
-                                <input type="text" name="send_user" id="send_user" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label no-padding-right">邮件发送者密码</label>
-                            <div class="col-lg-3">
-                                <input type="password" name="send_pwd" id="send_pwd" class="form-control" />
-                            </div>
-                            <div style="height:auto;" class="widget-btn col-lg-5 col-xs-3 col-lg-3 col-lg-offset-1 col-lg-offset-1 col-xs-1">
-                                <a href="javascript:testemail()" class="btn btn-primary">测试邮箱</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label no-padding-right">接收者账户</label>
-                            <div class="col-lg-3">
-                                <input type="text" name="recv_user" id="recv_user" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <div class="col-lg-2 col-lg-offset-5">
-                                <a href="javascript:modemailserver()" class="btn btn-primary email-server-btn">保存</a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-12">
-        <div class="widget collapsed">
-            <div class="widget-header">
-                <i class="widget-icon fa fa-gear"></i>
-                <div style="position:absolute;left:25px;" class="widget-buttons">
-                    <a href="#" data-toggle="collapse">认证方式设置</a>
-                </div>
-            </div>
-            <div class="widget-body">
-                <form class="form-horizontal" role="form" action="/super/setting/updateSettings">
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="identify_method" class="col-lg-3 control-label no-padding-right">认证方式</label>
-                            <div class="col-lg-3">
-                                <div style="margin-top:0px;" class="checkbox">
-                                    <label style="padding-left:0;">
-                                        <input type="checkbox" onclick="selectcheckbox(this)" name="identify_method1" />
-                                        <span id="identify_method1" class="text">用户名口令认证</span>
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label style="padding-left:0;">
-                                        <input type="checkbox" onclick="select2(this)" name="identify_method2" />
-                                        <span id="identify_method2" class="text">用户名口令＋指纹认证</span>
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label style="padding-left:0;">
-                                        <input type="checkbox" onclick="select3(this)" name="identify_method3" />
-                                        <span id="identify_method3" class="text">用户名口令＋本地指纹认证</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="widget-btn col-lg-5 col-xs-3 col-lg-3 col-lg-offset-1 col-lg-offset-1 col-xs-1">
-                                <a href="javascript:identify_method()" style="margin-top:38px;" class="btn btn-primary">保存</a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-12">
-        <div class="widget collapsed">
-            <div class="widget-header">
-                <i class="widget-icon fa fa-gear"></i>
-                <div style="position:absolute;left:25px;" class="widget-buttons">
-                    <a href="#" data-toggle="collapse">产品信息</a>
-                </div>
-            </div>
-            <div class="widget-body">
-                <iframe name="ifme" width="0" height="0" style="display:none;"></iframe>
-                <form class="form-horizontal" id="updateLogo" method="post" action="/p/org/orgUpdateSettings" enctype="multipart/form-data"
-                    target="ifme">
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="iptLogo" class="col-lg-3 control-label no-padding-right">产品LOGO</label>
-                            <div class="col-lg-3">
-                                <div id="wrapLogo" class="wrap-img">
-                                    <input name="sid" type="hidden" />
-                                    <img src="/imgs/logo.png" alt="logo">
-                                    <input type="file" id="iptLogo" name="icon" size="10" />
-                                </div>
-                            </div>
-                            <label class="col-lg-6 col-xs-4 col-lg-4 control-label"></label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="product_name" class="col-lg-3 control-label no-padding-right">产品名称</label>
-                            <div class="col-lg-3">
-                                <input type="text" name="product_name" id="product_name" class="form-control" />
-                            </div>
-                            <label class="col-lg-6 col-xs-4 col-lg-4 control-label"></label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="company_name" class="col-lg-3 control-label no-padding-right">公司名称</label>
-                            <div class="col-lg-3">
-                                <input type="text" name="company_name" id="company_name" class="form-control" />
-                            </div>
-                            <label class="col-lg-6 col-xs-4 col-lg-4 control-label"></label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="company_domain" class="col-lg-3 control-label no-padding-right">公司网址</label>
-                            <div class="col-lg-3">
-                                <input type="text" name="company_domain" id="company_domain" class="form-control" />
-                            </div>
-                            <div class="widget-btn col-lg-5 col-xs-3 col-lg-3 col-lg-offset-1 col-lg-offset-1 col-xs-1">
-                                <button type="submit" style="width:78px;" class="btn btn-primary">保存</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
 </div>
-<!-- <div tabindex="-1" role="dialog" style="display:none;" aria-hidden="false" class="bootbox modal fade bootbox-confirm in modal-primary">
-    <div style="width:500px;" class="modal-dialog">
-        <div class="modal-content"></div>
-    </div>
-</div> -->
-
-<!-- <script src="/assets/js/beyond.min.js"></script> -->
 <script data-src="/subpage/super_system.js"></script>

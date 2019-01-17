@@ -4,7 +4,7 @@
  * ==================================================================
  */
 
-    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
+
 
 
     iptKeywordInit();
@@ -28,9 +28,9 @@
         var st = 1;
         var table = $('.apptagtable'),
             str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
-                + '<th class="sel" style="line-height:20px;"><div class="checkbox">'
+                + '<th class="sel" style="width:110px;"><div class="checkbox">'
                 + '<label><input type="checkbox" onclick="selectedAll(this)" />'
-                + '<span class="text">全选</span></label></div></th>'
+                + '<span class="text"></span></label></div></th>'
                 + '<th>名称</th>'
                 + '<th>创建者</th>'
                 + '<th>应用数量</th>'
@@ -45,24 +45,29 @@
         }
         $.silentGet('/man/appTag/getAppTagList', pd, function (data) {
             if (data.rt == '0000') {
-                for (var i in data.apptag_list) {
-                    str += '<tr>'
-                        + '<td class="sel"><div class="checkbox"><label>'
-                        + '<input type="checkbox" onclick="selected(this)" />'
-                        + '<span class="text"></span></label></div></td>'
-                        + '<td>' + data.apptag_list[i].name + '</td>'
-                        + '<td>' + data.apptag_list[i].creator + '</td>'
-                        + '<td>'
-                        + '<a href="javascript:add_app(' + i + ');">' + data.apptag_list[i].app_num + '</a>'
-                        + '</td>'
-                        + '<td>' + data.apptag_list[i].modify_time + '</td>'
-                        + '<td style="display:none;">' + data.apptag_list[i].id + '</td>'
-                        + '<td style="display:none;">' + data.apptag_list[i].description + '</td>'
-                        + '<td>'
-                        + '<a class="btn btn-primary btn-xs" href="javascript:tag_modify(' + i + ');">编辑</a>'
-                        + '<a class="btn btn-primary btn-xs" href="javascript:tag_view(' + i + ');">详情</a>'
-                        + '</td></tr>';
+                if(data.apptag_list.length>0){
+                    for (var i in data.apptag_list) {
+                        str += '<tr>'
+                            + '<td class="sel"><div class="checkbox"><label>'
+                            + '<input type="checkbox" onclick="selected(this)" />'
+                            + '<span class="text"></span></label></div></td>'
+                            + '<td>' + data.apptag_list[i].name + '</td>'
+                            + '<td>' + data.apptag_list[i].creator + '</td>'
+                            + '<td>'
+                            + '<a href="javascript:add_app(' + i + ');">' + data.apptag_list[i].app_num + '</a>'
+                            + '</td>'
+                            + '<td>' + data.apptag_list[i].modify_time + '</td>'
+                            + '<td style="display:none;">' + data.apptag_list[i].id + '</td>'
+                            + '<td style="display:none;">' + data.apptag_list[i].description + '</td>'
+                            + '<td>'
+                            + '<a class="btn btn-primary btn-xs'+(hasFn('mod')?'':' disabled')+'" href="javascript:tag_modify(' + i + ');">编辑</a>'
+                            + '<a class="btn btn-primary btn-xs" href="javascript:tag_view(' + i + ');">详情</a>'
+                            + '</td></tr>';
+                    }
+                }else{
+                    str += '<tr><td class="sel" colspan="6">暂无数据</td></tr>';
                 }
+                
                 str += '</table>';
                 table.html(str);
                 createFooter(start, length, data.total_count, st);
@@ -312,25 +317,23 @@
 
     // 删除
     function deletes() {
-        var i = 0;
-        var tab = $('.apptagtable table');
-        if (tab.find('span').hasClass('txt')) {
-            i = 1;
-        }
-        var cont = '';
-        if (i > 0) {
-            cont += '<div class="modal-header">'
-                + ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-                + '<h4 class="modal-title">提示</h4>'
-                + '</div>'
-                + '<div class="modal-body">'
-                + '<p>确定删除？</p>'
-                + '</div>'
-                + '<div class="modal-footer">'
-                + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-                + '<button type="button" class="btn btn-primary" onclick="tag_delete()">确认</button>'
-                + '</div>';
-            alertOpen(cont);
+        if ($('.apptagtable table').find('span.txt').length>0) {
+            $.dialog('confirm', {
+                width: 460,
+                height: null,
+                maskClickHide: true,
+                title: "删除确认",
+                content: '<p class="text-align-center">确认删除选中的用户组吗？</p>',
+                hasBtn: true,
+                hasClose: true,
+                hasMask: true,
+                confirmValue: '确认',
+                confirm: function () {
+                    tag_delete();
+                },
+                confirmHide: true,
+                cancelValue: '取消'
+            });
         }
     }
 
@@ -363,3 +366,5 @@
             });
         }
     }
+
+    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限

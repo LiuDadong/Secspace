@@ -64,7 +64,7 @@
                             + '</tr>';
                     }
                 } else {
-                    str += '<tr><td colspan="6">暂无版本信息</td></tr>'
+                    str += '<tr><td colspan="6">暂无数据</td></tr>'
                 }
                 str += '</table>';
                 table.html(str);
@@ -192,7 +192,7 @@
         //     + '<button type="button" class="btn btn-primary" onclick="version_update(' + i + ')">确认</button>'
         //     + '</div>';
         // alertOpen(cont);
-        $.dialog('confirm', {
+        $.dialog('form', {
             title: '提示',
             content: '<form role = "form" class="form-horizontal">'
                 + '<div class = "form-group">'
@@ -263,7 +263,7 @@
     function add() {
         var vcode = /^[0-9]+(\.+[0-9]+)+$/;
         var sid = $.cookie('sid');
-        var $dialog = $.dialog('confirm', {
+        $.dialog('form', {
             title: '添加版本',
             width: '600',
             content: '<form id="addAppForm" method="post" action="' + localStorage.getItem("appssec_url") + '/p/file/uploadApp" enctype="multipart/form-data" target="ifm" autocomplete="off" role = "form" class="form-horizontal">\

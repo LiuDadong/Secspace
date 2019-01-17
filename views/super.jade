@@ -85,13 +85,14 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                     .sidebar-collapse(id="sidebar-collapse")
                         i(class="collapse-icon fa fa-bars")
                     .product_name
+                        a.navbar-brand(href="#")
                     .navbar-header(class="pull-right")
                         .navbar-account
                             ul(class="account-area")
                                 li(style="min-width:180px;")
                                     a(class="login-area dropdown-toggle" data-toggle="dropdown" title="点击查看账户信息" style="min-width:180px;")
                                         .avatar
-                                            img.avatar(src="/imgs/admin.png" alt="头像")
+                                            img.avatar(src="/imgs/admin.png" alt="")
                                         section
                                             h2
                                                 span(class="profile")
@@ -103,7 +104,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                         //-     a
                                         li
                                             .avatar-area
-                                                img.avatar(src="/imgs/admin.png" alt="头像")
+                                                img.avatar(src="/imgs/admin.png" alt="")
                                         li(class="edit" style="text-align:center;")
                                             button.btn.btn-defalut.btn-sm.pull-left(onclick="accountInfo()") 账户信息
                                             button.btn.btn-defalut.btn-sm.pull-right(onclick="updatePW()") 修改密码
@@ -167,6 +168,10 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                 i(class="menu-icon glyphicon glyphicon-user")
                                 span(class="menu-text") 管理员角色
                         li
+                            a(data-pjax href="/sub?pg=super_config")
+                                i(class="menu-icon glyphicon glyphicon-file")
+                                span(class="menu-text") 配置文件管理
+                        li
                             a(class="menu-dropdown")
                                 i(class="menu-icon fa fa-gears")
                                 span(class="menu-text") 设置
@@ -179,8 +184,8 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                     a(data-pjax href="/sub?pg=super_system")
                                         span(class="menu-text") 系统设置
                                 li
-                                    a(data-pjax href="/sub?pg=super_licence")
-                                        span(class="menu-text") Licence管理
+                                    a(data-pjax href="/sub?pg=super_license")
+                                        span(class="menu-text") License管理
                         
 
                 .page-content(id="rightpart")                        
@@ -217,6 +222,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
         script(type="text/javascript" src="/assets/js/jquery.cookie.js")
         script(type="text/javascript" src="/assets/js/jquery.form.min.js")
         script(type="text/javascript" src="/assets/js/jquery.jedate.js")
+        script(type="text/javascript" src="/assets/js/base64.js")
         script(type="text/javascript" src="/assets/js/jquery.dialogBox.js")
         script(type="text/javascript" src="/assets/js/toastr/toastr.js")
         script(type="text/javascript" src="/assets/js/jsmind.js")

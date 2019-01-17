@@ -180,7 +180,7 @@
         <option value="$PROJECT_DIR$/public/scripts/login.js" />
         <option value="$PROJECT_DIR$/views/pages/man_appblacklist.jade" />
         <option value="$PROJECT_DIR$/public/scripts/man_apppolicy.js" />
-        <option value="$PROJECT_DIR$/public/style/style.css" />
+        <option value="$PROJECT_DIR$/public/assets/css/style.css" />
         <option value="$PROJECT_DIR$/crossHttp.js" />
         <option value="$PROJECT_DIR$/public/assets/js/jquery.uploadfile.js" />
         <option value="$PROJECT_DIR$/public/assets/js/jquery.cookie.js" />

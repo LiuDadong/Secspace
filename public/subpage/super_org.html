@@ -5,25 +5,25 @@
                 <span id="subCaption" class="widget-caption">机构树</span>
             </div>
             <!-- section:分页列表 -->
-            <div class="widget-body section table clearfix" style="overflow:hidden;">
-                <form id="panel" class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}" style="height:80px">
+            <div class="widget-body section table clearfix" style="padding-bottom:20px;">
+                <form id="panel" class="form-inline clearfix" role="form" onkeydown="if(event.keyCode==13){return false;}">
                     <div id="btn_cnter" class="buttons-preview pull-left">
                         <button class="btnAdd btn btn-primary btn-sm" type="button"><i class="fa fa-plus">添加</i></button>
                         <button class="btnEdit btn btn-default btn-sm" type="button"><i class="fa fa-pencil-square-o">编辑</i></button>
                         <button class="btnDel btn btn-default btn-sm" type="button"><i class="fa fa-minus-square">删除</i></button>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm dropdown-toggle btnExport"
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle"
                                 data-toggle="dropdown">导出<i class="fa fa-angle-down"></i></button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop1" onclick="event.stopPropagation();">
-                                <li><a href="#">选定机构</a></li>
-                                <li><a href="#">选定机构及下级机构</a></li>
+                                <li><a class="btnExport" data-flag="0" href="#">选定机构</a></li>
+                                <li><a class="btnExport" data-flag="1" href="#">选定机构及下级机构</a></li>
                             </ul>
                         </div>
                         <button class="btnImport btn btn-default btn-sm" type="button">导入</button>
                         <button class="btnRefresh btn btn-default btn-sm" type="button">刷新</button>
                     </div>
                 </form>
-                <div class="col-lg-12">
+                <div style="position:relative;">
                     <div class="orgPanel profile-contacts">
                         <div class="profile-badge azure">
                             <i class="fa fa-map-marker azure"></i><span>机构信息</span>
@@ -35,7 +35,7 @@
                             <p>策略数 : <span id="orgPolicy"></span> </p>
                         </div>
                     </div>
-                    <div id="om_edit" class="jsmind orgManage"></div>
+                    <div id="om_edit" class="orgManage" style="height:440px;"></div>
                 </div>
             </div>
         </div>

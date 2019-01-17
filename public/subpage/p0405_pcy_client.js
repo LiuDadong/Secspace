@@ -49,7 +49,7 @@
                                 <div class="checkbox">\
                                     <label>\
                                         <input type="checkbox" name="filter" value="NAV" />\
-                                        <span class="text">本地创建</span>\
+                                        <span class="text">本级创建</span>\
                                     </label>\
                                 </div>\
                             </li>\
@@ -76,7 +76,7 @@
                         <td><span item-key="update_time"></span></td>\
                         <td><span item-key="creator"></span></td>\
                         <td><span item-key="manager"></span></td>\
-                        <td><a todo="edit">编辑</a><a todo="view">查看</a></td>\
+                        <td><a todo="edit" title="编辑"><i class="fa fa-edit"></i></a><a todo="view" title="查看"><i class="fa fa-eye"></i></a></td>\
                     </tr>',
         //因不同需求需要个性控制组件表现的修正函数和增强函数
         fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -93,7 +93,7 @@
                 case 'origin':
                     switch (v) {
                         case 'NAV':
-                            v = '本地创建';
+                            v = '本级创建';
                             break;
                         case 'PUB':
                             v = '上级发布';
@@ -125,14 +125,6 @@
         editUrl: '/p/policy/customerMan',
         editBtnTxt: '保存',
         afterReset: function () {  //表单重置之后紧接着的回调
-            //控制禁用客户端权限样式和行为
-            // 获取客户端设置授权项
-            var permissionItems = $(this).data('permissionItems');
-            $(':input[data-for=permissionItems]').each(function () {
-                $(this).prop('checked', ~~permissionItems[$(this).attr('name')] == 1)
-                    .prop('disabled', ~~permissionItems[$(this).attr('name')] == -1);
-            })
-
             //权限关联逻辑
             $('input:checkbox[on-on]').off().on("click", function (e) {
                 var checkbox = $(this),
@@ -163,7 +155,7 @@
                         confirmValue: '去激活',
                         confirm: function () {
                             checkbox.prop('checked', false);
-                            $('#sidebar a[href="/sub?pg=p0803_set_licence"]').click();
+                            $('#sidebar a[href="/sub?pg=p0803_set_license"]').click();
                         },
                         cancel: function () {
                             checkbox.prop('checked', false);
@@ -242,6 +234,18 @@
                 return $('input:checkbox[name=' + n + ']').closest("div").prev('label').text();
             }
         },
+        afterUsed:function(){
+            var permissionItems= JSON.parse(localStorage.getItem('permissionItems'));
+            $('#multForm').find(':input[data-for=permissionItems]').each(function () {
+                var key = $(this).attr('name'),
+                    val = permissionItems[key];
+                $(this).toggleClass('forbidden', ~~val == -1)
+                    .closest('.form-group').toggleClass('forbidden', ~~val == -1);
+                if (~~val == -1) {
+                    $(this).prop('checked', false).prop('disabled', true);
+                }
+            });
+        },
         cbSubmit: function (act) {  //提交编辑成功之后的回调
             switch (act) {
                 case 'add':
@@ -283,20 +287,6 @@
 
     //模块特别情况处理
 
-    // 获取客户端设置授权项
-    $.silentGet('/getPermissions', { url: '/p/org/getPermissionItems' }, function (data) {
-        var permissionItems = data.permissionItems;
-        multForm.data('permissionItems', permissionItems);
-        $(':input[data-for=permissionItems]').each(function () {
-            var key = $(this).attr('name'),
-                val = permissionItems[key];
-            $(this).toggleClass('forbidden', ~~val == -1)
-                .closest('.form-group').toggleClass('forbidden', ~~val == -1);
-            if (~~val == -1) {
-                $(this).prop('checked', false).prop('disabled', true);
-            }
-        });
-    })
 
     //颜色选择器初始化
     
@@ -331,4 +321,10 @@
         $('#font_color').css({
             cursor: $(this).prop('checked')?'pointer':'not-allowed'
         })
+    })
+
+    
+    // 获取客户端设置授权项
+    $.silentGet('/getPermissions', { url: '/p/org/getPermissionItems' }, function (data) {
+        localStorage.setItem('permissionItems',JSON.stringify(data.permissionItems));
     })

@@ -1,8 +1,9 @@
 
-    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
+
     
     var omAdmin = new OrgMind({
         container: 'om_admin',          //'om_admin'-- id of the container   
+        rootId:$.cookie('org_id'),
         multiple: false,     //支持多选
         allowUnsel: true,    //允许不选
         disableRoot: true,
@@ -57,7 +58,7 @@
                     <th style="width:16%">创建时间</th>\
                     <th style="width:20%;">操作</th>\
                 </tr > ',
-        tbodyEmptyHtml: '<tr><td>暂无管理员</td><tr>',
+        tbodyEmptyHtml: '<tr><td>暂无数据</td><tr>',
         // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
         // to-edit、to-view表示要跳转的目标表单
         tbodyDemoHtml: '<tr>\
@@ -69,7 +70,7 @@
                         <td class="ellipsis" item-key="phone"></td>\
                         <td class="ellipsis" item-key="creator"></td>\
                         <td class="ellipsis" item-key="created_time"></td>\
-                        <td class="ellipsis"><a todo="edit">编辑</a><a todo="view">查看</a><a todo="resetpw">重置密码</a></td>\
+                        <td class="ellipsis"><a todo="edit" title="编辑"><i class="fa fa-edit"></i></a><a todo="view" title="查看"><i class="fa fa-eye"></i></a><a todo="resetpw" title="重置密码"><i class="fa fa-key"></i></a></td>\
                     </tr>',
         //因不同需求需要个性控制组件表现的修正函数和增强函数
         fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -93,7 +94,9 @@
             return v;
         },
         afterAppend:function(tri,itemi){
-            if(itemi.orgCode==omAdmin.jm.get_root().data.orgCode){
+            console.log(itemi.org_id)
+            console.log(localStorage.getItem('org_id'))
+            if(itemi.org_id==localStorage.getItem('org_id')){
                 tri.find('.checkbox,[todo=edit],[todo=resetpw]').remove();
             }
         },
@@ -310,7 +313,7 @@
         if (item.status == 0) {
             warningOpen('请先启用该管理员！', 'danger', 'fa-bolt');
         } else {
-            $.dialog('confirm', {
+            $.dialog('form', {
                 width: 500,
                 height: null,
                 autoSize: true,
@@ -366,9 +369,9 @@
                 userId: item.userId
             })
             frmResetPW.usedAs('edit');
-            $('#frmResetPW').parent().css({
-                display: 'block'
-            })
         }
 
     }
+
+
+    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限

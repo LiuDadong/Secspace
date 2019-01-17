@@ -4,8 +4,6 @@
  * ==================================================================
  */
 (function () {
-    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
-
     $('input[name=searchval]').on('input change propertychange', function () {
         var searchvalTimer;
         clearTimeout(searchvalTimer);
@@ -17,7 +15,7 @@
 
     // 设备管理列表
     getDeviceList(1, 10);
-
+    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
 })();
 var mapObj = (function () {
     var map;
@@ -68,27 +66,29 @@ function getDeviceList(start_page, page_length) {
         var online = '', platform = '';
         if (data.rt == '0000') {
             table.data('data', data);
-            for (var i in data.doc) {
-                dev_name = data.doc[i].dev_name || '未知设备';
-                dev_system = data.doc[i].dev_system || '未知系统';
-                online = (data.doc[i].online == 1) ? '在线' : '离线';
-                platform = (data.doc[i].platform == "ios") ? 'iOS' : 'Android';
-                var tri=$('<tr data-i="' + i + '">' +
-                    '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" />' +
-                    '<span class="text"></span></label></div></td>' +
-                    '<td><a onclick="getDetail(this)" class="pointer">' + dev_name + '</a></td>' +
-                    '<td>' + data.doc[i].user_name + '</td>' +
-                    '<td>' + data.doc[i].account + '</td>' +
-                    '<td>' + platform + '</td>' +
-                    '<td>' + dev_system + '</td>' +
-                    '<td>' + data.doc[i].last_online + '</td>' +
-                    '<td>' + online + '</td>' +
-                    '</tr>').data('item',data.doc[i]);
-                table.append(tri);
+            if(data.doc.length>0){
+                for (var i in data.doc) {
+                    dev_name = data.doc[i].dev_name || '未知设备';
+                    dev_system = data.doc[i].dev_system || '未知系统';
+                    online = (data.doc[i].online == 1) ? '在线' : '离线';
+                    platform = (data.doc[i].platform == "ios") ? 'iOS' : 'Android';
+                    var tri=$('<tr data-i="' + i + '">' +
+                        '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" />' +
+                        '<span class="text"></span></label></div></td>' +
+                        '<td><a onclick="getDetail(this)" class="pointer">' + dev_name + '</a></td>' +
+                        '<td>' + data.doc[i].user_name + '</td>' +
+                        '<td>' + data.doc[i].account + '</td>' +
+                        '<td>' + platform + '</td>' +
+                        '<td>' + dev_system + '</td>' +
+                        '<td>' + data.doc[i].last_online + '</td>' +
+                        '<td>' + online + '</td>' +
+                        '</tr>').data('item',data.doc[i]);
+                    table.append(tri);
+                }
+            }else{
+                table.append('<tr><td colspan="8">暂无设备</td></tr>');
             }
             createFooter(start_page, page_length, data.total_count, 1);
-        } else if (data.rt == 5) {
-            toLoginPage();
         }
     });
     currentpage = start_page;
@@ -672,20 +672,16 @@ function unlink() {
     if (tab.find('td span').hasClass('txt')) {
         i = 1;
     }
-    var cont = '';
     if (i > 0) {
-        cont += '<div class="modal-header">' +
-            ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>' +
-            '<h4 class="modal-title">提示</h4>' +
-            '</div>' +
-            '<div class="modal-body">' +
-            '<p class="text-align-center">确定解绑吗？</p>' +
-            '</div>' +
-            '<div class="modal-footer">' +
-            '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>' +
-            '<button type="button" class="btn btn-primary" onclick="device_unlink()">确认</button>' +
-            '</div>';
-        alertOpen(cont);
+        $.dialog('confirm', {
+            content: '确认解绑选中的设备吗？',
+            confirmValue: '确认',
+            confirm: function () {
+                device_unlink();
+            },
+            cancelValue: '取消',
+            title: '设备解绑确认'
+        });
     }
 }
 // 淘汰
@@ -695,20 +691,16 @@ function weepout() {
     if (tab.find('td span').hasClass('txt')) {
         i = 1;
     }
-    var cont = '';
     if (i > 0) {
-        cont += '<div class="modal-header">' +
-            ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>' +
-            '<h4 class="modal-title">提示</h4>' +
-            '</div>' +
-            '<div class="modal-body">' +
-            '<p class="text-align-center">确定淘汰吗？</p>' +
-            '</div>' +
-            '<div class="modal-footer">' +
-            '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>' +
-            '<button type="button" class="btn btn-primary" onclick="device_weepout()">确认</button>' +
-            '</div>';
-        alertOpen(cont);
+        $.dialog('confirm', {
+            content: '确认淘汰选中的设备吗？',
+            confirmValue: '确认',
+            confirm: function () {
+                device_weepout();
+            },
+            cancelValue: '取消',
+            title: '设备淘汰确认'
+        });
     }
 }
 
@@ -729,10 +721,8 @@ function device_unlink() {
         var postData = {
             dev_id: JSON.stringify(dev_id)
         };
-
         $.actPost('/man/device/unlinkDevice', postData, function (data) {
             if (data.rt == '0000') {
-                alertOff();
                 getDeviceList(1, 10);
             }
         });

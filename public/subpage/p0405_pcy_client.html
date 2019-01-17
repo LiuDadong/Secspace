@@ -36,7 +36,7 @@
                     </div>
                     <div class="pull-right"></div>
                 </form>
-                <div><table id="pagingTable"></table></div>
+                <div class="paging-table-wrap"><table id="pagingTable"></table></div>
             </div>
             <!-- section:添加、修改、查看多用途表单 -->
             <div style="overflow:hidden;display: none;" class="widget-body section">
@@ -52,21 +52,20 @@
                         </div>
                         <div class="form-group">
                             <!-- 策略名称 -->
-                            <label class="col-md-5 control-label no-padding-right">
+                            <label class="col-md-4 control-label no-padding-right">
                                 <span>名称</span>
                             </label>
-                            <div class="col-md-4">
+                            <div class="col-md-7">
                                 <input type="text" name="name"  ctrl-regex="name_mix" class="require form-control" autocomplete="off" placeholder="请输入策略名称" />
                             </div>
                         </div>
-
                         <!--  水印策略-->
                         <div class="form-title">
                             <b>水印策略</b>
                         </div>
                         <input type="hidden" name="watermark" />
                         <div class="form-group">
-                            <label for="watermarkControl" class="col-md-5 control-label no-padding-right">
+                            <label for="watermarkControl" class="col-md-4 control-label no-padding-right">
                                 <span>安全空间内开启水印</span>
                             </label>
                             <div class="checkbox col-md-1">
@@ -77,10 +76,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="font_type" class="col-md-5 control-label no-padding-right">
+                            <label for="font_type" class="col-md-4 control-label no-padding-right">
                                 <span>水印显示类型</span>
                             </label>
-                            <div class="col-md-4">
+                            <div class="col-md-7">
                                 <select data-for="watermark" name="font_type" class="form-control">
                                     <option value="user_name">姓名</option>
                                     <option value="company_name">企业名称</option>
@@ -89,10 +88,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="font_size" class="col-md-5 control-label no-padding-right">
+                            <label for="font_size" class="col-md-4 control-label no-padding-right">
                                 <span>文字大小</span>
                             </label>
-                            <div class="col-md-4">
+                            <div class="col-md-7">
                                 <select data-for="watermark" name="font_size" class="form-control">
                                     <option value="1">小</option>
                                     <option value="2">标准</option>
@@ -101,19 +100,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="font_color" class="col-md-5 control-label no-padding-right">
+                            <label for="font_color" class="col-md-4 control-label no-padding-right">
                                 <span>字体颜色</span>
                             </label>
-                            <div class="col-md-4">
+                            <div class="col-md-7">
                                 <input type="text" data-for="watermark" id="font_color" name="font_color" value="00ff00" autocomplete="off" class="form-control"
                                 />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="font_opacity" class="col-md-5 control-label no-padding-right">
+                            <label for="font_opacity" class="col-md-4 control-label no-padding-right">
                                 <span>文字透明度</span>
                             </label>
-                            <div class="col-md-4">
+                            <div class="col-md-7">
                                 <select data-for="watermark" name="font_opacity" class="form-control">
                                     <option value="25%">25%</option>
                                     <option value="50%">50%</option>
@@ -128,7 +127,7 @@
                         </div>
                         <input type="hidden" name="clientlimit" />
                         <div class="form-group">
-                            <label class="col-md-5 control-label no-padding-right">
+                            <label class="col-md-4 control-label no-padding-right">
                                 <span>安全空间内禁止截屏</span>
                             </label>
                             <div class="checkbox col-md-1">
@@ -139,7 +138,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-5 control-label no-padding-right">
+                            <label class="col-md-4 control-label no-padding-right">
                                 <span>安全空间剪切板</span>
                             </label>
                             <div class="checkbox col-md-1">
@@ -150,7 +149,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-5 control-label no-padding-right">
+                            <label class="col-md-4 control-label no-padding-right">
                                 <span>安全空间保活</span>
                             </label>
                             <div class="checkbox col-md-1">
@@ -165,7 +164,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-5 control-label no-padding-right">
+                            <label class="col-md-4 control-label no-padding-right">
                                 <span>安全空间防卸载</span>
                             </label>
                             <div class="checkbox col-md-1">
@@ -185,7 +184,7 @@
                         </div>
                         <input type="hidden" name="permissionItems" />
                         <div class="form-group">
-                            <label class="col-md-5 control-label no-padding-right">
+                            <label class="col-md-4 control-label no-padding-right">
                                 <span>基础权限</span>
                             </label>
                             <div class="checkbox col-md-1">
@@ -199,7 +198,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-5 control-label no-padding-right">
+                            <label class="col-md-4 control-label no-padding-right">
                                 <span>设备管理器</span>
                             </label>
                             <div class="checkbox col-md-1">
@@ -213,7 +212,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-5 control-label no-padding-right">
+                            <label class="col-md-4 control-label no-padding-right">
                                 <span>查看应用使用情况</span>
                             </label>
                             <div class="checkbox col-md-1">
@@ -227,7 +226,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-5 control-label no-padding-right">
+                            <label class="col-md-4 control-label no-padding-right">
                                 <span>悬浮窗</span>
                             </label>
                             <div class="checkbox col-md-1">
@@ -241,7 +240,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-5 control-label no-padding-right">
+                            <label class="col-md-4 control-label no-padding-right">
                                 <span>设置为默认桌面</span>
                             </label>
                             <div class="checkbox col-md-1">
@@ -255,7 +254,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-5 control-label no-padding-right">
+                            <label class="col-md-4 control-label no-padding-right">
                                 <span>辅助功能</span>
                             </label>
                             <div class="checkbox col-md-1">
@@ -269,7 +268,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-5 control-label no-padding-right">
+                            <label class="col-md-4 control-label no-padding-right">
                                 <span>开机自启动</span>
                             </label>
                             <div class="checkbox col-md-1">
@@ -283,7 +282,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-5 control-label no-padding-right">
+                            <label class="col-md-4 control-label no-padding-right">
                                 <span>锁屏不清理</span>
                             </label>
                             <div class="checkbox col-md-1">
@@ -300,7 +299,7 @@
                         <hr class="wide" />
 
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-md-6 col-md-offset-3">
                                 <div class="col-sm-6">
                                     <button type="button" class="btnBack btn btn-default">返回
                                     </button>
@@ -310,7 +309,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </form>
 
                 </div>

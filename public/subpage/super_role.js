@@ -5,6 +5,9 @@
  */
 
 var fnTree = $('#fnTree');
+var ulskey=fnTree.find('ul[data-key]');
+var iptFn=fnTree.find('input:hidden[name=function]');
+
 
 //用于交互时改变标题显示
 var subCaption = $('#subCaption').data('itemText', '管理员角色').text('管理员角色列表');
@@ -13,12 +16,12 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
     jsonData: { 'url': '/p/role/roleManage' },
     // theadHtml为表头类元素，第一个th用于存放全选复选框
     theadHtml: '<tr>\
-                    <th></th>\
+                    <th style="width:8%"></th>\
                     <th>名称</th>\
-                    <th>状态</th>\
+                    <th style="width:12%">状态</th>\
                     <th>创建者</th>\
-                    <th>创建时间</th>\
-                    <th>操作</th>\
+                    <th style="width:18%">创建时间</th>\
+                    <th style="width:16%">操作</th>\
                 </tr>',
     // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
     // to-edit、to-view表示要跳转的目标表单
@@ -28,7 +31,7 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
                         <td><span item-key="status"></span></td>\
                         <td><span item-key="creator"></span></td>\
                         <td><span item-key="create_time"></span></td>\
-                        <td><a todo="edit">编辑</a><a todo="view">查看</a></td>\
+                        <td><a todo="edit" title="编辑"><i class="fa fa-edit"></i></a><a todo="view" title="查看"><i class="fa fa-eye"></i></a></td>\
                     </tr>',
     //因不同需求需要个性控制组件表现的修正函数和增强函数
     fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -66,6 +69,8 @@ var multForm = $('#multForm').MultForm({
             $(this).prop('checked', ~~permissionItems[$(this).attr('name')] == 1)
                 .prop('disabled', ~~permissionItems[$(this).attr('name')] == -1);
         })
+        $('#allcheck.blue').removeClass('blue');
+        $('#tgltree.blue').removeClass('blue');
         fnTree.find('i.fa.fa-minus').click();
     },
     afterUsed:function (act) {  //表单重置之后紧接着的回调
@@ -114,19 +119,18 @@ var panel = $('#panel').Panel({
 
 //fnTree事件绑定
 fnTree.find('li input').on('input propertychange change', function () {
-
     $(this).closest('li').next('ul').find('input').prop('checked', $(this).prop('checked'));  //改变本级选定状态，所有下级跟着改变
 
     $(this).parents('ul').prev('li').each(function () {
         $(this).find('input').prop('checked', $(this).next('ul').find('input:checked').length > 0);  //根据下级是否有勾选的功能点，判断本级是否勾选
     });
 
-    if ($(this).attr('value') && $(this).prop('checked')) {
-        $(this).closest('ul').find('input[value=acc]').prop('checked', true);   //勾选任意功能点,默认选中查看权限
+    if ($(this).attr('data-val') && $(this).prop('checked')) {
+        $(this).closest('ul').find('input[data-val=acc]').prop('checked', true);   //勾选任意功能点,默认选中查看权限
     }
     getRolefns();
 });
-fnTree.find('li input[value=acc]').on('input propertychange change', function () {
+fnTree.find('li input[data-val=acc]').on('input propertychange change', function () {
     if(!$(this).prop('checked')){
         $(this).closest('li').nextAll('li').find('input:checked').click();
     }
@@ -141,7 +145,8 @@ fnTree.find('li i.fa').on('click', function () {
 
 $('#allcheck').on('click', function () {
     $(this).toggleClass('blue');
-    fnTree.find('input').prop('checked', $(this).hasClass('blue'));
+    multForm.removeClass('needmod');
+    fnTree.find('input:checkbox').prop('checked', $(this).hasClass('blue'));
     getRolefns();
 });
 
@@ -158,41 +163,38 @@ $('#tgltree').on('click', function () {
 
 getRolefns();  //将角色功能点树的选择情况保存到input:hidden[name=function]
 function getRolefns() {
-    var iptallfns = fnTree.find('input:hidden[all-fns]'),
-        json = {};
-    iptallfns.each(function () {
-        var mdlkey = $(this).attr('mdl-key'),
-            allfns = $(this).attr('all-fns'),
-            selfns = '';
-        $(this).nextAll('li:has(input:checked)').each(function () {
-            selfns +=('-' + $(this).find('input').attr('value'));
+    var json = {};
+    ulskey.each(function () {
+        var str='';
+        $(this).find('li input:checked').each(function () {
+            str+=('-'+$(this).data('val'))
         });
-        if(selfns!==''){
-            selfns=selfns.substr(1)
-            json[mdlkey] = (allfns === selfns ? 1 : selfns);
+        if(str){
+            json[$(this).data('key')]=str.substr(1);
         }
     })
-    
-    fnTree.find('input:hidden[name=function]').val(JSON.stringify(json));
+    iptFn.val(JSON.stringify(json));
 }
 
 
 
 function showRolefns(){
-    var iptFns=fnTree.find('input:hidden[name=function]'),
-        jsonFns=iptFns.data('value');
+    var jsonFns=iptFn.data('value');
     fnTree.find('i.fa.fa-minus').click();
-    fnTree.find('input').prop('checked',false);
-    for(k in jsonFns){
-        if(jsonFns[k]==1){
-            fnTree.find('input:hidden[mdl-key='+ k +']').closest('ul').find('li input[value]').prop('checked',true).change();
-        }else{
-            var fns=jsonFns[k].split('-');
-            for(i in fns){
-                fnTree.find('input:hidden[mdl-key='+ k +']').closest('ul').find('li input[value='+fns[i]+']').prop('checked',true).change();
-            }
+    fnTree.find('input:checkbox').prop('checked',false);
+    ulskey.each(function(){
+        var fns=jsonFns[$(this).data('key')];
+        if(fns){
+            fns=fns.split('-');
+            $(this).prev('li').find('input').prop('checked',true);
+            $(this).parents('ul').prev('li').find('input').prop('checked',true);
+            $(this).find('li input').each(function(){
+                if(fns.indexOf($(this).data('val'))!=-1){
+                    $(this).prop('checked',true);
+                }
+            })
         }
-    }
+    })
     $('ul:has(input:checked)').prev('li').each(function(){
         $(this).find('i.fa.fa-plus').click();
     })
@@ -200,49 +202,44 @@ function showRolefns(){
 
 
 
-//根据授权licence控制角色功能点备选项是否删除
+//根据授权license控制角色功能点备选项是否删除
 renderLicToRolefns();
 
 
-//根据授权licence控制角色功能点备选项显示或隐藏
+//根据授权license控制角色功能点备选项显示或隐藏
 function renderLicToRolefns(){
-    var  rolesFns= getLicPath('',JSON.parse(localStorage.getItem('lic')),{});
-    for(k in rolesFns){
-        if(typeof rolesFns[k] == "string"){
-            rolesFns[k]=rolesFns[k].split('-');
-        }
-    }
-    applyLicFns(rolesFns);
-    function applyLicFns(rolesFns){
-        fnTree.find('input:hidden[mdl-key]').each(function(){
-            var ipt=$(this),
-                ul=ipt.closest('ul'),
-                li=ul.prev('li'),
-                key=ipt.attr('mdl-key'),
-                fns=rolesFns[key];
-                if(fns===false||fns===0||fns===undefined){
-                    ul.remove();
-                    li.remove();
-                }else if(fns instanceof Array){
-                    if(fns[0]=='acc'){
-                        ipt.nextAll('li').each(function(){
-                            if(fns.indexOf($(this).find('input').attr('value'))===-1){
-                                $(this).remove();
-                            }
-                        });
-                    }else{
-                        ul.remove();
-                        li.remove();
-                    }
-                    
-                }else{}
-        });
-        fnTree.find('li').each(function(){
-            var nextUl=$(this).next('ul');
-            if(nextUl.length===1&&nextUl.find('li').length===0){
-                nextUl.remove();
-                $(this).remove();
+    $.getLicense(function(data){
+        if(data.rt==='0000'){
+            var  rolesFns= $.getLicPath('',data.licInfo.license.serverModules,{});
+            for(k in rolesFns){
+                if(typeof rolesFns[k] == "string"){
+                    rolesFns[k]=rolesFns[k].split('-');
+                }
             }
-        });
-    }
+            applyLicFns(rolesFns);
+            function applyLicFns(rolesFns){
+                ulskey.each(function(){
+                    var li=$(this).prev('li'),
+                        fns=rolesFns[$(this).data('key')];
+                        switch (fns){
+                            case 0:
+                            case false:
+                            case undefined:
+                            case '':
+                                $(this).remove();
+                                li.remove();
+                                break;
+                            default:
+                                if(fns instanceof Array){
+                                    $(this).find('li').each(function(){
+                                        if(fns.indexOf($(this).find('input').data('val'))===-1){
+                                            $(this).remove();
+                                        }
+                                    });
+                                }
+                        }
+                });
+            }
+        }
+    })
 }

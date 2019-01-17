@@ -40,9 +40,7 @@ h3.product-name{
 	border-radius: 10px !important;
 	opacity: 0.7;
 }
-#login-form button{
-	border-radius: 10px !important;
-}
+
 
 
 #login-form .checkbox input+span.text{
@@ -53,7 +51,10 @@ h3.product-name{
 	height: 50px;
 	line-height: 30px;
 	font-size: 22px;
+	border-radius: 10px !important;
+	outline: none;
 }
+
 
 #login-form .input-icon>input:focus{
 	opacity: 1;

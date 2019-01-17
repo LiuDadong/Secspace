@@ -8,7 +8,7 @@
 var camap = new CAmap('amapwrap');
 
 applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
-
+jeDatePcyInit();
 //用于交互时改变标题显示
 var subCaption = $('#subCaption').data('itemText', '围栏策略').text('围栏策略列表');
 
@@ -49,7 +49,7 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
                                 <div class="checkbox">\
                                     <label>\
                                         <input type="checkbox" name="filter" value="NAV" />\
-                                        <span class="text">本地创建</span>\
+                                        <span class="text">本级创建</span>\
                                     </label>\
                                 </div>\
                             </li>\
@@ -76,7 +76,7 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
                         <td><span item-key="update_time"></span></td>\
                         <td><span item-key="creator"></span></td>\
                         <td><span item-key="manager"></span></td>\
-                        <td><a todo="edit">编辑</a><a todo="view">查看</a></td>\
+                        <td><a todo="edit" title="编辑"><i class="fa fa-edit"></i></a><a todo="view" title="查看"><i class="fa fa-eye"></i></a></td>\
                     </tr>',
     //因不同需求需要个性控制组件表现的修正函数和增强函数
     fnGetItems: function (data) {  //必需   需要要显示的成员
@@ -93,7 +93,7 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
             case 'origin':
                 switch(v){
                     case 'NAV':
-                        v='本地创建';
+                        v='本级创建';
                         break;
                     case 'PUB':
                         v='上级发布';
@@ -141,6 +141,7 @@ var multForm = $('#multForm').MultForm({
         var btnSubmit = this.find('input[type=submit]');
         switch (use) {
             case "add":
+                $('input[name=wifi]').change();
                 btnSubmit.off().on('click', function (e) {
                     e.preventDefault();
                     add_policy();
@@ -204,8 +205,6 @@ $.silentPost('/policy/dev_app', {}, function (data) {//获取已启用设备策�
             whiteapp=data.policies.whiteapp;
         var devPolicy = $('select[name=dev_policy]').empty(),
             appPolicy = $('select[name=app_policy]').html('<option value="-1">不设置应用策略</option>');
-
-        
         for (var i in device) {
             var option = $('<option>').attr('value', device[i].id).text(device[i].name);
             if(device[i].name=='默认策略'){
@@ -310,6 +309,7 @@ function getPolicyData() {
     var postData = {
         url:'/p/policy/fenceMan',
         name: $('input[name=name]').val(),
+        leave:$('input[name=leave]').prop('checked') ? 1 : 0,
         policy_type: $('select[name=policy_type]').val(),
         in_fence: JSON.stringify({
             dev_policy: $('#in_fence select[name=dev_policy]').val() * 1,
@@ -329,7 +329,7 @@ function getPolicyData() {
             });
             postData['gps'] = ~~$('input[name=gps]').prop('checked');
             postData['wifi_limit'] = JSON.stringify({
-                open: ~~$('input[name=wifi]').prop('checked') ? 1 : 0,
+                open: ~~$('input[name=wifi]').prop('checked'),
                 ssid: $('input[name=wifi]').prop('checked') ? $('input[name=ssid]').data('arrData') : []
             });
             break;
@@ -383,6 +383,7 @@ function showItem(item) {
     $('#out_fence select[name=dev_policy]').val(item.out_fence.dev_policy);
     $('#in_fence select[name=app_policy]').val(item.in_fence.app_policy);
     $('#out_fence select[name=app_policy]').val(item.out_fence.app_policy);
+    $('input[name=leave]').prop('checked',item.leave=='1');
     switch (item.policy_type) {
         case "geofence":
             var siteObj = item.site_range;

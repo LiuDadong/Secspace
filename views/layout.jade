@@ -106,6 +106,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                     .sidebar-collapse(id="sidebar-collapse")
                         i(class="collapse-icon fa fa-bars")
                     .product_name
+                        a.navbar-brand(href="#")
                     .navbar-header(class="pull-right")
                         .navbar-account
                             ul(class="account-area")
@@ -122,7 +123,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                 li(style="min-width:180px;")
                                     a(class="login-area dropdown-toggle" data-toggle="dropdown" title="点击查看账户信息" style="min-width:180px;")
                                         .avatar
-                                            img.avatar(src="/imgs/admin.png" alt="头像")
+                                            img.avatar(src="/imgs/admin.png" alt="")
                                         section
                                             h2
                                                 span(class="profile")
@@ -134,7 +135,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                         //-     a
                                         li
                                             .avatar-area
-                                                img.avatar(src="/imgs/admin.png" alt="头像")
+                                                img.avatar(src="/imgs/admin.png" alt="")
                                         li(class="edit" style="text-align:center;")
                                             button.btn.btn-defalut.btn-sm.pull-left(onclick="accountInfo()") 账户信息
                                             button.btn.btn-defalut.btn-sm.pull-right(onclick="updatePW()") 修改密码
@@ -259,7 +260,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                 i(class="menu-icon fa fa-file-text-o")
                                 span(class="menu-text") 日志
                                 i(class="menu-expand")
-                            ul(class="submenu" style="height:160px;overflow:auto;padding-left: 4px;margin-left: -4px;")
+                            ul(class="submenu")
                                 li
                                     a(data-pjax href="/sub?pg=p0701_log_client")
                                         span(class="menu-text") 客户端日志
@@ -290,6 +291,12 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                 li
                                     a(data-pjax href="/sub?pg=p0710_log_org")
                                         span(class="menu-text") 机构管理日志
+                                li
+                                    a(data-pjax href="/sub?pg=p0711_log_senWord")
+                                        span(class="menu-text") 敏感词日志
+                                li
+                                    a(data-pjax href="/sub?pg=p0712_log_url")
+                                        span(class="menu-text") 上网行为日志
                                 //- li
                                 //-     a(data-pjax href="/sub?pg=p0711_log_role")
                                 //-         span(class="menu-text") 角色管理日志
@@ -305,6 +312,9 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                 li
                                     a(data-pjax href="/sub?pg=p0802_admin")
                                         span(class="menu-text") 管理员
+                                li
+                                    a(data-pjax href="/sub?pg=p0803_config")
+                                        span(class="menu-text") 配置文件
                 .page-content(id="rightpart")                        
                     // 页面标题
                     .page-header.position-relative.page-header-fixed
@@ -339,6 +349,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
         script(type="text/javascript" src="/assets/js/jquery.cookie.js")
         script(type="text/javascript" src="/assets/js/jquery.form.js")
         script(type="text/javascript" src="/assets/js/jquery.jedate.js")
+        script(type="text/javascript" src="/assets/js/base64.js")
         script(type="text/javascript" src="/assets/js/jquery.dialogBox.js")
         script(type="text/javascript" src="/assets/js/toastr/toastr.js")
         //- script(type="text/javascript" src="/assets/js/paging.js")

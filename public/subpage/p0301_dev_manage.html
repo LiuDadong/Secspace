@@ -4,7 +4,7 @@
             <div class="widget-header">
                 <span id="subCaption" class="widget-caption">设备列表</span>
             </div>
-            <div class="widget-body">
+            <div class="widget-body section clearfix">
                 <form id="panel" class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
                     <div class="buttons-preview pull-left">
                         <button rolefn="map" onclick="checkmap()" class="btnInvite btn btn-primary" type="button">
@@ -44,9 +44,12 @@
                         </div>
                     </div>
                 </form>
+                <div class="paging-table-wrap">
+                    <div class="devicetable"></div>
+                    <div class="page1"></div>
+                </div>
+                
             </div>
-            <div style="box-shadow:none;padding:0;" class="devicetable widget-body"></div>
-            <div class="page1"></div>
         </div>
     </div>
 </div>
@@ -184,12 +187,7 @@
         </div>
     </div>
 </div>
-<div tabindex="-1" role="dialog" style="display:none;" aria-hidden="false" class="bootbox modal fade bootbox-confirm in modal-primary">
-    <div style="width:500px;" class="modal-dialog">
-        <div class="modal-content"></div>
-    </div>
-</div>
-<div class="background"> </div>
+
 <script data-src="http://webapi.amap.com/maps?v=1.3&amp;key=44ffc5b6029cb5a30b0a83e36577079d"></script>
 <script data-src="https://webapi.amap.com/maps?v=1.3&amp;key=44ffc5b6029cb5a30b0a83e36577079d"></script>
 <script data-src="/subpage/p0301_dev_manage.js"></script>

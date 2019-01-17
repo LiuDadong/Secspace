@@ -1,3 +1,4 @@
+var b64 = new Base64();
 function pjaxClick(sHref) {
     switch(sHref){
         case '/':
@@ -26,18 +27,8 @@ function pjaxInit() {  //pjax初始化
         setTimeout(function(){
             pageRender();
         },100);
-        var fns=$(e.target).data('fns');
-        if(fns===undefined){
-            $.cookie('hasAcc',1);
-        }else{
-            if(fns==1){
-                $.cookie('hasAcc',1);
-            }else if(Array.isArray(fns) && fns.indexOf('acc')!== -1 ){
-                $.cookie('hasAcc',1);
-            }else{
-                $.cookie('hasAcc',0);
-            }
-        }
+        localStorage.setItem('fns',JSON.stringify($(e.target).data('fns')));
+        $.cookie('hasAcc',$(e.target).data('fns')?1:0);
         $(".loading-container").removeClass('loading-inactive').addClass('loading-active');//参考的loading动画代码
     });
     $(document).on('pjax:success', function (event, data, state, option) {        
@@ -59,6 +50,7 @@ function pjaxInit() {  //pjax初始化
 }
 function homeJadeInit() {  //初始化登录的管理员信息
     var appssec_url = localStorage.getItem("appssec_url"),
+        product_name = localStorage.getItem("product_name"),
         icon = localStorage.getItem("icon"),
         avatar = localStorage.getItem("avatar"),
         managerName=localStorage.getItem('name'),
@@ -74,16 +66,17 @@ function homeJadeInit() {  //初始化登录的管理员信息
     $('.managerName').text(managerName);
     $('li.manager>a').text(manager);
     $('li.email>a').text(email);
+    $('.product_name a').text(product_name);
 
     if(firLogin=='0'){
         $.dialog('confirm',{
-            title:'初始密码提示',
+            title:'初始密码修改提示',
             content:'<p>当前登录密码为初始密码，出于安全考虑，建议修改初始密码？</p>',
             confirmValue: '修改密码',
             confirm: function () {
                 setTimeout(function(){
                     $('.account-area button[onclick="updatePW()"]').click();
-                },300)  
+                },300)
             },
             cancelValue: '取消',
             cancel:function(){
@@ -107,8 +100,6 @@ function pageRender() { //基于url调整边栏和面包屑导航样式
         .find('ul.submenu>li:has(a[href="' + actHref + '"])').addClass('active')
         .siblings('li.active').removeClass('active');
 
-    //将活动模块对应a链接上预先由licApply函数存储的权限表征值，拷贝至#pjax-aim元素（即局部刷新的外层html元素）上存储，便于局部页面内获取对应的权限表征值，控制用户操作。
-    $('#pjax-aim').data('rolesFns', actA.data('rolesFns'));
 
 
     //获取更新面包屑导航所需元素要素
@@ -118,8 +109,8 @@ function pageRender() { //基于url调整边栏和面包屑导航样式
     var li1 = openLi.find('a>i');
     txt1 = li1.next('span').text();
     aLi.push({
-        i: li1.clone(false),
-        a: li1.closest('a').clone(false).text(txt1)
+        i: li1.clone(true),
+        a: li1.closest('a').clone(true).text(txt1)
     });
     $('.header-title>h1').text(txt1);
     pagetitle = 'SecSpace-' + txt1;
@@ -127,13 +118,14 @@ function pageRender() { //基于url调整边栏和面包屑导航样式
     if (li2.length === 1) {
         txt2 = li2.find('span').text();
         aLi.push({
-            a: li2.clone(false).text(txt2)
+            a: li2.clone(true).text(txt2)
         })
         $('.header-title>h1').text(txt2);
         pagetitle = 'SecSpace-' + txt2;
     }
     document.title = pagetitle;
     var bc = $('ul.breadcrumb').empty();
+    console.log(aLi);
     for (var i = 0; i < aLi.length; i++) {
         var li = $('<li>');
         if (aLi[i].i) {
@@ -277,11 +269,11 @@ function selectedAll(e) {
 // 创建footer
 function createFooter(page, length, total, footerNum) {
     var j = 0;
-    if (total >= 0) {
+    if (total > 0) {
         var doc = $('.page' + footerNum + ''),
             pages = ~~(total / length) + (total % length > 0 ? 1 : 0);
         page = total > 0 ? page : 0;
-        var str = '<div class="DTTTFooter"><div class="col-md-2"><div class="footertotal" style="white-space:nowrap;">共' + total + '条第' + page + '页</div></div>' +
+        var str = '<div class="DTTTFooter"><div class="col-md-2"><div class="dataTables_info">共' + total + '条第' + page + '页</div></div>' +
             '<div class="col-md-10">' +
             '<div class="dataTables_paginate paging_bootstrap">' +
             '<ul class="pagination">';
@@ -339,6 +331,8 @@ function createFooter(page, length, total, footerNum) {
             '</div>' +
             '</div></div>';
         doc.html(str);
+    }else{
+        $('.page' + footerNum + '').empty();
     }
 }
 
@@ -423,125 +417,28 @@ function toLoginPage() {
 function downloadLog(category) {
     var url = localStorage.getItem('appssec_url') + '/p/org/exportExcel?sid=' + $.cookie('sid') + '&category=' + category+ '&org_id=' + $.cookie('org_id');
     // downloadFile(url);
-    // window.location = url;
-    try {
-        var elemIF = document.createElement("iframe");
-        elemIF.src = url;
-        $(elemIF).attr('src', url).css('display', 'none');
-        document.body.appendChild(elemIF);
-    } catch (e) {
-        console.error('下载log表格失败:url' + url);
-        console.error(e);
-    }
+    window.location = url;
+    // console.log(url)
+    // try {
+    //     var elemIF = document.createElement("iframe");
+    //     elemIF.src = url;
+    //     $(elemIF).attr('src', url).css('display', 'none');
+    //     document.body.appendChild(elemIF);
+    // } catch (e) {
+    //     console.error('下载log表格失败:url' + url);
+    //     console.error(e);
+    // }
 }
 
 
-function getLicPath(baseP, lic, licPath) {
-    for (i in lic) {
-        switch (typeof lic[i]) {
-            case 'object':
-                getLicPath(baseP + i, lic[i], licPath);
-                break;
-            case 'boolean':
-            case 'string':
-            case 'number':
-                licPath[baseP + i] = lic[i];
-                break;
-            default:
-        }
-    }
-    if (baseP == '') {
-        return licPath
-    }
-}
 
-
-function mergeRolesFns(){
-    var defaultFns = {  // 1:表示拥有全功能点权限   'acc':表示只有查看权限   0:表示禁止访问   
-        p01: 1,    //首页     
-        p0201: 0, //用户管理    add:增加  del:删除  mod:修改      ena(enable):激活   grp(group):移动至组   tag:添加标签   exp(import/export):导入导出   rop(remove out policy):策略详情移除操作
-        p0202: 0, //用户组       add:增加  del:删除  mod:修改    iog(input/output group):用户移入移出用户组
-        p0203: 0, //用户标签     add:增加  del:删除  mod:修改    iot(input/output tag):用户移入移出标签
-        p0301: 0, //设备管理     map:查看地理位置  ls(lockscreen):锁屏  spw(screen_pw):锁屏密码  ed(erasedata):擦除企业数据 rst(reset)：恢复出厂设置 bell:响铃追踪   unb(unbind):解绑  eli(eliminate):淘汰   
-        p0401: 0, //设备策略     add:增加  del:删除  mod:修改    iio(issue in org):机构内下发  ioo(issue other org):下发至其它（即下级）机构  pub(publish):发布  act:启用/禁用   rop(remove out policy):移除策略
-        p0402: 0, //合规策略     add:增加  del:删除  mod:修改    iio(issue in org):机构内下发  ioo(issue other org):下发至其它（即下级）机构  pub(publish):发布  act:启用/禁用   rop(remove out policy):移除策略
-        p0403: 0, //围栏策略     add:增加  del:删除  mod:修改    iio(issue in org):机构内下发  ioo(issue other org):下发至其它（即下级）机构  pub(publish):发布  act:启用/禁用   rop(remove out policy):移除策略
-        p0404: 0, //应用策略     add:增加  del:删除  mod:修改    iio(issue in org):机构内下发  ioo(issue other org):下发至其它（即下级）机构  pub(publish):发布  act:启用/禁用   rop(remove out policy):移除策略
-        p0405: 0, //客服端策略   add:增加  del:删除  mod:修改    iio(issue in org):机构内下发  ioo(issue other org):下发至其它（即下级）机构  pub(publish):发布  act:启用/禁用   rop(remove out policy):移除策略
-        p0501: 0, //文件管理     add:增加  del:删除  mod:修改    iss(issue):下发
-        p0601: 0, //应用商店     add:增加  del:删除  mod:修改    iss(issue):下发
-        p0602: 0, //黑白名单     add:增加  del:删除  mod:修改    act:启用/禁用
-        p0603: 0, //应用标签     add:增加  del:删除  mod:修改
-        p0701: 0, //客户端日志   exp(export): 导出
-        p0702: 0, //应用日志     exp(export): 导出
-        p0703: 0, //用户管理日志 exp(export): 导出
-        p0704: 0, //设备管理日志 exp(export): 导出
-        p0705: 0, //文件管理日志 exp(export): 导出
-        p0706: 0, //应用管理日志 exp(export): 导出
-        p0707: 0, //策略管理日志 exp(export): 导出
-        p0708: 0, //管理员日志   exp(export): 导出
-        p0709: 0, //违规情况日志 exp(export): 导出
-        p0710: 0, //机构管理日志 exp(export): 导出
-        //p0711: 0, //角色管理日志 exp(export): 导出
-        p0801: 0, //机构树       add:增加  del:删除  mod:修改    ie(import/export):导入导出
-        p0802: 0  //管理员       add:增加  del:删除  mod:修改    act:启用/禁用
-    };
-    var roles=JSON.parse(localStorage.getItem('lic'));
-    for(i in roles){
-        if(roles[i]){
-            var fni=roles[i]['function'];
-            for(j in fni){
-                if(typeof fni[j] == "string"){
-                    fni[j]=fni[j].split('-');
-                    if(defaultFns[j]==0||defaultFns[j]==false){
-                        defaultFns[j]=fni[j];
-                    }else if((defaultFns[j] instanceof Array) && (fni[j] instanceof Array)){
-                        noSamePush(defaultFns[j],fni[j]);
-                    }else{
-
-                    }
-                }else{
-                    if(fni[j]){
-                        defaultFns[j]=fni[j];
-                    }
-                }
-            }
-        }else{
-            warningOpen('当前登录用户权限异常','danger','fa-bolt');
-            location.href('/logout');
-        }
-    }
-    return defaultFns;
-}
-function noSamePush(arr1,arr2){
-    for(var k=0;k<arr2.length;k++){
-        if(arr1.indexOf(arr2[k])==-1){
-            arr1.push(arr2[k]);
-        }
-    }
-}
-function renderRolesfns(){   //根据角色权限渲染控制左侧菜单栏
-    applyRolesFns(mergeRolesFns())
-    function applyRolesFns(rolesFns){
-        $('ul.nav.sidebar-menu a[data-pjax][href^="/sub?pg="]').each(function () {  //遍历所有权限功能点的点击可以触发pjax跳转的a元素
-            var fns=rolesFns[$(this).attr('href').split('=')[1].split('_')[0]];  //获取对应模块的权限功能表征             
-            if(fns!==undefined){
-                // fns 可能的值
-                // false：完全没有访问权限
-                // true：全部权限
-                // string：类似'add-del-mod-iio-ioo-pub-act-rop'格式，表示业务管理员对该功能模块拥有的权限功能点
-                $(this).data('fns',fns).toggleClass('expired', fns===false); 
-            }
-        })
-    }
-}
 
 function applyFnsToSubpage(){
     setTimeout(function(){
         $('[rolefn]').each(function(){
             toggleFn(this,hasFn($(this).attr('rolefn')))
         });
-    },300)
+    },10)
 }
 function toggleFn(ele,has){  //根据has判定元素ele是否具有访问权限，如果没有访问权限，渲染禁止访问样式
     if(!has){  //清楚所有事件并且阻止冒泡
@@ -558,30 +455,36 @@ function toggleFn(ele,has){  //根据has判定元素ele是否具有访问权限�
     }
 }
 function hasFn(fn){   //判断功能点fn是否属于合法权限
-    if($.cookie('org_id')==0){
+    if(localStorage.getItem('fns')=='undefined'){
         return true;
     }
     var lid = localStorage.getItem('org_id'),   //管理员责任机构id
-        cid = $.cookie('org_id');               //管理员当前管理机构id
-    switch (fn){
-        case 'ioo':
-        case 'pub':
-            if(lid!=cid){
+        cid = $.cookie('org_id'),               //管理员当前管理机构id
+        fns= JSON.parse(localStorage.getItem('fns'));        //模块对应功能点sss
+    if(cid==0){
+        return true;
+    }
+    switch (fns){
+        case 0:
+            return false;
+        default:
+            if(fns instanceof Array){
+                if(fns.indexOf(fn)==-1){
+                    return false;
+                }else{
+                    switch (fn){
+                        case 'ioo':
+                        case 'pub':
+                            return lid==cid;
+                            break;
+                        default:
+                            return true;
+                    }
+                }
+            }else{
+                console.log(fns)
                 return false;
             }
-            break;
-        default:
-    }
-    var fns= $.cookie('fns');
-    if(fns=='undefined'||fns==undefined||fns===''||fns==='true'||fns==='1'){
-        return true;
-    }else{
-        var fns= JSON.parse(fns);
-        if(fns instanceof Array){
-            return fns.indexOf(fn)!==-1;
-        }else{
-            return false;
-        }
     }
 }
 
@@ -600,7 +503,6 @@ function hasHdlAuth(item,act,aim){
         return hasAuth(item,act,aim);
     }
     function hasAuth(item,act,aim){
-        console.log(item);
         var mng = $.cookie('manager'),
         lid = localStorage.getItem('org_id'),   //管理员责任机构id
         cid = $.cookie('org_id'),               //管理员当前管理机构id
@@ -624,9 +526,7 @@ function hasHdlAuth(item,act,aim){
                     break;
                 case 'PUB':     //上级发布的策略
                     if(act=='机构内下发'){
-                        yesno = lid == cid;  //本级机构管理员具有在机构内下发上级发布下来的策略的权限
-                    }else{
-                        yesno = false;
+                        yesno = true;  //对于上级发布的策略，能看见的人都具有机构内下发的权限
                     }
                     break;
                 case 'ISS':     //上级下发的策略
@@ -673,7 +573,7 @@ function accountInfo(e) {  //修改密码
         if(localStorage.getItem("avatar")){
             srcAvatar=localStorage.getItem("appssec_url")+'/'+localStorage.getItem("avatar");
         }
-        $.dialog('confirm', {
+        $.dialog('form', {
             width: 500,
             height: null,
             autoSize:true,
@@ -741,7 +641,6 @@ function accountInfo(e) {  //修改密码
             }
         });
         frmAccount.data('item',{
-            sid:$.cookie('sid'),
             account:$.cookie('manager'),
             name:localStorage.getItem('name')
         });
@@ -779,16 +678,12 @@ function accountInfo(e) {  //修改密码
                 };
             $(frm).off().ajaxForm(ajaxFormOptions);
         }
-        $('#frmModPW').parent().css({
-            display:'block'
-        })
-
 }
 
 
 
 function updatePW(e) {  //修改密码
-    $.dialog('confirm', {
+    $.dialog('form', {
         width: 500,
         height: null,
         autoSize:true,
@@ -798,7 +693,7 @@ function updatePW(e) {  //修改密码
                     <div class="form-group">\
                         <label for="old_passwd" class="col-sm-2 control-label no-padding-right">当前密码</label>\
                         <div class="col-sm-10">\
-                            <input type="password" class="form-control require" id="old_passwd" name="old_passwd" ctrl-regex="password" placeholder="请输入当前密码">\
+                            <input type="password" class="form-control require" id="old_passwd" name="old_passwd" placeholder="请输入当前密码">\
                         </div>\
                     </div>\
                     <div class="form-group">\
@@ -833,16 +728,64 @@ function updatePW(e) {  //修改密码
         cancelValue: '取消'
     });
     var frmModPW =$('#frmModPW').MultForm({
-        editBtnTxt: '确认',
-        editAct:'/common/pw/selfmod',
+        addBtnTxt: '确认',
+        addAct:'/common/pw/selfmod',
+        beforeSubmit:function(arrKeyVal, $frm, ajaxOptions){
+            frmModPW['new_passwd']=b64.encode($('input[name=new_passwd]').val());
+        },
         cbSubmit: function (use) {  //提交编辑成功之后的回调
+            localStorage.setItem('firLogin','');
+            $.cookie('passwd',frmModPW['new_passwd']);
             $.dialogClose();
         }
     });
-    frmModPW.usedAs('edit');
-    $('#frmModPW').parent().css({
-        display:'block'
-    })
-
+    frmModPW.usedAs('add');
 }
+
+function jeDatePcyInit(){
+    var today=$.nowDate().split(' ')[0],
+        tomorrow=$.nowDate({DD:+1}).split(' ')[0];
+        start_date_opt={
+            format: "YYYY-MM-DD",
+            minDate: today,
+            isClear:false,
+            okfun: function (elem) {
+                stopNum=$.timeStampDate(elem.val)+60*60*24;
+                stop_date_opt.minDate=$.timeStampDate(stopNum,stop_date_opt.format);
+                $('#stop_date').jeDate(stop_date_opt);
+                if(stopNum>$.timeStampDate($('#stop_date').val())){
+                    $('#stop_date').val(stop_date_opt.minDate);
+                }
+            }
+        },
+        stop_date_opt={
+            format: "YYYY-MM-DD",
+            minDate: today,
+            isClear:false
+        },
+        time_opt={
+            format: "hh:mm:ss",
+            isClear:false
+        };
+    $('#start_date').attr('value',today).jeDate(start_date_opt);
+    $('#stop_date').attr('value',tomorrow).jeDate(stop_date_opt);
+    $('#start_time').attr('value','08:00:00').jeDate(time_opt);
+    $('#stop_time').attr('value','20:00:00').jeDate(time_opt);
+}
+
+function logDateInit(){
+    $(".jedate").each(function () {
+        $(this).jeDate({
+            isClear:true,
+            format: "YYYY-MM-DD hh:mm:ss",
+            okfun: function (elem) {
+                elem.elem.change();
+            },
+            clearfun: function (elem) {
+                elem.elem.change();
+            }
+        });
+    })
+}
+
 

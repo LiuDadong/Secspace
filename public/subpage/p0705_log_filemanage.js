@@ -8,19 +8,8 @@
     applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
 
 
-    $(".jedate").each(function () {
-        $(this).jeDate({
-            format: "YYYY-MM-DD hh:mm:ss",
-            okfun: function (elem, value) {
-                elem.elem.change();
-                $('.input-group-btn button').click();
-            },
-            clearfun: function (elem, value) {
-                elem.elem.change();
-                $('.input-group-btn button').click();
-            }
-        });
-    })
+    
+    logDateInit();
     getloglist(1, 10);
     $("#datestart, #dateend, select[name=log_type]").change(function () {
         getloglist(1, 10);
@@ -39,10 +28,10 @@
     // 列表
     function getloglist(start_page, page_length) {
         var index = 0;
-        var start_time = $('.search').find('input[name=start_time]').val();
-        var end_time = $('.search').find('input[name=end_time]').val();
+        var start_time = $('input[name=start_time]').val();
+        var end_time = $('input[name=end_time]').val();
         var keyword = $('.input-group').find('input[name=searchval]').val();
-        var log_type = $('.search').find('select[name=log_type]').val();
+        var log_type = $('select[name=log_type]').val();
 
         var table = $('.logtable'),
             str = '<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>'
@@ -70,7 +59,7 @@
         $.silentGet('/man/Log/getLog',pd, function (data) {
             if (data.rt == '0000') {
                 if(data.logInfo.length==0){
-                    str += '<tr><td colspan="5">暂无日志</td></tr>'
+                    str += '<tr><td colspan="5">暂无数据</td></tr>'
                 }
                 for (var i in data.logInfo) {
                     str += '<tr>'

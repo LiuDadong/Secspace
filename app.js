@@ -1,7 +1,11 @@
 var express = require('express');
+<<<<<<< HEAD
 var path = require('path');;;;
+=======
+var path = require('path');
+>>>>>>> dev14_1
 var app = express();
-var bodyParser = require('body-parser');gti 
+var bodyParser = require('body-parser');
 
 app.set('port', process.env.PORT || 3001);
 app.set('views', path.join(__dirname, 'views'));
@@ -30,7 +34,7 @@ require(path.join(__dirname, 'routeAdmin.js'))(app, chttp);
 require(path.join(__dirname, 'routeSuper.js'))(app, chttp);
 
 /* 错误页面 */
-app.get('/404', function(req, res) { res.send('Not Found') });
+app.get('/404', function(req, res) { res.send('Not Found')});
 app.get('/500', function(req, res) { res.send('500') });
 app.get('/*', function(req, res) { res.send('Not Found') });
 

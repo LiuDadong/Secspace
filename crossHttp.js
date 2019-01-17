@@ -4,12 +4,12 @@ var logSettings = {
     crossPost: false //控制跨域cpost请求的日志输出
 }
 var PDP,
-    v = 2;
-// 1: 上线部署
-// 2: 内网基础测试
-// 3: 正式：本地测试上线部署
+    v = 5;
+// 1: 部署
+// 2: 本地测试内网1 :192.168.1.25
+// 3: 本地测试正式
 // 4: 本地测试惠讯
-// 5: 内网2本地测试
+// 5: 本地测试内网2 :192.168.1.69
 switch (v) {
     case 1: //上线部署
         PDP = { protocol: 'http', domain: '127.0.0.1', port: 7770 };
@@ -17,7 +17,7 @@ switch (v) {
     case 2: //内网基础测试
         PDP = { protocol: 'https', domain: '192.168.1.25', port: 1443 };
         break;
-    case 3: //本地测试上线
+    case 3: //本地测试正式上线
         PDP = { protocol: 'http', domain: 'tpos.appssec.cn' };
         break;
     case 4: //本地测试惠讯

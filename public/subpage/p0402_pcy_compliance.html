@@ -35,7 +35,7 @@
                     </div>
                     <div class="pull-right"></div>
                 </form>
-                <div><table id="pagingTable"></table></div>
+                <div class="paging-table-wrap"><table id="pagingTable"></table></div>
             </div>
             <!-- section:添加、修改、查看多用途表单 -->
             <div style="overflow:hidden;display: none;" class="widget-body section">
@@ -48,17 +48,27 @@
                             <b>基本信息 </b>
                         </div>
                         <div class="form-group">
-                            <label for="name" class="col-md-4 control-label no-padding-right">名称</label>
-                            <div class="col-md-6">
+                            <label for="name" class="col-md-3 control-label no-padding-right">名称</label>
+                            <div class="col-md-8">
                                 <input type="text" id="name" name="name" ctrl-regex="name_mix" class="require form-control" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="delay" class="col-md-4 control-label no-padding-right">延迟</label>
-                            <div class="col-md-6">
+                            <label for="delay" class="col-md-3 control-label no-padding-right">延迟</label>
+                            <div class="col-md-8">
                                 <div class="has-unit">
-                                    <input type="number" id="delay" name="delay" class="require form-control" min="1" max="72" placeholder="1-72" />
+                                    <input type="number" id="delay" name="delay" class="form-control" value="1" min="1" max="72" placeholder="1-72" />
                                     <span>小时</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="leave" />
+                                        <span class="text">休假期间生效</span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -67,8 +77,8 @@
                             <b>合规项</b>
                         </div>
                         <div class="form-group">
-                            <label for="item_0" class="col-md-4 control-label no-padding-right">合规项</label>
-                            <div class="col-md-3">
+                            <label for="item_0" class="col-md-3 control-label no-padding-right">合规项</label>
+                            <div class="col-md-4">
                                 <select name="compliance_type" id="item_0" class="form-control">
                                     <option value="sys_low" class="option">系统版本过低</option>
                                     <option value="sim" class="option">SIM卡变更</option>
@@ -79,7 +89,7 @@
                                     <option value="strategy" class="option">策略未生效</option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <select name="os_version" id="os_version" class="form-control">
                                     <option value="19" class="option">Android 4.4 (API 19)</option>
                                     <option value="21" class="option">Android 5.0 (API 21)</option>
@@ -89,7 +99,7 @@
                                     <option value="25" class="option">Android 7.1.1 (API 25)</option>
                                 </select>
                                 <div class="has-unit" style="display: none;">
-                                    <input type="number" min="1" max="365" name="lost_day" placeholder="请输入失联天数（1~365）" class="form-control" />
+                                    <input type="number" value="1" min="1" max="365" name="lost_day" placeholder="请输入失联天数（1~365）" class="form-control" />
                                     <span>天</span>
                                 </div>
                             </div>
@@ -101,8 +111,8 @@
                         </div>
 
                         <div class="form-group valid_item">
-                            <label for="mesg" class="col-md-4 control-label no-padding-right">违规告警</label>
-                            <div class="col-md-6">
+                            <label for="mesg" class="col-md-3 control-label no-padding-right">违规告警</label>
+                            <div class="col-md-8">
                                 <div class="checkbox col-md-3">
                                     <label>
                                         <input type="checkbox" id="mesg" name="mesg" />
@@ -118,8 +128,8 @@
                             </div>
                         </div>
                         <div class="form-group valid_item">
-                            <label for="camera" class="col-md-4 control-label no-padding-right">相机</label>
-                            <div class="col-md-6">
+                            <label for="camera" class="col-md-3 control-label no-padding-right">相机</label>
+                            <div class="col-md-8">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="camera" name="camera" />
@@ -129,8 +139,8 @@
                             </div>
                         </div>
                         <div class="form-group valid_item">
-                            <label for="access_secspace" class="col-md-4 control-label no-padding-right">访问安全空间</label>
-                            <div class="col-md-6">
+                            <label for="access_secspace" class="col-md-3 control-label no-padding-right">访问安全空间</label>
+                            <div class="col-md-8">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="access_secspace" name="access_secspace" />
@@ -140,8 +150,8 @@
                             </div>
                         </div>
                         <div class="form-group valid_item">
-                            <label for="enterprise_data" class="col-md-4 control-label no-padding-right">擦除企业数据</label>
-                            <div class="col-md-6">
+                            <label for="enterprise_data" class="col-md-3 control-label no-padding-right">擦除企业数据</label>
+                            <div class="col-md-8">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="enterprise_data" name="enterprise_data" />
@@ -152,8 +162,8 @@
                             </div>
                         </div>
                         <div class="form-group valid_item">
-                            <label for="all_data" class="col-md-4 control-label no-padding-right">擦除全部数据</label>
-                            <div class="col-md-6">
+                            <label for="all_data" class="col-md-3 control-label no-padding-right">擦除全部数据</label>
+                            <div class="col-md-8">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="all_data" name="all_data" />
@@ -163,8 +173,8 @@
                             </div>
                         </div>
                         <div class="form-group valid_item">
-                            <label for="sd" class="col-md-4 control-label no-padding-right">SD卡</label>
-                            <div class="col-md-6">
+                            <label for="sd" class="col-md-3 control-label no-padding-right">SD卡</label>
+                            <div class="col-md-8">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="sd" name="sd" />
@@ -175,8 +185,8 @@
                             </div>
                         </div>
                         <div class="form-group valid_item">
-                            <label for="message" class="col-md-4 control-label no-padding-right">短信</label>
-                            <div class="col-md-6">
+                            <label for="message" class="col-md-3 control-label no-padding-right">短信</label>
+                            <div class="col-md-8">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="message" name="message" />
@@ -186,8 +196,8 @@
                             </div>
                         </div>
                         <div class="form-group valid_item">
-                            <label for="phone" class="col-md-4 control-label no-padding-right">接听电话</label>
-                            <div class="col-md-6">
+                            <label for="phone" class="col-md-3 control-label no-padding-right">接听电话</label>
+                            <div class="col-md-8">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="phone" name="phone" />

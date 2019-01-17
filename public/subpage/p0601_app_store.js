@@ -644,6 +644,7 @@
                     }
                     switch (data.rt) {
                         case '0000':
+                            
                             this.oAjaxData = data;
                             this.nTotalCount = data.total_count;
                             this.aItems = data.app_list;
@@ -657,44 +658,48 @@
                                 }
                             });
                             keys = keys.split(' ');
-                            for (var i = 0; i < this.aItems.length; i++) {
-                                var item = this.aItems[i],
-                                    tri = this.publicEles.trDemo.dom.clone(true);
-                                if (item.app_type == 'web') {
-                                    tri.find('.btnVersion').remove();
-                                }
-                                item.app_name = item.app_type == 'web' ? '' : item.app_name;
-                                item.name = item.name ? item.name : item.app_name;
-                                tri.data(this.sItemId, item.id);
-                                tri.data(this.sItemIdentify, item.identify);
-                                tri.data(this.sRowId, i);
-                                tri.data('item', item);
-
-                                if (item.visit_type !== undefined) {
-                                    tri.data('visit_type', item.visit_type);
-                                }
-                                if ($.inArray(item.id, this.selected.aItemIds) != -1) {
-                                    tri.find('input:checkbox').prop("checked", true);
-                                };
-                                for (var j = 0; j < keys.length; j++) {
-
-                                    var k = keys[j],
-                                        e = tri.find('[' + this.sViewkey + '*=' + k + ']');
-                                    v = this.setting.fnDealKeyVal(k, item[k]);
-
-                                    if (v && v.length && v.length > 8) {
-                                        e.attr('title', v)
-                                            .css({
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                                whiteSpace: 'nowrap'
-                                            });
+                            if(this.aItems.length>0){
+                                for (var i = 0; i < this.aItems.length; i++) {
+                                    var item = this.aItems[i],
+                                        tri = this.publicEles.trDemo.dom.clone(true);
+                                    if (item.app_type == 'web') {
+                                        tri.find('.btnVersion').remove();
                                     }
-                                    e.text(v);
+                                    item.app_name = item.app_type == 'web' ? '' : item.app_name;
+                                    item.name = item.name ? item.name : item.app_name;
+                                    tri.data(this.sItemId, item.id);
+                                    tri.data(this.sItemIdentify, item.identify);
+                                    tri.data(this.sRowId, i);
+                                    tri.data('item', item);
+    
+                                    if (item.visit_type !== undefined) {
+                                        tri.data('visit_type', item.visit_type);
+                                    }
+                                    if ($.inArray(item.id, this.selected.aItemIds) != -1) {
+                                        tri.find('input:checkbox').prop("checked", true);
+                                    };
+                                    for (var j = 0; j < keys.length; j++) {
+                                        var k = keys[j],
+                                            e = tri.find('[' + this.sViewkey + '*=' + k + ']');
+                                        v = this.setting.fnDealKeyVal(k, item[k]);
+    
+                                        if (v && v.length && v.length > 8) {
+                                            e.attr('title', v)
+                                                .css({
+                                                    overflow: 'hidden',
+                                                    textOverflow: 'ellipsis',
+                                                    whiteSpace: 'nowrap'
+                                                });
+                                        }
+                                        e.text(v);
+                                    }
+                                    this.publicEles.tbHas.dom.append(tri[0]);
                                 }
-                                this.publicEles.tbHas.dom.append(tri[0]);
-                                createFooter(this.nStart, this.nLength, data.total_count, 1);
+                            }else{
+                                $(this.publicEles.tbHas.dom).html('<tr><td colspan="9">暂无数据</td></tr>');
                             }
+                            $(this.publicEles.tbHas.dom).show();
+                            createFooter(this.nStart, this.nLength, data.total_count, 1);
                             oSubPage.partTable.fnCheckSelAll();
                             break;
                         case 5:
@@ -812,7 +817,7 @@
                             mulFrm.find('.form-group:has(input[name=app_name])').addClass('hidden');
                             switch (item.app_type) {
                                 case 'plugin':  //移动应用
-                                case 'wrap':  //wrapping应用
+                                case 'wrap':  //wrapping应用 
                                     webbox.addClass('hidden');
                                     mobbox.removeClass('hidden');
                                     if (item.platform == 'android') {
@@ -1337,15 +1342,6 @@
             }
         }
     };
-
-
-
-
-
-
-
-
-
 
 
 
