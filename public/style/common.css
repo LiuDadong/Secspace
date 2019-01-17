@@ -879,6 +879,10 @@ input::-webkit-input-placeholder{
     min-height: 600px;
     overflow: auto;
 }
+.tab-pane.section{
+    min-height: 600px;
+    overflow: auto;
+}
 
 
 .logmenu ul.submenu{
@@ -892,3 +896,6 @@ input::-webkit-input-placeholder{
     bottom: -180px !important;
 }
 
+.orgmind{
+    overflow: auto;
+}

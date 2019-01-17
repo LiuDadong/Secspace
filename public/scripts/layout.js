@@ -19,18 +19,15 @@ function renderRolesfnsWithLic(cb){   //根据角色权限渲染控制左侧菜�
                 // string：类似'add-del-mod-iio-ioo-pub-act-rop'格式，表示业务管理员对该功能模块拥有的权限功能点
                 switch (path){
                     case 'p01':  //特别处理不用控制的模块
+                    case 'p0803':  
                         $(this).data('fns',1).removeClass('expired');
                         break;
                     default:
-                        console.log(path)
-                        console.log(fns)
                         $(this).data('fns',fns||0).toggleClass('expired', !fns);
                 }
             })
         }
         function mergeFinalFns(rolefns,licFns){
-            console.log(rolefns);
-            console.log(licFns);
             for(k in rolefns){
                 rolefns[k]= (typeof rolefns[k]=='string')?rolefns[k].split('-'):rolefns[k];
                 licFns[k]= (typeof licFns[k]=='string')?licFns[k].split('-'):~~licFns[k];
@@ -47,7 +44,6 @@ function renderRolesfnsWithLic(cb){   //根据角色权限渲染控制左侧菜�
 
             function getIntersection(arr1,arr2){
                 var intersection=[];
-                console.log(arr1)
                 for(var k=0;k<arr2.length;k++){
                     if(arr1.indexOf(arr2[k])!=-1){
                         intersection.push(arr2[k]);
@@ -55,7 +51,6 @@ function renderRolesfnsWithLic(cb){   //根据角色权限渲染控制左侧菜�
                 }
                 return intersection;
             }
-            console.log(rolefns);
             return rolefns;
         }
     })

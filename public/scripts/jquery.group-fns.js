@@ -176,7 +176,9 @@ $.kindAjax = function (ecode, method, url, dt, cb, act, aim) {
         dataType: "json",
         success: function (data) {
             $.handleECode(ecode, data, act, aim)
-            cb(data);
+            if(cb instanceof Function){
+                cb(data);
+            }
         },
         error: function (jqXHR, textStatus) {  //
             console.error(textStatus);
@@ -260,10 +262,10 @@ $.proAll = function (ecode, pros, cb, act, aim) { //有提示post
             }
             console.info('datas:', datas)
             console.info('rts:', rts)
-            cb(datas, rts)
+            if(cb instanceof Function){
+                cb(datas, rts);
+            }
         }
-
-
     })
 }
 

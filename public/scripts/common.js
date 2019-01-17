@@ -27,7 +27,6 @@ function pjaxInit() {  //pjax初始化
         setTimeout(function(){
             pageRender();
         },100);
-        console.log($(e.target).data('fns'));
         localStorage.setItem('fns',JSON.stringify($(e.target).data('fns')));
         $.cookie('hasAcc',$(e.target).data('fns')?1:0);
         $(".loading-container").removeClass('loading-inactive').addClass('loading-active');//参考的loading动画代码
@@ -110,8 +109,8 @@ function pageRender() { //基于url调整边栏和面包屑导航样式
     var li1 = openLi.find('a>i');
     txt1 = li1.next('span').text();
     aLi.push({
-        i: li1.clone(false),
-        a: li1.closest('a').clone(false).text(txt1)
+        i: li1.clone(true),
+        a: li1.closest('a').clone(true).text(txt1)
     });
     $('.header-title>h1').text(txt1);
     pagetitle = 'SecSpace-' + txt1;
@@ -119,13 +118,14 @@ function pageRender() { //基于url调整边栏和面包屑导航样式
     if (li2.length === 1) {
         txt2 = li2.find('span').text();
         aLi.push({
-            a: li2.clone(false).text(txt2)
+            a: li2.clone(true).text(txt2)
         })
         $('.header-title>h1').text(txt2);
         pagetitle = 'SecSpace-' + txt2;
     }
     document.title = pagetitle;
     var bc = $('ul.breadcrumb').empty();
+    console.log(aLi);
     for (var i = 0; i < aLi.length; i++) {
         var li = $('<li>');
         if (aLi[i].i) {
@@ -475,9 +475,7 @@ function hasFn(fn){   //判断功能点fn是否属于合法权限
                     switch (fn){
                         case 'ioo':
                         case 'pub':
-                            if(lid!=cid){
-                                return false;
-                            }
+                            return lid==cid;
                             break;
                         default:
                             return true;

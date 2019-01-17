@@ -65,7 +65,7 @@
                             + '</td></tr>';
                     }
                 }else{
-                    str += '<tr><td class="sel" colspan="6">暂无应用标签</td></tr>';
+                    str += '<tr><td class="sel" colspan="6">暂无数据</td></tr>';
                 }
                 
                 str += '</table>';

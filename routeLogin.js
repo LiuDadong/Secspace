@@ -30,6 +30,7 @@ module.exports = function (app, chttp) {
             'passwd': md5('xthinkers' + req.body.passwd),
             'dev_ip': req.body.dev_ip
         }, url, function (cont) {
+            console.log(cont);
             res.send(cont);
         });
     });

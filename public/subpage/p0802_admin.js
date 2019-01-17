@@ -58,7 +58,7 @@
                     <th style="width:16%">创建时间</th>\
                     <th style="width:20%;">操作</th>\
                 </tr > ',
-        tbodyEmptyHtml: '<tr><td>暂无管理员</td><tr>',
+        tbodyEmptyHtml: '<tr><td>暂无数据</td><tr>',
         // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
         // to-edit、to-view表示要跳转的目标表单
         tbodyDemoHtml: '<tr>\

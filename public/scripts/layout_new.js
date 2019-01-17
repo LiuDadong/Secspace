@@ -48,61 +48,6 @@ function searchbytag(e) {
 }
 
 
-// 添加至标签
-function addTotag() {
-    var i = 0;
-    var tr;
-    var cont = '';
-    var tab = $('.appstable table');
-    tab.find('td span').each(function () {
-        if ($(this).hasClass('txt')) {
-            i = i + 1;
-        }
-    });
-
-    if (i > 0) {
-        cont += '<div class="modal-header">'
-            + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-            + '<h4 class="modal-title">移动至标签</h4>'
-            + '</div>'
-            + '<div class="modal-body">'
-            + '<form role = "form" class="form-horizontal">'
-            + '<div class = "form-group">'
-            + '<label class="col-sm-3 control-label" for = "name">请选择标签</label>'
-            + '</div>'
-            + '<div class = "form-group">'
-            + '<label class="col-sm-3 control-label" for = "name"></label>'
-            + '<div class="col-sm-7">'
-            + '<div id="usertag" style="height:atuo;max-height:180px;overflow:auto;padding:5px;border:1px solid #ccc;">'
-            + '<ul name="taglist" class="list-group">'
-            + '</ul>'
-            + '</div>'
-            + '</div></div>'
-            + '</form>'
-            + '</div>'
-            + '<div class="modal-footer">'
-            + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-            + '<button type="button" class="btn btn-primary" onclick="tag_add()">确认</button>'
-            + '</div>';
-        alertOpen(cont);
-        var str = '';
-        $.silentGet('/man/appTag/getAppTagList', { start_page: 1, page_length: 1000 }, function (data) {  // 获取标签列表
-            if (data.rt == '0000') {
-                var select = $('#usertag ul[name=taglist]');
-                for (var i = 0; i < data.apptag_list.length; i++) {
-                    str += '<li class="list-group-item" onclick="selectonetag(this)">'
-                        + data.apptag_list[i].name
-                        + '<input type="text" name="tagid" value="' + data.apptag_list[i].id + '" style="display:none"/>'
-                        + '</li>';
-                }
-                select.html(str);
-            } else {
-                warningOpen('获取标签失败！', 'danger', 'fa-bolt');
-            }
-        });
-
-    }
-}
 
 // 旧式标签筛选框函数
 function tag_add() {

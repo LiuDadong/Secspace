@@ -579,29 +579,28 @@
                 toggleFn(pnlLeft.find('.btnToSubOrgs'), false);
             }
 
-
-            if(hasFn('mod')){
-                pnlLeft.find('.btnDefPcy').on('click', function () {
-                    var btn = $(this).prop('disabled', true);
-                    $.silentPost('/policy/default', {
-                        policy_type: pnl.policy_type
-                    }, function (data) {
-                        btn.prop('disabled', false);
-                        switch (data.rt) {
-                            case '0000':
-                                pnl.closest('.section').hide();
-                                pnl.objTargetForm.closest('.section').show();
+            pnlLeft.find('.btnDefPcy').on('click', function () {
+                var btn = $(this).prop('disabled', true);
+                $.silentPost('/policy/default', {
+                    policy_type: pnl.policy_type
+                }, function (data) {
+                    btn.prop('disabled', false);
+                    switch (data.rt) {
+                        case '0000':
+                            pnl.closest('.section').hide();
+                            pnl.objTargetForm.closest('.section').show();
+                            if(hasFn('mod')){
                                 pnl.objTargetForm.data('item', data.policies).usedAs('edit');
-                                pnl.objTargetForm.find('input[name=name]').attr('readonly', true);
-                                $(pnl.relSubCaption).html(btn.text());
-                                break;
-                            default:
-                        }
-                    })
-                });
-            }else{
-                toggleFn(pnlLeft.find('.btnDefPcy'), false);
-            }
+                            }else{
+                                pnl.objTargetForm.data('item', data.policies).usedAs('view');                                
+                            }
+                            pnl.objTargetForm.find('input[name=name]').attr('readonly', true);
+                            $(pnl.relSubCaption).html(btn.text());
+                            break;
+                        default:
+                    }
+                })
+            });
             
 
             //绑定常用事件
@@ -762,7 +761,6 @@
                         pd.authfilter = 'xlist';
                         pd.authrules = JSON.stringify(rules);
                     } else {
-                        console.log('111111')
                         warningOpen('请选择用户！', 'danger', 'fa-bolt');
                         return;
                     }
@@ -1746,6 +1744,7 @@
             editBtnTxt: '保存修改',//编辑表单提交按钮显示文本
             editInfoTxt: '修改',//编辑提交成功或失败反馈的信息中的.act
             type: 'POST', //表单提交方式
+            resetForm:true,
             targetTable: '#pagingTable',  //关联的分页表格选择器
             relSubCaption: "#subCaption", //关联的显示标题选择器
             fnValByKey: function (k, v) { //表单数据显示预处理
@@ -1764,11 +1763,11 @@
         };
         var __prop__ = {  //插件默认方法
             usedAs: function (use) {
-                $(frm[0]).data('use', use);
                 frm.beforeUsed(use, frm.data('item'));
-                var btnSubmit = $(frm[0]).find(':input[type=submit]');
-                frm.reset();
+                frm[0].reset();
                 frm.afterReset();
+                $(frm[0]).data('use', use);
+                var btnSubmit = $(frm[0]).find(':input[type=submit]');
                 if ($(frm[0]).find('input:hidden[name=url]').length === 0) {
                     $(frm[0]).prepend('<input type="hidden" name="url" />')
                 }
@@ -1974,6 +1973,8 @@
                 var pgrBar = $(frm[0]).find('.progress .progress-bar'),     //pgrBar.css("width":"30%");
                     pgrSro = pgrBar.find('.progress .progress-bar .sr-only'),    //pgrSro.text("30%");
                     ajaxFormOptions = {
+                        type:frm.type,
+                        resetForm:frm.resetForm,
                         beforeSerialize: function (jqForm, ajaxOptions) {
                             $(frm[0]).find('input:hidden[name]').each(function () {
                                 var n = $(this).attr('name'),
@@ -2057,7 +2058,7 @@
                             $.handleECode(true, data, $(frm[0]).data('infoTxt'));
                             switch (data.rt) {
                                 case '0000':
-                                    frm.reset();
+                                    //frm[0].reset();
                                     switch ($(frm[0]).attr('action')) {
                                         case frm.addAct:
                                             if (frm.cbSubmit) {
@@ -2234,7 +2235,6 @@
                         unsel: [],
                         reverse: false,
                     }).on('dataChange', function () {
-                        console.log($(this).data());
                         if (
                             ($(this).data('check') && $(this).data('unsel').length > 0)
                             || (!$(this).data('check') && $(this).data('sel').length > 0)
@@ -2702,9 +2702,6 @@
                         });
                     }
                 });
-            },
-            reset: function () {
-
             }
         };
         $.fn[plug] = function (fn) {

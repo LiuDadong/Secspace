@@ -53,6 +53,7 @@ module.exports = function (app, chttp) {
 
     // 企业管理员修改企业信息
     app.post('/super/setting/updateSettings', function (req, res) {
+        console.log(req.body);
         var permissionItems = {};
         var keys = ['access', 'autoStart', 'basic', 'deviceManager', 'floatWindow', 'launcher', 'screenLock', 'usageState'];
         for (i in keys) {
@@ -66,10 +67,12 @@ module.exports = function (app, chttp) {
         }
         req.body['sid'] = req.cookies.sid;
         req.body['em_ip'] = req.cookies.em_ip;
+        console.log(req.body);
         chttp.cpost(req.body, '/p/super/updateSettings', function (cont) {
             res.send(cont);
         });
     });
+
 
     // license上传更新
     app.post('/licenseUpload',multipartMiddleware, function (req, res) {

@@ -10,26 +10,10 @@ applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点�
 var subCaption = $('#subCaption').data('itemText', '用户组').text('用户组列表');
 
 // 用户组
-getUsersList(0);
+getDeparts(0);
 
 // 用户组列表
-function getUsersList(departId) {
-    var str = '<table class="table table-striped table-bordered table-hover" style="width:100%;background-color:#fff;" ><tr style="line-height:36px;">'
-        + '<th class="sel" style="line-height:20px;"><div class="checkbox"><label>'
-        + '<input type="checkbox" onclick="selectedAll(this)" />'
-        + '<span class="text">全选</span></label></div></th>'
-        + '<th>名称</th>'
-        + '<th>创建人</th>'
-        + '<th>用户关联数量</th>'
-        + '<th>更新时间</th>'
-        + '<th>状态</th>'
-        + '<th>操作</th></tr>';
-    var str2 = '';
-    var status = '';
-    var tdCkb = '';
-    var tdName = '';
-    var tdAct = '';
-    var table = $('.userstable');
+function getDeparts(departId) {
     $.silentGet('/common/org/list', {
         departId: departId,
         url: '/p/depart/manage'
@@ -82,21 +66,15 @@ function getUsersList(departId) {
                 }
             }else{
                 if(departId==0){
-                    tbl.append('<tr><td colspan="7">暂无用户组</td></tr>');
+                    tbl.append('<tr><td colspan="7">暂无数据</td></tr>');
                 }
             }
-            
-            table.html(tbl);
+            $('.userstable').html(tbl);
         }
     });
     $('.hrefactive').removeClass("hrefallowed");
 }
 
-// 返回列表
-function userslist() {
-    $('.user, .addur, .user_mod, .addusertitle').css({ 'display': 'none' });
-    $('.userslist').css({ 'display': 'block' });
-}
 // 用户组下级显示/隐藏
 function toggleChild(td) {
     var tr = $(td).closest('tr'),
@@ -148,269 +126,26 @@ function toggleChild(td) {
     } else {
         toggleChildByTd(td)
     }
-}
-function toggleChildByTd(td) {
-    var item = $(td).closest('tr').data('item'),
-        hide = $(td).find('i.fa:visible').hasClass('fa-plus');
-    $('.userstable table tr').each(function () {
-        if ($(this).attr('pid') === item.departId) {
-            if ($(td).is(':visible')) {
-                $(this).toggleClass('hidden', hide);
-            } else {
-                $(this).addClass('hidden');
-            }
-            var ctd = $(this).find('td[onclick="toggleChild(this)"]')[0];
-            if (ctd) {
-                toggleChildByTd(ctd)
-            }
-        }
-    })
-}
-
-function getTrByDepartId(departId) {
-    return $('.userstable table tr').filter(function () {
-        return $(this).attr('pid') === departId;
-    });
-}
-var active = '';
-function showusers(e) {
-    var item = $(e).closest('tr').data('item');
-    var childArry = getTrByDepartId(item.departId);
-    if (childArry.length > 0) {
-        var tab = $('.userstable table');
-        tab.find('tr').each(function () {
-            if ($(this).find('td').eq(6).text() == childArry[0]) {
-                $(this).is(":hidden") == true ? active = 'show' : active = 'hide';
-            }
-        });
-    }
-    showorhide(e);
-    active = '';
-}
-function showorhide(e) {
-    var that = e;
-    var id = $(e).parent().find('td').eq(6).attr('departId');
-    var childArry = getTrByDepartId(id);
-    if (childArry.length > 0) {
-        for (var i in childArry) {
-            var tab = $('.userstable table');
-            tab.find('tr').each(function () {
-                if ($(this).find('td').eq(6).text() == childArry[i]) {
-                    if (active == 'show') {
-                        $(this).show();
-                        $(that).find('.faopen').hide();
-                        $(that).find('.faclose').css('display', 'inline-block');
-                    } else {
-                        $(this).hide();
-                        $(that).find('.faclose').hide();
-                        $(that).find('.faopen').css('display', 'inline-block');
-                        showorhide($(this).find('td').eq(1));
-                    }
-                    //active === 'show' ? $(this).show() : $(this).hide();
-                    //if(active === 'hide'){showorhide($(this).find('td').eq(1));}
+    function toggleChildByTd(td) {
+        var item = $(td).closest('tr').data('item'),
+            hide = $(td).find('i.fa:visible').hasClass('fa-plus');
+        $('.userstable table tr').each(function () {
+            if ($(this).attr('pid') === item.departId) {
+                if ($(td).is(':visible')) {
+                    $(this).toggleClass('hidden', hide);
+                } else {
+                    $(this).addClass('hidden');
                 }
-            });
-        }
-    }
-}
-
-
-//页面删除用户
-function deleteuser(obj) {
-    var tr = $(obj).parent().parent();
-    var rowIndex = tr.index() + 1;
-    var email = tr.find('td').eq(0).text();
-    var name = tr.find('td').eq(1).text();
-    var id = tr.find('td').eq(2).text();
-    var tab = document.getElementById("adduser");
-    //表格行数
-    var rows = tab.rows.length * 1;
-    var x = document.getElementById('adduser').insertRow(rows);
-    var y = x.insertCell(0);
-    var z = x.insertCell(1);
-    var k = x.insertCell(2);
-    var v = x.insertCell(3);
-    y.innerHTML = email;
-    z.innerHTML = name;
-    k.innerHTML = id;
-    v.innerHTML = '<img src="../imgs/roleadd.png" onclick="adduser(this)" style="vertical-align: middle;cursor:pointer;" />';
-    k.style.display = 'none';
-    v.style.padding = '0';
-    v.style.textAlign = 'center';
-    $(obj).parent("td").parent("tr").remove();
-}
-//页面添加用户
-function adduser(obj) {
-    var tr = $(obj).parent().parent();
-    var rowIndex = tr.index() + 1;
-    var email = tr.find('td').eq(0).text();
-    var name = tr.find('td').eq(1).text();
-    var id = tr.find('td').eq(2).text();
-    var tab = document.getElementById("deleteuser");
-    //表格行数
-    var rows = tab.rows.length * 1;
-    var x = document.getElementById('deleteuser').insertRow(rows);
-    var y = x.insertCell(0);
-    var z = x.insertCell(1);
-    var k = x.insertCell(2);
-    var v = x.insertCell(3);
-    y.innerHTML = email;
-    z.innerHTML = name;
-    k.innerHTML = id;
-    v.innerHTML = '<img src="../imgs/roledelete.png" onclick="deleteuser(this)" style="vertical-align: middle;cursor:pointer;" />';
-    k.style.display = 'none';
-    v.style.padding = '0';
-    v.style.textAlign = 'center';
-    $(obj).parent("td").parent("tr").remove();
-}
-//查询未选择的用户
-function sfreeusers() {
-    var s = document.getElementById("freeusers").value;
-    var tab = $('.freeuser table');
-    tab.find('tr').each(function () { $(this).css({ 'display': '' }); });
-    searchbykeywords(s, tab);
-}
-//查询用户组内用户
-function searchusers() {
-    var s = document.getElementById("users").value;
-    var tab = $('.member table');
-    tab.find('tr').each(function () { $(this).css({ 'display': '' }); });
-    searchbykeywords(s, tab);
-}
-// 用户添加提交
-function save() {
-    var usertable = $('.member table');
-    var user_list = [], i = 0, app_list = [];
-    usertable.find('tr:not(:first)').remove().each(function () {
-        if ($(this).css("display") != "none") {
-            user_list[i] = $(this).find('td').eq(2).text() * 1;
-            i = i + 1;
-        }
-    });
-    var postData = {
-        departId: $('.user').find('input[name=departId]').val(),
-        user_list: JSON.stringify(user_list)
-    };
-    $.actPost('/admin/depart/memberManage', postData, function (data) {
-        if (data.rt == '0000') {
-            userslist();
-            getUsersList(0);
-        }
-    });
-}
-// 修改用户组
-function modify(e) {
-    var _tr = $(e).parent().parent();
-    var id = _tr.find('td').eq(6).text() * 1;
-    var departid = _tr.find('td').eq(6).attr('departid');
-    var pid = _tr.find('td').eq(9).text() * 1;
-    var name = _tr.find('td').eq(7).text();
-    var status = _tr.find('td').eq(8).text();
-    var cont = '';
-    var folder = '';
-    var checkstr = '';
-    var str = '<ul style="padding-left: 20px;">';
-    cont += '<div class="modal-header">'
-        + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-        + '<h4 class="modal-title">修改用户组</h4>'
-        + '</div>'
-        + '<div class="modal-body">'
-        + '<form role = "form" class="form-horizontal">'
-        + '<div class = "form-group">'
-        + '<label class="col-sm-3 control-label" for = "name">名称</label>'
-        + '<div class="col-sm-7">'
-        + '<input type = "text" class = "form-control" name="parent_id" value="' + pid + '" style="display:none;" />'
-        + '<input type = "text" class = "form-control" id = "name" name="name" value="' + name + '" />'
-        + '</div></div>'
-        + '<div class = "form-group">'
-        + '<label class="col-sm-3 control-label" for = "tel">状态</label>'
-        + '<div class="col-sm-7">'
-        + '<label class="col-xs-6" style="margin-top:6px;">'
-        + '<input name="status" checked="true" type="radio" value="1" />'
-        + '<span class="text">正常</span></label>'
-        + '<label class="col-xs-6" style="margin-top:6px;">'
-        + '<input name="status" type="radio" value="0" />'
-        + '<span class="text">禁用</span></label>'
-        + '</div></div>'
-        + '<div class = "form-group">'
-        + '<label class="col-sm-3 control-label" for = "name">上级用户组</label>'
-        + '<div class="col-sm-7">'
-        + '<div id="treegroup" style="height:atuo;max-height:180px;overflow:auto;padding:5px;border:1px solid #ccc;">'
-        + '</div>'
-        + '</div></div>'
-        + '</form>'
-        + '</div>'
-        + '<div class="modal-footer">'
-        + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-        + '<button type="button" class="btn btn-primary" departid="' + departid + '" onclick="users_modify(this)">确认</button>'
-        + '</div>';
-    alertOpen(cont);
-    $(document).ready(function () {
-        $("input[name=status][value='" + status + "']").attr("checked", true);
-    });
-    $.silentGet('/common/org/list', {
-        departId: 0,
-        url: '/p/depart/manage'
-    }, function (data) {
-        if (data.rt == '0000') {
-            for (var i in data.depart_list) {
-                if (data.depart_list[i].id != -1) {
-                    if (data.depart_list[i].status == 1) {
-                        checkstr = data.depart_list[i].id == pid ? '<i class="fa fa-check-square-o treechildh cursor" onclick="select(this)">'
-                            + '<input type="text" name="tree_id" value="' + data.depart_list[i].id + '" style="display:none;" /></i>'
-                            + '<i class="fa fa-square-o treechilds cursor" onclick="cancel(this)" style="display:none;"></i>' : '<i class="fa fa-check-square-o treechildh cursor" style="display:none;" onclick="select(this)">'
-                            + '<input type="text" name="tree_id" value="' + data.depart_list[i].id + '" style="display:none;" /></i>'
-                            + '<i class="fa fa-square-o treechilds cursor" onclick="cancel(this)"></i>';
-                        folder = data.depart_list[i].child_node != 0 ?
-                            '<i class="fa fa-plus faopen cursor" onclick="opentrees(this)" style="width: 15px;"></i><i class="fa fa-minus faclose cursor" onclick="opentrees(this)" style="width: 15px;"></i>' : '';
-                        str += '<li class="tree-item">'
-                            + '<div class ="tree-item-name">'
-                            + checkstr
-                            + '<input type="text" name="p_id" value="' + 0 + '" style="display:none;" />'
-                            + folder
-                            + data.depart_list[i].name
-                            + '</div>'
-                            + '</li>';
-                    } else {
-                        console.warn('禁用：', data.depart_list[i]);
-                    }
+                var ctd = $(this).find('td[onclick="toggleChild(this)"]')[0];
+                if (ctd) {
+                    toggleChildByTd(ctd)
                 }
             }
-            str += '</ul>'
-            $("#treegroup").html(str);
-        }
-    });
-
-}
-// 修改用户组提交
-function users_modify(e) {
-    var departid = $(e).attr('departid');
-    var pid = $('input[name=parent_id]').val() * 1;
-    var tab = $('#treegroup');
-    tab.find('.treechildh').each(function () {
-        if ($(this).is(":visible") && $(this).find('input[name=tree_id]').val()) {
-            pid = $(this).find('input[name=tree_id]').val() * 1;
-        }
-    });
-
-    var postData = {
-        name: $('input[name=name]').val(),
-        departId: departid,
-        status: $("input[name='status']:checked").val(),
-        parent_id: pid,
-        url: '/p/depart/manage'
-    };
-    if (postData.name == "") {
-        warningOpen('请填写名称！', 'danger', 'fa-bolt');
-    } else {
-        $.actPost('/common/mod', postData, function (data) {
-            if (data.rt == '0000') {
-                alertOff();
-                getUsersList(0);
-            }
-        });
+        })
     }
 }
+
+
 // 添加用户组
 function add() {
     grpFormFor('add');
@@ -540,7 +275,7 @@ function grpFormFor(use, ele) {
         },
         cbSubmit: function (use) {
             $.dialogClose();
-            getUsersList(0);
+            getDeparts(0);
         }
     });
     if (item) {
@@ -575,116 +310,13 @@ function grpFormFor(use, ele) {
     });
     frmUserGroup.usedAs(use);
 }
-var active1 = '';
-function opentrees(e) {
-    var id = $(e).parent().find('input[name=tree_id]').eq(0).val() * 1;
-    var tab = $('#treegroup');
-    var folder = '';
-    var isFindChild = true;
-    tab.find('input[name=p_id]').each(function () {
-        if ($(this).val() == id) {
-            isFindChild = false;
-            active1 = $(this).parent().parent().is(":visible") == true ? 'hide' : 'show';
-        }
-    });
-    if (isFindChild) {
-        $(e).css('display', 'none');
-        $(e).next().css('display', 'inline-block');
-        var str = '<ul style="padding-left: 20px;">';
-        $.silentGet('/common/org/list', {
-            departId: id,
-            url: '/p/depart/manage'
-        }, function (data) {
-            if (data.rt == '0000') {
-                for (var i in data.depart_list) {
-                    if (data.depart_list[i].status == 1) {
-                        folder = data.depart_list[i].child_node != 0 ?
-                            '<i class="fa fa-plus faopen cursor" onclick="opentrees(this)" style="width: 15px;"></i><i class="fa fa-minus faclose cursor" onclick="opentrees(this)" style="width: 15px;"></i>' : '';
-                        str += '<li class="tree-item">'
-                            + '<div class ="tree-item-name">'
-                            + '<i class="fa fa-check-square-o treechildh cursor" style="display:none;" onclick="select(this)">'
-                            + '<input type="text" name="tree_id" value="' + data.depart_list[i].id + '" style="display:none;" /></i>'
-                            + '<i class="fa fa-square-o treechilds cursor" onclick="cancel(this)"></i>'
-                            + '<input type="text" name="p_id" value="' + id + '" style="display:none;" />'
-                            + folder
-                            + data.depart_list[i].name
-                            + '</div>'
-                            + '</li>';
-                    } else {
-                        console.warn('禁用：', data.depart_list[i]);
-                    }
-                }
-                str += '</ul>'
-                $(e).parent().append(str);
-            }
-        });
-    } else {
-        togusers(e);
-    }
-}
-function togusers(e) {
-    var that = $(e).parent().parent();
-    if (active1 === 'show') {
-        $(e).hide();
-        $(e).next().css('display', 'inline-block');
-        $(that).find('ul:first > li').show();
-        $(that).find('li .faopen').show();
-        $(that).find('li .faclose').hide();
-    } else {
-        $(e).hide();
-        $(e).prev().css('display', 'inline-block');
-        $(that).find('li').hide();
-        $(that).find('li .faopen').show();
-        $(that).find('li .faclose').hide();
-    }
-    active1 = '';
-}
 
-function select(e) {
-    var tab = $('#treegroup');
-    tab.find('.treechildh').hide();
-    tab.find('.treechilds').show();
-    $(e).next().show();
-}
-function cancel(e) {
-    var tab = $('#treegroup');
-    tab.find('.treechildh').hide();
-    tab.find('.treechilds').show();
-    $(e).hide();
-    $(e).prev().show();
-}
 
-// 添加用户组提交操作 
-function users_add() {
-    var parent_id = 0;
-    var tab = $('#treegroup');
-    tab.find('.treechildh').each(function () {
-        if ($(this).is(":visible")) {
-            parent_id = $(this).find('input[name=tree_id]').val() * 1;
-        }
-    });
-    var postData = {
-        name: $('input[name=name]').val(),
-        status: 1,
-        parent_id: parent_id,
-        url: '/p/depart/manage'
-    };
-    if (postData.name == "") {
-        warningOpen('请填写名称！', 'danger', 'fa-bolt');
-    } else {
-        $.actPost('/common/org_add', postData, function (data) {
-            if (data.rt == '0000') {
-                alertOff();
-                getUsersList(0);
-            }
-        });
-    }
-}
 
 // 刷新
 function refresh() {
     $('th span,td span').removeClass('txt');
-    getUsersList(0);
+    getDeparts(0);
     $('.hrefactive').removeClass("hrefallowed");
 }
 // 删除
@@ -729,7 +361,7 @@ function users_delete() {
         };
         $.actPost('/common/del', postData, function (data) {
             if (data.rt == '0000') {
-                getUsersList(0);
+                getDeparts(0);
                 alertOff();
             }
         }, '删除');
@@ -799,7 +431,7 @@ function tblCoupleInit(departId) {
 }
 function tblCoupleRefresh(departId) {
     tblCouple(departId, function () {
-        getUsersList(0);
+        getDeparts(0);
         $('.arrows').removeClass('anti-cursor');
         $('.dialog-box-content input[type=text]:visible').val('');
     });

@@ -64,7 +64,7 @@
                             + '</tr>';
                     }
                 } else {
-                    str += '<tr><td colspan="6">暂无版本信息</td></tr>'
+                    str += '<tr><td colspan="6">暂无数据</td></tr>'
                 }
                 str += '</table>';
                 table.html(str);

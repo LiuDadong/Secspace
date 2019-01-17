@@ -672,20 +672,16 @@ function unlink() {
     if (tab.find('td span').hasClass('txt')) {
         i = 1;
     }
-    var cont = '';
     if (i > 0) {
-        cont += '<div class="modal-header">' +
-            ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>' +
-            '<h4 class="modal-title">提示</h4>' +
-            '</div>' +
-            '<div class="modal-body">' +
-            '<p class="text-align-center">确定解绑吗？</p>' +
-            '</div>' +
-            '<div class="modal-footer">' +
-            '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>' +
-            '<button type="button" class="btn btn-primary" onclick="device_unlink()">确认</button>' +
-            '</div>';
-        alertOpen(cont);
+        $.dialog('confirm', {
+            content: '确认解绑选中的设备吗？',
+            confirmValue: '确认',
+            confirm: function () {
+                device_unlink();
+            },
+            cancelValue: '取消',
+            title: '设备解绑确认'
+        });
     }
 }
 // 淘汰
@@ -695,20 +691,16 @@ function weepout() {
     if (tab.find('td span').hasClass('txt')) {
         i = 1;
     }
-    var cont = '';
     if (i > 0) {
-        cont += '<div class="modal-header">' +
-            ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>' +
-            '<h4 class="modal-title">提示</h4>' +
-            '</div>' +
-            '<div class="modal-body">' +
-            '<p class="text-align-center">确定淘汰吗？</p>' +
-            '</div>' +
-            '<div class="modal-footer">' +
-            '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>' +
-            '<button type="button" class="btn btn-primary" onclick="device_weepout()">确认</button>' +
-            '</div>';
-        alertOpen(cont);
+        $.dialog('confirm', {
+            content: '确认淘汰选中的设备吗？',
+            confirmValue: '确认',
+            confirm: function () {
+                device_weepout();
+            },
+            cancelValue: '取消',
+            title: '设备淘汰确认'
+        });
     }
 }
 
@@ -729,10 +721,8 @@ function device_unlink() {
         var postData = {
             dev_id: JSON.stringify(dev_id)
         };
-
         $.actPost('/man/device/unlinkDevice', postData, function (data) {
             if (data.rt == '0000') {
-                alertOff();
                 getDeviceList(1, 10);
             }
         });

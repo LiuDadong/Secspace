@@ -5,24 +5,25 @@
  * =================================================================
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-var md5 = require('md5');
-var multer = require('multer');
-var querystring = require("querystring");
-var fs = require("fs");
-var path = require('path');
-var upTransfer = multer({
-    storage: multer.diskStorage({
-        //设置上传后文件路径，uploads文件夹会自动创建。
-        destination: function (req, file, cb) {
-            cb(null, path.join(__dirname, 'uploads'))
-        },
-        filename: function (req, file, cb) {
-            var fileFormat = (file.originalname).split(".");
-            //cb(null,fileFormat[0] + '-' + Date.now() + "." + fileFormat[fileFormat.length - 1]);
-            cb(null, file.originalname);
-        }
-    })
-});
+"use strict";
+let md5 = require('md5'),
+    multer = require('multer'),
+    querystring = require("querystring"),
+    fs = require("fs"),
+    path = require('path'),
+    upTransfer = multer({
+        storage: multer.diskStorage({
+            //设置上传后文件路径，uploads文件夹会自动创建。
+            destination: function (req, file, cb) {
+                cb(null, path.join(__dirname, 'uploads'))
+            },
+            filename: function (req, file, cb) {
+                var fileFormat = (file.originalname).split(".");
+                //cb(null,fileFormat[0] + '-' + Date.now() + "." + fileFormat[fileFormat.length - 1]);
+                cb(null, file.originalname);
+            }
+        })
+    });
 module.exports = function (app, chttp) {
     /*
      * =============================================================
@@ -31,14 +32,14 @@ module.exports = function (app, chttp) {
      */
     // 管理员主页
     app.get('/sub', function (req, res) {
-        if (req.query.pg&&req.cookies.sid) {
-            if(req.cookies.org_id=='0'){  //根机构id为'0'，由超级管理员管理
+        if (req.query.pg && req.cookies.sid) {
+            if (req.cookies.org_id == '0') {  //根机构id为'0'，由超级管理员管理
                 if (req.get('X-PJAX')) {
                     res.end(fs.readFileSync(__dirname + '/public/subpage/' + req.query.pg + '.html'));
                 } else {
                     res.render('super');
                 }
-            }else{  //业务管理员
+            } else {  //业务管理员
                 // if(req.cookies['hasAcc']==1){
                 //     if (req.get('X-PJAX')) {
                 //         res.end(fs.readFileSync(__dirname + '/public/subpage/' + req.query.pg + '.html'));
@@ -48,13 +49,13 @@ module.exports = function (app, chttp) {
                 // }else{
                 //     res.render(req.get('X-PJAX')?'Expire404':'layout');
                 // }
-                if(req.get('X-PJAX')){
-                    if(req.cookies['hasAcc']==1){
+                if (req.get('X-PJAX')) {
+                    if (req.cookies['hasAcc'] == 1) {
                         res.end(fs.readFileSync(__dirname + '/public/subpage/' + req.query.pg + '.html'));
-                    }else{
+                    } else {
                         res.render('Expire404');
                     }
-                }else{
+                } else {
                     res.render('layout');
                 }
             }
@@ -174,7 +175,7 @@ module.exports = function (app, chttp) {
 
     // 企业管理员激活用户
     app.post('/admin/user/invite', function (req, res) {
-        req.body['sid']=req.cookies.sid;
+        req.body['sid'] = req.cookies.sid;
         chttp.cpost(req.body, '/p/user/activeInvite', function (cont) {
             res.send(cont);
         });
@@ -271,15 +272,15 @@ module.exports = function (app, chttp) {
 
     // 查询用户组里用户和不属于用户组用户
     app.get('/admin/depart/memberManage', function (req, res) {
-        req.query['sid']=req.cookies.sid;
-        req.query['org_id']=req.cookies.org_id;
-        chttp.cget('/p/depart/memberManage?'+querystring.stringify(req.query), function (cont) {
+        req.query['sid'] = req.cookies.sid;
+        req.query['org_id'] = req.cookies.org_id;
+        chttp.cget('/p/depart/memberManage?' + querystring.stringify(req.query), function (cont) {
             res.send(cont);
         });
     });
     // 用户组添加用户删除用户
     app.post('/admin/depart/memberManage', function (req, res) {
-        req.body['sid']=req.cookies.sid;
+        req.body['sid'] = req.cookies.sid;
         chttp.cpost(req.body, '/p/depart/memberManage', function (cont) {
             res.send(cont);
         });
@@ -288,14 +289,14 @@ module.exports = function (app, chttp) {
 
     // 向用户组添加用户
     app.post('/admin/user/chUserDepart', function (req, res) {
-        req.body['sid']=req.cookies.sid;
+        req.body['sid'] = req.cookies.sid;
         chttp.cpost(req.body, '/p/user/chUserDepart', function (cont) {
             res.send(cont);
         });
     });
     // 给用户添加用户标签
     app.post('/admin/user/chUserTag', function (req, res) {
-        req.body['sid']=req.cookies.sid;
+        req.body['sid'] = req.cookies.sid;
         chttp.cpost(req.body, '/p/user/chUserTag', function (cont) {
             res.send(cont);
         });
@@ -355,16 +356,16 @@ module.exports = function (app, chttp) {
 
     // 查询标签里用户和不属于用户组用户
     app.get('/admin/tag/memberManage', function (req, res) {
-        req.query['sid']=req.cookies.sid;
-        req.query['org_id']=req.cookies.org_id;
-        chttp.cget('/p/tag/memberManage?'+querystring.stringify(req.query), function (cont) {
+        req.query['sid'] = req.cookies.sid;
+        req.query['org_id'] = req.cookies.org_id;
+        chttp.cget('/p/tag/memberManage?' + querystring.stringify(req.query), function (cont) {
             res.send(cont);
         });
     });
-    
+
     // 标签用户移动
     app.post('/admin/tag/memberManage', function (req, res) {
-        req.body['sid']=req.cookies.sid;
+        req.body['sid'] = req.cookies.sid;
         chttp.cpost(req.body, '/p/tag/memberManage', function (cont) {
             res.send(cont);
         });
@@ -377,9 +378,9 @@ module.exports = function (app, chttp) {
 
     // 查询设备列表
     app.get('/man/dev/getDevList', function (req, res) {
-        req.query['sid']=req.cookies.sid;
-        req.query['org_id']=req.cookies.org_id;
-        chttp.cget('/p/dev/devList?'+querystring.stringify(req.query), function (cont) {
+        req.query['sid'] = req.cookies.sid;
+        req.query['org_id'] = req.cookies.org_id;
+        chttp.cget('/p/dev/devList?' + querystring.stringify(req.query), function (cont) {
             res.send(cont);
         });
     });
@@ -430,7 +431,7 @@ module.exports = function (app, chttp) {
             res.send(cont);
         });
     });
-    
+
     //企业管理员淘汰设备
     app.post('/man/device/weepoutDevice', function (req, res) {
         var postData = {
@@ -528,9 +529,9 @@ module.exports = function (app, chttp) {
 
     // 企业管理员查询已启用设备策略和应用策略
     app.post('/policy/dev_app', function (req, res) {
-        req.body['sid']=req.cookies.sid;
-        req.body['org_id']=req.cookies.org_id;
-        chttp.cpost(req.body,'/p/policy/orgAvaiPolicy', function (cont) {
+        req.body['sid'] = req.cookies.sid;
+        req.body['org_id'] = req.cookies.org_id;
+        chttp.cpost(req.body, '/p/policy/orgAvaiPolicy', function (cont) {
             res.send(cont);
         });
     });
@@ -638,17 +639,17 @@ module.exports = function (app, chttp) {
         chttp.cpost({
             sid: req.cookies.sid,
             org_id: req.cookies.org_id
-        },'/p/policy/getBlaWhiList', 
-        function (cont) {
-            res.send(cont);
-        });
+        }, '/p/policy/getBlaWhiList',
+            function (cont) {
+                res.send(cont);
+            });
     });
 
     // 企业管理员查询所有应用列表
     app.post('/man/apppolicy/appList', function (req, res) {
-        req.body['sid']=req.cookies.sid;
-        req.body['org_id']=req.cookies.org_id;
-        chttp.cpost(req.body,'/p/policy/appList', function (cont) {
+        req.body['sid'] = req.cookies.sid;
+        req.body['org_id'] = req.cookies.org_id;
+        chttp.cpost(req.body, '/p/policy/appList', function (cont) {
             res.send(cont);
         });
     });
@@ -756,21 +757,6 @@ module.exports = function (app, chttp) {
 
 
 
-    //上传文件
-    app.post('/man/file/formSubmit', upTransfer.single('file_data'), function (req, res) {
-        req.body['sid'] = req.cookies.sid;
-        if (req.file) {
-            req.body['file_data'] = JSON.stringify(req.file);
-            chttp.cpost(req.body, '/p/file/uploadFile', function (cont) {
-                res.send(cont);
-            });
-        } else {
-            chttp.cpost(req.body, '/p/file/updateFile', function (cont) {
-                res.send(cont);
-            });
-        }
-
-    });
     app.post('/man/file/delete', function (req, res) {
         req.body['sid'] = req.cookies.sid;
         chttp.cpost(req.body, '/p/file/deleteFile', function (cont) {
@@ -950,26 +936,6 @@ module.exports = function (app, chttp) {
      * =============================================================
      */
 
-    //上传应用APK
-    // app.post('/man/app/upload', upTransfer.single('apk'), function (req, res) {
-    //     req.body['sid'] = req.cookies.sid;
-    //     req.body['file'] = JSON.stringify(req.file);
-    //     chttp.cpost(req.body, '/p/app/upload', function (cont) {
-    //         try {
-    //             if (cont.rt != '0000') {
-    //                 fs.exists(req.file.path, function (exists) {
-    //                     fs.unlinkSync(req.file.path);
-    //                 });
-    //             }
-    //         } catch (err) {
-    //             fs.exists(req.file.path, function (exists) {
-    //                 fs.unlinkSync(req.file.path);
-    //             });
-    //         }
-    //         res.send(cont);
-    //     });
-    // });
-
 
 
     // 添加应用黑白名单
@@ -1007,10 +973,10 @@ module.exports = function (app, chttp) {
 
     // 获取通话和系统应用名单
     app.get('/man/appList/more', function (req, res) {
-        req.query['sid']=req.cookies.sid;
-        req.query['org_id']=req.cookies.org_id;
+        req.query['sid'] = req.cookies.sid;
+        req.query['org_id'] = req.cookies.org_id;
         delete req.query.url;
-        chttp.cget('/p/app/listRuleMan?'+querystring.stringify(req.query), function (cont) {
+        chttp.cget('/p/app/listRuleMan?' + querystring.stringify(req.query), function (cont) {
             res.send(cont);
         });
     });
@@ -1049,8 +1015,8 @@ module.exports = function (app, chttp) {
 
     // 获取应用标签列表
     app.get('/man/appTag/getAppTagList', function (req, res) {
-        req.query['sid']=req.cookies.sid;
-        var url = '/p/org/appTagList?'+querystring.stringify(req.query);
+        req.query['sid'] = req.cookies.sid;
+        var url = '/p/org/appTagList?' + querystring.stringify(req.query);
         chttp.cget(url, function (cont) {
             res.send(cont);
         });
@@ -1077,7 +1043,7 @@ module.exports = function (app, chttp) {
             'name': req.body.name,
             'description': req.body.description
         },
-        url = '/p/org/updateAppTag';
+            url = '/p/org/updateAppTag';
         chttp.cpost(postData, url, function (cont) {
             res.send(cont);
         });
@@ -1215,9 +1181,9 @@ module.exports = function (app, chttp) {
 
     // 获取日志列表
     app.get('/man/Log/getLog', function (req, res) {
-        req.query['sid']=req.cookies.sid;
-        req.query['org_id']=req.cookies.org_id;
-        chttp.cget('/p/org/viewLog?'+querystring.stringify(req.query), function (cont) {
+        req.query['sid'] = req.cookies.sid;
+        req.query['org_id'] = req.cookies.org_id;
+        chttp.cget('/p/org/viewLog?' + querystring.stringify(req.query), function (cont) {
             res.send(cont);
         });
     });
@@ -1381,9 +1347,9 @@ module.exports = function (app, chttp) {
 
     //获取不可编辑的默认成员数据  如：获取默认策略
     app.post('/policy/default', function (req, res) {
-            req.body['sid']=req.cookies.sid;
-            req.body['org_id']=req.cookies.org_id;
-        chttp.cpost(req.body,'/p/policy/getDefPolicy', function (cont) {
+        req.body['sid'] = req.cookies.sid;
+        req.body['org_id'] = req.cookies.org_id;
+        chttp.cpost(req.body, '/p/policy/getDefPolicy', function (cont) {
             res.send(cont);
         });
     })
@@ -1422,8 +1388,8 @@ module.exports = function (app, chttp) {
         var url = '/p/depart/manage'
             + '?sid=' + req.cookies.sid
             + '&org_id=' + req.query.org_id;
-            + '&depart_id=' + req.query.gid;
-        
+        + '&depart_id=' + req.query.gid;
+
         chttp.cget(url, function (cont) {
             res.send(cont);
         });
@@ -1514,7 +1480,7 @@ module.exports = function (app, chttp) {
         });
     });
 
-    
+
     // 新建请假
     app.post('/user/leave', function (req, res) {
         req.body['sid'] = req.cookies.sid;
@@ -1530,12 +1496,4 @@ module.exports = function (app, chttp) {
         });
     });
 };
-
-
-
-
-
-
-
-
 

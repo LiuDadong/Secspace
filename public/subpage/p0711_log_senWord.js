@@ -55,7 +55,7 @@
         $.silentGet('/man/Log/getLog',pd, function (data) {
             if (data.rt == '0000') {
                 if(data.logInfo.length==0){
-                    str += '<tr><td colspan="5">暂无日志</td></tr>'
+                    str += '<tr><td colspan="5">暂无数据</td></tr>'
                 }
                 for (var i in data.logInfo) {
                     str += '<tr>'
