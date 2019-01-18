@@ -59,7 +59,6 @@ function uploadFormInit() {
                 if (event.lengthComputable) {
                     var cplt;
                     cplt = Number.parseInt(event.loaded / event.total * 100) + "%";
-                    console.log(cplt);
                     pgrBar.css('width', cplt)
                     pgrSro.text(cplt);
                 }
@@ -67,11 +66,9 @@ function uploadFormInit() {
             success: function (data) {
                 uploadForm.find('label:has(input[name=config_files])').removeClass('disabled');
                 uploadForm[0].reset();
-                console.log(data);
                 $.handleECode(true, data, '上传');
                 switch (data.rt) {
                     case '0000':
-                        console.log('OK')
                         break;
                     default:
                         console.warn("data.rt=" + data.rt)
@@ -98,7 +95,6 @@ function deleteConfigFiles(){
     selFilenames = pagingTable.data('PagingTable').sel.map(function(item){
         return item.name;
     });
-    console.log(selFilenames);
     if(selFilenames.length>0){
         $.dialog('confirm',{
             title: '配置文件删除确认',

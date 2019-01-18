@@ -153,9 +153,7 @@ $.handleECode = function () {
         // case '3009':
         //     break;
         default:
-            
             errorText = dt.desc ? dt.desc : '未收录错误';
-            console.log(errorText);
     }
     if (arguments[0] !== null) {
         if (okText) {
@@ -480,7 +478,6 @@ $.fn.plugInit = function () {
                             box.find('.item').each(function () {
                                 var ipt=$(this).find(':input'),
                                     dt = ipt.val();
-                                    console.log(dt)
                                     if (dt) {
                                         if($.iptRegExpCtrl(ipt)){
                                             arrData.push(dt);
@@ -726,7 +723,7 @@ $.dialog = function (type, opts) {
         time: 0,
         title: "",
         type: "normal",  //normal,correct,error
-
+        top:'40%'
     };
     switch (type) {
         case 'confirm':   //确认对话框
@@ -795,6 +792,9 @@ $.dialog = function (type, opts) {
         alignItems: 'center',
         fontSize: '0.8em',
         padding: '0 60px 20px'
+    });
+    $('.dialog-box').css({
+        top:  opts.top
     });
     return x;
 }

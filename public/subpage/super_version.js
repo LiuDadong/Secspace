@@ -56,15 +56,15 @@
                             + '<td>' + data.appList[i].create_time + '</td>'
                             + '<td class="other">'
                             + aStatus
-                            + '<a class="btn" href="javascript:version_download(' + i + ');">下载</a>'
-                            + '<a class="btn" href="javascript:version_modify(' + i + ');">修改信息</a>'
+                            + '<a title="下载" class="btn btn-primary btn-xs" href="javascript:version_download(' + i + ');"><i class="fa fa-download"></i></a>'
+                            + '<a title="编辑" class="btn btn-primary btn-xs" href="javascript:version_modify(' + i + ');"><i class="fa fa-edit"></i></a>'
                             + '</td></tr>'
                             + '<tr style="display:none;">'
                             + '<td colspan="6" style="border:none;"><p style="margin-top:10px;">更新内容：' + data.appList[i].describe + '</p></td>'
                             + '</tr>';
                     }
                 } else {
-                    str += '<tr><td colspan="6">暂无数据</td></tr>'
+                    str += '<tr><td colspan="8">暂无数据</td></tr>'
                 }
                 str += '</table>';
                 table.html(str);
@@ -150,48 +150,14 @@
 
     // 下载版本
     function version_download(i) {
-        var _tr = $('.versiontable table tr').eq(2 * i + 1);
-        var path = _tr.find('td').eq(7).text();
-        var url = downurl + path;
+        var path = $('.versiontable table tr').eq(2 * i + 1).find('td').eq(7).text();
+        var url = localStorage.getItem('appssec_url') + path;
         downloadFile(url);
     }
 
     // 修改版本
     function version_modify(i) {
         var _tr = $('.versiontable table tr').eq(2 * i + 1);
-        // var cont = '';
-        // cont += '<div class="modal-header">'
-        //     + '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>'
-        //     + '<h4 class="modal-title">修改版本信息</h4>'
-        //     + '</div>'
-
-        //     + '<div class="modal-body">'
-        //     + '<form role = "form" class="form-horizontal">'
-        //     + '<div class = "form-group">'
-        //     + '<label class="col-sm-3 control-label no-padding-right" for = "name">版本名称</label>'
-        //     + '<div class="col-sm-9">'
-        //     + '<input type = "text" class = "form-control" id = "name" name="name" value="' + _tr.find('td').eq(1).text() + '" />'
-        //     + '</div></div>'
-        //     + '<div class = "form-group">'
-        //     + '<label class="col-sm-3 control-label no-padding-right" for = "versioncode">版本编号</label>'
-        //     + '<div class="col-sm-9">'
-        //     + '<input type="text" class="form-control" id = "versioncode" name="versioncode" value="' + _tr.find('td').eq(2).text() + '" />'
-        //     + '</div></div>'
-        //     + '<div class = "form-group">'
-        //     + '<label class="col-sm-3 control-label no-padding-right" for = "describe">版本详情</label>'
-        //     + '<div class="col-sm-9">'
-        //     + '<span class="input-icon icon-right">'
-        //     + '<textarea class="form-control" rows="3" name="describe" id="describe">' + _tr.find('td').eq(6).text() + '</textarea>'
-        //     + '</span>'
-        //     + '</div></div>'
-        //     + '</form>'
-        //     + '</div>'
-
-        //     + '<div class="modal-footer">'
-        //     + '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>'
-        //     + '<button type="button" class="btn btn-primary" onclick="version_update(' + i + ')">确认</button>'
-        //     + '</div>';
-        // alertOpen(cont);
         $.dialog('form', {
             title: '提示',
             content: '<form role = "form" class="form-horizontal">'
@@ -265,6 +231,7 @@
         var sid = $.cookie('sid');
         $.dialog('form', {
             title: '添加版本',
+            top:'20%',
             width: '600',
             content: '<form id="addAppForm" method="post" action="' + localStorage.getItem("appssec_url") + '/p/file/uploadApp" enctype="multipart/form-data" target="ifm" autocomplete="off" role = "form" class="form-horizontal">\
                         <div class = "form-group">\
@@ -302,7 +269,7 @@
                             <label class="col-sm-3 control-label no-padding-right">\
                                 <span>立即生效</span>\
                             </label>\
-                            <div class="checkbox col-sm-4">\
+                            <div class="checkbox">\
                                 <label>\
                                     <input class="checkbox-slider yesno" value="1" type="checkbox" name="status">\
                                     <span class="text"></span>\
@@ -318,7 +285,7 @@
                         <div class = "form-group">\
                             <label class="col-sm-3 control-label no-padding-right" for = "describe">更新内容</label>\
                             <div class="col-sm-9">\
-                                <textarea class="form-control" rows="4" name="describe" id="describe"></textarea>\
+                                <textarea class="form-control" rows="2" name="describe" id="describe"></textarea>\
                             </div>\
                         </div>\
                     </form>',
@@ -344,7 +311,6 @@
                 // 点击取消的回到函数
             }
         });
-
         $('#addAppForm').submit(function () {
             $(this).ajaxSubmit({
                 resetForm: true,
@@ -354,11 +320,13 @@
                         warningOpen('请输入正确的版本编号！', 'danger', 'fa-bolt');
                         return false;
                     }
-                    $('.appupload').css({ 'display': 'block' });
+                    $('#file_data').addClass('progress-mask');
+                    $('.dialog-btn-confirm').addClass('disabled');
                 },
                 success: function (data) {
+                    $('#file_data').removeClass('progress-mask');
+                    $('.dialog-btn-confirm').removeClass('disabled');
                     $.handleECode(true, data, '上传');
-                    $('.appupload').css({ 'display': 'none' });
                     if (data.rt === "0000") {
                         $.dialogClose();
                         getVersionList(currentpage, 10);

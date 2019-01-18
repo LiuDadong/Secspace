@@ -125,7 +125,6 @@ function pageRender() { //基于url调整边栏和面包屑导航样式
     }
     document.title = pagetitle;
     var bc = $('ul.breadcrumb').empty();
-    console.log(aLi);
     for (var i = 0; i < aLi.length; i++) {
         var li = $('<li>');
         if (aLi[i].i) {
@@ -418,7 +417,6 @@ function downloadLog(category) {
     var url = localStorage.getItem('appssec_url') + '/p/org/exportExcel?sid=' + $.cookie('sid') + '&category=' + category+ '&org_id=' + $.cookie('org_id');
     // downloadFile(url);
     window.location = url;
-    // console.log(url)
     // try {
     //     var elemIF = document.createElement("iframe");
     //     elemIF.src = url;
@@ -482,7 +480,6 @@ function hasFn(fn){   //判断功能点fn是否属于合法权限
                     }
                 }
             }else{
-                console.log(fns)
                 return false;
             }
     }
@@ -684,6 +681,7 @@ function accountInfo(e) {  //修改密码
 
 function updatePW(e) {  //修改密码
     $.dialog('form', {
+        top:'20%',
         width: 500,
         height: null,
         autoSize:true,

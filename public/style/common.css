@@ -7,7 +7,8 @@ td{
     -o-text-overflow: ellipsis;
 }
 
-.form-group label{
+label{
+    white-space: nowrap;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -235,10 +236,6 @@ form .widget-body {
 
 .checkbox .help {
     margin-left: 2em;
-}
-
-label {
-    white-space: nowrap;
 }
 
 .wifiList>.wifiItem {
@@ -777,6 +774,14 @@ th.filter>ul.dropdown-menu{
     left: 40px;
     width: 20%;
 }
+.orgPanel .profile-badge{
+    line-height: 40px;
+    font-size: 1.2em;
+}
+.orgPanel .profile-badge span{
+    margin-left: 4px;
+}
+
 .jsmind.orgManage{
     height: 60vh;
     max-height: 500px;
@@ -898,4 +903,58 @@ input::-webkit-input-placeholder{
 
 .orgmind{
     overflow: auto;
+}
+
+#addAppForm .form-group{
+    margin-bottom: 3px;
+}
+#addAppForm input.form-control,
+#addAppForm select.form-control{
+    height: 30px;
+    padding: 0 8px;
+}
+#addAppForm .form-group .control-label{
+    padding-top: 2px !important;
+}
+
+#addAppForm .form-group .checkbox{
+    padding-top: 5px !important;
+}
+.progress-mask{
+    position: relative;
+}
+.progress-mask::after{
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 2px;
+    z-index: 9999999999;
+    background: rgba(0,0,0,0.3);
+    color: rgba(255,0,0,0.8);
+    text-indent: 14em;
+    line-height: 2em;
+    animation:uploading 3s infinite;
+}
+
+@keyframes uploading
+{
+0%   {content:'正在上传';}
+20%  {content:'正在上传.';}
+40%  {content:'正在上传..';}
+60%  {content:'正在上传...';}
+80%  {content:'正在上传....';}
+100% {content:'正在上传';}
+}
+
+
+jmnode.selected::after{
+    display: block;
+    content: '●';
+    color: inherit;
+    position: absolute;
+    top: -7px;
+    left: 1px;
 }

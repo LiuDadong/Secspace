@@ -445,6 +445,9 @@
             if(opts.expandToDepth&&typeof opts.expandToDepth== 'number'){
                 jm.expand_to_depth(opts.expandToDepth);
             }
+            jmcnter.find('jmnode').each(function(){
+                $(this).attr('title',$(this).text());
+            });
             if (cb instanceof Function) {
                 cb(that);
             }
@@ -470,7 +473,10 @@
                             orgCode:newNode.orgCode,
                             orgPolicy:newNode.orgPolicy,
                             orgUser:newNode.orgUser
-                        })
+                        });
+                        that.jmcnter.find('jmnode').each(function(){
+                            $(this).attr('title',$(this).text());
+                        });
                     }
                 }
 
@@ -548,10 +554,10 @@
         synOrgInfoPanel:function () {
             $(this['theBtn']).prop('disabled',false);
             if(!Array.isArray(this.selected)){
-                $('#topic').text(this.selected.topic||'');
-                $('#orgCode').text(this.selected.data.orgCode||'');
-                $('#orgUser').text(this.selected.data.orgUser||'');
-                $('#orgPolicy').text(this.selected.data.orgPolicy||'');
+                $('#topic').text(this.selected.topic||'--');
+                $('#orgCode').text(this.selected.data.orgCode||'--');
+                $('#orgUser').text(this.selected.data.orgUser||'--');
+                $('#orgPolicy').text(this.selected.data.orgPolicy||'--');
             }
         }
     };

@@ -11,7 +11,6 @@ if(om.selected){
 }else{
     org_code=om.nodes[0].orgCode;
 }
-console.log(org_code);
 
 // //采用分页表格组件pagingTable初始化黑白名单列表
 var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
@@ -66,7 +65,6 @@ function uploadFormInit() {
                 if (event.lengthComputable) {
                     var cplt;
                     cplt = Number.parseInt(event.loaded / event.total * 100) + "%";
-                    console.log(cplt);
                     pgrBar.css('width', cplt)
                     pgrSro.text(cplt);
                 }
@@ -98,7 +96,6 @@ function deleteConfigFiles(){
     selFilenames = pagingTable.data('PagingTable').sel.map(function(item){
         return item.name;
     });
-    console.log(selFilenames);
     if(selFilenames.length>0){
         $.dialog('confirm',{
             title: '配置文件删除确认',

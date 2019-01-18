@@ -94,8 +94,6 @@
             return v;
         },
         afterAppend:function(tri,itemi){
-            console.log(itemi.org_id)
-            console.log(localStorage.getItem('org_id'))
             if(itemi.org_id==localStorage.getItem('org_id')){
                 tri.find('.checkbox,[todo=edit],[todo=resetpw]').remove();
             }

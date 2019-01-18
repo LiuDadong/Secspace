@@ -65,7 +65,6 @@ module.exports = function (app, chttp) {
         req.body.old_passwd = md5('xthinkers' + req.body.old_passwd);
         req.body.new_passwd = md5('xthinkers' + req.body.new_passwd);
         delete req.body.url;
-        console.log(req.body);
         chttp.cpost(req.body, '/p/org/admUpdatePw', function (cont) {
             res.send(cont);
         });
@@ -403,7 +402,6 @@ module.exports = function (app, chttp) {
     app.post('/common/config_files/delete', function (req, res) {
         if(req.cookies.sid){
             let deleteFilenames = req.body['deleteFilenames'];
-            console.log(deleteFilenames)
             for (let i = 0; i < deleteFilenames.length; i++) {
                 fs.unlink(path.join(
                     __dirname.replace('secspace_server_web','secspace_server_api'), 
@@ -428,7 +426,6 @@ module.exports = function (app, chttp) {
                 req.body.org_code, 
                 req.body.filename
             );
-            console.log(p);
             res.download(p);
             // res.writeHead(200, {
             //   'Content-Type': 'application/force-download',
