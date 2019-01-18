@@ -728,8 +728,8 @@ function updatePW(e) {  //修改密码
         cancelValue: '取消'
     });
     var frmModPW =$('#frmModPW').MultForm({
-        addBtnTxt: '确认',
-        addAct:'/common/pw/selfmod',
+        editBtnTxt: '确认',
+        editAct:'/common/pw/selfmod',
         beforeSubmit:function(arrKeyVal, $frm, ajaxOptions){
             frmModPW['new_passwd']=b64.encode($('input[name=new_passwd]').val());
         },
@@ -739,7 +739,8 @@ function updatePW(e) {  //修改密码
             $.dialogClose();
         }
     });
-    frmModPW.usedAs('add');
+    frmModPW.data('item',{});
+    frmModPW.usedAs('edit');
 }
 
 function jeDatePcyInit(){
