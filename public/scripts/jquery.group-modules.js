@@ -2015,6 +2015,7 @@
                         beforeSubmit: function (arrKeyVal, $frm, ajaxOptions) {
                             $(frm[0]).find('input[type=submit]').prop('disabled',true);
                             if($frm.hasClass('needmod')){
+                                console.error('无修改');
                                 return false;
                             }
                             $(frm[0]).find(':input[name]').each(function () {
