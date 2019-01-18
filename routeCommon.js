@@ -65,6 +65,7 @@ module.exports = function (app, chttp) {
         req.body.old_passwd = md5('xthinkers' + req.body.old_passwd);
         req.body.new_passwd = md5('xthinkers' + req.body.new_passwd);
         delete req.body.url;
+        console.log(req.body);
         chttp.cpost(req.body, '/p/org/admUpdatePw', function (cont) {
             res.send(cont);
         });

@@ -1,9 +1,5 @@
 var express = require('express');
-<<<<<<< HEAD
-var path = require('path');;;;
-=======
 var path = require('path');
->>>>>>> dev14_1
 var app = express();
 var bodyParser = require('body-parser');
 
