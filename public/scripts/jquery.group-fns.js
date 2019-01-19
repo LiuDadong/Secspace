@@ -739,7 +739,7 @@ $.dialog = function (type, opts) {
                 __def__,
                 {
                     title: '操作确认',
-                    confirmValue: '确定',
+                    confirmValue: '确认',
                     cancelValue: '取消',
                 },
                 opts
@@ -754,7 +754,7 @@ $.dialog = function (type, opts) {
                 __def__,
                 {
                     title: '操作确认',
-                    confirmValue: '确定',
+                    confirmValue: '确认',
                     cancelValue: '取消',
                 },
                 opts

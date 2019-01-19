@@ -19,7 +19,8 @@ function renderRolesfnsWithLic(cb){   //根据角色权限渲染控制左侧菜�
                 // string：类似'add-del-mod-iio-ioo-pub-act-rop'格式，表示业务管理员对该功能模块拥有的权限功能点
                 switch (path){
                     case 'p01':  //特别处理不用控制的模块
-                    case 'p0803':  
+                    case 'p0302':
+                    case 'p0803':
                         $(this).data('fns',1).removeClass('expired');
                         break;
                     default:
@@ -60,6 +61,7 @@ function renderRolesfnsWithLic(cb){   //根据角色权限渲染控制左侧菜�
 function getRoleFns(){
     var obj={};
     var roles=JSON.parse(localStorage.getItem('roles'));
+    console.log(roles);
     for(var i=0;i<roles.length;i++){
         var roleifn=roles[i]['function'];
         for(k in roleifn){

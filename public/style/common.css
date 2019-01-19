@@ -531,7 +531,8 @@ table {
     justify-content: flex-start;
     align-items: center;
     border: 1px solid #ddd;
-    margin-bottom:-1px; 
+    margin-bottom:-1px;
+    padding: 0;
 }
 .scrollList li{
     display: flex;

@@ -1,49 +1,61 @@
-<div class="row dev_list">
-    <div class="col-xs-12">
+<div class="row">
+    <div class="devicelist col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header">
-                <span id="subCaption" class="widget-caption"></span>
+                <span id="subCaption" class="widget-caption">设备列表</span>
             </div>
-            <!-- section:分页列表 -->
-            <div class="widget-body section">
+            <div class="widget-body section clearfix">
                 <form id="panel" class="form-inline" role="form" onkeydown="if(event.keyCode==13){return false;}">
                     <div class="buttons-preview pull-left">
-                        <button class="btnRefresh btn btn-default btn-sm" type="button">
-                            <i class="fa fa-refresh">刷新</i>
+                        <button rolefn="map" onclick="checkmap()" class="btnInvite btn btn-primary" type="button">
+                            <i class="fa fa-map-marker">查看位置</i>
                         </button>
-                        <button rolefn="ls" onclick="send_cmds('lockscreen')" class="btn btn-default btn-sm" type="button">
+                        <button rolefn="ls" onclick="send_cmds('lockscreen')" class="btnInvite btn btn-default btn-sm hrefactive" type="button">
                             <i class="fa fa-lock">锁屏</i>
                         </button>
-                        <button rolefn="ed" onclick="send_cmds('erasedata')" class="btn btn-default btn-sm" type="button">
+                        <button rolefn="spw" onclick="send_cmds('chg_screen_pw')" class="btnInvite btn btn-default btn-sm hrefactive" type="button">
+                            <i class="fa fa-key">锁屏密码</i>
+                        </button>
+                        <button rolefn="ed" onclick="send_cmds('erasedata')" class="btnInvite btn btn-default btn-sm hrefactive" type="button">
                             <i class="fa fa-eraser">擦除企业数据</i>
                         </button>
-                        <button rolefn="rst" onclick="send_cmds('reset')" class="btn btn-default btn-sm" type="button">
-                            <i class="fa fa-history">恢复出厂</i>
+                        <button rolefn="rst" onclick="send_cmds('reset')" class="btnInvite btn btn-default btn-sm hrefactive" type="button">
+                            <i class="fa fa-history">恢复出厂设置</i>
                         </button>
-                        <button rolefn="bell" onclick="send_cmds('bell')" class="btn btn-default btn-sm" type="button">
+                        <button rolefn="bell" onclick="send_cmds('bell')" class="btnInvite btn btn-default btn-sm hrefactive" type="button">
                             <i class="fa fa-bell">响铃追踪</i>
                         </button>
-                        <button rolefn="unb" onclick="unlink()" class="btn btn-default btn-sm" type="button">
+                        <button rolefn="unb" onclick="unlink()" class="btnInvite btn btn-default btn-sm hrefactive" type="button">
                             <i class="fa fa-unlink">解绑</i>
                         </button>
-                        <button rolefn="eli" onclick="weepout()" class="btn btn-default btn-sm" type="button">
+                        <button rolefn="eli" onclick="weepout()" class="btnInvite btn btn-default btn-sm hrefactive" type="button">
                             <i class="fa fa-minus-square">淘汰</i>
                         </button>
+                        <button onclick="refresh()" class="btnRefresh btn btn-default btn-sm" type="button">
+                            <i class="fa fa-refresh">刷新</i>
+                        </button>
                     </div>
-                    <div class="pull-right"></div>
+                    <div class="pull-right">
+                        <div class="input-group">
+                            <span class="input-icon">
+                                <input id="iptKeyword" name="searchval" type="text" class="form-control input-sm" autocomplete="off" placeholder="根据名称搜索">
+                                <i class="glyphicon glyphicon-search blue"></i>
+                            </span>
+                        </div>
+                    </div>
                 </form>
                 <div class="paging-table-wrap">
-                    <table id="pagingTable"></table>
+                    <div id="wrap_devtbl" class="devicetable"></div>
+                    <div class="page1"></div>
                 </div>
+                
             </div>
         </div>
     </div>
 </div>
-
-
-<div class="row dev_info hidden">
-    <div class="device col-lg-12 col-sm-12 col-xs-12">
-        <div style="margin-bottom:5px;" class="row">
+<div class="row">
+    <div style="display:none;" class="device col-lg-12 col-sm-12 col-xs-12">
+        <div style="margin-bottom:10px;" class="row">
             <div class="devinfo col-lg-12 col-sm-12 col-xs-12">
                 <ul class="list-group col-lg-12 col-sm-12 col-xs-12">
                     <li style="border:none;" class="list-group-item devicename col-lg-3 col-sm-6 col-xs-6"></li>
@@ -56,17 +68,17 @@
         <div class="row">
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="tabbable">
-                    <ul id="navDevInfo" class="nav nav-tabs nav-justified">
-                        <li class="basic active">
+                    <ul id="myTab5" class="nav nav-tabs nav-justified">
+                        <li class="active">
                             <a data-toggle="tab" href="#tab1">基本信息</a>
                         </li>
-                        <li class="net">
+                        <li>
                             <a data-toggle="tab" href="#tab2">网络信息</a>
                         </li>
-                        <li class="map">
+                        <li>
                             <a data-toggle="tab" href="#tab3">位置链接</a>
                         </li>
-                        <li class="app">
+                        <li>
                             <a data-toggle="tab" href="#tab4">已安装应用</a>
                         </li>
                     </ul>
@@ -156,10 +168,9 @@
                         <div id="tab3" class="tab-pane">
                             <div class="widget" style="margin:0">
                                 <div id="address" class="map-box-dev_site tab">
-                                    <p style="position:absolute;z-index:1;right:0;padding:3px 8px;background:rgba(255,255,255,0.7)"
-                                        class="success">
+                                    <p style="position:absolute;z-index:1;right:0;padding:3px 8px;background:rgba(255,255,255,0.7)" class="success">
                                         <span id="position_type"></span>
-                                        <br />
+                                        <br/>
                                         <span id="upload_time"></span>
                                     </p>
                                 </div>
@@ -179,4 +190,4 @@
 
 <script data-src="http://webapi.amap.com/maps?v=1.3&amp;key=44ffc5b6029cb5a30b0a83e36577079d"></script>
 <script data-src="https://webapi.amap.com/maps?v=1.3&amp;key=44ffc5b6029cb5a30b0a83e36577079d"></script>
-<script data-src="/subpage/p0301_dev_manage.js"></script>
+<script data-src="/subpage/p0302_dev_manage.js"></script>

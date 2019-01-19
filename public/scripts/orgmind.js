@@ -243,7 +243,6 @@
                                 parentid: nodeSel.id
                             });
                         },
-                        cancelValue: '取消',
                         cancel: function () {
                             $(that['theBtn']).prop('disabled',false);
                         }
@@ -302,7 +301,6 @@
                                 $form.removeData();
                             }, '修改', '机构');
                         },
-                        cancelValue: '取消',
                         cancel: function () {
                             $(that['theBtn']).prop('disabled',false);
                         }
@@ -337,7 +335,6 @@
                     }
                     $.dialog('confirm', {
                         content: '确认删除选中的机构及其所有子机构吗?',
-                        confirmValue: '确认',
                         confirm: function () {
                             $.actPost('/common/orgtree/del', {
                                 id: that.selected.id
@@ -354,7 +351,6 @@
                         cancel: function () {
                             $(that['theBtn']).prop('disabled',false);
                         },
-                        cancelValue: '取消',
                         title: '删除机构'
                     });
                 }

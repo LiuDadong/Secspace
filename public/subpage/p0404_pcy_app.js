@@ -20,7 +20,7 @@
                     <th>名称</th>\
                     <th>类型</th>\
                     <th>状态</th>\
-                    <th>已应用/已下发</th>\
+                    <th style="width:12%;">已应用/已下发</th>\
                     <th class="filter btn-group">\
                         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">\
                             <span>来源</span> <i class="fa fa-angle-down"></i>\

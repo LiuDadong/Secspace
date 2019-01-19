@@ -591,6 +591,7 @@
                 this.fnPage(1);
             },
             fnPage: function () {
+                $('.section:has(#multTable)').show();
                 oSubPage.fnActPart(this.sPartSelector);
                 if (arguments[0] && typeof arguments[0] == 'number') {
                     this.nStart = arguments[0];
@@ -1109,12 +1110,11 @@
                                 } else {
                                     checkImg(true)
                                 }
-                            } else {
-                                checkImg(false)
                             }
                             oSubPage.partForm.fnCheckAll();
 
                             function checkImg(bool) {
+                                console.log('312381923');
                                 img.attr("src", bool ? getObjectURL(file) : img.attr('data-src'));
                                 ipt.toggleClass('danger', !bool);
                                 lab.toggleClass('danger', !bool);
@@ -1212,6 +1212,7 @@
                     events: [{
                         type: 'click',
                         fn: function () {
+                            console.log('11')
                             oSubPage.partTable.fnPage();
                         }
                     }]
@@ -1249,26 +1250,31 @@
                 frm[0].reset();
                 frm.find('.uploadFile .file-help').removeClass('hidden');
                 frm.find('.uploadFile .file-name').addClass('hidden').text('');
+
+                
                 this.setting.fnAheadItem(item);
-                this.fnItemInForm(); //将成员参数加载入表单
                 this.setting.fnAfterItem(ctrl, item);
                 switch (ctrl) {
-                    case this.aCtrl[0]:   //upload        
+                    case this.aCtrl[0]:   //upload
+                        this.fnItemInForm(false); //将成员参数加载入表单
                         frm.attr('action', this.setting.upload.action);
                         btnSmt.show().text(this.aBtnTxt.upload).prop('disabled', false);
                         frm.find(':input[name][type!=hidden]:visible').prop('disabled', false);
                         break;
                     case this.aCtrl[1]:   //add
+                        this.fnItemInForm(false); //将成员参数加载入表单
                         frm.attr('action', this.setting.add.action);
                         btnSmt.show().text(this.aBtnTxt.add).prop('disabled', false);
                         frm.find(':input[name][type!=hidden]:visible').prop('disabled', false);
                         break;
                     case this.aCtrl[2]:   //modify
+                        this.fnItemInForm(item); //将成员参数加载入表单
                         frm.attr('action', this.setting.modify.action);
                         btnSmt.show().text(this.aBtnTxt.modify).prop('disabled', false);
                         frm.find(':input[name][type!=hidden]:visible').prop('disabled', false);
                         break;
                     case this.aCtrl[3]:   //view
+                        this.fnItemInForm(item); //将成员参数加载入表单
                         frm.find(':input[name][type!=hidden]:visible').prop('disabled', true);
                         frm.find('input:radio:visible:checked').prop('disabled', false);
                         btnSmt.hide();
@@ -1280,10 +1286,9 @@
                 this.fnCheckAll();
             },
 
-            fnItemInForm: function () {   //在表单中加载选中的成员信息，以便查看和修改
-                if (this.oItem) {
-                    var item = this.oItem,
-                        that = this;
+            fnItemInForm: function (item) {   //在表单中加载选中的成员信息，以便查看和修改
+                if (item) {
+                    var that = this;
                     $(':input[name]', '#multForm').each(function () {
                         var n = $(this).attr('name'),
                             v = item[n];
@@ -1297,7 +1302,10 @@
                                 case 'file':
                                     if (v) {
                                         var imgsrc = localStorage.getItem("appssec_url") + '/' + v;
-                                        $(this).next('img').data('src', imgsrc).attr('src', imgsrc);
+                                        $(this).next('img').attr('src', imgsrc);
+                                    }else{
+                                        var imgsrc = $(this).next('img').data('src');
+                                        $(this).next('img').attr('src', imgsrc);
                                     }
                                     break;
                                 default:
@@ -1307,11 +1315,13 @@
                         } else {
                             //console.warn("注意关键字：" + n)
                         }
-
                     });
                     $('input[type=file]', '#multForm .uploadFile').prop('disabled', true).parents('.form-group').addClass('hidden');
                 } else {
                     $('input[type=file]', '#multForm .uploadFile').prop('disabled', false).parents('.form-group').removeClass('hidden');
+                    $('img[data-src]').each(function(){
+                        $(this).attr('src',$(this).data('src'));
+                    })
                 }
 
             },

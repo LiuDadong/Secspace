@@ -78,7 +78,6 @@ function homeJadeInit() {  //初始化登录的管理员信息
                     $('.account-area button[onclick="updatePW()"]').click();
                 },300)
             },
-            cancelValue: '取消',
             cancel:function(){
                 localStorage.setItem('firLogin','');
             }
@@ -576,7 +575,7 @@ function accountInfo(e) {  //修改密码
             autoSize:true,
             maskClickHide: true,
             title: "账号信息",
-            content: '<form id="frmAccount" class="form-horizontal form-bordered" role="form" method="post" enctype="multipart/form-data">\
+            content: '<form id="frmAccount" class="form-horizontal" role="form" method="post" enctype="multipart/form-data">\
                         <input name="sid" type="hidden" />\
                         <div class="form-group">\
                             <div class="col-sm-12">\
@@ -612,12 +611,10 @@ function accountInfo(e) {  //修改密码
             hasBtn: false,
             hasClose: true,
             hasMask: true,
-            confirmValue: '确认',
             confirm: function () {
                 frmAccount.submit();
             },
-            confirmHide: true,
-            cancelValue: '取消'
+            confirmHide: true
         });
         var frmAccount =$('#frmAccount').MultForm({
             editUrl:'/p/org/admUpdateAttr',
@@ -687,7 +684,7 @@ function updatePW(e) {  //修改密码
         autoSize:true,
         maskClickHide: true,
         title: "修改密码",
-        content: '<form id="frmModPW" class="form-horizontal form-bordered" role="form" method="post" style="margin-right:-40px;">\
+        content: '<form id="frmModPW" class="form-horizontal" role="form" method="post" style="margin-right:-40px;">\
                     <div class="form-group">\
                         <label for="old_passwd" class="col-sm-2 control-label no-padding-right">当前密码</label>\
                         <div class="col-sm-10">\
@@ -718,12 +715,10 @@ function updatePW(e) {  //修改密码
         hasBtn: false,
         hasClose: true,
         hasMask: true,
-        confirmValue: '确认',
         confirm: function () {
             frmModPW.submit();
         },
-        confirmHide: true,
-        cancelValue: '取消'
+        confirmHide: true
     });
     var frmModPW =$('#frmModPW').MultForm({
         editBtnTxt: '确认',

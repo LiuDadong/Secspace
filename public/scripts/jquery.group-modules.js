@@ -227,7 +227,6 @@
                                 hasBtn: true,
                                 hasClose: true,
                                 hasMask: true,
-                                confirmValue: '确认',
                                 confirm: function () {
                                     $('.dialog-btn-confirm').addClass('disabled');
                                     $.actPost('/admin/user/invite', {
@@ -248,8 +247,7 @@
                                         });
                                     }
                                 },
-                                confirmHide: false,
-                                cancelValue: '取消'
+                                confirmHide: false
                             });
                         } else {
                             warningOpen('请选择未激活用户！', 'danger', 'fa-bolt');
@@ -303,7 +301,6 @@
                                     hasBtn: true,
                                     hasClose: true,
                                     hasMask: true,
-                                    confirmValue: '确认',
                                     confirm: function () {
                                         if (sel[0].hasOwnProperty('policy_type')) {
                                             delPolicy();
@@ -400,8 +397,7 @@
                                             }
                                         }
                                     },
-                                    confirmHide: true,
-                                    cancelValue: '取消'
+                                    confirmHide: true
                                 });
                             } else {
                                 warningOpen('请先禁用要删除的' + $(pnl.relSubCaption).data('itemText') + '！', 'danger', 'fa-bolt');
@@ -1407,7 +1403,7 @@
                                 autoSize: true,
                                 maskClickHide: true,
                                 title: "修改用户密码",
-                                content: '<form id="frmModPW" class="form-horizontal form-bordered" role="form" method="post" style="margin-right:-40px;">\
+                                content: '<form id="frmModPW" class="form-horizontal" role="form" method="post" style="margin-right:-40px;">\
                                             <input type="hidden" name="userId" />\
                                             <div class="form-group">\
                                                 <label for="pw" class="col-sm-2 control-label no-padding-right">新密码</label>\
@@ -1433,12 +1429,10 @@
                                 hasBtn: false,
                                 hasClose: true,
                                 hasMask: true,
-                                confirmValue: '确认',
                                 confirm: function () {
                                     frmModPW.submit();
                                 },
-                                confirmHide: false,
-                                cancelValue: '取消'
+                                confirmHide: false
                             });
                             $('#frmModPW').data('item', { userId: item.userId });
                             var frmModPW = $('#frmModPW').MultForm({
