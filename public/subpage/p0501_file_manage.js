@@ -92,7 +92,7 @@
         addUrl: '/p/file/uploadFile',
         addBtnTxt: '上传',
         addInfoTxt: '上传',  //添加提交成功或失败反馈的信息中的.act
-        editAct: '/common/edit',
+        editAct: '/common/mod',
         editUrl: '/p/file/updateFile',
         editBtnTxt: '保存',
         afterReset: function () {  //表单重置之后紧接着的回调

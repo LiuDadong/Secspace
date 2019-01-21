@@ -2844,6 +2844,7 @@
                     width: opts.width
                 }).find('dl').css({
                     overflowY: 'auto',
+                    padding:'4px 2px',
                     height: opts.height
                 });
 
