@@ -196,7 +196,7 @@
             }
             return true;
         },
-        cbSubmit: function (act) {  //提交编辑成功之后的回调
+        cbAfterSuccess: function (act) {  //提交编辑成功之后的回调
             switch (act) {
                 case 'add':
                     pagingTable.PagingTable('refresh');
@@ -355,7 +355,7 @@
                 afterUsed: function (use) {
                     frmResetPW.find('input[name=url]').remove();
                 },
-                cbSubmit: function (use) {  //提交编辑成功之后的回调
+                cbAfterSuccess: function (use) {  //提交编辑成功之后的回调
                     $.dialogClose();
                 }
             });

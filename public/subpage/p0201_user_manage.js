@@ -173,7 +173,7 @@
             }
             return true;
         },
-        cbSubmit: function (use) {  //提交编辑成功之后的回调
+        cbAfterSuccess: function (use) {  //提交编辑成功之后的回调
             switch (use) {
                 case 'add':
                     break;
@@ -510,7 +510,7 @@ function askForLeave() {
             afterUsed: function (use) {
                 frmAskForLeave.find('input[name=url]').remove();
             },
-            cbSubmit: function (use) {
+            cbAfterSuccess: function (use) {
                 pagingTable.PagingTable('update');
                 $.dialogClose();
             }
@@ -619,7 +619,7 @@ function updateLeave(e){
             afterUsed: function (use) {
                 frmAskForLeave.find('input[name=url]').remove();
             },
-            cbSubmit: function (use) {
+            cbAfterSuccess: function (use) {
                 pagingTable.PagingTable('update');
                 $.dialogClose();
             }

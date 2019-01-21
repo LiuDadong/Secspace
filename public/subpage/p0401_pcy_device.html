@@ -253,7 +253,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label no-padding-right">白名单应用</label>
-                            <div class="col-md-5 need-init limit_apps append-box">
+                            <div class="col-md-5 limit_apps append-box">
                                 <input type="hidden" name="limit_apps" />
                                 <div class="item">
                                     <input type="text" name="white_app" ctrl-regex="package" placeholder="请输入程序包名，例：com.taobao.taobao" class="form-control no-repeat" />
@@ -288,15 +288,13 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-md-4 control-label no-padding-right">Wifi热点推送</label>
-                            <div class="col-md-5 need-init wifi append-box">
+                            <div class="col-md-5 wifi append-box">
                                 <input type="hidden" name="wifi" />
                                 <div class="item">
                                     <input type="text" name="ssid" ctrl-regex="wifi" class="form-control no-repeat" placeholder="SSID" />
                                     <input type="text" name="password" class="form-control" placeholder="密码" />
-
                                     <i class="fa fa-minus-circle primary"></i>
                                 </div>
                                 <button class="btn btn-primary">继续添加WiFi热点</button>

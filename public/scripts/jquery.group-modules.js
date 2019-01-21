@@ -1441,7 +1441,7 @@
                                 afterUsed: function (use) {
                                     frmModPW.find('input[name=url]').remove();
                                 },
-                                cbSubmit: function (use) {
+                                cbAfterSuccess: function (use) {
                                     $.dialogClose();
                                 }
                             });
@@ -1759,6 +1759,9 @@
             usedAs: function (use) {
                 frm.beforeUsed(use, frm.data('item'));
                 frm[0].reset();
+                $(frm[0]).find('.append-box').each(function(){
+                    $(this).data('methods').reset();
+                });
                 frm.afterReset();
                 $(frm[0]).data('use', use);
                 var btnSubmit = $(frm[0]).find(':input[type=submit]');
@@ -1921,7 +1924,8 @@
             //准备html
             //禁用表单的回车自动提交
             preventAutoSubmit();    //屏蔽回车提交
-            requireInit();       //准备输入form-group数据校验结果标志 <b>*</b>
+            appendBoxInit();        //append-box组件初始化
+            requireInit();          //准备输入form-group数据校验结果标志 <b>*</b>
             saveFnsForShare();      //保存组件函数至页面元素form，以便共享
             ajaxFormInit();         //表单ajax初始化
             bindFormBaseHandles();  //绑定表单基础事件处理函数， 返回按钮和提交事件
@@ -1930,6 +1934,7 @@
             avoidExplorerHint();    //避开浏览器自动输入提示
             inputNumberInit();      //数值输入框初始化
             bindIptHandles();       //绑定输入处理
+
             function preventAutoSubmit() {
                 frm[0].onkeydown = function (event) {
                     var target, tag;
@@ -1952,6 +1957,11 @@
                         }
                     }
                 };
+            }
+            function appendBoxInit(){
+                $(frm[0]).find('.append-box').each(function () {
+                    $(this).plugInit();
+                });
             }
             function requireInit() {
                 $(frm[0]).find('.form-group:has(:input.require,:input.same,:input[same-with])').each(function () {  //准备必填项的标识符<b></b>
@@ -2051,30 +2061,26 @@
                         success: function (data) {
                             $(frm[0]).data('response',data).find('input[type=submit]').prop('disabled',false);
                             $.handleECode(true, data, $(frm[0]).data('infoTxt'));
+                            if(frm.success instanceof Function){
+                                frm.success(data);
+                            }
                             switch (data.rt) {
                                 case '0000':
-                                    //frm[0].reset();
-                                    switch ($(frm[0]).attr('action')) {
-                                        case frm.addAct:
-                                            if (frm.cbSubmit) {
-                                                frm.cbSubmit('add');
-                                            }
-                                            break;
-                                        case frm.editAct:
-                                            if (frm.cbSubmit) {
-                                                frm.cbSubmit('edit');
-                                            }
-                                            break;
-                                        default:
+                                    if(frm.cbAfterSuccess){
+                                        switch ($(frm[0]).attr('action')) {
+                                            case frm.addAct:
+                                                frm.cbAfterSuccess('add');
+                                                break;
+                                            case frm.editAct:
+                                                frm.cbAfterSuccess('edit');
+                                                break;
+                                            default:
+                                        }
                                     }
                                     break;
                                 default:
                                     console.warn("data.rt=" + data.rt)
                             }
-                            if(frm.success instanceof Function){
-                                frm.success(data);
-                            }
-
                         }
                     };
                 $(frm[0]).ajaxForm(ajaxFormOptions);

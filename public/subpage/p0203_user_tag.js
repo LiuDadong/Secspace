@@ -79,7 +79,7 @@
         addBtnTxt: '添加',
         editUrl: '/p/tag/manage',
         editBtnTxt: '保存',
-        cbSubmit: function (act) {  //提交编辑成功之后的回调
+        cbAfterSuccess: function (act) {  //提交编辑成功之后的回调
             switch (act) {
                 case 'add':
                     pagingTable.PagingTable('refresh');

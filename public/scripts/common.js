@@ -630,7 +630,7 @@ function accountInfo(e) {  //修改密码
                     default:
                 }
             },
-            cbSubmit: function (use) {  //提交编辑成功之后的回调
+            cbAfterSuccess: function (use) {  //提交编辑成功之后的回调
                 $.dialogClose();
             }
         });
@@ -726,7 +726,7 @@ function updatePW(e) {  //修改密码
         beforeSubmit:function(arrKeyVal, $frm, ajaxOptions){
             frmModPW['new_passwd']=b64.encode($('input[name=new_passwd]').val());
         },
-        cbSubmit: function (use) {  //提交编辑成功之后的回调
+        cbAfterSuccess: function (use) {  //提交编辑成功之后的回调
             localStorage.setItem('firLogin','');
             $.cookie('passwd',frmModPW['new_passwd']);
             $.dialogClose();

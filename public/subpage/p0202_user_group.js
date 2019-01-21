@@ -273,7 +273,7 @@ function grpFormFor(use, ele) {
             }
             return true;
         },
-        cbSubmit: function (use) {
+        cbAfterSuccess: function (use) {
             $.dialogClose();
             getDeparts(0);
         }

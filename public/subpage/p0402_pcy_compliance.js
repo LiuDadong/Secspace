@@ -247,7 +247,7 @@ var multForm = $('#multForm').MultForm({
             }
         }
     },
-    cbSubmit: function (use) {  //提交编辑成功之后的回调
+    cbAfterSuccess: function (use) {  //提交编辑成功之后的回调
         switch (use) {
             case 'add':
                 break;

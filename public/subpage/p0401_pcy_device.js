@@ -167,7 +167,7 @@ var multForm = $('#multForm').MultForm({
             default:
         }
     },
-    cbSubmit: function (use) {  //提交编辑成功之后的回调
+    cbAfterSuccess: function (use) {  //提交编辑成功之后的回调
         switch (use) {
             case 'add':
                 break;
@@ -203,9 +203,6 @@ var issueSubsPane = $('#issueSubsPane').IssuePane({
 
 
 //模块特别情况处理
-$('.need-init').each(function () {
-    $(this).plugInit();
-});
 $('input[name=camera]').on('click', function () {
     if ($(this).prop('checked')) {
         $('input[name=camera_control]').prop('checked', true)
@@ -216,31 +213,6 @@ $('input[name=camera_control]').on('click', function () {
         $('input[name=camera]').prop('checked', false)
     }
 })
-
-
-
-// 添加
-function add() {
-    reset();
-    $('.policylist, .viewbtn').css({ 'display': 'none' });
-    $('.policyadd, .addwifibtn').css({ 'display': 'block' });
-    $('.modbtn').addClass('hidden');
-    $('.addbtn').removeClass('hidden');
-    $('.addpolicy').css({ 'display': 'inline-block' });
-    $('select[name=position_strategy],select[name=passwd_type]').val(1);
-    $('select[name=pw_min_len]').val(6);
-    $('select[name=pw_fail_count], select[name=available_time]').val(0);
-    $('.form-group:has(.limit_apps.append-box)').addClass('hidden');
-}
-
-function reset() {
-    $('.policyadd :input').val('');
-    $('.policyadd select').val('');
-    $('.policyadd input:checkbox').prop("checked", false).prop("disabled", false);
-    $('.need-init').each(function () {
-        $(this).plugInit();
-    });
-}
 
 
 //获取策略提交数据

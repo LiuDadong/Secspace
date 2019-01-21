@@ -1,4 +1,12 @@
 $.objRegex= {  //输入正则控制
+    orgName: {
+        pattern: /^[\u4e00-\u9fa5a-zA-Z0-9_-]{1,20}$/,
+        info: '1-20个中英文、数字或"-_"'
+    },
+    orgCode: {
+        pattern: /^[a-zA-Z0-9_-]{1,20}$/,
+        info: '1-20个英文、数字或"-_"'
+    },
     account: {   //account表示账号类参数,在输入元素上添加类“re-account”,便可实现对元素输入的正则控制
         pattern: /^[a-zA-Z0-9_-]{4,16}$/,   //检测输入的值是否合法
         info: "请输入4-16位英文、数字、_或-"   //用户设置titile作为鼠标移入时的提示
@@ -564,6 +572,11 @@ $.fn.plugInit = function () {
                 box.find('.item:last').after(item);
                 box.appendCheck();
             });
+            box.data('methods',{
+                reset:function(){
+                    box.find('i.fa-minus-circle:visible').click();
+                }
+            })
             return box;
         }
     } else {

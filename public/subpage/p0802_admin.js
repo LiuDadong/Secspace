@@ -199,7 +199,7 @@
             }
             return true;
         },
-        cbSubmit: function (act) {  //提交编辑成功之后的回调
+        cbAfterSuccess: function (act) {  //提交编辑成功之后的回调
             switch (act) {
                 case 'add':
                     pagingTable.PagingTable('refresh');
@@ -333,7 +333,7 @@
                         </div>\
                         <div class="form-group">\
                             <div class="col-sm-2  col-sm-offset-4">\
-                                <button type="button" onclick="$.dialogClose()" class="btnBack btn btn-default">返回</button>\
+                                <button type="button" onclick="$.dialogClose()" class="btnBack btn btn-default">取消</button>\
                             </div>\
                             <div class="col-sm-2 col-sm-offset-1">\
                                 <input type="submit" class="btn btn-primary" disabled="">\
@@ -358,7 +358,7 @@
                 afterUsed: function (use) {
                     frmResetPW.find('input[name=url]').remove();
                 },
-                cbSubmit: function (use) {  //提交编辑成功之后的回调
+                cbAfterSuccess: function (use) {  //提交编辑成功之后的回调
                     $.dialogClose();
                 }
             });

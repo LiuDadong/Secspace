@@ -416,7 +416,7 @@ function resetLockPW(ele) {
             afterUsed: function (use) {
                 frmModPW.find('input[name=url]').remove();
             },
-            cbSubmit: function (use) {
+            cbAfterSuccess: function (use) {
                 $.dialogClose();
             }
         });
