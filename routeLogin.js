@@ -4,7 +4,7 @@ var md5 = require('md5');
 module.exports = function (app, chttp) {
     // 登录页
     app.get('/', function (req, res) {
-        if (req.cookies.sid) {
+        if (req.cookies.sid&&req.cookies.firLogin!=='0') {
             if(req.cookies.org_id=='0'){           
                 res.render('super');
             }else{           
@@ -30,7 +30,9 @@ module.exports = function (app, chttp) {
             'passwd': md5('xthinkers' + req.body.passwd),
             'dev_ip': req.body.dev_ip
         }, url, function (cont) {
+            console.log(cont);
             res.send(cont);
+
         });
     });
     // 获取产品名称
@@ -77,10 +79,9 @@ module.exports = function (app, chttp) {
             "dev_ip": req.cookies.dev_ip
         };
         chttp.cpost(postData, '/p/org/admLogout', function (cont) {
-            res.clearCookie('sid');
-            res.clearCookie('org_id');
-            res.clearCookie('dev_ip');
-            res.clearCookie('manager');
+            for(i in req.cookies){
+                res.clearCookie(i);
+            }
             res.redirect('/');
         });
     });

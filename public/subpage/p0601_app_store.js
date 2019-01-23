@@ -25,7 +25,7 @@
                 fnDealKeyVal: function (k, v) {//重写显示前数值处理函数
                     switch (k) {
                         case "version":
-                            v = v ? v : "————";
+                            v = v ? v : "— —";
                             break;
                         case "platform":
                             switch (v) {

@@ -10,7 +10,7 @@
     //用于交互时改变标题显示
     var subCaption = $('#subCaption').data('itemText', '用户').text('用户列表');
     
-    //采用分页表格组件pagingTable初始化黑白名单列表
+    //采用分页表格组件pagingTable初始化列表
     var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
         jsonData: {
             'url': '/p/user/manage'
@@ -100,7 +100,7 @@
         }
     }))
     
-    // 采用multForm组件初始化黑白名单多用途表单
+    // 采用multForm组件初始化多用途表单
     var multForm = $('#multForm').MultForm({
         addUrl: '/p/user/manage',
         editUrl: '/p/user/manage',
@@ -240,7 +240,8 @@ function prepareUserGroupTree(){
     });
 }
 function prepareUserTagList(){
-    var xlistUserTag = $('#xlistUserTag').XList({
+    var xlistUserTag = $('#xlistUserTag');
+    xlistUserTag.XList({
         relPTable: null,
         multiple: true
     });
@@ -259,13 +260,13 @@ function prepareUserTagList(){
             $('input:hidden[name=tag_id]').val('[]').change();
         }else{
             var tids = $(this).data('value').map(function (item) {
-                return item.id+'';
+                return item.id;
             });
-            if(xlistUserTag.find('li[data-tid]:has(input)').length!=0){
+            if(tids.length>0){
                 setTimeout(function () {
-                        xlistUserTag.find('li[data-tid]:has(input)').each(function(){
-                            $(this).find('input').prop('checked',tids.indexOf($(this).attr('data-tid'))!==-1).change();
-                        })
+                    xlistUserTag.find('.dd-list li.dd-item').each(function(){
+                        $(this).find('input').prop('checked',tids.indexOf($(this).data('tid'))!==-1).change();
+                    })
                 }, 100)
             }
         }

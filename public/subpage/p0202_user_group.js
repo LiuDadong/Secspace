@@ -21,17 +21,17 @@ function getDeparts(departId) {
         if (data.rt == '0000') {
             var tbl = $('<table class="table table-striped table-bordered table-hover" style="width:100%;background-color:#fff;" >\
                             <tr style="line-height:36px;">\
-                                <th class="sel" style="line-height:20px;">\
+                                <th class="sel" style="width:10%;line-height:20px;">\
                                     <div class="checkbox">\
                                         <label><input type="checkbox" onclick="selectedAll(this)" /><span class="text">全选</span></label>\
                                     </div>\
                                 </th>\
-                                <th>名称</th>\
-                                <th>创建人</th>\
-                                <th>用户关联数量</th>\
-                                <th>更新时间</th>\
-                                <th>状态</th>\
-                                <th>操作</th>\
+                                <th style="width:14%;">名称</th>\
+                                <th style="width:14%;">创建人</th>\
+                                <th style="width:14%;">用户关联数量</th>\
+                                <th style="width:18%;">更新时间</th>\
+                                <th style="width:10%;">状态</th>\
+                                <th style="width:14%;">操作</th>\
                             </tr>\
                         </table>');
             if(data.depart_list.length>0){

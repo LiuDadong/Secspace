@@ -79,6 +79,20 @@ $.iptRegExpCtrl =function (ipt){
     return true;
 }
 
+$.local=function(){
+    switch(arguments.length){
+        case 1:
+            return localStorage.getItem(arguments[0]);
+        case 2:
+            localStorage.setItem(arguments[0],arguments[1]);
+            break;
+        default:
+            console.error('$.LS()用法错误，其参数用法与localStorage相似');
+    }
+}
+$.removeLocal=function(item){
+    localStorage.removeItem(item)
+}
 
 $.isJson = function (obj) {
     return typeof (obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;

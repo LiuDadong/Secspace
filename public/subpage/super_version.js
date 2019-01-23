@@ -233,7 +233,7 @@
             title: '添加版本',
             top:'20%',
             width: '600',
-            content: '<form id="addAppForm" method="post" action="' + localStorage.getItem("appssec_url") + '/p/file/uploadApp" enctype="multipart/form-data" target="ifm" autocomplete="off" role = "form" class="form-horizontal">\
+            content: '<form id="addAppForm" method="post" action="' + localStorage.getItem("appssec_url") + '/p/file/uploadApp" enctype="multipart/form-data" target="ifm" autocomplete="off" role = "form" class="form-horizontal form-sm">\
                         <div class = "form-group">\
                             <label class="col-sm-3 control-label no-padding-right" for = "name">版本名称</label>\
                             <div class="col-sm-9">\

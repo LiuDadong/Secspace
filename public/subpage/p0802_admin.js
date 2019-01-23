@@ -1,6 +1,3 @@
-
-
-    
     var omAdmin = new OrgMind({
         container: 'om_admin',          //'om_admin'-- id of the container   
         rootId:$.cookie('org_id'),
@@ -42,22 +39,22 @@
     //用于交互时改变标题显示
     var subCaption = $('#subCaption').data('itemText', '业务管理员').text('业务管理员列表');
 
-    //采用分页表格组件pagingTable初始化黑白名单列表
+    //采用分页表格组件pagingTable初始化列表
     var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
         paging: false,
         jsonData: { 'url': '/p/org/adminMan' },
         // theadHtml为表头类元素，第一个th用于存放全选复选框
         theadHtml: '<tr>\
-                    <th style="width:6%"></th>\
-                    <th style="width:14%">账号</th>\
-                    <th>名称</th>\
-                    <th style="width:6%">状态</th>\
-                    <th>责任机构</th>\
-                    <th style="width:14%">手机号</th>\
-                    <th>创建者</th>\
-                    <th style="width:16%">创建时间</th>\
-                    <th style="width:20%;">操作</th>\
-                </tr > ',
+                        <th style="width:6%"></th>\
+                        <th style="width:12%">账号</th>\
+                        <th style="width:12%">姓名</th>\
+                        <th style="width:6%">状态</th>\
+                        <th style="width:12%">责任机构</th>\
+                        <th style="width:12%">手机号</th>\
+                        <th style="width:10%">创建者</th>\
+                        <th style="width:15%">创建时间</th>\
+                        <th style="width:14%">操作</th>\
+                    </tr > ',
         tbodyEmptyHtml: '<tr><td>暂无数据</td><tr>',
         // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
         // to-edit、to-view表示要跳转的目标表单
@@ -107,7 +104,7 @@
     }))
 
 
-    // 采用multForm组件初始化黑白名单多用途表单
+    // 采用multForm组件初始化多用途表单
     var multForm = $('#multForm').MultForm({
         addUrl: '/p/org/adminMan',
         addBtnTxt: '添加',
@@ -148,7 +145,7 @@
             $.silentPost('/common/adminRoleInfo', {}, function (data) {
                 var selectRoles = $('#selectRoles').empty().css({ 'max-height': '200px' });
                 if (data.rt === "0000") {
-                    var roles = data.query_adm_role;
+                    var roles = data.query_adm_info.adm_role_info;
                     if (roles.length > 0) {
                         var numAct = 0;
                         for (var i = 0; i < roles.length; i++) {

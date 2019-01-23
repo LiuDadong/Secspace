@@ -6,7 +6,7 @@
 
 
 
-// //采用分页表格组件pagingTable初始化黑白名单列表
+// //采用分页表格组件pagingTable初始化列表
 var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
     jsonData: { 'url': '/p/config/filelist','org_code':'root' },
     paging:false,

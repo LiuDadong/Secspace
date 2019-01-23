@@ -66,14 +66,12 @@
                         + '<td>' + (data.logInfo[i].os_type=='android'? 'Android':'iOS') + '</td>'
                         + '<td>' + data.logInfo[i].opt_time + '</td>'
                         + '<td>' + data.logInfo[i].sensitive_word + '</td>'
-                        + '<td title="'+ data.logInfo[i].vio_addr +'">' + data.logInfo[i].vio_addr + '</td>'
+                        + '<td style="text-align:left;" title="'+ data.logInfo[i].vio_addr +'">' + data.logInfo[i].vio_addr + '</td>'
                         + '</tr>';
                 }
                 str += '</table>';
                 table.html(str);
                 createFooter(start_page, page_length, data.total_count, 1);
-            } else if (data.rt == 5) {
-                toLoginPage();
             }
         });
     }

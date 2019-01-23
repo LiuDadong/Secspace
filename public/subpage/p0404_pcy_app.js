@@ -9,7 +9,7 @@
     //用于交互时改变标题显示
     var subCaption = $('#subCaption').data('itemText', '应用策略').text('应用策略列表');
 
-    //采用分页表格组件pagingTable初始化黑白名单列表
+    //采用分页表格组件pagingTable初始化列表
     var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
         jsonData: {
             'url': '/p/policy/appPolicyMan',
@@ -113,7 +113,7 @@
         }
     }))
 
-    // 采用multForm组件初始化黑白名单多用途表单
+    // 采用multForm组件初始化多用途表单
     var multForm = $('#multForm').MultForm({
         addUrl: '/p/policy/appPolicyMan',
         editUrl: '/p/policy/appPolicyMan',
@@ -143,6 +143,7 @@
                         add_policy();
                         return false;
                     })
+                    camap.fnSetInit([116.397474,39.908686],300);
                     break;
                 case "edit":
                     showItem(item);

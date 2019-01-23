@@ -12,7 +12,7 @@ jeDatePcyInit();
 //用于交互时改变标题显示
 var subCaption = $('#subCaption').data('itemText', '围栏策略').text('围栏策略列表');
 
-//采用分页表格组件pagingTable初始化黑白名单列表
+//采用分页表格组件pagingTable初始化列表
 var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
     jsonData: {
         'url': '/p/policy/fenceMan',
@@ -116,7 +116,7 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
     }
 }))
 
-// 采用multForm组件初始化黑白名单多用途表单
+// 采用multForm组件初始化多用途表单
 var multForm = $('#multForm').MultForm({
     addUrl: '/p/policy/fenceMan',
     editUrl: '/p/policy/fenceMan',
@@ -125,22 +125,13 @@ var multForm = $('#multForm').MultForm({
         //控制禁用客户端权限样式和行为
         // 获取客户端设置授权项
     },
-    beforeUsed: function (use, item) {
-        switch (use) {
-            case "add":
-                break;
-            case "edit":
-                break;
-            case "view":
-                break;
-            default:
-        }
-    },
     afterUsed: function (use, item) {
         this.off('submit').attr("onkeydown","if(event.keyCode==13){return false;}");
         var btnSubmit = this.find('input[type=submit]');
         switch (use) {
             case "add":
+                camap.fnSetInit([116.397474,39.908686],300);
+                multForm.find('select[name=policy_type]').prop('disabled',false).change();
                 $('input[name=wifi]').change();
                 btnSubmit.off().on('click', function (e) {
                     e.preventDefault();
@@ -150,15 +141,17 @@ var multForm = $('#multForm').MultForm({
                 break;
             case "edit":
                 showItem(item);
-                multForm.find('input[name=name]').attr('readonly', false);
                 btnSubmit.off().on('click', function (e) {
                     e.preventDefault();
                     mod_policy();
                     return false;
                 })
+                multForm.find('input[name=name]').attr('readonly', false);
+                multForm.find('select[name="policy_type"]').prop('disabled',true).change();
                 break;
             case "view":
                 showItem(item);
+                multForm.find('select[name="policy_type"]').prop('disabled',true).change();
                 break;
             default:
         }

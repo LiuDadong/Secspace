@@ -1,6 +1,6 @@
 var b64 = new Base64();
 function pjaxClick(sHref) {
-    switch(sHref){
+    switch (sHref) {
         case '/':
             $('ul.sidebar-menu>li:first>a').click();
             break;
@@ -24,14 +24,14 @@ function pjaxInit() {  //pjax初始化
     // }); 
 
     $(document).on('pjax:click', function (e) {
-        setTimeout(function(){
+        setTimeout(function () {
             pageRender();
-        },100);
-        localStorage.setItem('fns',JSON.stringify($(e.target).data('fns')));
-        $.cookie('hasAcc',$(e.target).data('fns')?1:0);
+        }, 100);
+        localStorage.setItem('fns', JSON.stringify($(e.target).data('fns')));
+        $.cookie('hasAcc', $(e.target).data('fns') ? 1 : 0);
         $(".loading-container").removeClass('loading-inactive').addClass('loading-active');//参考的loading动画代码
     });
-    $(document).on('pjax:success', function (event, data, state, option) {        
+    $(document).on('pjax:success', function (event, data, state, option) {
         $('script[data-src]').each(function () {
             var src = $(this).data('src');
             $.getScript(src, function () {
@@ -49,37 +49,37 @@ function pjaxInit() {  //pjax初始化
     pjaxClick(location.pathname + location.search);
 }
 function homeJadeInit() {  //初始化登录的管理员信息
-    var appssec_url = localStorage.getItem("appssec_url"),
-        product_name = localStorage.getItem("product_name"),
-        icon = localStorage.getItem("icon"),
-        avatar = localStorage.getItem("avatar"),
-        managerName=localStorage.getItem('name'),
-        manager=localStorage.getItem('manager'),
-        email=localStorage.getItem('email'),
-        firLogin=localStorage.getItem('firLogin');
-    if(icon){
-        $('img.log').attr('src',appssec_url+'/'+icon);
+    var appssec_url = $.local("appssec_url"),
+        product_name = $.local("product_name"),
+        icon = $.local("icon"),
+        avatar = $.local("avatar"),
+        managerName = $.local('name'),
+        manager = $.local('manager'),
+        email = $.local('email'),
+        firLogin = $.local('firLogin');
+    if (icon) {
+        $('img.logo').attr('src', appssec_url + '/' + icon);
     }
-    if(avatar){
-        $('.account-area img').attr('src',appssec_url+'/'+avatar);
+    if (avatar) {
+        $('.account-area img').attr('src', appssec_url + '/' + avatar);
     }
     $('.managerName').text(managerName);
     $('li.manager>a').text(manager);
     $('li.email>a').text(email);
     $('.product_name a').text(product_name);
 
-    if(firLogin=='0'){
-        $.dialog('confirm',{
-            title:'初始密码修改提示',
-            content:'<p>当前登录密码为初始密码，出于安全考虑，建议修改初始密码？</p>',
+    if ($.cookie('firLogin') == '0') {
+        $.dialog('confirm', {
+            title: '初始密码修改提示',
+            content: '<p>当前登录密码为初始密码，出于安全考虑，建议修改初始密码？</p>',
             confirmValue: '修改密码',
             confirm: function () {
-                setTimeout(function(){
+                setTimeout(function () {
                     $('.account-area button[onclick="updatePW()"]').click();
-                },300)
+                }, 300)
             },
-            cancel:function(){
-                localStorage.setItem('firLogin','');
+            cancel: function () {
+                $.cookie('firLogin','1');
             }
         })
     }
@@ -87,7 +87,7 @@ function homeJadeInit() {  //初始化登录的管理员信息
 };
 
 function pageRender() { //基于url调整边栏和面包屑导航样式
-    var actHref=location.pathname + location.search;
+    var actHref = location.pathname + location.search;
     var aLi = [],
         openLi = $('ul.sidebar-menu>li:has(a[href="' + actHref + '"])'),
         actA = openLi.find('a[href="' + actHref + '"]');
@@ -170,7 +170,7 @@ function getUserList(start, length, keyword, tab, footerNum, st) {
         });
         userurl = '/man/user/getUserByDepart?start=' + start + '&length=' + length + '&depart_id=' + depId;
     } else {
-        
+
     }
     $.silentGet(userurl, {}, function (data) {
         var ul = '';
@@ -271,7 +271,7 @@ function createFooter(page, length, total, footerNum) {
         var doc = $('.page' + footerNum + ''),
             pages = ~~(total / length) + (total % length > 0 ? 1 : 0);
         page = total > 0 ? page : 0;
-        var str = '<div class="DTTTFooter"><div class="col-md-2"><div class="dataTables_info">共' + total + '条第' + page + '页</div></div>' +
+        var str = '<div class="DTTTFooter"><div class="col-md-2"><div class="dataTables_info">共' + total + '条第' + page + '/' + pages + '页</div></div>' +
             '<div class="col-md-10">' +
             '<div class="dataTables_paginate paging_bootstrap">' +
             '<ul class="pagination">';
@@ -329,7 +329,7 @@ function createFooter(page, length, total, footerNum) {
             '</div>' +
             '</div></div>';
         doc.html(str);
-    }else{
+    } else {
         $('.page' + footerNum + '').empty();
     }
 }
@@ -413,7 +413,7 @@ function toLoginPage() {
 
 // 下载日志
 function downloadLog(category) {
-    var url = localStorage.getItem('appssec_url') + '/p/org/exportExcel?sid=' + $.cookie('sid') + '&category=' + category+ '&org_id=' + $.cookie('org_id');
+    var url = $.local('appssec_url') + '/p/org/exportExcel?sid=' + $.cookie('sid') + '&category=' + category + '&org_id=' + $.cookie('org_id');
     // downloadFile(url);
     window.location = url;
     // try {
@@ -430,98 +430,98 @@ function downloadLog(category) {
 
 
 
-function applyFnsToSubpage(){
-    setTimeout(function(){
-        $('[rolefn]').each(function(){
-            toggleFn(this,hasFn($(this).attr('rolefn')))
+function applyFnsToSubpage() {
+    setTimeout(function () {
+        $('[rolefn]').each(function () {
+            toggleFn(this, hasFn($(this).attr('rolefn')))
         });
-    },10)
+    }, 10)
 }
-function toggleFn(ele,has){  //根据has判定元素ele是否具有访问权限，如果没有访问权限，渲染禁止访问样式
-    if(!has){  //清楚所有事件并且阻止冒泡
+function toggleFn(ele, has) {  //根据has判定元素ele是否具有访问权限，如果没有访问权限，渲染禁止访问样式
+    if (!has) {  //清楚所有事件并且阻止冒泡
         $(ele)
-        .addClass('disabled')
-        .prop('disabled',true)
-        .removeAttr('onclick')
-        .removeClass('hrefactive')
-        .off()
-        .on('click',function(e){
-            e.stopPropagation();
-            return false;
-        });
+            .addClass('disabled')
+            .prop('disabled', true)
+            .removeAttr('onclick')
+            .removeClass('hrefactive')
+            .off()
+            .on('click', function (e) {
+                e.stopPropagation();
+                return false;
+            });
     }
 }
-function hasFn(fn){   //判断功能点fn是否属于合法权限
-    if(localStorage.getItem('fns')=='undefined'){
+function hasFn(fn) {   //判断功能点fn是否属于合法权限
+    if ($.local('fns') == 'undefined') {
         return true;
     }
-    var lid = localStorage.getItem('org_id'),   //管理员责任机构id
+    var lid = $.local('org_id'),   //管理员责任机构id
         cid = $.cookie('org_id'),               //管理员当前管理机构id
-        fns= JSON.parse(localStorage.getItem('fns'));        //模块对应功能点sss
-    if(cid==0){
+        fns = JSON.parse($.local('fns'));        //模块对应功能点sss
+    if (cid == 0) {
         return true;
     }
-    switch (fns){
+    switch (fns) {
         case 0:
             return false;
         default:
-            if(fns instanceof Array){
-                if(fns.indexOf(fn)==-1){
+            if (fns instanceof Array) {
+                if (fns.indexOf(fn) == -1) {
                     return false;
-                }else{
-                    switch (fn){
+                } else {
+                    switch (fn) {
                         case 'ioo':
                         case 'pub':
-                            return lid==cid;
+                            return lid == cid;
                             break;
                         default:
                             return true;
                     }
                 }
-            }else{
+            } else {
                 return false;
             }
     }
 }
 
 
-function hasHdlAuth(item,act,aim){
-    if(item instanceof Array){
-        var has=true;
-        for(i in item){
-            if(!hasAuth(item[i],act,aim)){
-                has=false;
+function hasHdlAuth(item, act, aim) {
+    if (item instanceof Array) {
+        var has = true;
+        for (i in item) {
+            if (!hasAuth(item[i], act, aim)) {
+                has = false;
                 break;
             }
         }
         return has;
-    }else{
-        return hasAuth(item,act,aim);
+    } else {
+        return hasAuth(item, act, aim);
     }
-    function hasAuth(item,act,aim){
+    function hasAuth(item, act, aim) {
         var mng = $.cookie('manager'),
-        lid = localStorage.getItem('org_id'),   //管理员责任机构id
-        cid = $.cookie('org_id'),               //管理员当前管理机构id
-        yesno = false;
-        if(lid=='0'){  //超级管理员具备最高权限
+            lid = $.local('org_id'),   //管理员责任机构id
+            cid = $.cookie('org_id'),               //管理员当前管理机构id
+            yesno = false;
+        if (lid == '0') {  //超级管理员具备最高权限
             yesno = true;
         }
 
-        if(!item.hasOwnProperty('manager')){    //业务管理员对责任机构内没有指定管理者的成员具有完全管理权限
+        if (!item.hasOwnProperty('manager')) {    //业务管理员对责任机构内没有指定管理者的成员具有完全管理权限
             yesno = true;                       //业务管理员对责任机构内没有指定管理者的成员具有完全管理权限
         }
 
-        if(item.hasOwnProperty('origin')){  //对策略的操作权限
-            switch (item.origin){
+        if (item.hasOwnProperty('origin')) {  //对策略的操作权限
+            switch (item.origin) {
                 case 'NAV':     //本级创建的策略
                     yesno = mng == item.manager;
-                    if(act=='跨机构操作'&&lid!=cid){
-                        warningOpen('不允许在下级机构进行跨机构操作','danger','fa-bolt');
+                    if (act == '跨机构操作' && lid != cid) {
+                        warningOpen('不允许在下级机构进行跨机构操作', 'danger', 'fa-bolt');
                         return false;
                     }
                     break;
                 case 'PUB':     //上级发布的策略
-                    if(act=='机构内下发'){
+                    if (act == '机构内下发') {
                         yesno = true;  //对于上级发布的策略，能看见的人都具有机构内下发的权限
                     }
                     break;
@@ -531,157 +531,223 @@ function hasHdlAuth(item,act,aim){
                 default:
             }
         }
-        if(!yesno){
-            warningOpen('您暂无'+act+'此'+aim+'权限','danger','fa-bolt');
+        if (!yesno) {
+            warningOpen('您暂无' + act + '此' + aim + '权限', 'danger', 'fa-bolt');
         }
         return yesno;
     }
 }
 
 
-function getItemType(m){   //根据成员item拥有的属性，自动判断其类型，用于提升交互提示的友好度
-    if(m.hasOwnProperty('userId')){
+function getItemType(m) {   //根据成员item拥有的属性，自动判断其类型，用于提升交互提示的友好度
+    if (m.hasOwnProperty('userId')) {
         return '用户';
-    }else if(m.hasOwnProperty('departId')){
+    } else if (m.hasOwnProperty('departId')) {
         return '用户组';
-    }else if(m.hasOwnProperty('tagId')){
+    } else if (m.hasOwnProperty('tagId')) {
         return '用户标签';
-    }else if(m.hasOwnProperty('dev_id')){
+    } else if (m.hasOwnProperty('dev_id')) {
         return '设备';
-    }else if(m.hasOwnProperty('policyId')){
+    } else if (m.hasOwnProperty('policyId')) {
         return '策略';
-    }else if(m.hasOwnProperty('filename')){
+    } else if (m.hasOwnProperty('filename')) {
         return '文件';
-    }else if(m.hasOwnProperty('app_name')){
+    } else if (m.hasOwnProperty('app_name')) {
         return '应用';
-    }else if(m.hasOwnProperty('appListId')){
+    } else if (m.hasOwnProperty('appListId')) {
         return '应用名单';
-    }else if(m.hasOwnProperty('app_num')){
+    } else if (m.hasOwnProperty('app_num')) {
         return '应用标签';
-    }else{
+    } else {
         return '对象';
     }
 }
 
 
-function accountInfo(e) {  //修改密码
-        var srcAvatar='/imgs/admin.png';
-        if(localStorage.getItem("avatar")){
-            srcAvatar=localStorage.getItem("appssec_url")+'/'+localStorage.getItem("avatar");
-        }
-        $.dialog('form', {
-            width: 500,
-            height: null,
-            autoSize:true,
-            maskClickHide: true,
-            title: "账号信息",
-            content: '<form id="frmAccount" class="form-horizontal" role="form" method="post" enctype="multipart/form-data">\
-                        <input name="sid" type="hidden" />\
-                        <div class="form-group">\
-                            <div class="col-sm-12">\
-                                <div id="wrapAccountAvatar">\
-                                    <div class="wrap-img">\
-                                        <input class="ipt-img" type="file" name="avatar" title="点击更换头像" size="10">\
-                                        <img src="'+ srcAvatar +'" />\
+function accountInfo() {  //修改密码
+    var srcAvatar = '/imgs/admin.png';
+    if ($.local("avatar")) {
+        srcAvatar = $.local("appssec_url") + '/' + $.local("avatar");
+    }
+    $.silentPost('/common/adminRoleInfo', {}, function (data) {
+        console.log(data.query_adm_info);
+        if(data.rt='0000'){
+            var admInfo=data.query_adm_info,
+                roles = data.query_adm_info.adm_role_info;
+                    
+            $.dialog('form', {
+                width: 500,
+                top:'10%',
+                height: null,
+                autoSize: true,
+                maskClickHide: true,
+                title: "账号信息",
+                content: '<form id="frmAccount" class="form-horizontal form-sm" role="form" method="post" enctype="multipart/form-data">\
+                                <input name="sid" type="hidden" />\
+                                <div class="form-group">\
+                                    <div class="col-sm-12">\
+                                        <div id="wrapAccountAvatar">\
+                                            <div class="wrap-img">\
+                                                <input class="ipt-img" type="file" name="avatar" title="点击更换头像" size="10">\
+                                                <img src="'+ srcAvatar + '" />\
+                                            </div>\
+                                        </div>\
                                     </div>\
                                 </div>\
-                            </div>\
-                        </div>\
-                        <div class="form-group">\
-                            <label for="name" class="col-sm-2 control-label no-padding-right">账号</label>\
-                            <div class="col-sm-10">\
-                                <input type="text" class="form-control" name="account">\
-                            </div>\
-                        </div>\
-                        <div class="form-group">\
-                            <label for="name" class="col-sm-2 control-label no-padding-right">昵称</label>\
-                            <div class="col-sm-10">\
-                                <input type="text" class="form-control require" id="name" name="name" ctrl-regex="name_mix" placeholder="请输入账号昵称">\
-                            </div>\
-                        </div>\
-                        <div class="form-group">\
-                            <div class="col-sm-2  col-sm-offset-3">\
-                                <button type="button" onclick="$.dialogClose()" class="btnBack btn btn-default">返回</button>\
-                            </div>\
-                            <div class="col-sm-2 col-sm-offset-2">\
-                                <input type="submit" class="btn btn-primary" disabled="">\
-                            </div>\
-                        </div>\
-                    </form>',
-            hasBtn: false,
-            hasClose: true,
-            hasMask: true,
-            confirm: function () {
-                frmAccount.submit();
-            },
-            confirmHide: true
-        });
-        var frmAccount =$('#frmAccount').MultForm({
-            editUrl:'/p/org/admUpdateAttr',
-            editBtnTxt: '保存',
-            editAct:'/common/upload',
-            afterUsed:function(use,item){
-                switch(use){
-                    case 'add':
-                        break;
-                    case 'edit':
-                        frmAccount.find('input[name=account]').prop('disabled',true);
+                                <div class="form-group">\
+                                    <label for="orgName" class="col-sm-2 control-label no-padding-right">责任机构</label>\
+                                    <div class="col-sm-10">\
+                                        <input type="text" class="form-control" id="orgName" name="orgName">\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label for="account" class="col-sm-2 control-label no-padding-right">账号</label>\
+                                    <div class="col-sm-10">\
+                                        <input type="text" class="form-control" id="account" name="account">\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label for="name" class="col-sm-2 control-label no-padding-right">姓名</label>\
+                                    <div class="col-sm-10">\
+                                        <input type="text" class="form-control require" id="name" name="name" ctrl-regex="name_mix" placeholder="请输入姓名">\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label for="phone" class="col-sm-2 control-label no-padding-right">手机</label>\
+                                    <div class="col-sm-10">\
+                                        <input type="text" class="form-control" id="phone" name="phone" ctrl-regex="phone" placeholder="请输入手机号">\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label for="email" class="col-sm-2 control-label no-padding-right">邮箱</label>\
+                                    <div class="col-sm-10">\
+                                        <input type="email" class="form-control" id="email" name="email" ctrl-regex="email" placeholder="请输入邮箱">\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label for="hasRoles" class="col-sm-2 control-label no-padding-right">角色</label>\
+                                    <div class="col-sm-10">\
+                                        <select id="hasRoles" multiple="multiple" readonly="readonly" class="form-control anti-cursor" autocomplete="off">\
+                                            <option>角色加载中...</option>\
+                                        </select>\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <div class="col-sm-2  col-sm-offset-3">\
+                                        <button type="button" onclick="$.dialogClose()" class="btnBack btn btn-default">返回</button>\
+                                    </div>\
+                                    <div class="col-sm-2 col-sm-offset-2">\
+                                        <input type="submit" class="btn btn-primary" disabled="">\
+                                    </div>\
+                                </div>\
+                            </form>',
+                hasBtn: false,
+                hasClose: true,
+                hasMask: true,
+                confirm: function () {
+                    frmAccount.submit();
+                },
+                confirmHide: true
+            });
+            var frmAccount = $('#frmAccount').MultForm({
+                editUrl: '/p/org/admUpdateAttr',
+                editBtnTxt: '保存',
+                editAct: '/common/upload',
+                afterUsed: function (use, item) {
+                    switch (use) {
+                        case 'add':
+                            break;
+                        case 'edit':
+                            frmAccount.find('input[name=account]').addClass('anti-cursor').removeAttr('name');
+                            if(admInfo.orgCode&&admInfo.orgCode!=='root'){
+                                frmAccount.find('input[name=orgName]').addClass('anti-cursor').removeAttr('name');
+                            }else{
+                                frmAccount.find('.form-group:has(input[name=orgName])').remove();
+                                frmAccount.find('.form-group:has(#hasRoles)').remove();
+                            }
+                            break;
+                        default:
+                    }
+                },
+                cbAfterSuccess: function (use) {  //提交编辑成功之后的回调
+                    $.dialogClose();
+                }
+            });
+            frmAccount.data('item', {
+                orgName: admInfo.orgName+'('+admInfo.orgCode+')',
+                account: admInfo.account,
+                name: $.local('name'),
+                phone: admInfo.phone,
+                email: admInfo.email
+            });
+            frmAccount.usedAs('edit');
+            var hasRoles=frmAccount.find('#hasRoles').empty();
+            if (roles.length > 0) {
+                var numAct = 0;
+                for (var i = 0; i < roles.length; i++) {
+                    if (roles[i].status == '1') {
+                        numAct++;
+                        hasRoles.append($('<option value="' + roles[i].id + '">' + roles[i].name + '</option>').css('cursor', 'pointer'))
+                    } else {
+                        hasRoles.append($('<option class="disabled" value="' + roles[i].id + '">' + roles[i].name + '</option>'))
+                    }
+                }
+                if (numAct == 0) {
+                    hasRoles.html('<option class="disabled" value="0">角色均已禁用</option>');
+                }
+                if (numAct > 5) {
+                    hasRoles.css('height', numAct * 12 + 'px')
+                }
+
+            } else {
+                selectRoles.html('<option class="disabled" value="0">该管理员未配置角色</option>');
+            }
+            frmAccount.find('input.ipt-img').off().on('change', function () {
+                var file = this.files[0];
+                if (!/image\/\w+/.test(file.type)) {
+                    return false;
+                }
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function (e) {
+                    $('#wrapAccountAvatar .wrap-img img').attr('src', this.result)
+                }
+            });
+            accountFormInit(frmAccount[0])
+        }
+    });
+    
+    function accountFormInit(frm) {
+        var ajaxFormOptions = {
+            success: function (data) {
+                $.handleECode(true, data, $(frm[0]).data('infoTxt'));
+                switch (data.rt) {
+                    case '0000':
+                        if (data.avatar) {
+                            localStorage.setItem('avatar', data.avatar);
+                        }
+                        localStorage.setItem('name', $(frm).find('input[name=name]').val());
+                        homeJadeInit();
+                        $.dialogClose();
                         break;
                     default:
+                        console.warn("data.rt=" + data.rt)
                 }
-            },
-            cbAfterSuccess: function (use) {  //提交编辑成功之后的回调
-                $.dialogClose();
-            }
-        });
-        frmAccount.data('item',{
-            account:$.cookie('manager'),
-            name:localStorage.getItem('name')
-        });
-        frmAccount.usedAs('edit');
-        frmAccount.find('input.ipt-img').off().on('change', function(){
-            var file = this.files[0];
-            if (!/image\/\w+/.test(file.type)) {
-                return false;
-            }
-            var reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function (e) {
-                $('#wrapAccountAvatar .wrap-img img').attr('src',this.result)
-            }
-        });
-        accountFormInit(frmAccount[0])
-        function accountFormInit(frm) {
-            var ajaxFormOptions = {
-                    success: function (data) {
-                        $.handleECode(false, data, $(frm[0]).data('infoTxt'));
-                        switch (data.rt) {
-                            case '0000':
-                                if(data.avatar){
-                                    localStorage.setItem('avatar',data.avatar);
-                                }
-                                localStorage.setItem('name',$(frm).find('input[name=name]').val());
-                                homeJadeInit();
-                                $.dialogClose();
-                                break;
-                            default:
-                                console.warn("data.rt=" + data.rt)
-                        }
 
-                    }
-                };
-            $(frm).off().ajaxForm(ajaxFormOptions);
-        }
+            }
+        };
+        $(frm).off().ajaxForm(ajaxFormOptions);
+    }
 }
 
 
 
 function updatePW(e) {  //修改密码
     $.dialog('form', {
-        top:'20%',
+        top: '20%',
         width: 500,
         height: null,
-        autoSize:true,
+        autoSize: true,
         maskClickHide: true,
         title: "修改密码",
         content: '<form id="frmModPW" class="form-horizontal" role="form" method="post" style="margin-right:-40px;">\
@@ -720,57 +786,88 @@ function updatePW(e) {  //修改密码
         },
         confirmHide: true
     });
-    var frmModPW =$('#frmModPW').MultForm({
+    var frmModPW = $('#frmModPW').MultForm({
         editBtnTxt: '确认',
-        editAct:'/common/pw/selfmod',
-        beforeSubmit:function(arrKeyVal, $frm, ajaxOptions){
-            frmModPW['new_passwd']=b64.encode($('input[name=new_passwd]').val());
+        editInfoTxt: '修改',
+        editAct: '/common/pw/selfmod',
+        beforeSubmit: function (arrKeyVal, $frm, ajaxOptions) {
+            frmModPW['new_passwd'] = b64.encode($('input[name=new_passwd]').val());
         },
         cbAfterSuccess: function (use) {  //提交编辑成功之后的回调
-            localStorage.setItem('firLogin','');
-            $.cookie('passwd',frmModPW['new_passwd']);
+            $.cookie('firLogin', '1');
+            $.cookie('passwd', frmModPW['new_passwd']);
             $.dialogClose();
         }
     });
-    frmModPW.data('item',{});
+    frmModPW.data('item', {});
     frmModPW.usedAs('edit');
 }
 
-function jeDatePcyInit(){
-    var today=$.nowDate().split(' ')[0],
-        tomorrow=$.nowDate({DD:+1}).split(' ')[0];
-        start_date_opt={
+function jeDatePcyInit() {
+    var $start_date = $('#start_date'),
+        $stop_date = $('#stop_date'),
+        $start_time = $('#start_time'),
+        $stop_time = $('#stop_time'),
+        $weekday = $('#weekday'),
+        today = $.nowDate().split(' ')[0],
+        tomorrow = $.nowDate({ DD: +1 }).split(' ')[0];
+    start_date_opt = {
+        format: "YYYY-MM-DD",
+        minDate: today,
+        isClear: false,
+        okfun: function (elem) {
+            stopNum = $.timeStampDate(elem.val) + 60 * 60 * 24;
+            stop_date_opt.minDate = $.timeStampDate(stopNum, stop_date_opt.format);
+            $stop_date.jeDate(stop_date_opt);
+            if (stopNum > $.timeStampDate($stop_date.val())) {
+                $stop_date.val(stop_date_opt.minDate);
+            }
+            ctrlSelWeekday();
+        }
+    },
+        stop_date_opt = {
             format: "YYYY-MM-DD",
             minDate: today,
-            isClear:false,
+            isClear: false,
             okfun: function (elem) {
-                stopNum=$.timeStampDate(elem.val)+60*60*24;
-                stop_date_opt.minDate=$.timeStampDate(stopNum,stop_date_opt.format);
-                $('#stop_date').jeDate(stop_date_opt);
-                if(stopNum>$.timeStampDate($('#stop_date').val())){
-                    $('#stop_date').val(stop_date_opt.minDate);
-                }
+                ctrlSelWeekday();
             }
         },
-        stop_date_opt={
-            format: "YYYY-MM-DD",
-            minDate: today,
-            isClear:false
-        },
-        time_opt={
+        time_opt = {
             format: "hh:mm:ss",
-            isClear:false
+            isClear: false
         };
-    $('#start_date').attr('value',today).jeDate(start_date_opt);
-    $('#stop_date').attr('value',tomorrow).jeDate(stop_date_opt);
-    $('#start_time').attr('value','08:00:00').jeDate(time_opt);
-    $('#stop_time').attr('value','20:00:00').jeDate(time_opt);
+    $stop_date.on('change input propertychange', ctrlSelWeekday);
+    $start_date.attr('value', today).jeDate(start_date_opt);
+    $stop_date.attr('value', tomorrow).jeDate(stop_date_opt);
+    $start_time.attr('value', '08:00:00').jeDate(time_opt);
+    $stop_time.attr('value', '20:00:00').jeDate(time_opt);
+    $stop_date.change();
+    function ctrlSelWeekday() {
+        var seconds1 = $.timeStampDate($start_date.val());
+        var seconds2 = $.timeStampDate($stop_date.val());
+        var cweeks = [];
+        if (seconds2 - seconds1 < 86400 * 7) {
+            for (var sec = seconds1; sec <= seconds2; sec += 86400) {
+                cweeks.push($.getLunar($.timeStampDate(sec, start_date_opt.format), start_date_opt.format).cWeek);
+            }
+        } else {
+            cweeks = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+        }
+        $weekday.find('option').each(function () {
+            $(this).prop('disabled', cweeks.indexOf($(this).text()) === -1).
+            toggleClass('option',cweeks.indexOf($(this).text()) !== -1);
+        });
+        if($weekday.val()===null){
+            $weekday.find('option.option:first').prop("selected", true);
+        }
+    }
 }
 
-function logDateInit(){
+function logDateInit() {
     $(".jedate").each(function () {
         $(this).jeDate({
-            isClear:true,
+            isClear: true,
             format: "YYYY-MM-DD hh:mm:ss",
             okfun: function (elem) {
                 elem.elem.change();

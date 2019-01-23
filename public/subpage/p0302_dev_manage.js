@@ -55,7 +55,7 @@ function getDeviceList(start_page, page_length) {
             '<th>所属账号</th>' +
             '<th>设备类型</th>' +
             '<th>系统</th>' +
-            '<th>上一次在线时间</th>' +
+            '<th>离线时间</th>' +
             '<th>目前状态</th>' +
             '</tr></table>');
     $('#wrap_devtbl').html(table);
@@ -143,7 +143,7 @@ function getItemDetail(oItem) {
             dev_id = oItem.dev_id;
         var strtab4 = '';
         $('.devicename').text('设备名称 : ' + devicename);
-        $('.lasttime').text('上一次在线时间 : ' + lasttime);
+        $('.lasttime').text('离线时间 : ' + lasttime);
         $('.imei').text('IMEI : ' + oDevInfo.imei);
         $('.status').text('目前状态 : ' + status);
         var reset = '<li class="list-group-item" style="border:none;">' +

@@ -51,25 +51,33 @@ module.exports = function (app, chttp) {
         });
     });
 
-    // 企业管理员修改企业信息
-    app.post('/super/setting/updateSettings', function (req, res) {
-        var permissionItems = {};
-        var keys = ['access', 'autoStart', 'basic', 'deviceManager', 'floatWindow', 'launcher', 'screenLock', 'usageState'];
-        for (i in keys) {
-            if (req.body.hasOwnProperty(keys[i])) {
-                permissionItems[keys[i]] = req.body[keys[i]] * 1;
-                delete req.body[keys[i]];
-            }
+    // 超级管理员系统设置
+    app.post('/super/setting/updateSettings', multipartMiddleware, function (req, res) {
+        if(req.files&&req.files['icon']){
+            const file_data = req.files['icon'];
+            const newPath = path.join(path.dirname(file_data.path), file_data.originalFilename);
+            fs.rename(file_data.path, newPath, function (err) {
+                if (err) {
+                    res.send(err);
+                }
+                else {
+                    req.body['file'] = fs.createReadStream(newPath);
+                    console.log(req.body);
+                    chttp.cFormData(req.body, '/p/super/updateSettings', function (cont) {
+                        res.send(cont);
+                    });
+                }
+            })
+        }else{
+            delete req.body['icon'];
+            req.body['sid'] = req.cookies.sid;
+            req.body['em_ip'] = req.cookies.em_ip;
+            chttp.cpost(req.body, '/p/super/updateSettings', function (cont) {
+                res.send(cont);
+            });
         }
-        if (JSON.stringify(permissionItems) !== '{}') {
-            req.body['permissionItems'] = JSON.stringify(permissionItems);
-        }
-        req.body['sid'] = req.cookies.sid;
-        req.body['em_ip'] = req.cookies.em_ip;
-        chttp.cpost(req.body, '/p/super/updateSettings', function (cont) {
-            res.send(cont);
-        });
     });
+
 
 
     // license上传更新

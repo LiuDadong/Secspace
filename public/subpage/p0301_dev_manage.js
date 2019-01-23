@@ -8,7 +8,7 @@ applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点�
 //用于交互时改变标题显示
 var subCaption = $('#subCaption').data('itemText', '设备').text('设备列表');
 
-//采用分页表格组件pagingTable初始化黑白名单列表
+//采用分页表格组件pagingTable初始化列表
 var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
     type: 'GET',
     jsonData: {
@@ -22,7 +22,7 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
                     <th style="width:15%;">所属账号</th>\
                     <th style="width:8%;">设备类型</th>\
                     <th style="width:7%;">系统</th>\
-                    <th style="width:16%;">上一次在线时间</th>\
+                    <th style="width:16%;">离线时间</th>\
                     <th style="width:9%;">目前状态</th>\
                     <th style="width:14%;">操作</th>\
                 </tr>',
@@ -129,7 +129,7 @@ function showDevDetail(ele, acttab) {
             dev_id = oItem.dev_id;
         var strtab4 = '';
         $('.devicename').text('设备名称 : ' + devicename);
-        $('.lasttime').text('上一次在线时间 : ' + lasttime);
+        $('.lasttime').text('离线时间 : ' + lasttime);
         $('.imei').text('IMEI : ' + oDevInfo.imei);
         $('.status').text('目前状态 : ' + status);
         var reset = '<li class="list-group-item" style="border:none;">' +
@@ -184,9 +184,9 @@ function showDevDetail(ele, acttab) {
         $('.netinfo4').html(netinfo4);
 
         // tab3 设备定位信息
-        var url = '/man/dev/location?dev_id=' + dev_id;
-        $.get(url, function (data) {
-            data = JSON.parse(data);
+        $.silentGet('/man/dev/location',{
+            dev_id:dev_id
+        }, function (data) {
             showLocationMap(data);
         });
 
@@ -222,9 +222,7 @@ function showDevDetail(ele, acttab) {
 function showLocationMap(data) {
     var posType = $('#position_type');
     var uplTime = $('#upload_time');
-    var time = new Date();
-    var rt = data.rt,
-        position_type = data.position_type,
+    var position_type = data.position_type,
         position = data.position ? JSON.parse(data.position) : '',
         upload_time = data.upload_time;
     switch (position_type) {
@@ -254,43 +252,32 @@ function showLocationMap(data) {
         default:
             console.error('获取定位模式异常');
     }
-    if (rt == 0) {
-        if (position) {
-            var map = new AMap.Map("address", {
-                resizeEnable: true,
-                center: [position.longitude, position.latitude], //地图中心点
-                zoom: 15 //地图显示的缩放级别
-            });
-            AMap.plugin(['AMap.ToolBar', 'AMap.AdvancedInfoWindow'], function () {
-                //创建并添加工具条控件
-                var toolBar = new AMap.ToolBar();
-                map.addControl(toolBar);
-            })
+    
+    if (position) {
+        var map = new AMap.Map("address", {
+            resizeEnable: true,
+            center: [position.longitude, position.latitude], //地图中心点
+            zoom: 15 //地图显示的缩放级别
+        });
+        AMap.plugin(['AMap.ToolBar', 'AMap.AdvancedInfoWindow'], function () {
+            //创建并添加工具条控件
+            var toolBar = new AMap.ToolBar();
+            map.addControl(toolBar);
+        })
 
-            //map.setCenter([position.longitude, position.latitude]);
-
-            var marker = new AMap.Marker({
-                title: position.address,
-                map: map
-            });
-            // 设置label标签
-            marker.setLabel({ //label默认蓝框白底左上角显示，样式className为：amap-marker-label
-                offset: new AMap.Pixel(20, 20), //修改label相对于maker的位置
-                content: "位置信息：" + position.address
-            });
-            return;
-        } else {
-            mapObj.getInstance();
-            warningOpen('设备没有定位信息！', 'danger', 'fa-bolt');
-        }
-
-    } else if (rt == 1) {
-        mapObj.getInstance();
-        warningOpen('该设备定位信息已过时！', 'danger', 'fa-bolt');
-    } else if (rt == 5) {
-        toLoginPage();
+        //map.setCenter([position.longitude, position.latitude]);
+        var marker = new AMap.Marker({
+            title: position.address,
+            map: map
+        });
+        // 设置label标签
+        marker.setLabel({ //label默认蓝框白底左上角显示，样式className为：amap-marker-label
+            offset: new AMap.Pixel(20, 20), //修改label相对于maker的位置
+            content: "位置信息：" + position.address
+        });
+        return;
     } else {
-        warningOpen('其他错误 ' + rt + ' ！', 'danger', 'fa-bolt');
+        mapObj.getInstance();
     }
 }
 

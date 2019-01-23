@@ -64,7 +64,7 @@
                     + '<td>' + data.logInfo[i].dev_name + '</td>'
                     + '<td>' + (data.logInfo[i].os_type=='android'? 'Android':'iOS') + '</td>'
                     + '<td>' + data.logInfo[i].opt_time + '</td>'
-                    + '<td title="'+ data.logInfo[i].url +'">' + data.logInfo[i].url + '</td>'
+                    + '<td style="text-align:left;" title="'+ data.logInfo[i].url +'">' + data.logInfo[i].url + '</td>'
                     + '</tr>';
                 }
                 str += '</table>';

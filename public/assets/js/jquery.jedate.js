@@ -1518,13 +1518,12 @@
     };
     //获取年月日星期
     $.getLunar = function(date,format){
-        var that = this;
         format = format || 'YYYY-MM-DD hh:mm:ss';
         if(/YYYY-MM-DD/g.test(jet.isparmat(format))){
             //如果为数字类型的日期对获取到日期的进行替换
             var charDate = date.substr(0,4).replace(/^(\d{4})/g,"$1,") + date.substr(4).replace(/(.{2})/g,"$1,"),
                 reArr = jet.isNum(date) ? jet.reMatch(charDate) : jet.reMatch(date),
-                lunars = that.jeLunar(reArr[0], reArr[1] - 1, reArr[2]);
+                lunars = jedfn.jeLunar(reArr[0], reArr[1] - 1, reArr[2]);
             return{
                 nMonth: lunars.lnongMonth,             //农历月
                 nDays: lunars.lnongDate,               //农历日

@@ -11,7 +11,7 @@ applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点�
 //用于交互时改变标题显示
 var subCaption = $('#subCaption').data('itemText', '合规策略').text('合规策略列表');
 
-//采用分页表格组件pagingTable初始化黑白名单列表
+//采用分页表格组件pagingTable初始化列表
 var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
     type:'POST',
     jsonData: {
@@ -117,7 +117,7 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
     }
 }))
 
-// 采用multForm组件初始化黑白名单多用途表单
+// 采用multForm组件初始化多用途表单
 var multForm = $('#multForm').MultForm({
     addUrl: '/p/policy/comPolicyMan',
     editUrl: '/p/policy/comPolicyMan',

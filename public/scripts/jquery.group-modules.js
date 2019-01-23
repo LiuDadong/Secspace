@@ -909,19 +909,16 @@
         }
         // 创建footer
         function createFooter(tbl, page, length, total) {
-            var j = 0;
-            // if (tbl.next('.pagingTableFooter').length == 0) {
-            //     tbl.after($('<div class="pagingTableFooter"></div>'))
-            // }
-            
+            var j = 0;            
             if (total > 0) {
                 if (tbl.next('.DTTTFooter').length == 0) {
                     tbl.after($('<div class="row DTTTFooter"></div>'))
                 }
                 var doc = tbl.next(),
                     pages = Math.ceil(total / length);
+                
                 page = total > 0 ? page : 0;
-                var str = '<div class="col-md-2"><div class="dataTables_info">共' + total + '条第' + page + '页</div></div>' +
+                var str = '<div class="col-md-2"><div class="dataTables_info">共' + total + '条第' + page + '/' + pages + '页</div></div>' +
                     '<div class="col-md-10">' +
                     '<div class="dataTables_paginate paging_bootstrap">' +
                     '<ul class="pagination">';
@@ -1735,8 +1732,8 @@
             addBtnTxt: '添加',  //添加表单提交按钮显示文本
             addInfoTxt: '添加',  //添加提交成功或失败反馈的信息中的.act
             editAct: '/common/mod', //编辑表单action
-            editBtnTxt: '保存修改',//编辑表单提交按钮显示文本
-            editInfoTxt: '修改',//编辑提交成功或失败反馈的信息中的.act
+            editBtnTxt: '保存',//编辑表单提交按钮显示文本
+            editInfoTxt: '保存',//编辑提交成功或失败反馈的信息中的.act
             type: 'POST', //表单提交方式
             resetForm:true,
             targetTable: '#pagingTable',  //关联的分页表格选择器
@@ -2023,6 +2020,7 @@
                                 return false;
                             }
                             $(frm[0]).find(':input[name]').each(function () {
+                                console.log(this);
                                 try {
                                     $(this).change();
                                 } catch (err) {
