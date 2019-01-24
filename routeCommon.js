@@ -38,7 +38,8 @@ let fs = require('fs'),
         '/p/policy/appPolicyMan',   //应用策略
         '/p/policy/customerMan',    //客户端策略
         '/p/app/listMan'            //黑白名单
-    ];
+    ],
+    pathConfman=path.join(__dirname.replace('secspace_server_web','secspace_server_api'),'confman');
 
 module.exports = function (app, chttp) {
     /*
@@ -166,11 +167,7 @@ module.exports = function (app, chttp) {
         switch (req.query.url){
             case '/p/config/filelist':
                 let files=[],
-                    filePath=path.join(
-                        __dirname.replace('secspace_server_web','secspace_server_api'), 
-                        'configman',
-                        req.query.org_code
-                    );
+                    filePath=path.join(pathConfman,req.query.org_code);
                 fs.readdirSync(filePath).forEach(function(filename){
                     var fl=fs.statSync(path.join(filePath, filename));
                     fl['name']=filename;
@@ -377,8 +374,7 @@ module.exports = function (app, chttp) {
                 for (let i = 0; i < uploadFiles.length; i++) {
                     let source = fs.createReadStream(uploadFiles[i].path),
                         dest = fs.createWriteStream(path.join(
-                            __dirname.replace('secspace_server_web','secspace_server_api'), 
-                            'configman',
+                            pathConfman,
                             req.body.org_code, 
                             uploadFiles[i].originalFilename
                         ));
@@ -400,14 +396,13 @@ module.exports = function (app, chttp) {
     });
 
     
-    // 上传配置文件  
+    // 删除配置文件  
     app.post('/common/config_files/delete', function (req, res) {
         if(req.cookies.sid){
             let deleteFilenames = req.body['deleteFilenames'];
             for (let i = 0; i < deleteFilenames.length; i++) {
                 fs.unlink(path.join(
-                    __dirname.replace('secspace_server_web','secspace_server_api'), 
-                    'configman',
+                    pathConfman,
                     req.body.org_code, 
                     deleteFilenames[i]
                 ), function (err) {
@@ -423,8 +418,7 @@ module.exports = function (app, chttp) {
     app.post('/common/config_file/download', function (req, res) {
         if(req.cookies.sid){
             var p=path.join(
-                __dirname.replace('secspace_server_web','secspace_server_api'), 
-                'configman',
+                pathConfman,
                 req.body.org_code, 
                 req.body.filename
             );
