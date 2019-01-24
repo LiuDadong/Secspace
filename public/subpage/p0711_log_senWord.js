@@ -55,7 +55,7 @@
         $.silentGet('/man/Log/getLog',pd, function (data) {
             if (data.rt == '0000') {
                 if(data.logInfo.length==0){
-                    str += '<tr><td colspan="5">暂无数据</td></tr>'
+                    str += '<tr><td colspan="8">暂无数据</td></tr>'
                 }
                 for (var i in data.logInfo) {
                     str += '<tr>'
@@ -71,7 +71,15 @@
                 }
                 str += '</table>';
                 table.html(str);
-                createFooter(start_page, page_length, data.total_count, 1);
+                $.DTTTFooterInit({
+                    tbl:table.find('table'),
+                    page:start_page,
+                    length:page_length,
+                    total:data.total_count,
+                    cb:function(i){
+                        getloglist(i,10);
+                    }
+                });
             }
         });
     }

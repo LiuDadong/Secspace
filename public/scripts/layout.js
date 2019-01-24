@@ -61,7 +61,6 @@ function renderRolesfnsWithLic(cb){   //根据角色权限渲染控制左侧菜�
 function getRoleFns(){
     var obj={};
     var roles=JSON.parse(localStorage.getItem('roles'));
-    console.log(roles);
     for(var i=0;i<roles.length;i++){
         var roleifn=roles[i]['function'];
         for(k in roleifn){

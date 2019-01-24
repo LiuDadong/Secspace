@@ -645,7 +645,6 @@
                     }
                     switch (data.rt) {
                         case '0000':
-                            
                             this.oAjaxData = data;
                             this.nTotalCount = data.total_count;
                             this.aItems = data.app_list;
@@ -700,11 +699,17 @@
                                 $(this.publicEles.tbHas.dom).html('<tr><td colspan="9">暂无数据</td></tr>');
                             }
                             $(this.publicEles.tbHas.dom).show();
-                            createFooter(this.nStart, this.nLength, data.total_count, 1);
+                            var that=this;
+                            $.DTTTFooterInit({
+                                tbl:$('#multTable'),
+                                page:this.nStart,
+                                length:this.nLength,
+                                total:data.total_count,
+                                cb:function(i){
+                                    that.fnPage.call(that,i);
+                                }
+                            });
                             oSubPage.partTable.fnCheckSelAll();
-                            break;
-                        case 5:
-                            toLoginPage();
                             break;
                         default:
                     }
@@ -1114,7 +1119,6 @@
                             oSubPage.partForm.fnCheckAll();
 
                             function checkImg(bool) {
-                                console.log('312381923');
                                 img.attr("src", bool ? getObjectURL(file) : img.attr('data-src'));
                                 ipt.toggleClass('danger', !bool);
                                 lab.toggleClass('danger', !bool);
@@ -1212,7 +1216,6 @@
                     events: [{
                         type: 'click',
                         fn: function () {
-                            console.log('11')
                             oSubPage.partTable.fnPage();
                         }
                     }]

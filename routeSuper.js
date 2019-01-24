@@ -62,7 +62,6 @@ module.exports = function (app, chttp) {
                 }
                 else {
                     req.body['file'] = fs.createReadStream(newPath);
-                    console.log(req.body);
                     chttp.cFormData(req.body, '/p/super/updateSettings', function (cont) {
                         res.send(cont);
                     });

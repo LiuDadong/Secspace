@@ -333,6 +333,116 @@ $.dealRt3009 = function (policy_list) {
     });
 }
 
+// 初始化分页表格的footer
+$.DTTTFooterInit=function (opt) {
+    var j = 0,
+        tbl=opt.tbl,
+        page=opt.page,
+        length=opt.length,
+        total=opt.total,
+        cb=opt.cb;
+    if (total > 0) {
+        if (tbl.next('.DTTTFooter').length == 0) {
+            tbl.after($('<div class="row DTTTFooter"></div>'))
+        }
+        var doc = tbl.next(),
+            pages = Math.ceil(total / length);
+        
+        page = total > 0 ? page : 0;
+        var str = '<div class="col-md-5"><div class="dataTables_info">共' + total + '条第<input class="iptPage" type="text" value="' + page + '">/' + pages + '页</div></div>' +
+            '<div class="col-md-7">' +
+            '<div class="dataTables_paginate paging_bootstrap">' +
+            '<ul class="pagination">';
+        if (page == 1) {
+            str += '<li class="prev disabled"><a>上一页</a></li>'
+        } else {
+            str += '<li class="prev"><a href="javascript:void(0);" to-page="' + (page - 1) + '">上一页</a></li>'
+        }
+        if (pages < 6) {
+            for (var i = 0; i < pages; i++) {
+                if (page == (i + 1)) {
+                    str += '<li class="active"><a>' + (i + 1) + '</a></li>';
+                    j = i + 1;
+                } else {
+                    str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
+                }
+            }
+        } else {
+            if (page < 3) {
+                for (var i = 0; i < 5; i++) {
+                    if (page == i + 1) {
+                        str += '<li class="active"><a>' + (i + 1) + '</a></li>';
+                        j = i + 1;
+                    } else {
+                        str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
+                    }
+                }
+            } else if (pages - page < 3) {
+                for (var i = pages - 5; i < pages; i++) {
+                    if (page == i + 1) {
+                        str += '<li class="active"><a>' + (i + 1) + '</a></li>';
+                        j = i + 1;
+                    } else {
+                        str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
+                    }
+                }
+            } else {
+                for (var i = page - 3; i < page + 2; i++) {
+                    if (page == i + 1) {
+                        str += '<li class="active"><a>' + (i + 1) + '</a></li>';
+                        j = i + 1;
+                    } else {
+                        str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
+                    }
+                }
+            }
+        }
+        if (j < pages) {
+            str += '<li class="next"><a href="javascript:void(0);" to-page="' + (j + 1) + '">下一页</a></li>'
+        } else {
+            str += '<li class="next disabled"><a>下一页</a></li>'
+        }
+        str += '</ul>' +
+            '</div>' +
+            '</div>';
+        doc.html(str);
+        doc.find('ul.pagination>li>a[to-page]').on('click', function (e) {
+            cb($(e.target).attr('to-page') * 1);
+        })
+        var iptPage=doc.find('.iptPage');
+        iptPage.on('keydown', function (e) {  //控制输入
+            switch (e.keyCode){
+                case 8:  //删除
+                    return true;
+                case 13:    //回车
+                    $(this).change();
+                default:
+                    return e.keyCode>=48&&e.keyCode<=57;
+            }
+        })
+        iptPage.on('input', function (e) {     //修正输入
+            if(~~$(this).val()>pages){
+                $(this).val(pages);
+            }
+        })
+        iptPage.on('change', function (e) {     //触发表格刷新
+            var p=1;
+            switch ($(this).val()){
+                case '':
+                case '0':
+                    cb(p);
+                    break;
+                default:
+                    p= ~~$(this).val()>pages?pages:~~$(this).val();
+                    cb(p);
+
+            }
+        })
+    }else{
+        tbl.next('.DTTTFooter').remove();
+    }
+};
+
 
 $.getLicense = function (cb){
     $.nullPost('/common/license',{},function(data){

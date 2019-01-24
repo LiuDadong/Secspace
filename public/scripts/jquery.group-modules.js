@@ -478,6 +478,7 @@
             }
 
             //判定管理员角色功能点是否具有跨机构操作（发布或下发）权限
+
             if(hasFn('ioo') || hasFn('pub')){
                 pnlLeft.find('.btnToSubOrgs').on('click', function () {
                     var actText = $(this).text().replace(/[\s]/g, ''),
@@ -573,6 +574,9 @@
                 })
             }else{
                 toggleFn(pnlLeft.find('.btnToSubOrgs'), false);
+                pnlLeft.find('.btnToSubOrgs').css({
+                    'pointerEvents':'auto'
+                }).attr('title','仅允许本级机构责任管理员对下级机构进行下发/发布操作');
             }
 
             pnlLeft.find('.btnDefPcy').on('click', function () {
@@ -907,82 +911,7 @@
                 }
             }
         }
-        // 创建footer
-        function createFooter(tbl, page, length, total) {
-            var j = 0;            
-            if (total > 0) {
-                if (tbl.next('.DTTTFooter').length == 0) {
-                    tbl.after($('<div class="row DTTTFooter"></div>'))
-                }
-                var doc = tbl.next(),
-                    pages = Math.ceil(total / length);
-                
-                page = total > 0 ? page : 0;
-                var str = '<div class="col-md-2"><div class="dataTables_info">共' + total + '条第' + page + '/' + pages + '页</div></div>' +
-                    '<div class="col-md-10">' +
-                    '<div class="dataTables_paginate paging_bootstrap">' +
-                    '<ul class="pagination">';
-                if (page == 1) {
-                    str += '<li class="prev disabled"><a>上一页</a></li>'
-                } else {
-                    str += '<li class="prev"><a href="javascript:void(0);" to-page="' + (page - 1) + '">上一页</a></li>'
-                }
-                if (pages < 6) {
-                    for (var i = 0; i < pages; i++) {
-                        if (page == (i + 1)) {
-                            str += '<li class="active"><a>' + (i + 1) + '</a></li>';
-                            j = i + 1;
-                        } else {
-                            str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
-                        }
-                    }
-                } else {
-                    if (page < 3) {
-                        for (var i = 0; i < 5; i++) {
-                            if (page == i + 1) {
-                                str += '<li class="active"><a>' + (i + 1) + '</a></li>';
-                                j = i + 1;
-                            } else {
-                                str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
-                            }
-                        }
-                    } else if (pages - page < 3) {
-                        for (var i = pages - 5; i < pages; i++) {
-                            if (page == i + 1) {
-                                str += '<li class="active"><a>' + (i + 1) + '</a></li>';
-                                j = i + 1;
-                            } else {
-                                str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
-                            }
-                        }
-                    } else {
-                        for (var i = page - 3; i < page + 2; i++) {
-                            if (page == i + 1) {
-                                str += '<li class="active"><a>' + (i + 1) + '</a></li>';
-                                j = i + 1;
-                            } else {
-                                str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
-                            }
-                        }
-                    }
-                }
-                if (j < pages) {
-                    str += '<li class="next"><a href="javascript:void(0);" to-page="' + (j + 1) + '">下一页</a></li>'
-                } else {
-                    str += '<li class="next disabled"><a>下一页</a></li>'
-                }
-                str += '</ul>' +
-                    '</div>' +
-                    '</div>';
-                doc.html(str);
-                doc.find('ul.pagination>li>a[to-page]').on('click', function (e) {
-                    tbl.PagingTable('page', $(e.target).attr('to-page') * 1)
-                })
-            }else{
-                tbl.next('.DTTTFooter').remove();
-            }
-            return this;
-        };
+
 
         var __prop__ = {  //插件默认方法
             init: function (opts) {
@@ -1229,7 +1158,15 @@
                         opts['list'] = opts.fnGetItems(data);
                         showTableList(opts.list)
                         if (opts.paging) {
-                            createFooter(tbl, opts.start, opts.pageLength, opts.totalCount);
+                            $.DTTTFooterInit({
+                                tbl:tbl,
+                                page:opts.start,
+                                length:opts.pageLength,
+                                total:opts.totalCount,
+                                cb:function(i){
+                                    tbl.PagingTable('page', i);
+                                }
+                            })
                         }
                     }
                 })
@@ -2020,7 +1957,6 @@
                                 return false;
                             }
                             $(frm[0]).find(':input[name]').each(function () {
-                                console.log(this);
                                 try {
                                     $(this).change();
                                 } catch (err) {

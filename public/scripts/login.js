@@ -1,15 +1,11 @@
 var wrap_login_form=$('#wrap_login_form');
 var wrap_modpw_form=$('#wrap_modpw_form');
-console.log($.cookie('firLogin'))
-
 
 //判断是否已经采用初始密码通过登录验证
 if($.cookie('firLogin')=='0'){  //是  则强制修改初始密码
-    console.log('11111')
     wrap_login_form.hide();
     wrap_modpw_form.show();
 }else{                          //否  则强制修改初始密码
-    console.log('00000')
     wrap_modpw_form.hide();
     wrap_login_form.show();
 }
@@ -143,7 +139,6 @@ wrap_modpw_form.find('form').ajaxForm({
     },
     success: function (data) {
         var errorText = '';
-        console.log(data);
         switch (data.rt) {
             case '0000':    //登录成功
                 saveAccPw();
@@ -167,7 +162,6 @@ wrap_modpw_form.find('form').ajaxForm({
 function preSaveAccPw(){ //检查登录信息
     if ($('input.savepw').prop('checked')) {
         if($('input[name=passwd]').is(':visible')){
-            console.log('passwd')
             if(
                 $.local('account')===undefined
                 ||$.local('passwd')===undefined
@@ -178,7 +172,6 @@ function preSaveAccPw(){ //检查登录信息
                 $.local('_passwd',b64.encode($('input[name=passwd]').val()));
             }
         }else{
-            console.log('new_passwd')
             $.local('_passwd',b64.encode($('input[name=new_passwd]').val()));
         }
     }

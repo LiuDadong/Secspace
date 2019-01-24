@@ -333,6 +333,74 @@ function createFooter(page, length, total, footerNum) {
         $('.page' + footerNum + '').empty();
     }
 }
+function createFooter1(page, length, total, footerNum) {
+    var j = 0;
+    if (total > 0) {
+        var doc = $('.page' + footerNum + ''),
+            pages = ~~(total / length) + (total % length > 0 ? 1 : 0);
+        page = total > 0 ? page : 0;
+        var str = '<div class="DTTTFooter"><div class="col-md-2"><div class="dataTables_info">共' + total + '条第' + page + '/' + pages + '页</div></div>' +
+            '<div class="col-md-10">' +
+            '<div class="dataTables_paginate paging_bootstrap">' +
+            '<ul class="pagination">';
+        if (page == 1) {
+            str += '<li class="prev disabled"><a>上一页</a></li>'
+        } else {
+            str += '<li class="prev"><a href="javascript:search(' + (page - 1) + ',' + footerNum + ')">上一页</a></li>'
+        }
+
+        if (pages < 6) {
+            for (var i = 0; i < pages; i++) {
+                if (page == (i + 1)) {
+                    str += '<li class="active"><a>' + (i + 1) + '</a></li>';
+                    j = i + 1;
+                } else {
+                    str += '<li><a href="javascript:search(' + (i + 1) + ',' + footerNum + ')">' + (i + 1) + '</a></li>';
+                }
+            }
+        } else {
+            if (page < 3) {
+                for (var i = 0; i < 5; i++) {
+                    if (page == i + 1) {
+                        str += '<li class="active"><a>' + (i + 1) + '</a></li>';
+                        j = i + 1;
+                    } else {
+                        str += '<li><a href="javascript:search(' + (i + 1) + ',' + footerNum + ')">' + (i + 1) + '</a></li>';
+                    }
+                }
+            } else if (pages - page < 3) {
+                for (var i = pages - 5; i < pages; i++) {
+                    if (page == i + 1) {
+                        str += '<li class="active"><a>' + (i + 1) + '</a></li>';
+                        j = i + 1;
+                    } else {
+                        str += '<li><a href="javascript:search(' + (i + 1) + ',' + footerNum + ')">' + (i + 1) + '</a></li>';
+                    }
+                }
+            } else {
+                for (var i = page - 3; i < page + 2; i++) {
+                    if (page == i + 1) {
+                        str += '<li class="active"><a>' + (i + 1) + '</a></li>';
+                        j = i + 1;
+                    } else {
+                        str += '<li><a href="javascript:search(' + (i + 1) + ',' + footerNum + ')">' + (i + 1) + '</a></li>';
+                    }
+                }
+            }
+        }
+        if (j < pages) {
+            str += '<li class="next"><a href="javascript:search(' + (j + 1) + ',' + footerNum + ')">下一页</a></li>'
+        } else {
+            str += '<li class="next disabled"><a>下一页</a></li>'
+        }
+        str += '</ul>' +
+            '</div>' +
+            '</div></div>';
+        doc.html(str);
+    } else {
+        $('.page' + footerNum + '').empty();
+    }
+}
 
 
 
@@ -499,7 +567,7 @@ function hasHdlAuth(item, act, aim) {
         return hasAuth(item, act, aim);
     }
     function hasAuth(item, act, aim) {
-        var mng = $.cookie('manager'),
+        var mng = $.local('manager'),
             lid = $.local('org_id'),   //管理员责任机构id
             cid = $.cookie('org_id'),               //管理员当前管理机构id
             yesno = false;
@@ -570,7 +638,6 @@ function accountInfo() {  //修改密码
         srcAvatar = $.local("appssec_url") + '/' + $.local("avatar");
     }
     $.silentPost('/common/adminRoleInfo', {}, function (data) {
-        console.log(data.query_adm_info);
         if(data.rt='0000'){
             var admInfo=data.query_adm_info,
                 roles = data.query_adm_info.adm_role_info;

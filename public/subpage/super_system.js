@@ -74,7 +74,6 @@ function renderSettings(){
     $.silentGet('/super/setting/getSettings', {}, function (data) {
         if (data.rt == '0000') {
             var dt = data.doc;
-            console.log(dt);
             localStorage.setItem("product_name", dt.product_name);
             localStorage.setItem("icon", dt.icon);
             var srcLogo= localStorage.getItem('appssec_url')+'/'+dt.icon;
@@ -112,7 +111,6 @@ function renderSettings(){
                             $(this).prop('checked', v == $(this).attr('value'));
                             break;
                         case 'input:file':
-                            console.log(localStorage.getItem('appssec_url')+'/'+v);
                             $(this).prev('img').attr('src',localStorage.getItem('appssec_url')+'/'+v);
                             break;
                         default:
@@ -175,7 +173,6 @@ var btnTestEmail = $('#btnTestEmail').on('click',function(){
 // 认证方式设置
 $('.enhance').on('change',function(){
     if($(this).prop('checked')){
-        console.log($(this).closest('.checkbox').siblings('.checkbox:has(.enhance)')[0]);
         $(this).closest('.checkbox')
             .siblings('.checkbox:has(.enhance)')
             .find('input:checkbox').prop('checked',false);

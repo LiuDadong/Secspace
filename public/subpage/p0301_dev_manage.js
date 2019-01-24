@@ -210,7 +210,6 @@ function showDevDetail(ele, acttab) {
         }
         
         strtab4 += '</table>';
-        console.log(strtab4);
         $('.applist').html(strtab4);
     } else {
         warningOpen('设备信息缺失！', 'danger', 'fa-bolt');
@@ -295,7 +294,6 @@ function send_cmds(cmd) {
     var dev_id = pagingTable.data('PagingTable').sel.map(function (item) {
         return item.dev_id;
     });
-    console.log(dev_id);
     if (dev_id.length > 0) {
         switch (cmd) {
             case 'reset':

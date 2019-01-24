@@ -967,3 +967,11 @@ jmnode.selected::after{
     top: -7px;
     left: 1px;
 }
+
+
+
+.dataTables_info .iptPage{
+    width: 3em;
+    text-align: center;
+    margin: 0 4px;
+}

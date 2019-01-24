@@ -86,10 +86,19 @@ function getDeviceList(start_page, page_length) {
                         '</tr>').data('item',data.doc[i]);
                     table.append(tri);
                 }
+                $.DTTTFooterInit({
+                    tbl:table.find('table'),
+                    page:start_page,
+                    length:page_length,
+                    total:data.total_count,
+                    cb:function(i){
+                        getDeviceList(i,10)
+                    }
+                });
             }else{
                 table.append('<tr><td colspan="8">暂无设备</td></tr>');
             }
-            createFooter(start_page, page_length, data.total_count, 1);
+            
         }
     });
     currentpage = start_page;
@@ -443,7 +452,6 @@ function sendpw(devid) {
 //一个或者多个设备消息推送
 function send_cmds(cmd) {
     var sel=getSel();
-    console.log(sel);
     if (sel.length > 0) {
         switch (cmd){
             case 'reset':
@@ -476,7 +484,6 @@ function sendcmds(cmd) {
                         dev_id: dev_id[0],
                         id: dev_id.length
                     }, function (data) {
-                        console.log(data);
                         if (data.rt == '0000') {
                             passwd_type = data.passwd_type;
                             min_len = data.pw_min_len;

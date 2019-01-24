@@ -326,7 +326,7 @@
                             }
                             $.dialogClose();
                             that.ajaxMind(function(t){
-                                console.log('ajaxMind');
+                                
                             });
                         }
                     });
@@ -472,8 +472,6 @@
             try{
                 var oldNodeArray=jm.get_data('node_array').data,
                     newNodeArray=that.nodes;
-                console.log(oldNodeArray)
-                console.log(newNodeArray)
                 updateMind(oldNodeArray,newNodeArray);
                 if (cb instanceof Function) {
                     cb(that);
@@ -540,7 +538,6 @@
                     console.error(err);
                 }
                 if (data.rt === '0000') {
-                    console.log('11111111111')
                     if (data.data.length === 0) {
                         $.silentPost('/common/orgtree/add', {
                             topic: '总公司',
@@ -554,7 +551,6 @@
                     } else {
                         data.data[0]['isroot'] = true;
                         that['nodes'] = data.data;
-                        console.log(that.nodes);
                         that.redraw(cb);
                     }
                 }
