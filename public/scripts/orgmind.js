@@ -348,7 +348,7 @@
                         return;
                     }
                     $.dialog('confirm', {
-                        content: '确认删除选中的机构及其所有子机构吗?',
+                        content: '<p>机构删除操作会删除机构本身,<br />以及属于该机构的所有数据及操作关系,<br />确认删除选中的机构及其子机构吗?</p>',
                         confirm: function () {
                             $.actPost('/common/orgtree/del', {
                                 id: that.selected.id

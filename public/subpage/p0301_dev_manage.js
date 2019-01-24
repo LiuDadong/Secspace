@@ -325,33 +325,35 @@ function send_cmds(cmd) {
 
 function resetLockPW(ele) {
     var dev_id = $(ele).closest('tr').data('item').dev_id;
-    $.post('/man/device/orgGetPolicy', {
-        dev_id: dev_id,
-        id: 1
-    }, function (data) {
-        $.objRegex['lockpw'] = {
-            pattern: /^[0-9]{4,}$/,
-            info: '请输入至少4位数字'
-        };
-        if (data.rt == '0000') {
-            switch (data.passwd_type) {
-                case 1:
-                    $.objRegex.lockpw.pattern = new RegExp("^[0-9]{" + data.pw_min_len + ",}$");
-                    $.objRegex.lockpw.info = '请输入至少' + data.pw_min_len + '位数字';
-                    break;
-                case 2:
-                    $.objRegex.lockpw.pattern = new RegExp("^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{" + data.pw_min_len + ",}$");
-                    $.objRegex.lockpw.info = '请输入至少' + data.pw_min_len + '位字母和数字组合';
-                    checkpwd = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{2,}$/; //字母和数字
-                    warningtext = '请输入至少' + data.pw_min_len + '位字母和数字组合'; //提示
-                    break;
-                case 3:
-                    $.objRegex.lockpw.pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{" + data.pw_min_len + ",}$");
-                    $.objRegex.lockpw.info = '请输入至少' + data.pw_min_len + '位包含大小写字母和数字组合';
-                    break;
-                default:
-            }
-        }
+    $.objRegex['lockpw'] = {
+        pattern: /^[0-9a-zA-Z]{4,}$/,
+        info: '请输入至少4位密码'
+    };
+    dialogFrmModPW();
+    // $.post('/man/device/orgGetPolicy', {
+    //     dev_id: dev_id,
+    //     id: 1
+    // }, function (data) {
+    //     if (data.rt == '0000'&&data.passwd_type) {
+    //         switch (data.passwd_type) {
+    //             case 1:
+    //                 $.objRegex.lockpw.pattern = new RegExp("^[0-9]{" + data.pw_min_len + "}$");
+    //                 $.objRegex.lockpw.info = '请输入' + data.pw_min_len + '位数字';
+    //                 break;
+    //             case 2:
+    //                 $.objRegex.lockpw.pattern = new RegExp("^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{" + data.pw_min_len + ",}$");
+    //                 $.objRegex.lockpw.info = '请输入至少' + data.pw_min_len + '位字母和数字组合';
+    //                 break;
+    //             case 3:
+    //                 $.objRegex.lockpw.pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{" + data.pw_min_len + ",}$");
+    //                 $.objRegex.lockpw.info = '请输入至少' + data.pw_min_len + '位包含大小写字母和数字组合';
+    //                 break;
+    //             default:
+    //         }
+    //     }
+    //     dialogFrmModPW();
+    // });
+    function dialogFrmModPW(){
         $.dialog('form', {
             title: '设置锁屏密码',
             top: '20%',
@@ -409,7 +411,7 @@ function resetLockPW(ele) {
         $('#screen_pw').on('input', function () {
             $('input[name=opt_type]').val('chg_screen_pw <' + $(this).val() + '>')
         });
-    });
+    }
 }
 
 

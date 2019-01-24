@@ -349,7 +349,7 @@ $.DTTTFooterInit=function (opt) {
             pages = Math.ceil(total / length);
         
         page = total > 0 ? page : 0;
-        var str = '<div class="col-md-5"><div class="dataTables_info">共' + total + '条第<input class="iptPage" type="text" value="' + page + '">/' + pages + '页</div></div>' +
+        var str = '<div class="col-md-5"><div class="dataTables_info">第<input class="iptPage" type="text" value="' + page + '">/' + pages + '页    共 ' + total + ' 条</div></div>' +
             '<div class="col-md-7">' +
             '<div class="dataTables_paginate paging_bootstrap">' +
             '<ul class="pagination">';

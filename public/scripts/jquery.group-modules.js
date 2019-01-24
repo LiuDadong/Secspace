@@ -1951,10 +1951,13 @@
                             });
                         },
                         beforeSubmit: function (arrKeyVal, $frm, ajaxOptions) {
-                            $(frm[0]).find('input[type=submit]').prop('disabled',true);
+                            
                             if($frm.hasClass('needmod')){
-                                console.error('无修改');
+                                $(frm[0]).find('input[type=submit]').prop('disabled',true);
+                                warningOpen('请修改之后再保存','danger','fa-bolt')
                                 return false;
+                            }else{
+
                             }
                             $(frm[0]).find(':input[name]').each(function () {
                                 try {
@@ -1980,8 +1983,10 @@
                                 }
                             }
                             if (frm.beforeSubmit) {
-                                frm.beforeSubmit(arrKeyVal, $frm, ajaxOptions);
+                                $(frm[0]).find('input[type=submit]').prop('disabled',true);
+                                return frm.beforeSubmit(arrKeyVal, $frm, ajaxOptions);
                             }
+                            $(frm[0]).find('input[type=submit]').prop('disabled',true);
                             return true;
                         },
                         uploadProgress: function (event) {
