@@ -72,6 +72,7 @@ function uploadFormInit() {
             success: function (data) {
                 uploadForm.find('label:has(input[name=config_files])').removeClass('disabled');
                 uploadForm[0].reset();
+                $.handleECode(true, data, '上传');
                 pagingTable.PagingTable('update');
             }
         };

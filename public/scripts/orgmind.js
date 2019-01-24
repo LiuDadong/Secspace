@@ -372,40 +372,10 @@
                 function fnExport() {
                     warningOpen('敬请期待','danger','fa-bolt');
                     return false;
-                    that['theBtn']=$(this).prop('disabled',true);
-                    // 导出机构数据
-                    var url = localStorage.getItem('appssec_url') + '/p/org/exportOrg?sid=' + $.cookie('sid') +'&org_id=' + jm.get_selected_node().id+'&flag=' + $(this).data('flag');
-                        // downloadFile(url);
-                        // window.location = url;
-                        // try {
-                        //     var elemIF = document.createElement("iframe");
-                        //     elemIF.src = url;
-                        //     $(elemIF).attr('src', url).css('display', 'none');
-                        //     document.body.appendChild(elemIF);
-                        // } catch (e) {
-                        //     console.error('下载log表格失败:url' + url);
-                        //     console.error(e);
-                        // }
-                        var dt={
-                            sid:$.cookie('sid'),
-                            org_id:jm.get_selected_node().id,
-                            flag:$(this).data('flag')
-                        },
-                        inputs='';
-                        for(n in dt){
-                            inputs+= '<input type="hidden" name="'+ n +'" value="'+ dt[n] +'" />'
-                        }
-                        $('<form action="' + url + '" method="get">' + inputs + '</form>')
-                        .appendTo('body').submit().remove();
-                    setTimeout(function(){
-                        that['theBtn'].prop('disabled',false);
-                    },1000)
                 }
                 function fnImport() {
                     warningOpen('敬请期待','danger','fa-bolt');
                     return false;
-                    that['theBtn']=$(this).prop('disabled',true);
-                    that['theBtn'].prop('disabled',false);
                 }
             }
         },

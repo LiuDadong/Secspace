@@ -274,59 +274,8 @@ function prepareUserTagList(){
 }
 //模块特别情况处理
 function importusers() {
-    alert('敬请期待，请不要作无谓尝试！')
+    warningOpen('敬请期待','danger','fa-bolt');
     return false;
-    $.dialog('form', {
-        title: '批量导入',
-        content: '<form id="addUserFile" class="form-inline" action="' + localStorage.getItem("appssec_url") + '/p/user/bulkLoad" enctype="multipart/form-data" autocomplete="off" role="form">\
-                        <input type="hidden" name="sid" value="' + $.cookie('sid') + '" />\
-                        <input type="hidden" name="org_id" value="' + $.cookie('org_id') + '" />\
-                        <div class="form-group" style="position:relative;">\
-                            <div class="progress progress-striped hidden" style="position:absolute;top:0;left:0;right:0;bottom:0;height:100%">\
-                                <div class="progress-bar progress-bar-inverse" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%">\
-                                    <span class="sr-only">\
-                                        100% Complete (success)\
-                                    </span>\
-                                </div>\
-                            </div>\
-                            <input id="file_data" name="file_data" type="file" class="form-control"/>\
-                        </div>\
-                        <a type="button" class="btn btn-default" href="'+ localStorage.getItem("appssec_url") + '/p/user/templateDownload?name=userTemplate.xls">下载模板</a>\
-                    </form>',
-        confirmValue: '确认',
-        confirm: function () {
-            $('#addUserFile').submit();
-        },
-        confirmHide: false,
-        cancelValue: '取消',
-        cancel: function () {
-            //btnDel.removeClass('disabled');
-        }
-    });
-
-    $('#addUserFile').submit(function () {
-        $(this).ajaxSubmit({
-            resetForm: true,
-            beforeSubmit: function () {
-                $('.dialog-btn .dialog-btn-confirm').addClass('disabled');
-                $('#addUserFile .progress').addClass('active').removeClass('hidden');
-            },
-            success: function (data) {
-                $.handleECode(true, data);
-                $('#addUserFile .progress').removeClass('active');
-                setTimeout(() => {
-                    $('.dialog-btn .dialog-btn-confirm').removeClass('disabled');
-                    $('#addUserFile .progress').addClass('hidden');
-                }, 2000);
-            },
-            error: function (err) {
-                console.error(err);
-                $('.dialog-btn .dialog-btn-confirm').removeClass('disabled');
-                $('#addUserFile .progress').addClass('hidden');
-            }
-        });
-        return false;
-    });
 }
 
 function changeGroup() {
