@@ -81,7 +81,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                     .navbar-header.pull-left(style="width:177px;")
                         a.navbar-brand(href='#')
                             small
-                                img.logo(src='/imgs/logo.png' alt='logo')
+                                img.logo(src='/imgs/logo.png')
                     .sidebar-collapse(id="sidebar-collapse")
                         i(class="collapse-icon fa fa-bars")
                     .product_name
@@ -167,6 +167,10 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                             a(data-pjax href="/sub?pg=super_role")
                                 i(class="menu-icon glyphicon glyphicon-user")
                                 span(class="menu-text") 管理员角色
+                        li
+                            a(data-pjax href="/sub?pg=super_config")
+                                i(class="menu-icon fa fa-file")
+                                span(class="menu-text") 配置文件管理
                         li
                             a(class="menu-dropdown")
                                 i(class="menu-icon fa fa-gears")

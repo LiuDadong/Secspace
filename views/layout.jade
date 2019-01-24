@@ -102,7 +102,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                     .navbar-header.pull-left(style="width:177px;")
                         a.navbar-brand(href='#')
                             small
-                                img.logo(src='/imgs/logo.png' alt='logo')
+                                img.logo(src='/imgs/logo.png')
                     .sidebar-collapse(id="sidebar-collapse")
                         i(class="collapse-icon fa fa-bars")
                     .product_name
@@ -312,6 +312,9 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                 li
                                     a(data-pjax href="/sub?pg=p0802_admin")
                                         span(class="menu-text") 管理员
+                                li
+                                    a(data-pjax href="/sub?pg=p0803_config")
+                                        span(class="menu-text") 配置文件管理
                 .page-content(id="rightpart")
                     // 页面标题
                     .page-header.position-relative.page-header-fixed
