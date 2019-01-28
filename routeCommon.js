@@ -66,9 +66,7 @@ module.exports = function (app, chttp) {
         req.body.old_passwd = md5('xthinkers' + req.body.old_passwd);
         req.body.new_passwd = md5('xthinkers' + req.body.new_passwd);
         delete req.body.url;
-        console.log(req.body);
         chttp.cpost(req.body, '/p/org/admUpdatePw', function (cont) {
-            console.log(cont);
             res.send(cont);
         });
     });
@@ -183,7 +181,9 @@ module.exports = function (app, chttp) {
             default:
                 let url = req.query.url + '?';
                 req.query['sid'] = req.cookies.sid;
-                req.query['org_id'] = req.cookies.org_id;
+                if(req.query['org_id']===undefined){
+                    req.query['org_id'] = req.cookies.org_id;
+                }
                 delete req.query.url;
                 url += querystring.stringify(req.query);
                 chttp.cget(url, function (cont) {
@@ -331,7 +331,7 @@ module.exports = function (app, chttp) {
         let url = req.body.url, uploadFile = '';
         req.body['sid'] = req.cookies.sid;
         delete req.body.url;
-        for (i in req.files) {
+        for (let i in req.files) {
             uploadFile = req.files[i];
         }
         if (uploadFile) {
@@ -414,7 +414,7 @@ module.exports = function (app, chttp) {
             res.send({ rt: '0000', desc: '成功' });
         }
     });
-    // 上传配置文件  
+    // 下载配置文件
     app.post('/common/config_file/download', function (req, res) {
         if(req.cookies.sid){
             var p=path.join(
@@ -423,11 +423,6 @@ module.exports = function (app, chttp) {
                 req.body.filename
             );
             res.download(p);
-            // res.writeHead(200, {
-            //   'Content-Type': 'application/force-download',
-            //   'Content-Disposition': 'attachment; filename='+req.body.filename
-            // });
-            // fs.createReadStream(p).pipe(res);
         }
     });
 };

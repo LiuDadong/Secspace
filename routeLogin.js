@@ -25,11 +25,13 @@ module.exports = function (app, chttp) {
     // 登录(登录表单的ajaxForm)
     app.post('/login', function (req, res) {
         var url = '/p/org/admLogin';
+        console.log(req.body);
         chttp.cpost({
             'account': req.body.account,
             'passwd': md5('xthinkers' + req.body.passwd),
             'dev_ip': req.body.dev_ip
         }, url, function (cont) {
+            console.log(cont);
             res.send(cont);
         });
     });

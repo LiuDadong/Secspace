@@ -1180,7 +1180,8 @@
                         for (var i = 0; i < list.length; i++) {
                             var tri, triCheckBox;
                             if (trs.eq(i)[0]) {
-                                tri = trs.eq(i);
+                                tri = trDemo.clone(true);
+                                trs.eq(i).replaceWith(tri);
                             } else {
                                 tri = trDemo.clone(true);
                                 tbHas.append(tri);

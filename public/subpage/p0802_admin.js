@@ -1,35 +1,4 @@
-    var omAdmin = new OrgMind({
-        container: 'om_admin',          //'om_admin'-- id of the container   
-        rootId:$.cookie('org_id'),
-        multiple: false,     //支持多选
-        allowUnsel: true,    //允许不选
-        disableRoot: true,
-        editable: true,
-        expandToDepth:1,
-        view: {
-            hmargin: 40,
-            vmargin: 10,
-            line_width: 1,
-            line_color: '#000'
-        },
-        layout: {
-            hspace: 40,
-            vspace: 12,
-            pspace: 14
-        },
-        jmnodeClick: function (om) {  //标签元素jmnode
-            $('#panel .btnAdd').prop('disabled',false);
-            $('#panel button.btnRefresh').click(); //选中任意机构都会刷新表格，显示对应机构的管理员
-        },
-        jmnodesClick:function(om){
-            var jm=om.jm;
-            jm.select_clear();
-            om['selected']=null;
-            $('#panel .btnAdd').prop('disabled',true);
-            $('#panel button.btnRefresh').click(); //选中任意机构都会刷新表格，显示对应机构的管理员
-        }
-    });
-    $('#om_admin').find('jmnodes').click();
+
     /*
      * ==================================================================
      *                          机构管理员
@@ -42,7 +11,9 @@
     //采用分页表格组件pagingTable初始化列表
     var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
         paging: false,
-        jsonData: { 'url': '/p/org/adminMan' },
+        jsonData: { 
+            'url': '/p/org/adminMan'
+        },
         // theadHtml为表头类元素，第一个th用于存放全选复选框
         theadHtml: '<tr>\
                         <th style="width:6%"></th>\
@@ -91,7 +62,7 @@
             return v;
         },
         afterAppend:function(tri,itemi){
-            if(itemi.org_id==localStorage.getItem('org_id')){
+            if(itemi.org_id==$.local('org_id')){
                 tri.find('.checkbox,[todo=edit],[todo=resetpw]').remove();
             }
         },
@@ -368,5 +339,37 @@
 
     }
 
+    var omAdmin = new OrgMind({
+        container: 'om_admin',          //'om_admin'-- id of the container   
+        rootId:$.cookie('org_id'),
+        multiple: false,     //支持多选
+        allowUnsel: true,    //允许不选
+        disableRoot: true,
+        editable: true,
+        expandToDepth:1,
+        view: {
+            hmargin: 40,
+            vmargin: 10,
+            line_width: 1,
+            line_color: '#000'
+        },
+        layout: {
+            hspace: 40,
+            vspace: 12,
+            pspace: 14
+        },
+        jmnodeClick: function (om) {  //标签元素jmnode
+            $('#panel .btnAdd').prop('disabled',false);
+            $('#panel button.btnRefresh').click(); //选中任意机构都会刷新表格，显示对应机构的管理员
+        },
+        jmnodesClick:function(om){
+            var jm=om.jm;
+            jm.select_clear();
+            om['selected']=null;
+            $('#panel .btnAdd').prop('disabled',true);
+            $('#panel button.btnRefresh').click(); //选中任意机构都会刷新表格，显示对应机构的管理员
+        }
+    });
+    $('#om_admin').find('jmnodes').click();
 
     applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限

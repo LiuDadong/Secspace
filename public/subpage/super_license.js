@@ -19,6 +19,7 @@ var frmLic = $('#multForm').MultForm({
     },
     success: function (res) {  //提交编辑成功之后的回调
         $.getLicense(function (data) {
+            console.log(data);
             if (data.rt === '0000') {
                 var license = data.licInfo.license
                 showLicense(license);

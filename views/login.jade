@@ -30,7 +30,7 @@ html(xmlns="http://www.w3.org/1999/xhtml")
                                     input.savepw(type='checkbox')
                                     span.text 记住密码                                         
                     button.btn.btn-primary.btn-block(type='submit') 登 录                                                  
-            #wrap_modpw_form
+            #wrap_modpw_form(style="display:none;")
                 h3(style="font-size:27px;") 请修改初始密码
                 form.index-form(role='form' action="/common/pw/selfmod" type="POST")
                     input(type='text', style='display:none;')   

@@ -87,6 +87,7 @@ wrap_login_form.find('form').ajaxForm({
     },
     success: function (data) {
         var errorText = '';
+        console.log(data);
         switch (data.rt) {
             case '0000':    //登录成功
                 saveAccPw();
@@ -108,10 +109,12 @@ wrap_login_form.find('form').ajaxForm({
                 errorText = data.desc;
         }
         if (errorText) {
+            console.error(errorText);
             alert(errorText);
         }
     },
     error: function (err) {
+        console.error(err);
         alert(err);
     }
 });
