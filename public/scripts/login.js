@@ -93,7 +93,6 @@ $('form').ajaxForm({
                     $.cookie('avatar', data.avatar);
                 };
                 location.href = "/";
-                
                 break;
             case '0001':    //操作失败
                 errorText = "登录失败"
@@ -102,11 +101,13 @@ $('form').ajaxForm({
                 errorText = data.desc;
         }
         if (errorText) {
+            console.error(errorText);
             alert(errorText);
         }
     },
     error: function (err) {
         console.error(err);
+        alert(err);
     }
 });
 
