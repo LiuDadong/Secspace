@@ -64,12 +64,20 @@
                     + '<td>' + data.logInfo[i].dev_name + '</td>'
                     + '<td>' + (data.logInfo[i].os_type=='android'? 'Android':'iOS') + '</td>'
                     + '<td>' + data.logInfo[i].opt_time + '</td>'
-                    + '<td title="'+ data.logInfo[i].url +'">' + data.logInfo[i].url + '</td>'
+                    + '<td style="text-align:left;" title="'+ data.logInfo[i].url +'">' + data.logInfo[i].url + '</td>'
                     + '</tr>';
                 }
                 str += '</table>';
                 table.html(str);
-                createFooter(start_page, page_length, data.total_count, 1);
+                $.DTTTFooterInit({
+                    tbl:table.find('table'),
+                    page:start_page,
+                    length:page_length,
+                    total:data.total_count,
+                    cb:function(i){
+                        getloglist(i,10);
+                    }
+                });
             } else if (data.rt == 5) {
                 toLoginPage();
             }

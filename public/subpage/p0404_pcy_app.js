@@ -9,7 +9,7 @@
     //用于交互时改变标题显示
     var subCaption = $('#subCaption').data('itemText', '应用策略').text('应用策略列表');
 
-    //采用分页表格组件pagingTable初始化黑白名单列表
+    //采用分页表格组件pagingTable初始化列表
     var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
         jsonData: {
             'url': '/p/policy/appPolicyMan',
@@ -20,7 +20,7 @@
                     <th>名称</th>\
                     <th>类型</th>\
                     <th>状态</th>\
-                    <th>已应用/已下发</th>\
+                    <th style="width:12%;">已应用/已下发</th>\
                     <th class="filter btn-group">\
                         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">\
                             <span>来源</span> <i class="fa fa-angle-down"></i>\
@@ -113,7 +113,7 @@
         }
     }))
 
-    // 采用multForm组件初始化黑白名单多用途表单
+    // 采用multForm组件初始化多用途表单
     var multForm = $('#multForm').MultForm({
         addUrl: '/p/policy/appPolicyMan',
         editUrl: '/p/policy/appPolicyMan',
@@ -143,6 +143,7 @@
                         add_policy();
                         return false;
                     })
+                    camap.fnSetInit([116.397474,39.908686],300);
                     break;
                 case "edit":
                     showItem(item);
@@ -164,7 +165,7 @@
                 }).change();
             },1);
         },
-        cbSubmit: function (use) {  //提交编辑成功之后的回调
+        cbAfterSuccess: function (use) {  //提交编辑成功之后的回调
             switch (use) {
                 case 'add':
                     break;

@@ -7,7 +7,8 @@ td{
     -o-text-overflow: ellipsis;
 }
 
-.form-group label{
+label{
+    white-space: nowrap;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -17,6 +18,7 @@ td{
     pointer-events:none;
     cursor: auto;
 }
+
 .disabled{
     pointer-events:none;
     cursor: auto;
@@ -235,10 +237,6 @@ form .widget-body {
 
 .checkbox .help {
     margin-left: 2em;
-}
-
-label {
-    white-space: nowrap;
 }
 
 .wifiList>.wifiItem {
@@ -534,7 +532,8 @@ table {
     justify-content: flex-start;
     align-items: center;
     border: 1px solid #ddd;
-    margin-bottom:-1px; 
+    margin-bottom:-1px;
+    padding: 0;
 }
 .scrollList li{
     display: flex;
@@ -739,15 +738,22 @@ th.filter>ul.dropdown-menu{
     width: 2.5em;
     height: 0.5em;
 }
+#wrapAccountAvatar .wrap-img{
+    margin:0 auto;
+}
 .wrap-img{
     position: relative;
     width: 1em;
     height: 1em;
-    border: 0.01em solid #ddd;
+    border: 1px solid rgba(0,0,0,.3);
     padding: 0.02em;
-    margin: 0 auto;
     overflow: hidden;
+    transition: all 0.3s;
 }
+.wrap-img:hover{
+    border-color:rgba(0,0,0,.7);
+}
+
 .wrap-img>img{
     float: left;
     width: 100%;
@@ -777,6 +783,14 @@ th.filter>ul.dropdown-menu{
     left: 40px;
     width: 20%;
 }
+.orgPanel .profile-badge{
+    line-height: 40px;
+    font-size: 1.2em;
+}
+.orgPanel .profile-badge span{
+    margin-left: 4px;
+}
+
 .jsmind.orgManage{
     height: 60vh;
     max-height: 500px;
@@ -898,4 +912,66 @@ input::-webkit-input-placeholder{
 
 .orgmind{
     overflow: auto;
+}
+
+.form-sm .form-group{
+    margin-bottom: 4px;
+}
+.form-sm input.form-control{
+    height: 30px;
+    padding: 0 8px;
+}
+.form-sm .form-group .control-label{
+    padding-top: 2px !important;
+}
+
+.form-sm .form-group .checkbox{
+    padding-top: 5px !important;
+}
+
+.progress-mask{
+    position: relative;
+}
+.progress-mask::after{
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 2px;
+    z-index: 9999999999;
+    background: rgba(0,0,0,0.3);
+    color: rgba(255,0,0,0.8);
+    text-indent: 14em;
+    line-height: 2em;
+    animation:uploading 3s infinite;
+}
+
+@keyframes uploading
+{
+0%   {content:'正在上传';}
+20%  {content:'正在上传.';}
+40%  {content:'正在上传..';}
+60%  {content:'正在上传...';}
+80%  {content:'正在上传....';}
+100% {content:'正在上传';}
+}
+
+
+jmnode.selected::after{
+    display: block;
+    content: '●';
+    color: inherit;
+    position: absolute;
+    top: -7px;
+    left: 1px;
+}
+
+
+
+.dataTables_info .iptPage{
+    width: 3em;
+    text-align: center;
+    margin: 0 4px;
 }

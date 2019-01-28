@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="widget">
-                <div class="widget-header bg-primary">
-                        <span id="subCaption" class="widget-caption"></span>
-                    </div>
+            <div class="widget-header bg-primary">
+                <span id="subCaption" class="widget-caption"></span>
+            </div>
             <!-- section:分页列表 -->
             <div class="widget-body section table clearfix">
                 <form id="panel" class="form-inline clearfix" role="form" onkeydown="if(event.keyCode==13){return false;}">
@@ -16,8 +16,12 @@
                         <button class="btnToggleOrg btn btn-primary btn-sm" type="button">隐藏机构树</button>
                     </div>
                     <div class="pull-right">
-                        <div class="input-group"> <span class="input-icon"> <input id="iptKeyword" type="text" class="form-control input-sm" autocomplete="off" placeholder="请输入搜索关键字">
-                            <i class="glyphicon glyphicon-search blue"></i>
+                        <div class="input-group">
+                            <span class="input-icon">
+                                <input id="iptKeyword" type="text" class="form-control input-sm" autocomplete="off"
+                                    placeholder="请输入搜索关键字" />
+                                <i class="glyphicon glyphicon-search blue"></i>
+                            </span>
                         </div>
                     </div>
                 </form>
@@ -26,17 +30,19 @@
                         <div id="om_admin" style="height:300px;"></div>
                     </div>
                     <div class="col-lg-12">
-                        <div class="paging-table-wrap"><table id="pagingTable"></table></div>
+                        <div class="paging-table-wrap" style="height:400px;overflow:auto;padding: 4px 0;">
+                            <table id="pagingTable"></table>
+                        </div>
                     </div>
-                    
+
                 </div>
-                
+
             </div>
             <!-- section:添加、修改、查看多用途表单 -->
             <div class="widget-body section form" style="overflow:hidden;padding-top:80px;">
                 <div class="row col-md-7 col-md-offset-2">
                     <form id="multForm" class="form-horizontal" role="form" method="post" action="/common/mod">
-                        <input type="hidden" name="org_id" /> 
+                        <input type="hidden" name="org_id" />
                         <div class="form-group">
                             <label for="orgName" class="col-md-3 control-label no-padding-right">责任机构</label>
                             <div class="col-md-6">
@@ -46,31 +52,35 @@
                         <div class="form-group">
                             <label for="account" class="col-md-3 control-label no-padding-right">账号</label>
                             <div class="col-md-6">
-                                <input type="text" id="account" name="account" class="form-control require" ctrl-regex="account" placeholder="业务管理员登录账号">
+                                <input type="text" id="account" name="account" class="form-control require" ctrl-regex="account"
+                                    placeholder="业务管理员登录账号" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="name" class="col-md-3 control-label no-padding-right">姓名</label>
                             <div class="col-md-6">
-                                <input type="text" id="name" name="name" class="form-control require" ctrl-regex="name_mix" placeholder="管理员姓名">
+                                <input type="text" id="name" name="name" class="form-control require" ctrl-regex="name_mix"
+                                    placeholder="管理员姓名" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="phone" class="col-md-3 control-label no-padding-right">手机号</label>
                             <div class="col-md-6">
-                                <input type="text" id="phone" name="phone" class="form-control" ctrl-regex="phone" placeholder="用于绑定验证">
+                                <input type="text" id="phone" name="phone" class="form-control" ctrl-regex="phone"
+                                    placeholder="用于绑定验证" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email" class="col-md-3 control-label no-padding-right">邮箱</label>
                             <div class="col-md-6">
-                                <input type="text" id="email" name="email" class="form-control" ctrl-regex="email" placeholder="用于绑定验证">
+                                <input type="text" id="email" name="email" class="form-control" ctrl-regex="email"
+                                    placeholder="用于绑定验证" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="pw" class="col-md-3 control-label no-padding-right">密码</label>
                             <div class="col-md-6">
-                                <input type="password" id="pw" name="pw" class="form-control require" ctrl-regex="password">
+                                <input type="password" id="pw" name="pw" class="form-control require" ctrl-regex="password" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -82,14 +92,14 @@
                         <div class="form-group">
                             <label for="selectRoles" class="col-md-3 control-label no-padding-right">角色</label>
                             <div class="col-md-6">
-                                <input type="hidden" name="roleId">
+                                <input type="hidden" name="roleId" />
                                 <select id="selectRoles" multiple="multiple" class="form-control require">
                                     <option class="disabled">角色加载中...</option>
                                 </select>
                             </div>
                         </div>
 
-                        <hr class="wide">
+                        <hr class="wide" />
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -97,11 +107,10 @@
                                     <button type="button" class="btnBack btn btn-default">返回</button>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="submit" class="btn btn-primary" value="保存">
+                                    <input type="submit" class="btn btn-primary" value="保存" />
                                 </div>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>

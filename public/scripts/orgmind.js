@@ -215,117 +215,129 @@
                     that.refresh();
                 });    //刷新机构树
                 function fnAdd() {
-                    that['theBtn']=$(this).prop('disabled',true);
-                    var nodeSel = that.selected,
-                        $form,
-                        $confirm;
+                    var nodeSel = that.selected;
                     $.dialog('form', {
-                        title: '添加机构',
-                        content:  '<form class="form-horizontal" role="form" style="width:400px;">\
+                        title: "添加机构",
+                        width: 500,
+                        height: null,
+                        autoSize: true,
+                        maskClickHide: true,
+                        hasBtn: false,
+                        hasClose: true,
+                        hasMask: true,
+                        confirmHide: true,
+                        content:  '<form id="frmOrg" class="form-horizontal" role="form" style="width:400px;">\
+                                        <input type="hidden" name="parentid" value="'+ nodeSel.id +'" />\
                                         <div class="form-group">\
                                             <label for="topic" class="col-sm-3 control-label no-padding-right">机构名称</label>\
                                             <div class="col-sm-8">\
-                                                <input type="text" class="form-control" name="topic" placeholder="机构树中显示的文本" autocomplete="off">\
+                                                <input type="text" class="form-control require" name="topic" ctrl-regex="orgName" placeholder="机构树中显示的文本" autocomplete="off">\
                                             </div>\
                                         </div>\
                                         <div class="form-group">\
                                             <label for="orgCode" class="col-sm-3 control-label no-padding-right">机构码</label>\
                                             <div class="col-sm-8">\
-                                                <input type="text" class="form-control" name="orgCode" placeholder="机构唯一标识码" autocomplete="off" onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/g,\'\')">\
+                                                <input type="text" class="form-control require" name="orgCode" ctrl-regex="orgCode" placeholder="机构唯一标识码" autocomplete="off" onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/g,\'\')">\
                                             </div>\
                                         </div>\
-                                    </form>',
-                        confirmValue: '添加',
-                        confirm: function () {
-                            that.nodeAdd({
-                                topic: $form.data('topic'),
-                                orgCode: $form.data('orgCode'),
-                                parentid: nodeSel.id
-                            });
+                                        <div class="form-group">\
+                                            <div class="col-sm-2  col-sm-offset-4">\
+                                                <button type="button" onclick="$.dialogClose()" class="btnBack btn btn-default">取消</button>\
+                                            </div>\
+                                            <div class="col-sm-2 col-sm-offset-1">\
+                                                <input type="submit" class="btn btn-primary" disabled="">\
+                                            </div>\
+                                        </div>\
+                                    </form>'
+                    });
+        
+                    var frmOrg = $('#frmOrg').MultForm({
+                        addBtnTxt: '确认',
+                        addAct: '/common/orgtree/add',
+                        afterUsed: function (use) {
+                            frmOrg.find('input[name=url]').remove();
                         },
-                        cancelValue: '取消',
-                        cancel: function () {
-                            $(that['theBtn']).prop('disabled',false);
+                        cbAfterSuccess: function (use) {  //提交成功之后的回调
+                            try{
+                                $(that['theBtn'])
+                                .prop('disabled',false)
+                                .removeClass('disabled')
+                                .removeClass('unabled');
+                            }catch(err){
+                                console.error(err);
+                            }
+                            $.dialogClose();
+                            that.ajaxMind();
                         }
                     });
-                    $form = $('.dialog-box-content form');
-                    $confirm = $('.dialog-btn .dialog-btn-confirm').addClass('disabled');
-                    $form.on('propertychange change input', function () {
-                        var topic = $(this).find('input[name=topic]').val(),
-                            orgCode = $(this).find('input[name=orgCode]').val();
-                        $form.data({
-                            topic: topic,
-                            orgCode: orgCode
-                        });
-                        if (topic !== '' && orgCode !== '') {
-                            $confirm.removeClass('disabled');
-                        } else {
-                            $confirm.addClass('disabled');
-                        }
-                    });
+                    frmOrg.usedAs('add');
                 }
                 function fnEdit() {
-                    that['theBtn']=$(this).prop('disabled',true);
-                    var nodeSel = jm.get_selected_node(),
-                        $form,
-                        $confirm;
+                    var nodeSel = that.selected;
                     $.dialog('form', {
-                        title: '编辑机构',
-                        content: '<form class="form-horizontal" role="form" style="width:400px;">\
+                        title: "编辑机构",
+                        width: 500,
+                        height: null,
+                        autoSize: true,
+                        maskClickHide: true,
+                        hasBtn: false,
+                        hasClose: true,
+                        hasMask: true,
+                        confirmHide: true,
+                        content:  '<form id="frmOrg" class="form-horizontal" method="POST" role="form" style="width:400px;">\
+                                        <input type="hidden" name="id" value="'+ nodeSel.id +'" />\
                                         <div class="form-group">\
                                             <label for="topic" class="col-sm-3 control-label no-padding-right">机构名称</label>\
                                             <div class="col-sm-8">\
-                                                <input type="text" class="form-control" name="topic" value="'+ nodeSel.topic + '" placeholder="机构树中显示的文本">\
+                                                <input type="text" class="form-control require" name="topic" ctrl-regex="orgName" placeholder="机构树中显示的文本" autocomplete="off">\
                                             </div>\
                                         </div>\
                                         <div class="form-group">\
                                             <label for="orgCode" class="col-sm-3 control-label no-padding-right">机构码</label>\
                                             <div class="col-sm-8">\
-                                                <input type="text" class="form-control" name="orgCode" value="'+ nodeSel.data.orgCode + '" placeholder="机构唯一标识码" onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/g,\'\')">\
+                                                <input type="text" class="form-control require" name="orgCode" ctrl-regex="orgCode" placeholder="机构唯一标识码" autocomplete="off" onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/g,\'\')">\
                                             </div>\
                                         </div>\
-                                    </form>',
-                        confirmValue: '保存',
-                        confirm: function () {
-                            var editData={
-                                topic: $form.data('topic'),
-                                orgCode: $form.data('orgCode'),
-                                id: nodeSel.id
-                            }
-                            $.actPost('/common/orgtree/mod',editData, function (data) {
-                                that.theBtn.prop('disabled',false);
-                                if (data.rt = "0000") {
-                                    jm.update_node(nodeSel.id, $form.data('topic'));
-                                    nodeSel.data.orgCode=editData.orgCode;
-                                    that.synOrgInfoPanel();
-                                }
-                                $form.removeData();
-                            }, '修改', '机构');
+                                        <div class="form-group">\
+                                            <div class="col-sm-2  col-sm-offset-4">\
+                                                <button type="button" onclick="$.dialogClose()" class="btnBack btn btn-default">取消</button>\
+                                            </div>\
+                                            <div class="col-sm-2 col-sm-offset-1">\
+                                                <input type="submit" class="btn btn-primary" disabled="">\
+                                            </div>\
+                                        </div>\
+                                    </form>'
+                    });
+        
+                    var frmOrg = $('#frmOrg').MultForm({
+                        editBtnTxt: '保存',
+                        editAct: '/common/orgtree/mod',
+                        afterUsed: function (use) {
+                            frmOrg.find('input[name=url]').remove();
                         },
-                        cancelValue: '取消',
-                        cancel: function () {
-                            $(that['theBtn']).prop('disabled',false);
+                        cbAfterSuccess: function (use) {  //提交成功之后的回调
+                            try{
+                                $(that['theBtn'])
+                                .prop('disabled',false)
+                                .removeClass('disabled')
+                                .removeClass('unabled');
+                            }catch(err){
+                                console.error(err);
+                            }
+                            $.dialogClose();
+                            that.ajaxMind(function(t){
+                                
+                            });
                         }
                     });
-                    $form = $('.dialog-box-content form').data({
+                    frmOrg.data('item',{
                         topic: nodeSel.topic,
-                        orgCode: nodeSel.orgCode
+                        orgCode: nodeSel.data.orgCode,
+                        id: nodeSel.id
                     });
-                    $confirm = $('.dialog-btn .dialog-btn-confirm').addClass('disabled');
-                    $form.on('propertychange change input', function () {
-                        var topic = $(this).find('input[name=topic]').val(),
-                            orgCode = $(this).find('input[name=orgCode]').val();
-                        $form.data({
-                            topic: topic,
-                            orgCode: orgCode
-                        });
-                        if (topic !== '' && orgCode !== '') {
-                            $confirm.removeClass('disabled');
-                        } else {
-                            $confirm.addClass('disabled');
-                        }
-                    });
+                    frmOrg.usedAs('edit');
                 }
+
                 function fnDel() {
                     that['theBtn']=$(this).prop('disabled',true);
                     if(that['selected'].isroot){
@@ -336,8 +348,7 @@
                         return;
                     }
                     $.dialog('confirm', {
-                        content: '确认删除选中的机构及其所有子机构吗?',
-                        confirmValue: '确认',
+                        content: '<p>机构删除操作会删除机构本身,<br />以及属于该机构的所有数据及操作关系,<br />确认删除选中的机构及其子机构吗?</p>',
                         confirm: function () {
                             $.actPost('/common/orgtree/del', {
                                 id: that.selected.id
@@ -349,52 +360,22 @@
                                     jm.select_node(that.selected);
                                     that.synOrgInfoPanel();
                                 }
-                            }, '删除', '机构');
+                            }, '删除');
                         },
                         cancel: function () {
                             $(that['theBtn']).prop('disabled',false);
                         },
-                        cancelValue: '取消',
                         title: '删除机构'
                     });
                 }
+                
                 function fnExport() {
                     warningOpen('敬请期待','danger','fa-bolt');
                     return false;
-                    that['theBtn']=$(this).prop('disabled',true);
-                    // 导出机构数据
-                    var url = localStorage.getItem('appssec_url') + '/p/org/exportOrg?sid=' + $.cookie('sid') +'&org_id=' + jm.get_selected_node().id+'&flag=' + $(this).data('flag');
-                        // downloadFile(url);
-                        // window.location = url;
-                        // try {
-                        //     var elemIF = document.createElement("iframe");
-                        //     elemIF.src = url;
-                        //     $(elemIF).attr('src', url).css('display', 'none');
-                        //     document.body.appendChild(elemIF);
-                        // } catch (e) {
-                        //     console.error('下载log表格失败:url' + url);
-                        //     console.error(e);
-                        // }
-                        var dt={
-                            sid:$.cookie('sid'),
-                            org_id:jm.get_selected_node().id,
-                            flag:$(this).data('flag')
-                        },
-                        inputs='';
-                        for(n in dt){
-                            inputs+= '<input type="hidden" name="'+ n +'" value="'+ dt[n] +'" />'
-                        }
-                        $('<form action="' + url + '" method="get">' + inputs + '</form>')
-                        .appendTo('body').submit().remove();
-                    setTimeout(function(){
-                        that['theBtn'].prop('disabled',false);
-                    },1000)
                 }
                 function fnImport() {
                     warningOpen('敬请期待','danger','fa-bolt');
                     return false;
-                    that['theBtn']=$(this).prop('disabled',true);
-                    that['theBtn'].prop('disabled',false);
                 }
             }
         },
@@ -445,6 +426,9 @@
             if(opts.expandToDepth&&typeof opts.expandToDepth== 'number'){
                 jm.expand_to_depth(opts.expandToDepth);
             }
+            // jmcnter.find('jmnode').each(function(){
+            //     $(this).attr('title',$(this).text());
+            // });
             if (cb instanceof Function) {
                 cb(that);
             }
@@ -470,8 +454,21 @@
                             orgCode:newNode.orgCode,
                             orgPolicy:newNode.orgPolicy,
                             orgUser:newNode.orgUser
-                        })
+                        });
+
+                    }else if(newNodeArray.length===oldNodeArray.length){
+                        var newNode=getNewNode(oldNodeArray,newNodeArray);
+                        if(newNode){
+                            jm.update_node(newNode.id, newNode.topic);
+                            that.selected.data.orgCode = newNode.orgCode;
+                            that.synOrgInfoPanel();
+                        }
+                    }else{
+                        console.error('updateMind异常');
                     }
+                    // that.jmcnter.find('jmnode').each(function(){
+                    //     $(this).attr('title',$(this).text());
+                    // });
                 }
 
                 function getNewNode(oldNodeArray,newNodeArray){
@@ -480,7 +477,11 @@
                         newNode=newNodeArray[i];
                         for(var j=0;j<oldNodeArray.length;j++){
                             if(newNode.id===oldNodeArray[j].id){
-                                break;
+                                if(newNode.orgCode!==oldNodeArray[j].orgCode||newNode.topic!==oldNodeArray[j].topic){
+                                    return newNode;
+                                }else{
+                                    break;
+                                }
                             }
                             if(j+1==oldNodeArray.length){
                                 return newNode;
@@ -491,26 +492,6 @@
             }catch(err){
                 that.refresh(cb);
             }
-        },
-        nodeAdd: function (opts, cb) {
-            var that=this;
-            $.actPost('/common/orgtree/add', {
-                topic: opts.topic,
-                parentid: opts.parentid,
-                orgCode: opts.orgCode
-            }, function (data) {
-                try{
-                    $(that['theBtn'])
-                    .prop('disabled',false)
-                    .removeClass('disabled')
-                    .removeClass('unabled');
-                }catch(err){
-                    console.error(err);
-                }
-                if (data.rt === '0000') {
-                    that.ajaxMind(cb);
-                }
-            }, '添加', '机构')
         },
         ajaxMind: function (cb) {  //获取机构树mind数据刷新至页面，cb支持回调
             var that = this,pd={};
@@ -548,10 +529,10 @@
         synOrgInfoPanel:function () {
             $(this['theBtn']).prop('disabled',false);
             if(!Array.isArray(this.selected)){
-                $('#topic').text(this.selected.topic||'');
-                $('#orgCode').text(this.selected.data.orgCode||'');
-                $('#orgUser').text(this.selected.data.orgUser||'');
-                $('#orgPolicy').text(this.selected.data.orgPolicy||'');
+                $('#topic').text(this.selected.topic||'--');
+                $('#orgCode').text(this.selected.data.orgCode||'--');
+                $('#orgUser').text(this.selected.data.orgUser||'--');
+                $('#orgPolicy').text(this.selected.data.orgPolicy||'--');
             }
         }
     };

@@ -72,7 +72,7 @@
                     <table id="multTable" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th style="width:6%" class="sel">
+                                <th style="width:4%" class="sel">
                                     <div class="checkbox">
                                         <label>
                                             <input type="checkbox" />
@@ -80,12 +80,13 @@
                                         </label>
                                     </div>
                                 </th>
-                                <th style="width:10%" class="ellipsis">应用包名或地址</th>
-                                <th style="width:6%">版本</th>
-                                <th style="width:6%">类型</th>
+                                <th style="width:8%" class="ellipsis">应用显示名称</th>
+                                <th style="width:12%" class="ellipsis">应用包名或地址</th>
+                                <th style="width:5%">版本</th>
+                                <th style="width:5%">类型</th>
                                 <th style="width:6%">分类</th>
                                 <!-- <th style="width:6%">标签</th> -->
-                                <th style="width:9%">已安装/已授权</th>
+                                <th style="width:8%">已安装/已授权</th>
                                 <th style="width:8%">创建者</th>
                                 <th style="width:12%">更新时间</th>
                                 <th style="width:10%">操作</th>
@@ -104,6 +105,7 @@
                                         </label>
                                     </div>
                                 </td>
+                                <td viewkey="name">null</td>
                                 <td viewkey="app_name url">null</td>
                                 <td viewkey="version">null</td>
                                 <td viewkey="platform">null</td>
@@ -209,7 +211,7 @@
                             </div>
 
                             <!-- 系统最低要求 sysRequest android-->
-                            <div class="android form-group">
+                            <div class="android form-group" style="display:none;">
                                 <label class="col-sm-3 control-label no-padding-right">系统最低要求</label>
                                 <div class="col-sm-7">
                                     <select name="sysRequest" class="form-control">
@@ -224,7 +226,7 @@
                             </div>
 
                             <!-- 系统最低要求 sysRequest ios-->
-                            <div class="ios form-group">
+                            <div class="ios form-group" style="display:none;">
                                 <label class="col-sm-3 control-label no-padding-right">系统最低要求</label>
                                 <div class="col-sm-7">
                                     <select name="sysRequest" class="form-control">
@@ -312,7 +314,7 @@
                         <div class="appbox web hidden">
                             <!-- 应用图标:icon -->
                             <div class="form-group">
-                                <label for="iptUpFile" class="col-sm-3 control-label no-padding-right">
+                                <label class="col-sm-3 control-label no-padding-right">
                                     <b class="danger">*</b> 应用图标
                                 </label>
                                 <div class="col-sm-1">

@@ -11,7 +11,7 @@
     var subCaption = $('#subCaption').data('itemText', '文件').text('文件列表');
 
 
-    //采用分页表格组件pagingTable初始化黑白名单列表
+    //采用分页表格组件pagingTable初始化列表
     var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
         url: '/common/list',
         jsonData: { 'url': '/p/file/listFile' },
@@ -86,13 +86,13 @@
     }))
 
 
-    // 采用multForm组件初始化黑白名单多用途表单
+    // 采用multForm组件初始化多用途表单
     var multForm = $('#multForm').MultForm({
         addAct: '/common/add',
         addUrl: '/p/file/uploadFile',
         addBtnTxt: '上传',
         addInfoTxt: '上传',  //添加提交成功或失败反馈的信息中的.act
-        editAct: '/common/edit',
+        editAct: '/common/mod',
         editUrl: '/p/file/updateFile',
         editBtnTxt: '保存',
         afterReset: function () {  //表单重置之后紧接着的回调
@@ -104,7 +104,7 @@
                     .prop('disabled', ~~permissionItems[$(this).attr('name')] == -1);
             })
         },
-        cbSubmit: function (act) {  //提交编辑成功之后的回调
+        cbAfterSuccess: function (act) {  //提交编辑成功之后的回调
             switch (act) {
                 case 'add':
                     pagingTable.PagingTable('refresh');

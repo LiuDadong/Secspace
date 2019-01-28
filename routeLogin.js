@@ -4,7 +4,7 @@ var md5 = require('md5');
 module.exports = function (app, chttp) {
     // 登录页
     app.get('/', function (req, res) {
-        if (req.cookies.sid) {
+        if (req.cookies.sid&&req.cookies.firLogin!=='0') {
             if(req.cookies.org_id=='0'){           
                 res.render('super');
             }else{           
@@ -25,6 +25,7 @@ module.exports = function (app, chttp) {
     // 登录(登录表单的ajaxForm)
     app.post('/login', function (req, res) {
         var url = '/p/org/admLogin';
+        console.log(req.body);
         chttp.cpost({
             'account': req.body.account,
             'passwd': md5('xthinkers' + req.body.passwd),
@@ -78,10 +79,9 @@ module.exports = function (app, chttp) {
             "dev_ip": req.cookies.dev_ip
         };
         chttp.cpost(postData, '/p/org/admLogout', function (cont) {
-            res.clearCookie('sid');
-            res.clearCookie('org_id');
-            res.clearCookie('dev_ip');
-            res.clearCookie('manager');
+            for(i in req.cookies){
+                res.clearCookie(i);
+            }
             res.redirect('/');
         });
     });

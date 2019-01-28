@@ -1,4 +1,12 @@
 $.objRegex= {  //输入正则控制
+    orgName: {
+        pattern: /^[\u4e00-\u9fa5a-zA-Z0-9_-]{1,20}$/,
+        info: '1-20个中英文、数字或"-_"'
+    },
+    orgCode: {
+        pattern: /^[a-zA-Z0-9_-]{1,20}$/,
+        info: '1-20个英文、数字或"-_"'
+    },
     account: {   //account表示账号类参数,在输入元素上添加类“re-account”,便可实现对元素输入的正则控制
         pattern: /^[a-zA-Z0-9_-]{4,16}$/,   //检测输入的值是否合法
         info: "请输入4-16位英文、数字、_或-"   //用户设置titile作为鼠标移入时的提示
@@ -71,6 +79,20 @@ $.iptRegExpCtrl =function (ipt){
     return true;
 }
 
+$.local=function(){
+    switch(arguments.length){
+        case 1:
+            return localStorage.getItem(arguments[0]);
+        case 2:
+            localStorage.setItem(arguments[0],arguments[1]);
+            break;
+        default:
+            console.error('$.LS()用法错误，其参数用法与localStorage相似');
+    }
+}
+$.removeLocal=function(item){
+    localStorage.removeItem(item)
+}
 
 $.isJson = function (obj) {
     return typeof (obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
@@ -153,9 +175,7 @@ $.handleECode = function () {
         // case '3009':
         //     break;
         default:
-            
             errorText = dt.desc ? dt.desc : '未收录错误';
-            console.log(errorText);
     }
     if (arguments[0] !== null) {
         if (okText) {
@@ -312,6 +332,116 @@ $.dealRt3009 = function (policy_list) {
         content: cont
     });
 }
+
+// 初始化分页表格的footer
+$.DTTTFooterInit=function (opt) {
+    var j = 0,
+        tbl=opt.tbl,
+        page=opt.page,
+        length=opt.length,
+        total=opt.total,
+        cb=opt.cb;
+    if (total > 0) {
+        if (tbl.next('.DTTTFooter').length == 0) {
+            tbl.after($('<div class="row DTTTFooter"></div>'))
+        }
+        var doc = tbl.next(),
+            pages = Math.ceil(total / length);
+        
+        page = total > 0 ? page : 0;
+        var str = '<div class="col-md-5"><div class="dataTables_info">第<input class="iptPage" type="text" value="' + page + '">/' + pages + '页    共 ' + total + ' 条</div></div>' +
+            '<div class="col-md-7">' +
+            '<div class="dataTables_paginate paging_bootstrap">' +
+            '<ul class="pagination">';
+        if (page == 1) {
+            str += '<li class="prev disabled"><a>上一页</a></li>'
+        } else {
+            str += '<li class="prev"><a href="javascript:void(0);" to-page="' + (page - 1) + '">上一页</a></li>'
+        }
+        if (pages < 6) {
+            for (var i = 0; i < pages; i++) {
+                if (page == (i + 1)) {
+                    str += '<li class="active"><a>' + (i + 1) + '</a></li>';
+                    j = i + 1;
+                } else {
+                    str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
+                }
+            }
+        } else {
+            if (page < 3) {
+                for (var i = 0; i < 5; i++) {
+                    if (page == i + 1) {
+                        str += '<li class="active"><a>' + (i + 1) + '</a></li>';
+                        j = i + 1;
+                    } else {
+                        str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
+                    }
+                }
+            } else if (pages - page < 3) {
+                for (var i = pages - 5; i < pages; i++) {
+                    if (page == i + 1) {
+                        str += '<li class="active"><a>' + (i + 1) + '</a></li>';
+                        j = i + 1;
+                    } else {
+                        str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
+                    }
+                }
+            } else {
+                for (var i = page - 3; i < page + 2; i++) {
+                    if (page == i + 1) {
+                        str += '<li class="active"><a>' + (i + 1) + '</a></li>';
+                        j = i + 1;
+                    } else {
+                        str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
+                    }
+                }
+            }
+        }
+        if (j < pages) {
+            str += '<li class="next"><a href="javascript:void(0);" to-page="' + (j + 1) + '">下一页</a></li>'
+        } else {
+            str += '<li class="next disabled"><a>下一页</a></li>'
+        }
+        str += '</ul>' +
+            '</div>' +
+            '</div>';
+        doc.html(str);
+        doc.find('ul.pagination>li>a[to-page]').on('click', function (e) {
+            cb($(e.target).attr('to-page') * 1);
+        })
+        var iptPage=doc.find('.iptPage');
+        iptPage.on('keydown', function (e) {  //控制输入
+            switch (e.keyCode){
+                case 8:  //删除
+                    return true;
+                case 13:    //回车
+                    $(this).change();
+                default:
+                    return e.keyCode>=48&&e.keyCode<=57;
+            }
+        })
+        iptPage.on('input', function (e) {     //修正输入
+            if(~~$(this).val()>pages){
+                $(this).val(pages);
+            }
+        })
+        iptPage.on('change', function (e) {     //触发表格刷新
+            var p=1;
+            switch ($(this).val()){
+                case '':
+                case '0':
+                    cb(p);
+                    break;
+                default:
+                    p= ~~$(this).val()>pages?pages:~~$(this).val();
+                    cb(p);
+
+            }
+        })
+    }else{
+        tbl.next('.DTTTFooter').remove();
+    }
+};
 
 
 $.getLicense = function (cb){
@@ -480,7 +610,6 @@ $.fn.plugInit = function () {
                             box.find('.item').each(function () {
                                 var ipt=$(this).find(':input'),
                                     dt = ipt.val();
-                                    console.log(dt)
                                     if (dt) {
                                         if($.iptRegExpCtrl(ipt)){
                                             arrData.push(dt);
@@ -567,6 +696,11 @@ $.fn.plugInit = function () {
                 box.find('.item:last').after(item);
                 box.appendCheck();
             });
+            box.data('methods',{
+                reset:function(){
+                    box.find('i.fa-minus-circle:visible').click();
+                }
+            })
             return box;
         }
     } else {
@@ -726,7 +860,7 @@ $.dialog = function (type, opts) {
         time: 0,
         title: "",
         type: "normal",  //normal,correct,error
-
+        top:'40%'
     };
     switch (type) {
         case 'confirm':   //确认对话框
@@ -742,7 +876,7 @@ $.dialog = function (type, opts) {
                 __def__,
                 {
                     title: '操作确认',
-                    confirmValue: '确定',
+                    confirmValue: '确认',
                     cancelValue: '取消',
                 },
                 opts
@@ -757,7 +891,7 @@ $.dialog = function (type, opts) {
                 __def__,
                 {
                     title: '操作确认',
-                    confirmValue: '确定',
+                    confirmValue: '确认',
                     cancelValue: '取消',
                 },
                 opts
@@ -795,6 +929,9 @@ $.dialog = function (type, opts) {
         alignItems: 'center',
         fontSize: '0.8em',
         padding: '0 60px 20px'
+    });
+    $('.dialog-box').css({
+        top:  opts.top
     });
     return x;
 }

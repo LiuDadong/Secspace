@@ -42,10 +42,8 @@
             <div style="overflow:hidden;display: none;" class="widget-body section">
                 <div class="row col-md-7 col-md-offset-2">
                     <form id="multForm" class="form-horizontal" role="form" method="post" action="#">
-
                         <input type="hidden" name="id" />
                         <input type="hidden" name="policy_type" value="customer" />
-
                         <!--  基本信息-->
                         <div class="form-title">
                             <b>基本信息</b>
@@ -128,7 +126,7 @@
                         <input type="hidden" name="clientlimit" />
                         <div class="form-group">
                             <label class="col-md-4 control-label no-padding-right">
-                                <span>安全空间内禁止截屏</span>
+                                <span>内部应用禁止截屏</span>
                             </label>
                             <div class="checkbox col-md-1">
                                 <label>
@@ -155,12 +153,12 @@
                             <div class="checkbox col-md-1">
                                 <label>
                                     <input class="checkbox-slider slider-icon" value="1" type="checkbox" data-for="clientlimit" name="app_keep_alive" on-on="floatWindow launcher autoStart screenLock"
-                                        off-off="forbid_unload">
+                                        off-off="forbid_unload" />
                                     <span class="text"></span>
                                 </label>
                             </div>
                             <div class="col-md-1 col-md-offset-1">
-                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg"  title="开启本项需要开启权限策略中的以下权限：悬浮窗、设置为默认桌面、开机自启动、锁屏不清理。"></p>
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg"  title="开启本项需要开启权限策略中的以下权限：悬浮窗、设置为默认桌面、开机自启动、锁屏不清理。" /></p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -174,7 +172,7 @@
                                 </label>
                             </div>
                             <div class="col-md-1 col-md-offset-1">
-                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="开启本项还需要开启安全空间保活以及客户端权限中的以下权限：悬浮窗、设置为默认桌面、辅助功能、开机自启动、锁屏不清理。"></p>
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="开启本项还需要开启安全空间保活以及客户端权限中的以下权限：悬浮窗、设置为默认桌面、辅助功能、开机自启动、锁屏不清理。" /></p>
                             </div>
                         </div>
 
@@ -194,7 +192,7 @@
                                 </label>
                             </div>
                             <div class="col-md-1 col-md-offset-1">
-                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="提供安全空间内应用正常使用的基础权限，禁用此项后安全空间将无法正常使用"></p>
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="提供安全空间内应用正常使用的基础权限，禁用此项后安全空间将无法正常使用" /></p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -208,7 +206,7 @@
                                 </label>
                             </div>
                             <div class="col-md-1 col-md-offset-1">
-                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="提供安全空间设备管控功能，禁用此项后终端将无法执行擦除企业数据、恢复出厂设置等操作"></p>
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="提供安全空间设备管控功能，禁用此项后终端将无法执行擦除企业数据、恢复出厂设置等操作" /></p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -222,7 +220,7 @@
                                 </label>
                             </div>
                             <div class="col-md-1 col-md-offset-1">
-                                <p class="help-block blue" title="提供对Android系统中应用管控功能，禁用此项后终端将无法执行禁用短信、应用策略等操作"><img width="18" src="/imgs/help.jpg"></p>
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="提供对Android系统中应用管控功能，禁用此项后终端将无法执行禁用短信、应用策略等操作" /></p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -236,7 +234,7 @@
                                 </label>
                             </div>
                             <div class="col-md-1 col-md-offset-1">
-                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="增强安全空间防卸载功能和对Android系统中应用的管控，禁用此项后防卸载功能将失效，同时应用策略将无法执行"></p>
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="增强安全空间防卸载功能和对Android系统中应用的管控，禁用此项后防卸载功能将失效，同时应用策略将无法执行" /></p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -250,7 +248,7 @@
                                 </label>
                             </div>
                             <div class="col-md-1 col-md-offset-1">
-                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="提供安全空间保活功能，禁用此项后安全空间进程可被杀死，设备重启或进程被关闭时将无法接收并执行策略"></p>
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="提供安全空间保活功能，禁用此项后安全空间进程可被杀死，设备重启或进程被关闭时将无法接收并执行策略" /></p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -264,7 +262,7 @@
                                 </label>
                             </div>
                             <div class="col-md-1 col-md-offset-1">
-                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="提供安全空间防卸载功能，禁用此项后防卸载功能将失效"></p>
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="提供安全空间防卸载功能，禁用此项后防卸载功能将失效" /></p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -278,7 +276,7 @@
                                 </label>
                             </div>
                             <div class="col-md-1 col-md-offset-1">
-                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="增强安全空间保活功能，禁用此项后安全空间进程可被杀死，设备重启或进程被关闭时将无法接收并执行策略"></p>
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="增强安全空间保活功能，禁用此项后安全空间进程可被杀死，设备重启或进程被关闭时将无法接收并执行策略" /></p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -292,7 +290,7 @@
                                 </label>
                             </div>
                             <div class="col-md-1 col-md-offset-1">
-                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="增强安全空间保活功能，禁用此项后安全空间进程可被杀死，设备重启或进程被关闭时将无法接收并执行策略"></p>
+                                <p class="help-block blue"><img width="18" src="/imgs/help.jpg" title="增强安全空间保活功能，禁用此项后安全空间进程可被杀死，设备重启或进程被关闭时将无法接收并执行策略" /></p>
                             </div>
                         </div>
 

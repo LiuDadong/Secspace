@@ -10,7 +10,7 @@
     //用于交互时改变标题显示
     var subCaption = $('#subCaption').data('itemText', '用户').text('用户列表');
     
-    //采用分页表格组件pagingTable初始化黑白名单列表
+    //采用分页表格组件pagingTable初始化列表
     var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
         jsonData: {
             'url': '/p/user/manage'
@@ -100,7 +100,7 @@
         }
     }))
     
-    // 采用multForm组件初始化黑白名单多用途表单
+    // 采用multForm组件初始化多用途表单
     var multForm = $('#multForm').MultForm({
         addUrl: '/p/user/manage',
         editUrl: '/p/user/manage',
@@ -173,7 +173,7 @@
             }
             return true;
         },
-        cbSubmit: function (use) {  //提交编辑成功之后的回调
+        cbAfterSuccess: function (use) {  //提交编辑成功之后的回调
             switch (use) {
                 case 'add':
                     break;
@@ -240,7 +240,8 @@ function prepareUserGroupTree(){
     });
 }
 function prepareUserTagList(){
-    var xlistUserTag = $('#xlistUserTag').XList({
+    var xlistUserTag = $('#xlistUserTag');
+    xlistUserTag.XList({
         relPTable: null,
         multiple: true
     });
@@ -259,13 +260,13 @@ function prepareUserTagList(){
             $('input:hidden[name=tag_id]').val('[]').change();
         }else{
             var tids = $(this).data('value').map(function (item) {
-                return item.id+'';
+                return item.id;
             });
-            if(xlistUserTag.find('li[data-tid]:has(input)').length!=0){
+            if(tids.length>0){
                 setTimeout(function () {
-                        xlistUserTag.find('li[data-tid]:has(input)').each(function(){
-                            $(this).find('input').prop('checked',tids.indexOf($(this).attr('data-tid'))!==-1).change();
-                        })
+                    xlistUserTag.find('.dd-list li.dd-item').each(function(){
+                        $(this).find('input').prop('checked',tids.indexOf($(this).data('tid'))!==-1).change();
+                    })
                 }, 100)
             }
         }
@@ -273,59 +274,8 @@ function prepareUserTagList(){
 }
 //模块特别情况处理
 function importusers() {
-    alert('敬请期待，请不要作无谓尝试！')
+    warningOpen('敬请期待','danger','fa-bolt');
     return false;
-    $.dialog('form', {
-        title: '批量导入',
-        content: '<form id="addUserFile" class="form-inline" action="' + localStorage.getItem("appssec_url") + '/p/user/bulkLoad" enctype="multipart/form-data" autocomplete="off" role="form">\
-                        <input type="hidden" name="sid" value="' + $.cookie('sid') + '" />\
-                        <input type="hidden" name="org_id" value="' + $.cookie('org_id') + '" />\
-                        <div class="form-group" style="position:relative;">\
-                            <div class="progress progress-striped hidden" style="position:absolute;top:0;left:0;right:0;bottom:0;height:100%">\
-                                <div class="progress-bar progress-bar-inverse" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%">\
-                                    <span class="sr-only">\
-                                        100% Complete (success)\
-                                    </span>\
-                                </div>\
-                            </div>\
-                            <input id="file_data" name="file_data" type="file" class="form-control"/>\
-                        </div>\
-                        <a type="button" class="btn btn-default" href="'+ localStorage.getItem("appssec_url") + '/p/user/templateDownload?name=userTemplate.xls">下载模板</a>\
-                    </form>',
-        confirmValue: '确认',
-        confirm: function () {
-            $('#addUserFile').submit();
-        },
-        confirmHide: false,
-        cancelValue: '取消',
-        cancel: function () {
-            //btnDel.removeClass('disabled');
-        }
-    });
-
-    $('#addUserFile').submit(function () {
-        $(this).ajaxSubmit({
-            resetForm: true,
-            beforeSubmit: function () {
-                $('.dialog-btn .dialog-btn-confirm').addClass('disabled');
-                $('#addUserFile .progress').addClass('active').removeClass('hidden');
-            },
-            success: function (data) {
-                $.handleECode(true, data);
-                $('#addUserFile .progress').removeClass('active');
-                setTimeout(() => {
-                    $('.dialog-btn .dialog-btn-confirm').removeClass('disabled');
-                    $('#addUserFile .progress').addClass('hidden');
-                }, 2000);
-            },
-            error: function (err) {
-                console.error(err);
-                $('.dialog-btn .dialog-btn-confirm').removeClass('disabled');
-                $('#addUserFile .progress').addClass('hidden');
-            }
-        });
-        return false;
-    });
 }
 
 function changeGroup() {
@@ -510,7 +460,7 @@ function askForLeave() {
             afterUsed: function (use) {
                 frmAskForLeave.find('input[name=url]').remove();
             },
-            cbSubmit: function (use) {
+            cbAfterSuccess: function (use) {
                 pagingTable.PagingTable('update');
                 $.dialogClose();
             }
@@ -619,7 +569,7 @@ function updateLeave(e){
             afterUsed: function (use) {
                 frmAskForLeave.find('input[name=url]').remove();
             },
-            cbSubmit: function (use) {
+            cbAfterSuccess: function (use) {
                 pagingTable.PagingTable('update');
                 $.dialogClose();
             }

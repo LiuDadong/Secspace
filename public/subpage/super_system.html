@@ -48,8 +48,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-lg-2 col-lg-offset-4">
-                                        <button type="button" class="btn btn-primary btnFormAjax">保存</button>
+                                    <div class="col-lg-2 col-lg-offset-6">
+                                        <button type="submit" class="btn btn-primary">保存</button>
                                     </div>
                                 </div>
 
@@ -143,8 +143,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-lg-2 col-lg-offset-4">
-                                        <button type="button" class="btn btn-primary btnFormAjax">保存</button>
+                                    <div class="col-lg-2 col-lg-offset-6">
+                                        <button type="submit" class="btn btn-primary">保存</button>
                                     </div>
                                 </div>
                             </form>
@@ -158,35 +158,35 @@
                                 <div class="form-group">
                                     <label class="col-lg-4 control-label no-padding-right">发送邮件服务器</label>
                                     <div class="col-lg-4">
-                                        <input type="text" name="email_server" id="email_server" class="form-control" />
+                                        <input type="text" name="email_server" id="email_server" class="form-control require" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-4 control-label no-padding-right">邮件发送者帐户</label>
                                     <div class="col-lg-4">
-                                        <input type="text" name="send_user" id="send_user" class="form-control" />
+                                        <input type="text" name="send_user" id="send_user" class="form-control require" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-4 control-label no-padding-right">邮件发送者密码</label>
                                     <div class="col-lg-4">
-                                        <input type="password" name="send_pwd" id="send_pwd" class="form-control" />
-                                    </div>
-                                    <div class="col-lg-1" style="margin: 1px -24px;">
-                                        <a href="javascript:testemail()" class="btn btn-primary">测试邮箱</a>
+                                        <input type="password" name="send_pwd" id="send_pwd" class="form-control require" />
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-lg-4 control-label no-padding-right">接收者账户</label>
                                     <div class="col-lg-4">
-                                        <input type="text" name="recv_user" id="recv_user" class="form-control" />
+                                        <input type="text" id="recv_user" class="form-control" />
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-lg-2 col-lg-offset-4">
-                                        <a href="javascript:modemailserver()" class="btn btn-primary email-server-btn">保存</a>
+                                    <div class="col-lg-1 col-lg-offset-5">
+                                        <button id="btnTestEmail" type="button" class="btn btn-primary" autocomplete="off">测试邮箱</button>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <button id="subEmailServer" type="submit" class="btn btn-primary disabled" autocomplete="off"></button>
                                     </div>
                                 </div>
                             </form>
@@ -199,31 +199,31 @@
                             <form class="form-horizontal" role="form" action="/super/setting/updateSettings">
                                 <h5 class="col-lg-offset-1">认证方式配置</h5>
                                 <div class="form-group">
-                                    <label for="identify_method" class="col-lg-4 control-label no-padding-right"></label>
-                                    <div class="col-lg-4">
+                                    <input type="hidden" name="identify_method" value="0" />
+                                    <div class="col-lg-4 col-lg-offset-4">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" onclick="selectcheckbox(this)" name="identify_method1" />
-                                                <span id="identify_method1" class="text">用户名口令认证</span>
+                                                <input class="identify" value="1" type="checkbox" />
+                                                <span class="text">用户名口令认证</span>
                                             </label>
                                         </div>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" onclick="select2(this)" name="identify_method2" />
-                                                <span id="identify_method2" class="text">用户名口令＋指纹认证</span>
+                                                <input class="identify enhance" value="2" type="checkbox" />
+                                                <span class="text">用户名口令＋指纹认证</span>
                                             </label>
                                         </div>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" onclick="select3(this)" name="identify_method3" />
-                                                <span id="identify_method3" class="text">用户名口令＋本地指纹认证</span>
+                                                <input class="identify enhance" value="4" type="checkbox" />
+                                                <span class="text">用户名口令＋本地指纹认证</span>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-lg-2 col-lg-offset-4">
-                                        <a href="javascript:identify_method()" class="btn btn-primary">保存</a>
+                                    <div class="col-lg-2 col-lg-offset-6">
+                                        <button type="submit" class="btn btn-primary" autocomplete="off"></button>
                                     </div>
                                 </div>
                             </form>
@@ -234,7 +234,7 @@
                     <div id="tab5" class="section tab-pane">
                         <div class="col-lg-12">
                             <iframe name="ifme" width="0" height="0" style="display:none;"></iframe>
-                            <form class="form-horizontal" id="updateLogo" method="post" action="/p/org/orgUpdateSettings"
+                            <form class="form-horizontal" id="updateLogo" method="post" action=""
                                 enctype="multipart/form-data" target="ifme">
                                 <h5 class="col-lg-offset-1">产品信息配置</h5>
                                 <div class="form-group">
@@ -251,14 +251,14 @@
                                 <div class="form-group">
                                     <label for="product_name" class="col-lg-4 control-label no-padding-right">产品名称</label>
                                     <div class="col-lg-4">
-                                        <input type="text" name="product_name" id="product_name" class="form-control" />
+                                        <input type="text" name="product_name" id="product_name" class="form-control require" />
                                     </div>
                                     <label class="col-lg-6 col-xs-4 col-lg-4 control-label"></label>
                                 </div>
                                 <div class="form-group">
                                     <label for="company_name" class="col-lg-4 control-label no-padding-right">公司名称</label>
                                     <div class="col-lg-4">
-                                        <input type="text" name="company_name" id="company_name" class="form-control" />
+                                        <input type="text" name="company_name" id="company_name" class="form-control require" />
                                     </div>
                                     <label class="col-lg-6 col-xs-4 col-lg-4 control-label"></label>
                                 </div>
@@ -266,12 +266,12 @@
                                 <div class="form-group">
                                     <label for="company_domain" class="col-lg-4 control-label no-padding-right">公司网址</label>
                                     <div class="col-lg-4">
-                                        <input type="text" name="company_domain" id="company_domain" class="form-control" />
+                                        <input type="text" name="company_domain" id="company_domain" class="form-control require" />
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-lg-2 col-lg-offset-4">
+                                    <div class="col-lg-2 col-lg-offset-6">
                                         <button type="submit" class="btn btn-primary">保存</button>
                                     </div>
                                 </div>

@@ -6,7 +6,7 @@
     //用于交互时改变标题显示
     var subCaption = $('#subCaption').data('itemText', '用户标签').text('用户标签列表');
 
-    //采用分页表格组件pagingTable初始化黑白名单列表
+    //采用分页表格组件pagingTable初始化列表
     var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
         type: 'GET',
         jsonData: {
@@ -14,14 +14,14 @@
         },
         // theadHtml为表头类元素，第一个th用于存放全选复选框
         theadHtml: '<tr>\
-                <th></th>\
+                <th style="width:8%;"></th>\
                 <th>名称</th>\
-                <th>类型</th>\
-                <th>状态</th>\
+                <th style="width:10%;">类型</th>\
+                <th style="width:8%;">状态</th>\
                 <th>用户关联数量</th>\
                 <th>创建者</th>\
-                <th>创建时间</th>\
-                <th>操作</th>\
+                <th style="width:16%;">创建时间</th>\
+                <th style="width:12%;">操作</th>\
             </tr>',
         // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
         // to-edit、to-view表示要跳转的目标表单
@@ -73,13 +73,13 @@
     }))
 
 
-    // 采用multForm组件初始化黑白名单多用途表单
+    // 采用multForm组件初始化多用途表单
     var multForm = $('#multForm').MultForm({
         addUrl: '/p/tag/manage',
         addBtnTxt: '添加',
         editUrl: '/p/tag/manage',
         editBtnTxt: '保存',
-        cbSubmit: function (act) {  //提交编辑成功之后的回调
+        cbAfterSuccess: function (act) {  //提交编辑成功之后的回调
             switch (act) {
                 case 'add':
                     pagingTable.PagingTable('refresh');

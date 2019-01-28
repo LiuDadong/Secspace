@@ -227,7 +227,6 @@
                                 hasBtn: true,
                                 hasClose: true,
                                 hasMask: true,
-                                confirmValue: '确认',
                                 confirm: function () {
                                     $('.dialog-btn-confirm').addClass('disabled');
                                     $.actPost('/admin/user/invite', {
@@ -248,8 +247,7 @@
                                         });
                                     }
                                 },
-                                confirmHide: false,
-                                cancelValue: '取消'
+                                confirmHide: false
                             });
                         } else {
                             warningOpen('请选择未激活用户！', 'danger', 'fa-bolt');
@@ -303,7 +301,6 @@
                                     hasBtn: true,
                                     hasClose: true,
                                     hasMask: true,
-                                    confirmValue: '确认',
                                     confirm: function () {
                                         if (sel[0].hasOwnProperty('policy_type')) {
                                             delPolicy();
@@ -400,8 +397,7 @@
                                             }
                                         }
                                     },
-                                    confirmHide: true,
-                                    cancelValue: '取消'
+                                    confirmHide: true
                                 });
                             } else {
                                 warningOpen('请先禁用要删除的' + $(pnl.relSubCaption).data('itemText') + '！', 'danger', 'fa-bolt');
@@ -482,6 +478,7 @@
             }
 
             //判定管理员角色功能点是否具有跨机构操作（发布或下发）权限
+
             if(hasFn('ioo') || hasFn('pub')){
                 pnlLeft.find('.btnToSubOrgs').on('click', function () {
                     var actText = $(this).text().replace(/[\s]/g, ''),
@@ -577,6 +574,9 @@
                 })
             }else{
                 toggleFn(pnlLeft.find('.btnToSubOrgs'), false);
+                pnlLeft.find('.btnToSubOrgs').css({
+                    'pointerEvents':'auto'
+                }).attr('title','仅允许本级机构责任管理员对下级机构进行下发/发布操作');
             }
 
             pnlLeft.find('.btnDefPcy').on('click', function () {
@@ -911,85 +911,7 @@
                 }
             }
         }
-        // 创建footer
-        function createFooter(tbl, page, length, total) {
-            var j = 0;
-            // if (tbl.next('.pagingTableFooter').length == 0) {
-            //     tbl.after($('<div class="pagingTableFooter"></div>'))
-            // }
-            
-            if (total > 0) {
-                if (tbl.next('.DTTTFooter').length == 0) {
-                    tbl.after($('<div class="row DTTTFooter"></div>'))
-                }
-                var doc = tbl.next(),
-                    pages = Math.ceil(total / length);
-                page = total > 0 ? page : 0;
-                var str = '<div class="col-md-2"><div class="dataTables_info">共' + total + '条第' + page + '页</div></div>' +
-                    '<div class="col-md-10">' +
-                    '<div class="dataTables_paginate paging_bootstrap">' +
-                    '<ul class="pagination">';
-                if (page == 1) {
-                    str += '<li class="prev disabled"><a>上一页</a></li>'
-                } else {
-                    str += '<li class="prev"><a href="javascript:void(0);" to-page="' + (page - 1) + '">上一页</a></li>'
-                }
-                if (pages < 6) {
-                    for (var i = 0; i < pages; i++) {
-                        if (page == (i + 1)) {
-                            str += '<li class="active"><a>' + (i + 1) + '</a></li>';
-                            j = i + 1;
-                        } else {
-                            str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
-                        }
-                    }
-                } else {
-                    if (page < 3) {
-                        for (var i = 0; i < 5; i++) {
-                            if (page == i + 1) {
-                                str += '<li class="active"><a>' + (i + 1) + '</a></li>';
-                                j = i + 1;
-                            } else {
-                                str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
-                            }
-                        }
-                    } else if (pages - page < 3) {
-                        for (var i = pages - 5; i < pages; i++) {
-                            if (page == i + 1) {
-                                str += '<li class="active"><a>' + (i + 1) + '</a></li>';
-                                j = i + 1;
-                            } else {
-                                str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
-                            }
-                        }
-                    } else {
-                        for (var i = page - 3; i < page + 2; i++) {
-                            if (page == i + 1) {
-                                str += '<li class="active"><a>' + (i + 1) + '</a></li>';
-                                j = i + 1;
-                            } else {
-                                str += '<li><a href="javascript:void(0);" to-page="' + (i + 1) + '">' + (i + 1) + '</a></li>';
-                            }
-                        }
-                    }
-                }
-                if (j < pages) {
-                    str += '<li class="next"><a href="javascript:void(0);" to-page="' + (j + 1) + '">下一页</a></li>'
-                } else {
-                    str += '<li class="next disabled"><a>下一页</a></li>'
-                }
-                str += '</ul>' +
-                    '</div>' +
-                    '</div>';
-                doc.html(str);
-                doc.find('ul.pagination>li>a[to-page]').on('click', function (e) {
-                    tbl.PagingTable('page', $(e.target).attr('to-page') * 1)
-                })
-            }else{
-                tbl.next('.DTTTFooter').remove();
-            }
-            return this;
-        };
+
 
         var __prop__ = {  //插件默认方法
             init: function (opts) {
@@ -1236,7 +1158,15 @@
                         opts['list'] = opts.fnGetItems(data);
                         showTableList(opts.list)
                         if (opts.paging) {
-                            createFooter(tbl, opts.start, opts.pageLength, opts.totalCount);
+                            $.DTTTFooterInit({
+                                tbl:tbl,
+                                page:opts.start,
+                                length:opts.pageLength,
+                                total:opts.totalCount,
+                                cb:function(i){
+                                    tbl.PagingTable('page', i);
+                                }
+                            })
                         }
                     }
                 })
@@ -1250,7 +1180,8 @@
                         for (var i = 0; i < list.length; i++) {
                             var tri, triCheckBox;
                             if (trs.eq(i)[0]) {
-                                tri = trs.eq(i);
+                                tri = trDemo.clone(true);
+                                trs.eq(i).replaceWith(tri);
                             } else {
                                 tri = trDemo.clone(true);
                                 tbHas.append(tri);
@@ -1407,7 +1338,7 @@
                                 autoSize: true,
                                 maskClickHide: true,
                                 title: "修改用户密码",
-                                content: '<form id="frmModPW" class="form-horizontal form-bordered" role="form" method="post" style="margin-right:-40px;">\
+                                content: '<form id="frmModPW" class="form-horizontal" role="form" method="post" style="margin-right:-40px;">\
                                             <input type="hidden" name="userId" />\
                                             <div class="form-group">\
                                                 <label for="pw" class="col-sm-2 control-label no-padding-right">新密码</label>\
@@ -1433,12 +1364,10 @@
                                 hasBtn: false,
                                 hasClose: true,
                                 hasMask: true,
-                                confirmValue: '确认',
                                 confirm: function () {
                                     frmModPW.submit();
                                 },
-                                confirmHide: false,
-                                cancelValue: '取消'
+                                confirmHide: false
                             });
                             $('#frmModPW').data('item', { userId: item.userId });
                             var frmModPW = $('#frmModPW').MultForm({
@@ -1447,7 +1376,7 @@
                                 afterUsed: function (use) {
                                     frmModPW.find('input[name=url]').remove();
                                 },
-                                cbSubmit: function (use) {
+                                cbAfterSuccess: function (use) {
                                     $.dialogClose();
                                 }
                             });
@@ -1741,8 +1670,8 @@
             addBtnTxt: '添加',  //添加表单提交按钮显示文本
             addInfoTxt: '添加',  //添加提交成功或失败反馈的信息中的.act
             editAct: '/common/mod', //编辑表单action
-            editBtnTxt: '保存修改',//编辑表单提交按钮显示文本
-            editInfoTxt: '修改',//编辑提交成功或失败反馈的信息中的.act
+            editBtnTxt: '保存',//编辑表单提交按钮显示文本
+            editInfoTxt: '保存',//编辑提交成功或失败反馈的信息中的.act
             type: 'POST', //表单提交方式
             resetForm:true,
             targetTable: '#pagingTable',  //关联的分页表格选择器
@@ -1765,6 +1694,9 @@
             usedAs: function (use) {
                 frm.beforeUsed(use, frm.data('item'));
                 frm[0].reset();
+                $(frm[0]).find('.append-box').each(function(){
+                    $(this).data('methods').reset();
+                });
                 frm.afterReset();
                 $(frm[0]).data('use', use);
                 var btnSubmit = $(frm[0]).find(':input[type=submit]');
@@ -1927,7 +1859,8 @@
             //准备html
             //禁用表单的回车自动提交
             preventAutoSubmit();    //屏蔽回车提交
-            requireInit();       //准备输入form-group数据校验结果标志 <b>*</b>
+            appendBoxInit();        //append-box组件初始化
+            requireInit();          //准备输入form-group数据校验结果标志 <b>*</b>
             saveFnsForShare();      //保存组件函数至页面元素form，以便共享
             ajaxFormInit();         //表单ajax初始化
             bindFormBaseHandles();  //绑定表单基础事件处理函数， 返回按钮和提交事件
@@ -1936,6 +1869,7 @@
             avoidExplorerHint();    //避开浏览器自动输入提示
             inputNumberInit();      //数值输入框初始化
             bindIptHandles();       //绑定输入处理
+
             function preventAutoSubmit() {
                 frm[0].onkeydown = function (event) {
                     var target, tag;
@@ -1958,6 +1892,11 @@
                         }
                     }
                 };
+            }
+            function appendBoxInit(){
+                $(frm[0]).find('.append-box').each(function () {
+                    $(this).plugInit();
+                });
             }
             function requireInit() {
                 $(frm[0]).find('.form-group:has(:input.require,:input.same,:input[same-with])').each(function () {  //准备必填项的标识符<b></b>
@@ -2013,9 +1952,13 @@
                             });
                         },
                         beforeSubmit: function (arrKeyVal, $frm, ajaxOptions) {
-                            $(frm[0]).find('input[type=submit]').prop('disabled',true);
+                            
                             if($frm.hasClass('needmod')){
+                                $(frm[0]).find('input[type=submit]').prop('disabled',true);
+                                warningOpen('请修改之后再保存','danger','fa-bolt')
                                 return false;
+                            }else{
+
                             }
                             $(frm[0]).find(':input[name]').each(function () {
                                 try {
@@ -2041,8 +1984,10 @@
                                 }
                             }
                             if (frm.beforeSubmit) {
-                                frm.beforeSubmit(arrKeyVal, $frm, ajaxOptions);
+                                $(frm[0]).find('input[type=submit]').prop('disabled',true);
+                                return frm.beforeSubmit(arrKeyVal, $frm, ajaxOptions);
                             }
+                            $(frm[0]).find('input[type=submit]').prop('disabled',true);
                             return true;
                         },
                         uploadProgress: function (event) {
@@ -2056,30 +2001,26 @@
                         success: function (data) {
                             $(frm[0]).data('response',data).find('input[type=submit]').prop('disabled',false);
                             $.handleECode(true, data, $(frm[0]).data('infoTxt'));
+                            if(frm.success instanceof Function){
+                                frm.success(data);
+                            }
                             switch (data.rt) {
                                 case '0000':
-                                    //frm[0].reset();
-                                    switch ($(frm[0]).attr('action')) {
-                                        case frm.addAct:
-                                            if (frm.cbSubmit) {
-                                                frm.cbSubmit('add');
-                                            }
-                                            break;
-                                        case frm.editAct:
-                                            if (frm.cbSubmit) {
-                                                frm.cbSubmit('edit');
-                                            }
-                                            break;
-                                        default:
+                                    if(frm.cbAfterSuccess){
+                                        switch ($(frm[0]).attr('action')) {
+                                            case frm.addAct:
+                                                frm.cbAfterSuccess('add');
+                                                break;
+                                            case frm.editAct:
+                                                frm.cbAfterSuccess('edit');
+                                                break;
+                                            default:
+                                        }
                                     }
                                     break;
                                 default:
                                     console.warn("data.rt=" + data.rt)
                             }
-                            if(frm.success instanceof Function){
-                                frm.success(data);
-                            }
-
                         }
                     };
                 $(frm[0]).ajaxForm(ajaxFormOptions);
@@ -2843,6 +2784,7 @@
                     width: opts.width
                 }).find('dl').css({
                     overflowY: 'auto',
+                    padding:'4px 2px',
                     height: opts.height
                 });
 

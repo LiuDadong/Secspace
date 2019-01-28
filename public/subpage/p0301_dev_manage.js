@@ -3,20 +3,81 @@
  *                          设备管理 device
  * ==================================================================
  */
-(function () {
-    $('input[name=searchval]').on('input change propertychange', function () {
-        var searchvalTimer;
-        clearTimeout(searchvalTimer);
-        searchvalTimer = setTimeout(function () {
-            getDeviceList(1, 10);
-        }, 500)
+applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
 
-    })
+//用于交互时改变标题显示
+var subCaption = $('#subCaption').data('itemText', '设备').text('设备列表');
 
-    // 设备管理列表
-    getDeviceList(1, 10);
-    applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限
-})();
+//采用分页表格组件pagingTable初始化列表
+var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
+    type: 'GET',
+    jsonData: {
+        url: '/p/dev/devList'
+    },
+    // theadHtml为表头类元素，第一个th用于存放全选复选框
+    theadHtml: '<tr>\
+                    <th style="width:5%;"></th>\
+                    <th style="width:15%;">设备名称</th>\
+                    <th style="width:10%;">姓名</th>\
+                    <th style="width:15%;">所属账号</th>\
+                    <th style="width:8%;">设备类型</th>\
+                    <th style="width:7%;">系统</th>\
+                    <th style="width:16%;">离线时间</th>\
+                    <th style="width:9%;">目前状态</th>\
+                    <th style="width:14%;">操作</th>\
+                </tr>',
+    // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
+    // to-edit、to-view表示要跳转的目标表单
+    tbodyDemoHtml: '<tr>\
+                        <td></td>\
+                        <td onclick="showDevDetail(this,\'basic\')" style="color:#428bca;cursor:pointer;" item-key="dev_name"></td>\
+                        <td item-key="user_name"></td>\
+                        <td item-key="account"></td>\
+                        <td item-key="platform"></td>\
+                        <td item-key="dev_system"></td>\
+                        <td item-key="last_online"></td>\
+                        <td item-key="online"></td>\
+                        <td>\
+                            <a class="btn btn-primary btn-xs" onclick="showDevDetail(this,\'basic\')" title="设备详情"><i class="fa fa-eye"></i></a>\
+                            <a class="btn btn-primary btn-xs" onclick="showDevDetail(this,\'map\')" title="查看位置" style="margin:0 -6px;"><i class="glyphicon glyphicon-map-marker"></i></a>\
+                            <a class="btn btn-primary btn-xs'+ (hasFn('spw')?'" onclick="resetLockPW(this)"':' disabled"')+' title="设置锁屏密码"><i class="fa fa-key"></i></a>\
+                        </td>\
+                    </tr>',
+    //因不同需求需要个性控制组件表现的修正函数和增强函数
+    fnGetItems: function (data) {  //必需   需要要显示的成员
+        return data.doc.map(function (item) {
+            item['id'] = item.dev_id;
+            return item;
+        });
+    },
+    fnValByKey: function (k, v) {  //用于根据键值对修正要显示文本
+        switch (k) {
+            case 'dev_name':
+                v = v || '未知设备';
+                break;
+            case 'dev_system':
+                v = v || '未知系统';
+                break;
+            case 'platform':
+                v = (v == 'ios') ? 'iOS' : 'Android';
+                break;
+            case 'online':
+                v = v == 1 ? '在线' : '离线';
+                break;
+            default:
+        }
+        return v;
+    }
+}))
+
+var panel = $('#panel').Panel({
+    objTargetTable: pagingTable,
+    objTargetForm: null,
+    objTargetCaption: subCaption
+});
+
+
+
 var mapObj = (function () {
     var map;
     function getInstance() {
@@ -43,100 +104,23 @@ var mapObj = (function () {
         getInstance: getInstance
     }
 })();
-// 获取设备列表
-function getDeviceList(start_page, page_length) {
-    var table = $('<table class="table table-striped table-bordered table-hover" id="simpledatatable"><tr>' +
-            '<th class="sel" style="line-height:20px;"><div class="checkbox">' +
-            '<label><input type="checkbox" onclick="selectedAll(this)" />' +
-            '<span class="text">全选</span></label></div></th>' +
-            '<th>设备名称</th>' +
-            '<th>姓名</th>' +
-            '<th>所属账号</th>' +
-            '<th>设备类型</th>' +
-            '<th>系统</th>' +
-            '<th>上一次在线时间</th>' +
-            '<th>目前状态</th>' +
-            '</tr></table>');
-    $('.devicetable').html(table);
-    $.silentGet('/man/dev/getDevList', {
-        start_page: start_page,
-        page_length: page_length,
-        keyword: $('input[name=searchval]').val()
-    }, function (data) {
-        var online = '', platform = '';
-        if (data.rt == '0000') {
-            table.data('data', data);
-            if(data.doc.length>0){
-                for (var i in data.doc) {
-                    dev_name = data.doc[i].dev_name || '未知设备';
-                    dev_system = data.doc[i].dev_system || '未知系统';
-                    online = (data.doc[i].online == 1) ? '在线' : '离线';
-                    platform = (data.doc[i].platform == "ios") ? 'iOS' : 'Android';
-                    var tri=$('<tr data-i="' + i + '">' +
-                        '<td class="sel"><div class="checkbox"><label><input type="checkbox" onclick="selected(this)" />' +
-                        '<span class="text"></span></label></div></td>' +
-                        '<td><a onclick="getDetail(this)" class="pointer">' + dev_name + '</a></td>' +
-                        '<td>' + data.doc[i].user_name + '</td>' +
-                        '<td>' + data.doc[i].account + '</td>' +
-                        '<td>' + platform + '</td>' +
-                        '<td>' + dev_system + '</td>' +
-                        '<td>' + data.doc[i].last_online + '</td>' +
-                        '<td>' + online + '</td>' +
-                        '</tr>').data('item',data.doc[i]);
-                    table.append(tri);
-                }
-            }else{
-                table.append('<tr><td colspan="8">暂无设备</td></tr>');
-            }
-            createFooter(start_page, page_length, data.total_count, 1);
-        }
-    });
-    currentpage = start_page;
-}
 
-// page页查询
-function search(p, i) {
-    if (i == 1) {
-        getDeviceList(p, 10);
-    } else {
-        console.info(i);
-    }
-}
 
-// 返回设备列表
-function devicelist() {
-    $('.device, .deviceinfo').css({ 'display': 'none' });
-    $('.devicelist').css({ 'display': 'block' });
-    $('#myTab5 li a').eq(2).attr("disabled", false);
-}
-
-function checkmap() {
-    var sel = [];
-    $('.devicetable table').find('tr:has(td span.text.txt)').each(function () {
-        sel.push($(this).data('item'))
-    });
-    if (sel.length === 1) {
-        getItemDetail(sel[0]);
-        $('#myTab5 li').removeClass('active');
-        $('#tab1').removeClass('in active');
-        $('#myTab5 li').eq(2).addClass('active');
-        $('#tab3').addClass('in active');
-    } else {
-        warningOpen('请选择一台设备查看设备定位信息！', 'danger', 'fa-bolt');
-    }
-}
-
-function getItemDetail(oItem) {
-    var oDevInfo = oItem.dev_info ? oItem.dev_info : null,
+function showDevDetail(ele, acttab) {
+    $('.row.dev_list').addClass('hidden');
+    $('.row.dev_info').removeClass('hidden');
+    $('#navDevInfo>li.' + acttab + '>a').click();
+    var oItem = $(ele).closest('tr').data('item'),
+        oDevInfo = oItem.dev_info ? oItem.dev_info : null,
         oAppInfoList = oItem.app_list ? oItem.app_list.app_info_list : null;
     if (typeof oDevInfo === "object" && JSON.stringify(oDevInfo) !== '{}' && oDevInfo !== null) {
-        $('.devicelist').css({ 'display': 'none' });
-        $('.device').css({ 'display': 'block' });
-        $('.deviceinfo').css({ 'display': 'inline-block' });
-        $('#myTab5 li').removeClass('active');
-        $('#myTab5 li:first-child').addClass('active');
-        $('.tab-content div').removeClass('active');
-        $('#tab1').addClass('active');
+        // $('.devicelist').css({ 'display': 'none' });
+        // $('.device').css({ 'display': 'block' });
+        // $('.deviceinfo').css({ 'display': 'inline-block' });
+        // $('#navDevInfo li').removeClass('active');
+        // $('#navDevInfo li:first-child').addClass('active');
+        // $('.tab-content div').removeClass('active'); 
+        // $('#tab1').addClass('active');
 
         var devicename = oItem.dev_name,
             lasttime = oItem.last_online,
@@ -145,7 +129,7 @@ function getItemDetail(oItem) {
             dev_id = oItem.dev_id;
         var strtab4 = '';
         $('.devicename').text('设备名称 : ' + devicename);
-        $('.lasttime').text('上一次在线时间 : ' + lasttime);
+        $('.lasttime').text('离线时间 : ' + lasttime);
         $('.imei').text('IMEI : ' + oDevInfo.imei);
         $('.status').text('目前状态 : ' + status);
         var reset = '<li class="list-group-item" style="border:none;">' +
@@ -200,9 +184,9 @@ function getItemDetail(oItem) {
         $('.netinfo4').html(netinfo4);
 
         // tab3 设备定位信息
-        var url = '/man/dev/location?dev_id=' + dev_id;
-        $.get(url, function (data) {
-            data = JSON.parse(data);
+        $.silentGet('/man/dev/location',{
+            dev_id:dev_id
+        }, function (data) {
             showLocationMap(data);
         });
 
@@ -210,33 +194,34 @@ function getItemDetail(oItem) {
         strtab4 = '<table class="table table-hover"><tr>' +
             '<th>应用名称</th>' +
             '<th>应用包名称</th>' +
-            '<th>版本</th>'
+            '<th>版本</th>' +
         '<th>安装位置</th></tr>';
-        for (var i in oAppInfoList) {
-            var apptype = oAppInfoList[i].is_system_app ? '系统应用' : '空间应用';
-            strtab4 += '<tr>' +
-                '<td>' + oAppInfoList[i].app_name + '</td>' +
-                '<td>' + oAppInfoList[i].package_name + '</td>' +
-                '<td>' + oAppInfoList[i].version_name + '</td>' +
-                '<td>' + apptype + '</td>';
+        if(oAppInfoList instanceof Array&&oAppInfoList.length>0){
+            for (var i in oAppInfoList) {
+                var apptype = oAppInfoList[i].is_system_app ? '系统应用' : '空间应用';
+                strtab4 += '<tr>' +
+                    '<td>' + oAppInfoList[i].app_name + '</td>' +
+                    '<td>' + oAppInfoList[i].package_name + '</td>' +
+                    '<td>' + oAppInfoList[i].version_name + '</td>' +
+                    '<td>' + apptype + '</td></tr>';
+            }
+        }else{
+            strtab4 += '<tr><td colspan="4">暂无数据</td></tr>'
         }
+        
         strtab4 += '</table>';
         $('.applist').html(strtab4);
     } else {
         warningOpen('设备信息缺失！', 'danger', 'fa-bolt');
     }
 }
-function getDetail(e) {
-    getItemDetail($(e).closest('tr').data('item'));
-}
+
 
 //根据请求获得的定位数据，展示定位地图
 function showLocationMap(data) {
     var posType = $('#position_type');
     var uplTime = $('#upload_time');
-    var time = new Date();
-    var rt = data.rt,
-        position_type = data.position_type,
+    var position_type = data.position_type,
         position = data.position ? JSON.parse(data.position) : '',
         upload_time = data.upload_time;
     switch (position_type) {
@@ -266,84 +251,239 @@ function showLocationMap(data) {
         default:
             console.error('获取定位模式异常');
     }
-    if (rt == 0) {
-        if (position) {
-            var map = new AMap.Map("address", {
-                resizeEnable: true,
-                center: [position.longitude, position.latitude], //地图中心点
-                zoom: 15 //地图显示的缩放级别
-            });
-            AMap.plugin(['AMap.ToolBar', 'AMap.AdvancedInfoWindow'], function () {
-                //创建并添加工具条控件
-                var toolBar = new AMap.ToolBar();
-                map.addControl(toolBar);
-            })
+    
+    if (position) {
+        var map = new AMap.Map("address", {
+            resizeEnable: true,
+            center: [position.longitude, position.latitude], //地图中心点
+            zoom: 15 //地图显示的缩放级别
+        });
+        AMap.plugin(['AMap.ToolBar', 'AMap.AdvancedInfoWindow'], function () {
+            //创建并添加工具条控件
+            var toolBar = new AMap.ToolBar();
+            map.addControl(toolBar);
+        })
 
-            //map.setCenter([position.longitude, position.latitude]);
-
-            var marker = new AMap.Marker({
-                title: position.address,
-                map: map
-            });
-            // 设置label标签
-            marker.setLabel({ //label默认蓝框白底左上角显示，样式className为：amap-marker-label
-                offset: new AMap.Pixel(20, 20), //修改label相对于maker的位置
-                content: "位置信息：" + position.address
-            });
-            return;
-        } else {
-            mapObj.getInstance();
-            warningOpen('设备没有定位信息！', 'danger', 'fa-bolt');
-        }
-
-    } else if (rt == 1) {
-        mapObj.getInstance();
-        warningOpen('该设备定位信息已过时！', 'danger', 'fa-bolt');
-    } else if (rt == 5) {
-        toLoginPage();
+        //map.setCenter([position.longitude, position.latitude]);
+        var marker = new AMap.Marker({
+            title: position.address,
+            map: map
+        });
+        // 设置label标签
+        marker.setLabel({ //label默认蓝框白底左上角显示，样式className为：amap-marker-label
+            offset: new AMap.Pixel(20, 20), //修改label相对于maker的位置
+            content: "位置信息：" + position.address
+        });
+        return;
     } else {
-        warningOpen('其他错误 ' + rt + ' ！', 'danger', 'fa-bolt');
+        mapObj.getInstance();
     }
 }
+
+
+function fnSend(cmd, dev_id) {
+    $.actPost('/man/device/sendCmd', {
+        dev_id: JSON.stringify(dev_id),
+        opt_type: cmd
+    }, function (data) {
+        if (data.rt == '0000') {}
+    });
+}
+//一个或者多个设备消息推送
+function send_cmds(cmd) {
+    var dev_id = pagingTable.data('PagingTable').sel.map(function (item) {
+        return item.dev_id;
+    });
+    if (dev_id.length > 0) {
+        switch (cmd) {
+            case 'reset':
+                $.dialog('confirm', {
+                    title: '提示',
+                    content: '确认恢复出厂设置吗？',
+                    confirm: function () {
+                        fnSend(cmd, dev_id);
+                    }
+                })
+                break;
+            case 'erasedata':
+                $.dialog('confirm', {
+                    title: '提示',
+                    content: '确认擦除企业数据吗？',
+                    confirm: function () {
+                        fnSend(cmd, dev_id);
+                    }
+                })
+                break;
+            default:
+                fnSend(cmd, dev_id);
+        }
+    } else {
+        warningOpen('请先选择设备', 'danger', 'fa-bolt');
+    }
+
+}
+
+function resetLockPW(ele) {
+    var dev_id = $(ele).closest('tr').data('item').dev_id;
+    $.objRegex['lockpw'] = {
+        pattern: /^[0-9a-zA-Z]{4,}$/,
+        info: '请输入至少4位密码'
+    };
+    dialogFrmModPW();
+    // $.post('/man/device/orgGetPolicy', {
+    //     dev_id: dev_id,
+    //     id: 1
+    // }, function (data) {
+    //     if (data.rt == '0000'&&data.passwd_type) {
+    //         switch (data.passwd_type) {
+    //             case 1:
+    //                 $.objRegex.lockpw.pattern = new RegExp("^[0-9]{" + data.pw_min_len + "}$");
+    //                 $.objRegex.lockpw.info = '请输入' + data.pw_min_len + '位数字';
+    //                 break;
+    //             case 2:
+    //                 $.objRegex.lockpw.pattern = new RegExp("^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{" + data.pw_min_len + ",}$");
+    //                 $.objRegex.lockpw.info = '请输入至少' + data.pw_min_len + '位字母和数字组合';
+    //                 break;
+    //             case 3:
+    //                 $.objRegex.lockpw.pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{" + data.pw_min_len + ",}$");
+    //                 $.objRegex.lockpw.info = '请输入至少' + data.pw_min_len + '位包含大小写字母和数字组合';
+    //                 break;
+    //             default:
+    //         }
+    //     }
+    //     dialogFrmModPW();
+    // });
+    function dialogFrmModPW(){
+        $.dialog('form', {
+            title: '设置锁屏密码',
+            top: '20%',
+            width: 500,
+            height: null,
+            autoSize: true,
+            maskClickHide: true,
+            content: '<form id="frmModPW" class="form-horizontal" role="form" method="post">\
+                        <input type="hidden" name="dev_id" />\
+                        <input type="hidden" name="opt_type" />\
+                        <div class="form-group">\
+                            <label for="screen_pw" class="col-sm-3 control-label no-padding-right">锁屏密码</label>\
+                            <div class="col-sm-9">\
+                                <input type="password" class="form-control require" id="screen_pw" ctrl-regex="lockpw" placeholder="请输入新密码">\
+                            </div>\
+                        </div>\
+                        <div class="form-group">\
+                            <label for="confirm" class="col-sm-3 control-label no-padding-right">确认锁屏密码</label>\
+                            <div class="col-sm-9">\
+                                <input type="password" class="form-control" id="confirm" same-with="screen_pw" autocomplete="off" placeholder="请再次输入新密码">\
+                            </div>\
+                        </div>\
+                        <div class="form-group">\
+                            <div class="col-sm-2  col-sm-offset-5">\
+                                <button type="button" class="btnBack btn btn-default">返回</button>\
+                            </div>\
+                            <div class="col-sm-2 col-sm-offset-1">\
+                                <input type="submit" class="btn btn-primary" disabled="">\
+                            </div>\
+                        </div>\
+                    </form>',
+            hasBtn: false,
+            hasClose: true,
+            hasMask: true,
+            confirm: function () {
+                frmModPW.submit();
+            },
+            confirmHide: false,
+            cancelValue: '取消'
+        });
+        $('#frmModPW').data('item', {
+            dev_id: JSON.stringify([dev_id])
+        });
+        var frmModPW = $('#frmModPW').MultForm({
+            editBtnTxt: '确认',
+            editAct: '/man/device/sendCmd',
+            afterUsed: function (use) {
+                frmModPW.find('input[name=url]').remove();
+            },
+            cbAfterSuccess: function (use) {
+                $.dialogClose();
+            }
+        });
+        frmModPW.usedAs('edit');
+        $('#screen_pw').on('input', function () {
+            $('input[name=opt_type]').val('chg_screen_pw <' + $(this).val() + '>')
+        });
+    }
+}
+
+
+
+// 企业管理员解绑多个设备
+function unlink() {
+    var dev_id = pagingTable.data('PagingTable').sel.map(function (item) {
+        return item.dev_id;
+    });
+    if (dev_id.length > 0) {
+        $.dialog('confirm', {
+            content: '确认解绑选中的设备吗？',
+            confirm: function () {
+                $.actPost('/man/device/unlinkDevice', {
+                    dev_id: JSON.stringify(dev_id)
+                }, function (data) {
+                    if (data.rt == '0000') {
+                        pagingTable.PagingTable('refresh');
+                    }
+                });
+            },
+            cancelValue: '取消',
+            title: '设备解绑确认'
+        });
+    } else {
+        warningOpen('请先选择设备', 'danger', 'fa-bolt')
+    }
+}
+// 企业管理员淘汰多个设备
+function weepout() {
+    var dev_id = pagingTable.data('PagingTable').sel.map(
+        function (item) {
+            return item.dev_id;
+        }
+    );
+    if (dev_id.length > 0) {
+        $.dialog('confirm', {
+            title: '设备淘汰确认',
+            content: '确认淘汰选中的设备吗？',
+            cancelValue: '取消',
+            confirm: function () {
+                $.actPost('/man/device/weepoutDevice', {
+                    dev_id: JSON.stringify(dev_id)
+                }, function (data) {
+                    if (data.rt == '0000') {
+                        pagingTable.PagingTable('refresh');
+                    }
+                });
+            }
+        });
+    } else {
+        warningOpen('请先选择设备', 'danger', 'fa-bolt');
+    }
+};
+
+
 
 
 // 单个设备推送
 function sendCmd(cmd, dev_id) {
     if (cmd === 'reset') {
-        var cont = '';
-        cont += '<div class="modal-header">' +
-            ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>' +
-            '<h4 class="modal-title">提示</h4>' +
-            '</div>' +
-            '<div class="modal-body">' +
-            '<p>确定恢复出厂设置？</p>' +
-            '</div>' +
-            '<div class="modal-footer">' +
-            '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>' +
-            '<button type="button" class="btn btn-primary" id="resetdata">确认</button>' +
-            '</div>';
-        alertOpen(cont);
-        $("#resetdata").click(function () {
-            alertOff();
-            sendcmd(cmd, dev_id);
+        $.dialog('confirm', {
+            content: '确认恢复出厂设置？',
+            confirm: function () {
+                sendcmd(cmd, dev_id);
+            },
+            cancelValue: '取消',
+            title: '设备淘汰确认'
         });
     } else {
         sendcmd(cmd, dev_id);
     }
-
-}
-
-function sendcmd(cmd, dev_id) {
-    var dev_id = [dev_id];
-    var postData = {
-        dev_id: JSON.stringify(dev_id),
-        opt_type: cmd
-    };
-    $.actPost('/man/device/sendCmd', postData, function (data) {
-        if (data.rt == '0000') {
-
-        }
-    });
 }
 
 // 设置锁屏密码
@@ -457,299 +597,6 @@ function sendpw(devid) {
         $.actPost('/man/device/sendCmd', postData, function (data) {
             if (data.rt == '0000') {
 
-            }
-        });
-    }
-}
-
-//一个或者多个设备消息推送
-function send_cmds(cmd) {
-    var dev_id = [],
-        i = 0,
-        tr;
-    var tab = $('.devicetable table');
-    tab.find('td span.text').each(function () {
-        if ($(this).hasClass('txt')) {
-            tr = $(this).parents("tr");
-            dev_id[i] = tab.data('data').doc[tr.data('i')].dev_id;
-            i = i + 1;
-        }
-    });
-    if (dev_id.length > 0) {
-        if (cmd === 'reset' || cmd === 'erasedata') {
-            var cont = '';
-            cont += '<div class="modal-header">' +
-                ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>' +
-                '<h4 class="modal-title">提示</h4>' +
-                '</div>' +
-                '<div class="modal-body">' +
-                '<p>确定擦除数据？</p>' +
-                '</div>' +
-                '<div class="modal-footer">' +
-                '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>' +
-                '<button type="button" class="btn btn-primary" id="resetdata">确认</button>' +
-                '</div>';
-            alertOpen(cont);
-            $("#resetdata").click(function () {
-                alertOff();
-                sendcmds(cmd);
-            });
-        } else {
-            sendcmds(cmd);
-        }
-    }
-
-}
-
-function sendcmds(cmd) {
-    var dev_id = [],
-        i = 0,
-        tr, id, passwd_type, checkpwd = '',
-        warningtext = '',
-        min_len;
-    var cmd = cmd;
-    var tab = $('.devicetable table');
-    tab.find('td span').each(function () {
-        if ($(this).hasClass('txt')) {
-            tr = $(this).parents("tr");
-            dev_id[i] = tab.data('data').doc[tr.data('i')].dev_id;
-            id = tab.data('data').doc[tr.data('i')].uid * 1;
-            i = i + 1;
-        }
-    });
-
-    if (dev_id.length > 0) {
-        if (cmd == 'chg_screen_pw') {
-            if (dev_id.length === 1) {
-                var postData = {
-                    dev_id: dev_id[0],
-                    id: id
-                };
-                $.post('/man/device/orgGetPolicy', postData, function (data) {
-                    if (data.rt == '0000') {
-                        passwd_type = data.passwd_type;
-                        min_len = data.pw_min_len;
-                        if (passwd_type == 1) {
-                            checkpwd = /^\d$/; //数字
-                            warningtext = '请输入至少' + min_len + '位数字'; //提示
-                        } else if (passwd_type == 2) {
-                            checkpwd = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{2,}$/; //字母和数字
-                            warningtext = '请输入至少' + min_len + '位字母和数字组合'; //提示
-                        } else if (passwd_type == 3) {
-                            checkpwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{6,10}$/; //字母和数字包含大小写
-                            warningtext = '请输入至少' + min_len + '位包含大小写字母和数字组合'; //提示
-                        } else {
-                            checkpwd = ''; //字母和数字
-                        }
-                    }
-                });
-
-                setTimeout(function () {
-                    var cont = '';
-                    cont += '<div class="modal-header">' +
-                        '<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="alertOff()">×</button>' +
-                        '<h4 class="modal-title">设置锁屏密码</h4>' +
-                        '</div>' +
-                        '<div class="modal-body">' +
-                        '<p class="lockpwdwarning" style="color:red;text-align:center;">' + warningtext + '</p>' +
-                        '<form role = "form" class="form-horizontal">' +
-                        '<div class = "form-group">' +
-                        '<label class="col-sm-3 control-label" for = "screen_pw">锁屏密码</label>' +
-                        '<div class="col-sm-7">' +
-                        '<input type="password" class = "form-control" id = "screen_pw" name="screen_pw" placeholder = "请输入新密码" />' +
-                        '</div></div>' +
-                        '<div class = "form-group">' +
-                        '<label class="col-sm-3 control-label" for = "confirm">确认锁屏密码</label>' +
-                        '<div class="col-sm-7">' +
-                        '<input type="password" class = "form-control" id = "confirm" name="confirm" placeholder = "再次输入新密码" />' +
-                        '</div></div>' +
-                        '</form>' +
-                        '</div>' +
-                        '<div class="modal-footer">' +
-                        '<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="alertOff()">取消</button>' +
-                        '<button type="button" class="btn btn-primary updscrpw" onclick="changesppw()">确认</button>' +
-                        '</div>';
-                    alertOpen(cont);
-                    $('input[name=screen_pw],input[name=confirm]').keyup(function () { // 输入限制，只能输入整数 
-                        if (passwd_type == 1) {
-                            if (this.value.length == 1) {
-                                this.value = this.value.replace(/[^0-9]/g, '');
-                            } else {
-                                this.value = this.value.replace(/\D/g, '');
-                            }
-                        } else {
-                            this.value = this.value.replace(/[\W]/g, '');
-                        }
-
-                    });
-
-                    $("input[name=screen_pw], input[name=confirm]").blur(function () {
-
-                        if (passwd_type == 1) {
-                            if (this.value.length < min_len * 1) {
-                                warningOpen('请输入正确格式锁屏密码！', 'danger', 'fa-bolt');
-                                $(".updscrpw").attr("disabled", true);
-                            } else {
-                                $(".updscrpw").attr("disabled", false);
-                            }
-
-                        } else {
-                            if (!checkpwd.test(this.value) || this.value.length < min_len * 1) {
-                                warningOpen('锁屏密码格式错误！', 'danger', 'fa-bolt');
-                                $(".updscrpw").attr("disabled", true);
-
-                            } else {
-                                $(".updscrpw").attr("disabled", false);
-                            }
-
-                        }
-                    });
-                }, 500);
-            } else {
-                warningOpen('请选择一个设备设置锁屏密码！', 'danger', 'fa-bolt');
-            }
-
-        } else {
-            var postData = {
-                dev_id: JSON.stringify(dev_id),
-                opt_type: cmd
-            };
-            $.actPost('/man/device/sendCmd', postData, function (data) {
-                if (data.rt == '0000') {
-
-                }
-            });
-        }
-    } else {
-        warningOpen('请先选择设备！', 'danger', 'fa-bolt');
-    }
-}
-
-// 多个设备锁屏密码
-function changesppw() {
-    var dev_id = [],
-        i = 0,
-        tr;
-    var tab = $('.devicetable table');
-    tab.find('td span').each(function () {
-        if ($(this).hasClass('txt')) {
-            tr = $(this).parents("tr");
-            dev_id[i] = tab.data('data').doc[tr.data('i')].dev_id;
-            i = i + 1;
-        }
-    });
-    var psw = $('input[name=screen_pw]').val();
-    var confirm = $('input[name=confirm]').val();
-    if (psw == '') {
-        warningOpen('请输入锁屏密码！', 'danger', 'fa-bolt');
-    } else if (psw != confirm) {
-        warningOpen('前后锁屏密码不一致！', 'danger', 'fa-bolt');
-    } else {
-        var cmd = 'chg_screen_pw <' + psw + '>';
-        var postData = {
-            dev_id: JSON.stringify(dev_id),
-            opt_type: cmd
-        };
-        $.actPost('/man/device/sendCmd', postData, function (data) {
-            if (data.rt == '0000') {
-                alertOff();
-            }
-        });
-    }
-}
-
-// 刷新
-function refresh() {
-    $('th span,td span').removeClass('txt');
-    getDeviceList(currentpage, 10);
-    $('.hrefactive').removeClass("hrefallowed");
-}
-
-// 解绑
-function unlink() {
-    var i = 0;
-    var tab = $('.devicetable table');
-    if (tab.find('td span').hasClass('txt')) {
-        i = 1;
-    }
-    if (i > 0) {
-        $.dialog('confirm', {
-            content: '确认解绑选中的设备吗？',
-            confirmValue: '确认',
-            confirm: function () {
-                device_unlink();
-            },
-            cancelValue: '取消',
-            title: '设备解绑确认'
-        });
-    }
-}
-// 淘汰
-function weepout() {
-    var i = 0;
-    var tab = $('.devicetable table');
-    if (tab.find('td span').hasClass('txt')) {
-        i = 1;
-    }
-    if (i > 0) {
-        $.dialog('confirm', {
-            content: '确认淘汰选中的设备吗？',
-            confirmValue: '确认',
-            confirm: function () {
-                device_weepout();
-            },
-            cancelValue: '取消',
-            title: '设备淘汰确认'
-        });
-    }
-}
-
-// 企业管理员解绑多个设备
-function device_unlink() {
-    var dev_id = [],
-        i = 0;
-    var tr;
-    var tab = $('.devicetable table');
-    tab.find('td span').each(function () {
-        if ($(this).hasClass('txt')) {
-            tr = $(this).parents("tr");
-            dev_id[i] = tab.data('data').doc[tr.data('i')].dev_id;
-            i = i + 1;
-        }
-    });
-    if (dev_id.length > 0) {
-        var postData = {
-            dev_id: JSON.stringify(dev_id)
-        };
-        $.actPost('/man/device/unlinkDevice', postData, function (data) {
-            if (data.rt == '0000') {
-                getDeviceList(1, 10);
-            }
-        });
-    }
-}
-// 企业管理员淘汰多个设备
-function device_weepout() {
-    var dev_id = [],
-        i = 0;
-    var tr;
-    var tab = $('.devicetable table');
-    tab.find('td span').each(function () {
-        if ($(this).hasClass('txt')) {
-            tr = $(this).parents("tr");
-            dev_id[i] = tab.data('data').doc[tr.data('i')].dev_id;
-            i = i + 1;
-        }
-    });
-    if (dev_id.length > 0) {
-        var postData = {
-            dev_id: JSON.stringify(dev_id)
-        };
-
-        $.actPost('/man/device/weepoutDevice', postData, function (data) {
-            if (data.rt == '0000') {
-                alertOff();
-                getDeviceList(1, 10);
             }
         });
     }

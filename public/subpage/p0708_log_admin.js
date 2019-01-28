@@ -67,7 +67,15 @@
                 }
                 str += '</table>';
                 table.html(str);
-                createFooter(start_page, page_length, data.total_count, 1);
+                $.DTTTFooterInit({
+                    tbl:table.find('table'),
+                    page:start_page,
+                    length:page_length,
+                    total:data.total_count,
+                    cb:function(i){
+                        getloglist(i,10);
+                    }
+                });
             } else if (data.rt == 5) {
                 toLoginPage();
             }

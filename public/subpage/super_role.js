@@ -11,7 +11,7 @@ var iptFn=fnTree.find('input:hidden[name=function]');
 
 //用于交互时改变标题显示
 var subCaption = $('#subCaption').data('itemText', '管理员角色').text('管理员角色列表');
-//采用分页表格组件pagingTable初始化黑白名单列表
+//采用分页表格组件pagingTable初始化列表
 var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
     jsonData: { 'url': '/p/role/roleManage' },
     // theadHtml为表头类元素，第一个th用于存放全选复选框
@@ -57,7 +57,7 @@ var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
 }))
 
 
-// 采用multForm组件初始化黑白名单多用途表单
+// 采用multForm组件初始化多用途表单
 var multForm = $('#multForm').MultForm({
     addUrl: '/p/role/roleManage',
     addBtnTxt: '添加',
@@ -87,7 +87,7 @@ var multForm = $('#multForm').MultForm({
                 
         }
     },
-    cbSubmit: function (act) {  //提交编辑成功之后的回调
+    cbAfterSuccess: function (act) {  //提交编辑成功之后的回调
         switch (act) {
             case 'add':
                 pagingTable.PagingTable('refresh');

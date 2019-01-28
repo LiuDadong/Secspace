@@ -1,38 +1,4 @@
 
-
-    
-    var omAdmin = new OrgMind({
-        container: 'om_admin',          //'om_admin'-- id of the container   
-        rootId:$.cookie('org_id'),
-        multiple: false,     //支持多选
-        allowUnsel: true,    //允许不选
-        disableRoot: true,
-        editable: true,
-        expandToDepth:1,
-        view: {
-            hmargin: 40,
-            vmargin: 10,
-            line_width: 1,
-            line_color: '#000'
-        },
-        layout: {
-            hspace: 40,
-            vspace: 12,
-            pspace: 14
-        },
-        jmnodeClick: function (om) {  //标签元素jmnode
-            $('#panel .btnAdd').prop('disabled',false);
-            $('#panel button.btnRefresh').click(); //选中任意机构都会刷新表格，显示对应机构的管理员
-        },
-        jmnodesClick:function(om){
-            var jm=om.jm;
-            jm.select_clear();
-            om['selected']=null;
-            $('#panel .btnAdd').prop('disabled',true);
-            $('#panel button.btnRefresh').click(); //选中任意机构都会刷新表格，显示对应机构的管理员
-        }
-    });
-    $('#om_admin').find('jmnodes').click();
     /*
      * ==================================================================
      *                          机构管理员
@@ -42,22 +8,24 @@
     //用于交互时改变标题显示
     var subCaption = $('#subCaption').data('itemText', '业务管理员').text('业务管理员列表');
 
-    //采用分页表格组件pagingTable初始化黑白名单列表
+    //采用分页表格组件pagingTable初始化列表
     var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
         paging: false,
-        jsonData: { 'url': '/p/org/adminMan' },
+        jsonData: { 
+            'url': '/p/org/adminMan'
+        },
         // theadHtml为表头类元素，第一个th用于存放全选复选框
         theadHtml: '<tr>\
-                    <th style="width:6%"></th>\
-                    <th style="width:14%">账号</th>\
-                    <th>名称</th>\
-                    <th style="width:6%">状态</th>\
-                    <th>责任机构</th>\
-                    <th style="width:14%">手机号</th>\
-                    <th>创建者</th>\
-                    <th style="width:16%">创建时间</th>\
-                    <th style="width:20%;">操作</th>\
-                </tr > ',
+                        <th style="width:6%"></th>\
+                        <th style="width:12%">账号</th>\
+                        <th style="width:12%">姓名</th>\
+                        <th style="width:6%">状态</th>\
+                        <th style="width:12%">责任机构</th>\
+                        <th style="width:12%">手机号</th>\
+                        <th style="width:10%">创建者</th>\
+                        <th style="width:15%">创建时间</th>\
+                        <th style="width:14%">操作</th>\
+                    </tr > ',
         tbodyEmptyHtml: '<tr><td>暂无数据</td><tr>',
         // tbodyDemoHtml用于复制的行样本，通过data-key获取数据定点显示，第一个td用于存储用于选择的复选框
         // to-edit、to-view表示要跳转的目标表单
@@ -94,9 +62,7 @@
             return v;
         },
         afterAppend:function(tri,itemi){
-            console.log(itemi.org_id)
-            console.log(localStorage.getItem('org_id'))
-            if(itemi.org_id==localStorage.getItem('org_id')){
+            if(itemi.org_id==$.local('org_id')){
                 tri.find('.checkbox,[todo=edit],[todo=resetpw]').remove();
             }
         },
@@ -109,7 +75,7 @@
     }))
 
 
-    // 采用multForm组件初始化黑白名单多用途表单
+    // 采用multForm组件初始化多用途表单
     var multForm = $('#multForm').MultForm({
         addUrl: '/p/org/adminMan',
         addBtnTxt: '添加',
@@ -150,7 +116,7 @@
             $.silentPost('/common/adminRoleInfo', {}, function (data) {
                 var selectRoles = $('#selectRoles').empty().css({ 'max-height': '200px' });
                 if (data.rt === "0000") {
-                    var roles = data.query_adm_role;
+                    var roles = data.query_adm_info.adm_role_info;
                     if (roles.length > 0) {
                         var numAct = 0;
                         for (var i = 0; i < roles.length; i++) {
@@ -201,7 +167,7 @@
             }
             return true;
         },
-        cbSubmit: function (act) {  //提交编辑成功之后的回调
+        cbAfterSuccess: function (act) {  //提交编辑成功之后的回调
             switch (act) {
                 case 'add':
                     pagingTable.PagingTable('refresh');
@@ -335,7 +301,7 @@
                         </div>\
                         <div class="form-group">\
                             <div class="col-sm-2  col-sm-offset-4">\
-                                <button type="button" onclick="$.dialogClose()" class="btnBack btn btn-default">返回</button>\
+                                <button type="button" onclick="$.dialogClose()" class="btnBack btn btn-default">取消</button>\
                             </div>\
                             <div class="col-sm-2 col-sm-offset-1">\
                                 <input type="submit" class="btn btn-primary" disabled="">\
@@ -360,7 +326,7 @@
                 afterUsed: function (use) {
                     frmResetPW.find('input[name=url]').remove();
                 },
-                cbSubmit: function (use) {  //提交编辑成功之后的回调
+                cbAfterSuccess: function (use) {  //提交编辑成功之后的回调
                     $.dialogClose();
                 }
             });
@@ -373,5 +339,37 @@
 
     }
 
+    var omAdmin = new OrgMind({
+        container: 'om_admin',          //'om_admin'-- id of the container   
+        rootId:$.cookie('org_id'),
+        multiple: false,     //支持多选
+        allowUnsel: true,    //允许不选
+        disableRoot: true,
+        editable: true,
+        expandToDepth:1,
+        view: {
+            hmargin: 40,
+            vmargin: 10,
+            line_width: 1,
+            line_color: '#000'
+        },
+        layout: {
+            hspace: 40,
+            vspace: 12,
+            pspace: 14
+        },
+        jmnodeClick: function (om) {  //标签元素jmnode
+            $('#panel .btnAdd').prop('disabled',false);
+            $('#panel button.btnRefresh').click(); //选中任意机构都会刷新表格，显示对应机构的管理员
+        },
+        jmnodesClick:function(om){
+            var jm=om.jm;
+            jm.select_clear();
+            om['selected']=null;
+            $('#panel .btnAdd').prop('disabled',true);
+            $('#panel button.btnRefresh').click(); //选中任意机构都会刷新表格，显示对应机构的管理员
+        }
+    });
+    $('#om_admin').find('jmnodes').click();
 
     applyFnsToSubpage();  //渲染当前登录管理员对当前页面的功能点访问权限

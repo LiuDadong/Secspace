@@ -11,9 +11,8 @@ if(om.selected){
 }else{
     org_code=om.nodes[0].orgCode;
 }
-console.log(org_code);
 
-// //采用分页表格组件pagingTable初始化黑白名单列表
+// //采用分页表格组件pagingTable初始化列表
 var pagingTable = $.extend(true, {}, $('#pagingTable').PagingTable({
     jsonData: { 'url': '/p/config/filelist','org_code':org_code },
     paging:false,
@@ -66,7 +65,6 @@ function uploadFormInit() {
                 if (event.lengthComputable) {
                     var cplt;
                     cplt = Number.parseInt(event.loaded / event.total * 100) + "%";
-                    console.log(cplt);
                     pgrBar.css('width', cplt)
                     pgrSro.text(cplt);
                 }
@@ -74,6 +72,7 @@ function uploadFormInit() {
             success: function (data) {
                 uploadForm.find('label:has(input[name=config_files])').removeClass('disabled');
                 uploadForm[0].reset();
+                $.handleECode(true, data, '上传');
                 pagingTable.PagingTable('update');
             }
         };
@@ -98,7 +97,6 @@ function deleteConfigFiles(){
     selFilenames = pagingTable.data('PagingTable').sel.map(function(item){
         return item.name;
     });
-    console.log(selFilenames);
     if(selFilenames.length>0){
         $.dialog('confirm',{
             title: '配置文件删除确认',

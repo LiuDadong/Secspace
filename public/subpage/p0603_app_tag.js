@@ -70,9 +70,15 @@
                 
                 str += '</table>';
                 table.html(str);
-                createFooter(start, length, data.total_count, st);
-            } else if (data.rt == 5) {
-                toLoginPage();
+                $.DTTTFooterInit({
+                    tbl:table.find('table'),
+                    page:start,
+                    length:length,
+                    total:data.total_count,
+                    cb:function(i){
+                        getAppTagList(i,10);
+                    }
+                });
             }
         });
         $('.hrefactive').removeClass("hrefallowed");

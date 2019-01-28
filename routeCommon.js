@@ -38,7 +38,8 @@ let fs = require('fs'),
         '/p/policy/appPolicyMan',   //应用策略
         '/p/policy/customerMan',    //客户端策略
         '/p/app/listMan'            //黑白名单
-    ];
+    ],
+    pathConfman=path.join(__dirname.replace('secspace_server_web','secspace_server_api'),'confman');
 
 module.exports = function (app, chttp) {
     /*
@@ -164,11 +165,7 @@ module.exports = function (app, chttp) {
         switch (req.query.url){
             case '/p/config/filelist':
                 let files=[],
-                    filePath=path.join(
-                        __dirname.replace('secspace_server_web','secspace_server_api'), 
-                        'configman',
-                        req.query.org_code
-                    );
+                    filePath=path.join(pathConfman,req.query.org_code);
                 fs.readdirSync(filePath).forEach(function(filename){
                     var fl=fs.statSync(path.join(filePath, filename));
                     fl['name']=filename;
@@ -184,7 +181,9 @@ module.exports = function (app, chttp) {
             default:
                 let url = req.query.url + '?';
                 req.query['sid'] = req.cookies.sid;
-                req.query['org_id'] = req.cookies.org_id;
+                if(req.query['org_id']===undefined){
+                    req.query['org_id'] = req.cookies.org_id;
+                }
                 delete req.query.url;
                 url += querystring.stringify(req.query);
                 chttp.cget(url, function (cont) {
@@ -332,7 +331,7 @@ module.exports = function (app, chttp) {
         let url = req.body.url, uploadFile = '';
         req.body['sid'] = req.cookies.sid;
         delete req.body.url;
-        for (i in req.files) {
+        for (let i in req.files) {
             uploadFile = req.files[i];
         }
         if (uploadFile) {
@@ -375,8 +374,7 @@ module.exports = function (app, chttp) {
                 for (let i = 0; i < uploadFiles.length; i++) {
                     let source = fs.createReadStream(uploadFiles[i].path),
                         dest = fs.createWriteStream(path.join(
-                            __dirname.replace('secspace_server_web','secspace_server_api'), 
-                            'configman',
+                            pathConfman,
                             req.body.org_code, 
                             uploadFiles[i].originalFilename
                         ));
@@ -398,15 +396,13 @@ module.exports = function (app, chttp) {
     });
 
     
-    // 上传配置文件  
+    // 删除配置文件  
     app.post('/common/config_files/delete', function (req, res) {
         if(req.cookies.sid){
             let deleteFilenames = req.body['deleteFilenames'];
-            console.log(deleteFilenames)
             for (let i = 0; i < deleteFilenames.length; i++) {
                 fs.unlink(path.join(
-                    __dirname.replace('secspace_server_web','secspace_server_api'), 
-                    'configman',
+                    pathConfman,
                     req.body.org_code, 
                     deleteFilenames[i]
                 ), function (err) {
@@ -418,22 +414,15 @@ module.exports = function (app, chttp) {
             res.send({ rt: '0000', desc: '成功' });
         }
     });
-    // 上传配置文件  
+    // 下载配置文件
     app.post('/common/config_file/download', function (req, res) {
         if(req.cookies.sid){
             var p=path.join(
-                __dirname.replace('secspace_server_web','secspace_server_api'), 
-                'configman',
+                pathConfman,
                 req.body.org_code, 
                 req.body.filename
             );
-            console.log(p);
             res.download(p);
-            // res.writeHead(200, {
-            //   'Content-Type': 'application/force-download',
-            //   'Content-Disposition': 'attachment; filename='+req.body.filename
-            // });
-            // fs.createReadStream(p).pipe(res);
         }
     });
 };

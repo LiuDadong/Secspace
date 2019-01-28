@@ -14,20 +14,26 @@ body{
 	font-size:20px;
 }
 
-h3.product-name{
+
+h3{
 	text-align: center;
 	font-weight: bold;
-	font-size: 40px;
-	padding: 20vh 0 5vh;
+	line-height: 2em;
 }
 
-#login-form{
-	width: 50%;
-	max-width: 400px;
+#wrap_login_form,
+#wrap_modpw_form{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
 	margin: 0 auto;
 }
-
-#login-form .input-icon>input{
+.index-form{
+	width: 70%;
+	max-width: 360px;
+}
+.index-form .input-icon>input{
 	background:none !important;
 	outline: none !important;
 	height: 50px;
@@ -41,13 +47,11 @@ h3.product-name{
 	opacity: 0.7;
 }
 
-
-
-#login-form .checkbox input+span.text{
+.index-form .checkbox input+span.text{
 	font-size: 20px;
 }
 
-#login-form .btn-block{
+.index-form .btn-block{
 	height: 50px;
 	line-height: 30px;
 	font-size: 22px;
@@ -55,27 +59,26 @@ h3.product-name{
 	outline: none;
 }
 
-
-#login-form .input-icon>input:focus{
+.index-form .input-icon>input:focus{
 	opacity: 1;
 	background:none !important;
 	outline: none !important;
 }
 
-#login-form .input-icon>input+i{
+.index-form .input-icon>input+i{
 	color: rgba(255, 255, 255, 1) !important;
 	width: 40px!important;
 	height: 40px!important;
-	font-size: 24px;
-	line-height: 40px;
+	font-size: 24px !important;
+	line-height: 40px !important;
 	opacity: 0.7;
 }
 
-#login-form .input-icon>input+i.fa-lock{  
-	font-size: 28px;
+.index-form .input-icon>input+i.fa-lock{  
+	font-size: 28px !important;
 }
 
-#login-form .input-icon>input:focus+i{
+.index-form .input-icon>input:focus+i{
 	opacity: 1;
 }
 
