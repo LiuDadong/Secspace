@@ -643,7 +643,7 @@ function accountInfo() {  //修改密码
                 roles = data.query_adm_info.adm_role_info;
                     
             $.dialog('form', {
-                width: 500,
+                width: 400,
                 top:'10%',
                 height: null,
                 autoSize: true,
