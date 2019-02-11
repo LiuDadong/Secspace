@@ -4,7 +4,7 @@ var logSettings = {
     crossPost: false //控制跨域cpost请求的日志输出
 }
 var PDP,
-    v = 2;
+    v = 1;
 // 1: 部署
 // 2: 本地测试内网1 :192.168.1.25
 // 3: 本地测试正式 

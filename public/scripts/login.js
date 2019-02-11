@@ -65,10 +65,6 @@ if ($.local('account') && $.local('passwd')) {
     },100)
 }
 
-
-
-
-
 // 登录表单
 wrap_login_form.find('form').ajaxForm({
     type: "POST",
@@ -87,7 +83,6 @@ wrap_login_form.find('form').ajaxForm({
     },
     success: function (data) {
         var errorText = '';
-        console.log(data);
         switch (data.rt) {
             case '0000':    //登录成功
                 saveAccPw();
