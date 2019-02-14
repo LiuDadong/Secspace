@@ -241,6 +241,16 @@
                                             </div>\
                                         </div>\
                                         <div class="form-group">\
+                                            <div class="col-sm-offset-3">\
+                                                <div class="checkbox">\
+                                                    <label>\
+                                                        <input name="bindUserDevCard" type="checkbox">\
+                                                        <span class="text">绑定人机卡</span>\
+                                                    </label>\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                        <div class="form-group">\
                                             <div class="col-sm-2  col-sm-offset-4">\
                                                 <button type="button" onclick="$.dialogClose()" class="btnBack btn btn-default">取消</button>\
                                             </div>\
@@ -250,12 +260,15 @@
                                         </div>\
                                     </form>'
                     });
-        
+                    
                     var frmOrg = $('#frmOrg').MultForm({
                         addBtnTxt: '确认',
                         addAct: '/common/orgtree/add',
                         afterUsed: function (use) {
                             frmOrg.find('input[name=url]').remove();
+                            frmOrg.find('input[name=bindUserDevCard]')
+                                .prop('checked',nodeSel.data['bindUserDevCard'])
+                                .closest('.checkbox').toggleClass('anti-cursor',$.local('org_id')!=0);
                         },
                         cbAfterSuccess: function (use) {  //提交成功之后的回调
                             try{
@@ -299,6 +312,16 @@
                                             </div>\
                                         </div>\
                                         <div class="form-group">\
+                                            <div class="col-sm-offset-3">\
+                                                <div class="checkbox">\
+                                                    <label>\
+                                                        <input disabled="disabled" name="bindUserDevCard" type="checkbox">\
+                                                        <span class="text">绑定人机卡</span>\
+                                                    </label>\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                        <div class="form-group">\
                                             <div class="col-sm-2  col-sm-offset-4">\
                                                 <button type="button" onclick="$.dialogClose()" class="btnBack btn btn-default">取消</button>\
                                             </div>\
@@ -314,6 +337,9 @@
                         editAct: '/common/orgtree/mod',
                         afterUsed: function (use) {
                             frmOrg.find('input[name=url]').remove();
+                            frmOrg.find('input[name=bindUserDevCard]')
+                                .prop('checked',nodeSel.data['bindUserDevCard'])
+                                .prop('disabled',true);
                         },
                         cbAfterSuccess: function (use) {  //提交成功之后的回调
                             try{

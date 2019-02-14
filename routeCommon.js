@@ -105,6 +105,8 @@ module.exports = function (app, chttp) {
 
     app.post('/common/orgtree/add', function (req, res) {
         req.body['sid'] = req.cookies.sid;
+        req.body['bindUserDevCard']=req.body['bindUserDevCard']=='on'?1:0;
+        console.log(req.body);
         chttp.cpost(req.body, '/p/org/orgManage', function (cont) {
             res.send(cont);
         });

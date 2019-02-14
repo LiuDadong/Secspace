@@ -37,7 +37,7 @@
             + '<th style="width:10%">设备</th>'
             + '<th style="width:10%">操作系统</th>'
             + '<th style="width:18%">时间</th>'
-            + '<th style="width:20%">违规地址</th>';
+            + '<th style="width:20%">地址</th>';
         var pd={
             category:'urlLog',
             start_time:start_time,

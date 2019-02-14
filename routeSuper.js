@@ -51,6 +51,7 @@ module.exports = function (app, chttp) {
         });
     });
 
+
     // 超级管理员系统设置
     app.post('/super/setting/updateSettings', multipartMiddleware, function (req, res) {
         if(req.files&&req.files['icon']){
