@@ -268,7 +268,7 @@
                             frmOrg.find('input[name=url]').remove();
                             frmOrg.find('input[name=bindUserDevCard]')
                                 .prop('checked',nodeSel.data['bindUserDevCard'])
-                                .closest('.checkbox').toggleClass('anti-cursor',$.local('org_id')!=0);
+                                .closest('.checkbox').toggleClass('able-mask',$.local('org_id')!=0);
                         },
                         cbAfterSuccess: function (use) {  //提交成功之后的回调
                             try{

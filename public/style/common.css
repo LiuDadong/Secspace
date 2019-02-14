@@ -19,6 +19,12 @@ label{
     cursor: auto;
 }
 
+.able-mask{
+    pointer-events:none;
+    cursor: auto;
+    opacity: 0.4;
+}
+
 .disabled{
     pointer-events:none;
     cursor: auto;
